@@ -1,0 +1,3683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="제3회 갯것이 영화제 × 생태관광 주간 — 2026.08.08~15 제주. 영화 6편 · 생태 프로그램 6개 · 8일.">
+<title>제3회 갯것이 영화제 × 생태관광 주간 · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<!-- Leaflet.js (오픈소스 인터랙티브 지도) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+:root {
+  /* Brand palette (확정 — 클라이언트 브리프 v1 §6, 2026-06-22) */
+  --teal: #1C5E7E;
+  --teal-deep: #144658;
+  --teal-soft: #2E7A9C;
+  --sand: #D4B896;
+  --sand-light: #E5D4B1;
+  --sand-deep: #B89770;
+
+  /* Surface */
+  --bg: #F4EFE7;
+  --bg-deep: #EDE5D5;
+  --bg-card: #FFFFFF;
+  --line: #D9CDB8;
+  --line-soft: #E8DEC9;
+
+  /* Type */
+  --ink: #1F2A2F;
+  --ink-soft: #4A5860;
+  --ink-faint: #7A8B95;
+
+  /* Character */
+  --shell: #6B4A2B;
+  --shell-apex: #4A2F18;
+  --crab: #C9A77B;
+  --pearl: #E8DDC8;
+
+  --shadow: 0 1px 2px rgba(28,94,126,0.04), 0 4px 16px rgba(28,94,126,0.06);
+  --shadow-lg: 0 8px 32px rgba(28,94,126,0.12);
+  --shadow-xl: 0 20px 60px rgba(20,40,60,0.18);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width:100%; display:block; }
+a { color: inherit; }
+
+/* ============================================================
+   Navigation
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(244, 239, 231, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.nav-logo {
+  display:flex; align-items:center; gap:12px;
+  font-weight:700; font-size:17px;
+  color: var(--teal);
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width:56px; height:56px;
+  object-fit: contain;
+  display: block;
+  margin: -10px 0;
+}
+.nav-logo-name { letter-spacing:-0.01em; }
+.nav-logo-name span { color: var(--sand-deep); font-weight: 500; margin: 0 4px; }
+.nav-links { display:flex; gap:28px; font-size:15px; }
+.nav-links a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-links a::after {
+  content:''; position:absolute; bottom:0; left:0;
+  width:0; height:1.5px; background:var(--teal);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover::after { width:100%; }
+@media (max-width: 880px) {
+  .nav-links { display:none; }
+  .nav-inner { padding: 14px 20px; }
+  .nav-logo-name span.amp-full { display: none; }
+  .nav-logo-name span.amp-short { display: inline !important; margin: 0 6px; color: var(--sand-deep); font-weight: 400; }
+}
+
+/* ============================================================
+   Hero — 트레일러 풀스크린 자동재생 자리
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #142028;
+}
+.hero-video, .hero-placeholder {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.hero-video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: #142028;
+}
+.hero-placeholder {
+  background: 
+    radial-gradient(ellipse at 30% 40%, rgba(212,184,150,0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(28,94,126,0.35) 0%, transparent 60%),
+    linear-gradient(180deg, #1a3340 0%, #0e1c24 100%);
+}
+.hero-img-overlay {
+  position: absolute; inset:0; z-index: 2;
+  background: linear-gradient(180deg, 
+    rgba(20,40,60,0.10) 0%, 
+    rgba(20,40,60,0.30) 50%, 
+    rgba(14,28,36,0.88) 100%);
+  pointer-events: none;
+}
+.hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 80px 32px 88px;
+  color: white;
+}
+.hero-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  font-weight: 600;
+  margin-bottom: 28px;
+  color: var(--sand-light);
+  opacity: 0.96;
+  padding: 6px 14px;
+  border: 1px solid rgba(212, 184, 150, 0.5);
+  border-radius: 2px;
+  display: inline-block;
+}
+.hero-title {
+  font-size: clamp(30px, 5.4vw, 68px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 26px;
+}
+.hero-title .x {
+  display: inline-block;
+  margin: 0 0.2em;
+  font-weight: 300;
+  color: var(--sand);
+  transform: translateY(-0.06em);
+}
+.hero-subtitle {
+  font-size: clamp(22px, 3.4vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.35;
+  opacity: 1;
+  margin-bottom: 52px;
+  color: #FFFFFF;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+  max-width: 900px;
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 56px;
+  font-size: 16px;
+  font-weight: 400;
+  border-top: 1px solid rgba(255,255,255,0.22);
+  padding-top: 32px;
+  max-width: 880px;
+}
+.hero-meta-item { display: flex; flex-direction: column; gap: 6px; }
+.hero-meta-label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.62;
+  color: var(--sand-light);
+}
+.hero-meta-value { font-size: 17px; font-weight: 500; }
+
+/* 파도소리 사운드 토글 */
+.hero-sound {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.hero-sound:hover { background: rgba(0,0,0,0.55); border-color: rgba(255,255,255,0.55); }
+.hero-sound-icon { flex-shrink: 0; }
+.hero-sound-label { line-height: 1; }
+.hero-sound.is-on .hero-sound-off { display: none; }
+.hero-sound.is-on .hero-sound-on { display: inline-block !important; }
+
+@media (max-width: 640px) {
+  .hero { min-height: 78vh; }
+  .hero-content { padding: 60px 20px 56px; }
+  .hero-meta { gap: 20px 36px; padding-top: 24px; }
+  .hero-subtitle { font-size: clamp(19px, 5.4vw, 28px); margin-bottom: 40px; }
+  .hero-sound { right: 20px; bottom: 20px; padding: 8px 14px; font-size: 12px; }
+}
+
+/* ============================================================
+   FORK — 두 갈래 분기 (시그니처 모듈, 6/19 회의 핵심 결정)
+   ============================================================ */
+.fork {
+  position: relative;
+  margin-top: -64px;
+  z-index: 5;
+  padding: 0 32px 96px;
+}
+.fork-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.fork-card {
+  position: relative;
+  display: block;
+  padding: 56px 48px 48px;
+  border-radius: 4px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.2,0.8,0.3,1), box-shadow 0.5s;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.fork-card::after {
+  content: '';
+  position: absolute;
+  bottom: -42px; right: -30px;
+  width: 180px; height: 180px;
+  background: url('./assets/logo_lineart.png') no-repeat center / contain;
+  opacity: 0.09;
+  pointer-events: none;
+  transition: transform 0.7s cubic-bezier(0.2,0.8,0.3,1), opacity 0.7s;
+}
+.fork-card.film::after { opacity: 0.13; }
+.fork-card:hover::after {
+  transform: translate(-12px, -12px);
+  opacity: 0.16;
+}
+.fork-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+.fork-card.eco {
+  background: linear-gradient(155deg, var(--teal) 0%, var(--teal-deep) 100%);
+  color: white;
+  box-shadow: var(--shadow-lg);
+}
+.fork-card.film {
+  background: linear-gradient(155deg, var(--sand-light) 0%, var(--sand) 100%);
+  color: var(--teal-deep);
+  box-shadow: var(--shadow-lg);
+}
+.fork-card-num {
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  text-transform: uppercase;
+  opacity: 0.65;
+  margin-bottom: 18px;
+}
+.fork-card-title {
+  font-size: clamp(28px, 3.8vw, 40px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+.fork-card-desc {
+  font-size: 16px;
+  line-height: 1.65;
+  opacity: 0.88;
+  margin-bottom: 32px;
+  max-width: 380px;
+}
+.fork-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.fork-card-cta::after {
+  content: '→';
+  display: inline-block;
+  transition: transform 0.3s;
+}
+.fork-card:hover .fork-card-cta::after { transform: translateX(6px); }
+.fork-card-meta {
+  position: absolute;
+  top: 32px; right: 32px;
+  text-align: right;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.fork-card-meta strong {
+  font-size: 44px;
+  font-weight: 200;
+  line-height: 1;
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+.fork-card.eco .fork-card-meta { color: var(--sand-light); opacity: 0.75; }
+.fork-card.film .fork-card-meta { color: var(--teal-deep); opacity: 0.55; }
+
+@media (max-width: 820px) {
+  .fork { margin-top: -32px; padding: 0 20px 64px; }
+  .fork-grid { grid-template-columns: 1fr; gap: 16px; }
+  .fork-card { padding: 40px 28px 36px; min-height: 220px; }
+  .fork-card-meta { top: 24px; right: 24px; }
+  .fork-card-meta strong { font-size: 36px; }
+}
+
+/* ============================================================
+   Section base
+   ============================================================ */
+section { padding: 112px 32px; }
+.container { max-width: 1280px; margin: 0 auto; }
+@media (max-width: 768px) { section { padding: 80px 20px; } }
+
+.section-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-size: clamp(32px, 4.8vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.section-title .em {
+  color: var(--teal);
+  font-weight: 800;
+}
+.section-lead {
+  font-size: 18px;
+  line-height: 1.78;
+  color: var(--ink-soft);
+  max-width: 720px;
+  margin-bottom: 60px;
+}
+
+/* ============================================================
+   About / Intro
+   ============================================================ */
+.intro { background: var(--bg); padding-top: 0; }
+
+.intro-single {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* 상단 강조 카피 (지시 #16) */
+.intro-hero-copy {
+  margin: 32px 0 60px;
+  padding: 32px 0 36px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.intro-hero-copy p {
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--teal-deep);
+  letter-spacing: -0.012em;
+  margin: 0;
+}
+.intro-hero-copy .intro-hero-line-1 { opacity: 0.72; }
+.intro-hero-copy .intro-hero-line-2 { opacity: 0.86; margin-top: 4px; }
+.intro-hero-copy .intro-hero-line-3 {
+  margin-top: 4px;
+  color: var(--teal);
+  font-weight: 700;
+}
+
+/* 두 개의 소개 블록 */
+.intro-blocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 64px;
+}
+@media (max-width: 720px) {
+  .intro-blocks { grid-template-columns: 1fr; gap: 32px; }
+}
+.intro-block {
+  padding: 28px 0 0;
+  border-top: 2px solid var(--teal);
+}
+.intro-block-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  margin-bottom: 14px;
+  text-transform: none;
+}
+.intro-block-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink);
+  margin: 0;
+}
+.intro-block-body .accent {
+  color: var(--teal);
+  font-weight: 600;
+}
+.intro-block-body strong { color: var(--teal-deep); }
+
+/* 발자취 헤더 */
+.intro-history { margin-top: 12px; }
+.intro-history-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--teal-deep);
+  margin-bottom: 18px;
+  letter-spacing: -0.012em;
+}
+
+/* 갯것이영화제 발자취 - 연혁 */
+.history-list {
+  list-style: none;
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.history-list li {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+.history-list .hist-year {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.history-list .hist-text {
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.65;
+}
+.history-list li.now .hist-year {
+  color: var(--teal-deep);
+  font-weight: 800;
+}
+.history-list .hist-now-badge {
+  display: inline-block;
+  background: var(--teal);
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+@media (max-width: 600px) {
+  .history-list li { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* ============================================================
+   ECO — 생태관광 (primary, teal 계열)
+   ============================================================ */
+.eco {
+  background: linear-gradient(180deg, var(--teal-deep) 0%, #0F3A4B 100%);
+  position: relative;
+  overflow: hidden;
+}
+.eco::before {
+  content: '01';
+  position: absolute;
+  top: 64px; right: 48px;
+  font-size: 200px;
+  font-weight: 200;
+  line-height: 1;
+  color: var(--sand-light);
+  opacity: 0.09;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+}
+/* 하단 은은한 광원 효과 */
+.eco::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 120px;
+  background: radial-gradient(ellipse at 20% 100%, rgba(212, 184, 150, 0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 100%, rgba(212, 184, 150, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+}
+/* ECO 섹션 내부 헤더 텍스트를 밝은 톤으로 */
+.eco .section-eyebrow {
+  color: var(--sand-light);
+  opacity: 0.9;
+}
+.eco .section-title {
+  color: white;
+}
+.eco .section-title .em {
+  color: var(--sand-light);
+}
+.eco .section-lead {
+  color: rgba(255, 255, 255, 0.78);
+}
+.eco-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 64px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+.eco-count { color: var(--sand-light); }
+.eco-count strong {
+  font-size: 80px;
+  font-weight: 200;
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: -0.04em;
+  color: var(--sand-light);
+}
+.eco-count-x {
+  font-weight: 200;
+  font-size: 0.55em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0.06em;
+  vertical-align: 0.14em;
+}
+.eco-count span {
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.eco-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1000px) { .eco-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .eco-grid { grid-template-columns: 1fr; } }
+
+.eco-card {
+  position: relative;
+  border-radius: 3px;
+  min-height: 380px;
+  background-color: var(--teal-deep);
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.4s, box-shadow 0.4s;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+}
+.eco-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.18);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.85);
+  transition: color 0.3s, gap 0.3s;
+}
+.eco-card:hover .eco-card-cta { color: #fff; gap: 10px; }
+.eco-card-cta svg { transition: transform 0.3s; }
+.eco-card:hover .eco-card-cta svg { transform: translateX(3px); }
+.eco-card-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg,
+      rgba(14, 28, 36, 0.15) 0%,
+      rgba(14, 28, 36, 0.55) 55%,
+      rgba(14, 28, 36, 0.92) 100%);
+  transition: background 0.4s;
+}
+.eco-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.eco-card:hover .eco-card-shade {
+  background:
+    linear-gradient(180deg,
+      rgba(14, 28, 36, 0.05) 0%,
+      rgba(14, 28, 36, 0.5) 55%,
+      rgba(14, 28, 36, 0.94) 100%);
+}
+.eco-card-inner {
+  position: relative;
+  z-index: 2;
+  padding: 32px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  min-height: 380px;
+  color: #fff;
+  justify-content: flex-end;
+}
+.eco-card-num {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--sand-light);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.eco-card-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.018em;
+  color: #fff;
+  line-height: 1.15;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.35);
+}
+.eco-card-kind {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+.eco-card-kind strong { color: #fff; font-weight: 700; }
+.eco-card-meta {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 6px 14px;
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.22);
+  font-size: 13px;
+}
+.eco-card-meta dt {
+  color: rgba(255,255,255,0.6);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding-top: 3px;
+  font-weight: 500;
+}
+.eco-card-meta dd {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ============================================================
+   FILMS — 영화제 (sub, sand 계열 보조)
+   ============================================================ */
+.films {
+  background: var(--bg-deep);
+  position: relative;
+  overflow: hidden;
+}
+.films::before {
+  content: '02';
+  position: absolute;
+  top: 64px; right: 48px;
+  font-size: 200px;
+  font-weight: 200;
+  line-height: 1;
+  color: var(--sand-deep);
+  opacity: 0.13;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+}
+.films-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 64px;
+  flex-wrap: wrap;
+}
+.films-count { color: var(--sand-deep); text-align: right; }
+.films-count strong {
+  font-size: 80px;
+  font-weight: 200;
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: -0.04em;
+  color: var(--teal);
+}
+.films-count span {
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+/* 3×2 그리드 - 6개 영화 카드 (이전 버전 유지) */
+.film-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+@media (max-width: 900px) { .film-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .film-grid { grid-template-columns: 1fr; } }
+
+.film-card {
+  background: var(--bg-card);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.4s, box-shadow 0.4s;
+  display: flex;
+  flex-direction: column;
+}
+.film-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.film-poster {
+  aspect-ratio: 2/3;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.film-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+.film-poster.opening { background: linear-gradient(135deg, #5B7A9C 0%, #2D4F6E 100%); }
+.film-poster.closing { background: linear-gradient(135deg, #2D4660 0%, #16263A 100%); }
+
+.film-badge {
+  position: absolute;
+  top: 14px; left: 14px;
+  background: var(--bg);
+  color: var(--teal-deep);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 6px 12px;
+  border-radius: 2px;
+  z-index: 2;
+}
+.film-body {
+  padding: 22px 22px 26px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.film-meta {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.film-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.018em;
+  margin-bottom: 6px;
+  line-height: 1.22;
+  color: var(--ink);
+}
+.film-title-en {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  font-weight: 500;
+  font-style: italic;
+}
+.film-director {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.film-director strong { color: var(--ink); font-weight: 700; }
+
+/* 시놉시스 태그라인 (지시 #5) */
+.film-tagline {
+  font-size: 14.5px;
+  color: var(--teal-deep);
+  font-weight: 600;
+  line-height: 1.55;
+  margin: 0 0 14px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  letter-spacing: -0.005em;
+}
+
+/* 시간 미정 표시 (지시 #4) */
+.time-tbd {
+  display: inline-block;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
+  font-style: italic;
+  margin-left: 4px;
+}
+
+/* 예약 CTA 버튼 (지시 #14) */
+.eco-reservation, .films-reservation {
+  margin-top: 56px;
+  display: flex;
+  justify-content: center;
+}
+.reservation-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 40px;
+  background: var(--teal);
+  color: white;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: transform 0.25s, background 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 20px rgba(28, 94, 126, 0.18);
+  font-weight: 600;
+}
+.reservation-btn:hover {
+  transform: translateY(-2px);
+  background: var(--teal-deep);
+  box-shadow: 0 8px 28px rgba(28, 94, 126, 0.28);
+}
+.reservation-btn.film-btn {
+  background: var(--shell);
+  box-shadow: 0 4px 20px rgba(107, 74, 43, 0.18);
+}
+.reservation-btn.film-btn:hover {
+  background: #4d3620;
+  box-shadow: 0 8px 28px rgba(107, 74, 43, 0.28);
+}
+.reservation-btn-label {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.reservation-btn-platform {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 500;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.28);
+  letter-spacing: 0.02em;
+}
+.reservation-btn svg {
+  margin-left: 4px;
+  opacity: 0.9;
+}
+@media (max-width: 600px) {
+  .reservation-btn {
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    padding: 18px 28px;
+    text-align: center;
+  }
+  .reservation-btn-label { font-size: 15px; }
+  .reservation-btn-platform { font-size: 11px; padding-left: 0; border-left: none; }
+}
+.film-screening {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+  font-size: 13px;
+}
+.film-screening-line {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.film-screening-line:last-child { margin-bottom: 0; }
+.film-screening-date {
+  font-weight: 700;
+  color: var(--teal);
+  min-width: 48px;
+}
+.film-screening-place { font-size: 12px; color: var(--ink-faint); }
+
+/* ============================================================
+   SCHEDULE — 통합 일정표 (세로 카드 스택 · v4 리팩터)
+   ============================================================ */
+.schedule { background: var(--bg); }
+
+.schedule-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.schedule-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s, transform 0.2s;
+}
+.schedule-detail-btn:hover {
+  background: var(--teal-deep);
+  transform: translateY(-1px);
+}
+
+.schedule-cal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cal-day {
+  display: grid;
+  grid-template-columns: 120px 1.15fr 1fr;
+  gap: 24px;
+  background: var(--bg-card);
+  border-radius: 3px;
+  padding: 24px 28px;
+  box-shadow: var(--shadow);
+  align-items: start;
+  transition: box-shadow 0.3s;
+}
+.cal-day:hover { box-shadow: var(--shadow-lg); }
+.cal-day.weekend { background: #FCFAF6; }
+.cal-day.opening { border-left: 3px solid var(--sand-deep); }
+.cal-day.closing { border-left: 3px solid var(--teal-deep); }
+
+@media (max-width: 820px) {
+  .cal-day {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 22px 22px;
+  }
+}
+
+.cal-date {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding-right: 20px;
+  border-right: 1px solid var(--line-soft);
+}
+@media (max-width: 820px) {
+  .cal-date {
+    flex-direction: row;
+    align-items: baseline;
+    padding-right: 0;
+    padding-bottom: 12px;
+    border-right: none;
+    border-bottom: 1px solid var(--line-soft);
+    gap: 12px;
+  }
+}
+.cal-date-num {
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--teal-deep);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.cal-date-day {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.cal-day.weekend .cal-date-day { color: var(--sand-deep); }
+.cal-date-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: white;
+  background: var(--sand-deep);
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin-top: 4px;
+}
+.cal-date-badge.closing { background: var(--teal-deep); }
+
+/* 영화 슬롯 */
+.cal-films {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cal-slot {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+}
+.cal-slot-time {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 0.01em;
+  padding-top: 2px;
+}
+.cal-slot-body { display: flex; flex-direction: column; gap: 3px; }
+.cal-slot-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+}
+.cal-slot-title small {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+.cal-slot-desc {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.cal-slot-place {
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+.cal-noop {
+  font-size: 12px;
+  color: var(--ink-faint);
+  padding: 12px 0;
+  letter-spacing: 0.04em;
+}
+
+/* 생태 프로그램 칩 리스트 */
+.cal-ecos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-content: start;
+  padding-left: 20px;
+  border-left: 1px solid var(--line-soft);
+}
+@media (max-width: 820px) {
+  .cal-ecos {
+    padding-left: 0;
+    border-left: none;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-soft);
+  }
+}
+.cal-ecos:empty::before {
+  content: "";
+  display: none;
+}
+.cal-eco-chip {
+  font-size: 11.5px;
+  padding: 5px 10px;
+  background: rgba(28, 94, 126, 0.08);
+  color: var(--teal-deep);
+  border-radius: 2px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+.cal-eco-chip em {
+  font-style: normal;
+  color: var(--sand-deep);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.schedule-note {
+  margin-top: 32px;
+  font-size: 13px;
+  color: var(--ink-faint);
+  line-height: 1.9;
+}
+.schedule-note p { margin-bottom: 4px; }
+.schedule-note-link {
+  background: none;
+  border: none;
+  color: var(--teal);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  font-weight: 600;
+}
+
+/* ============================================================
+   MODAL — 전체 프로그램 상세 매트릭스
+   ============================================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.modal.is-open { display: flex; }
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 28, 36, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: modalFadeIn 0.25s ease-out;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal-panel {
+  position: relative;
+  width: 100%;
+  max-width: 1080px;
+  max-height: 88vh;
+  background: var(--bg-card);
+  border-radius: 4px;
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+  animation: modalSlideIn 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(255,255,255,0.8);
+  color: var(--ink);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: var(--bg-deep); }
+.modal-inner {
+  padding: 40px 44px 44px;
+}
+.modal-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.modal-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.018em;
+  margin-bottom: 28px;
+}
+
+.modal-matrix {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.mmx-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 1fr 1.4fr 90px 130px 190px;
+  border-bottom: 1px solid var(--line);
+  min-height: 52px;
+  align-items: center;
+}
+.mmx-row:last-child { border-bottom: none; }
+.mmx-row > div {
+  padding: 12px 14px;
+  color: var(--ink);
+  border-right: 1px solid var(--line-soft);
+}
+.mmx-row > div:last-child { border-right: none; }
+.mmx-head {
+  background: var(--teal-deep);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  min-height: 44px;
+}
+.mmx-head > div { color: #fff; border-right-color: rgba(255,255,255,0.15); }
+.mmx-title {
+  font-weight: 700;
+  color: var(--teal-deep) !important;
+  background: var(--bg);
+}
+.mmx-days {
+  display: flex;
+  gap: 3px;
+  padding: 8px 12px !important;
+}
+.mmx-head .mmx-days {
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  display: block;
+  padding: 12px 14px !important;
+}
+.mmx-cell {
+  flex: 1;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  background: var(--bg);
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+}
+.mmx-cell.on {
+  background: var(--teal);
+  color: #fff;
+}
+
+.modal-foot {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .modal-inner { padding: 32px 24px 32px; }
+  .modal-title { font-size: 22px; }
+  .modal-matrix { font-size: 12px; overflow-x: auto; }
+  .mmx-row { grid-template-columns: 120px 1fr 1fr 1.4fr 100px 130px 200px; min-width: 780px; }
+}
+
+/* 갤러리 모달 (프로그램별 실사진) */
+.gallery-modal .modal-panel {
+  max-width: 1200px;
+  max-height: 92vh;
+}
+.gallery-inner {
+  padding: 0;
+}
+.gallery-head {
+  padding: 40px 44px 24px;
+  border-bottom: 1px solid var(--line-soft);
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+  z-index: 3;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 24px 44px 44px;
+}
+@media (max-width: 820px) {
+  .gallery-head { padding: 28px 24px 20px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); padding: 20px 24px 32px; }
+}
+@media (max-width: 480px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+}
+.gallery-item {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: var(--bg-deep);
+  cursor: zoom-in;
+  transition: transform 0.3s;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.gallery-item:hover img { transform: scale(1.04); }
+
+/* 갤러리 이미지 라이트박스 (풀스크린 원본 확대) */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.94);
+  padding: 40px;
+  cursor: zoom-out;
+}
+.lightbox.is-open { display: flex; }
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.24); }
+.lightbox-counter {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.lightbox-nav:hover { background: rgba(255,255,255,0.24); }
+.lightbox-prev { left: 24px; }
+.lightbox-next { right: 24px; }
+@media (max-width: 640px) {
+  .lightbox { padding: 20px; }
+  .lightbox-nav { width: 40px; height: 40px; }
+  .lightbox-prev { left: 12px; }
+  .lightbox-next { right: 12px; }
+}
+
+/* ============================================================
+   LOCATION — Leaflet 인터랙티브 지도
+   ============================================================ */
+.location {
+  background: linear-gradient(180deg, var(--teal-deep) 0%, #0F3A4B 100%);
+  position: relative;
+  overflow: hidden;
+}
+.location::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 120px;
+  background: radial-gradient(ellipse at 20% 100%, rgba(212, 184, 150, 0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 100%, rgba(212, 184, 150, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+}
+/* LOCATION 섹션 내부 헤더 텍스트를 밝은 톤으로 */
+.location .section-eyebrow {
+  color: var(--sand-light);
+  opacity: 0.9;
+}
+.location .section-title {
+  color: white;
+}
+.location .section-title .em {
+  color: var(--sand-light);
+}
+.location .section-lead {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.map-wrap {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: 4px;
+  padding: 18px 18px 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 56px;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 1;
+}
+
+/* 지도 + 사이드바 2컬럼 */
+.map-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 18px;
+  align-items: stretch;
+}
+@media (max-width: 900px) {
+  .map-layout { grid-template-columns: 1fr; }
+}
+.map-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 지도 컨트롤 툴바 (전체 지도 · 내 위치) */
+.map-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.map-ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.2s, transform 0.2s, color 0.2s;
+}
+.map-ctrl-btn:hover {
+  background: #fff;
+  color: var(--teal-deep);
+  transform: translateY(-1px);
+}
+.map-ctrl-btn:active { transform: translateY(0); }
+.map-ctrl-btn.is-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.map-ctrl-btn svg { flex-shrink: 0; }
+
+/* 내 위치 마커 (Leaflet divIcon) */
+.my-loc-marker {
+  width: 20px;
+  height: 20px;
+  background: #2563EB;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.22), 0 2px 8px rgba(0,0,0,0.28);
+  animation: myLocPulse 2s ease-out infinite;
+}
+@keyframes myLocPulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.55), 0 2px 8px rgba(0,0,0,0.28); }
+  70% { box-shadow: 0 0 0 14px rgba(37, 99, 235, 0), 0 2px 8px rgba(0,0,0,0.28); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0), 0 2px 8px rgba(0,0,0,0.28); }
+}
+
+.jeju-map {
+  width: 100%;
+  height: 560px;
+  border-radius: 3px;
+  background: #fff;
+  z-index: 1;
+  position: relative;
+}
+@media (max-width: 900px) {
+  .jeju-map { height: 440px; }
+}
+@media (max-width: 700px) {
+  .jeju-map { height: 380px; }
+  .map-wrap { padding: 12px 12px 14px; }
+}
+
+/* 사이드바 */
+.map-selector {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  min-height: 560px;
+  max-height: 560px;
+}
+@media (max-width: 900px) {
+  .map-selector { min-height: 420px; max-height: 480px; }
+}
+
+.map-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.map-tab {
+  background: transparent;
+  border: none;
+  padding: 16px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: color 0.2s, background 0.2s;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.map-tab:hover { color: var(--ink); background: rgba(28, 94, 126, 0.04); }
+.map-tab.is-active {
+  color: var(--teal-deep);
+  background: var(--bg-card);
+  border-bottom-color: var(--teal);
+}
+.map-tab-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.map-tab-dot.eco { background: var(--teal); }
+.map-tab-dot.film { background: var(--sand-deep); }
+
+.map-list-title {
+  padding: 14px 18px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  background: var(--bg-card);
+  flex-shrink: 0;
+}
+
+.map-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 8px;
+  overflow-y: auto;
+  flex: 1;
+  background: var(--bg-card);
+}
+.map-list[hidden] { display: none; }
+.map-list li { margin: 0; padding: 0; }
+
+.map-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 12px 18px;
+  background: transparent;
+  border: none;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.15s, border-left-color 0.15s;
+}
+.map-item:hover {
+  background: rgba(28, 94, 126, 0.05);
+}
+.map-item.is-active {
+  background: rgba(28, 94, 126, 0.09);
+  border-left-color: var(--teal);
+}
+.map-list[data-cat="film"] .map-item.is-active {
+  background: rgba(212, 184, 150, 0.14);
+  border-left-color: var(--sand-deep);
+}
+
+.map-item-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 26px;
+  background: var(--teal);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.map-item-num.film { background: var(--sand-deep); }
+.map-item-num.opening { background: #5B7A9C; color: #fff; letter-spacing: 0.02em; }
+.map-item-num.closing { background: var(--teal-deep); color: #fff; letter-spacing: 0.02em; }
+
+.map-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.map-item-body strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+}
+.map-item-body em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Leaflet 커스텀 마커 (divIcon)
+   box-sizing: border-box로 border를 크기 내부에 포함시켜야
+   iconSize/iconAnchor가 시각적 중심과 정확히 일치함 */
+.venue-marker {
+  box-sizing: border-box;
+  background: var(--sand-deep);
+  border: 2.5px solid #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+  transition: transform 0.2s;
+}
+.venue-marker.film { background: var(--teal); }
+.venue-marker:hover { transform: scale(1.15); }
+.venue-marker.primary {
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  background: var(--teal);
+  box-shadow:
+    0 0 0 6px rgba(28,94,126,0.18),
+    0 3px 10px rgba(0,0,0,0.28);
+}
+.venue-marker.primary::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 6px; height: 6px;
+  background: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Leaflet 팝업 커스텀 */
+.leaflet-popup-content-wrapper {
+  border-radius: 4px;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  box-shadow: 0 8px 24px rgba(20,70,88,0.18);
+  padding: 4px 6px;
+}
+.leaflet-popup-content {
+  margin: 14px 18px;
+  line-height: 1.55;
+  font-size: 13px;
+}
+.popup-venue-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  display: block;
+  margin-bottom: 4px;
+}
+.popup-venue-cat {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+.popup-venue-cat.film { background: rgba(28,94,126,0.1); color: var(--teal); }
+.popup-venue-cat.eco { background: rgba(184,151,112,0.18); color: var(--shell); }
+.popup-venue-desc {
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+.popup-venue-addr {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.01em;
+}
+.leaflet-container a.leaflet-popup-close-button { color: var(--ink-faint); }
+.leaflet-container { font-family: inherit; background: #F0EBE0; }
+.leaflet-control-attribution {
+  background: rgba(255,255,255,0.85);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 8px 0;
+  margin-top: 12px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 13px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.legend-dot.film { background: var(--teal); }
+.legend-dot.eco { background: var(--sand-deep); }
+.legend-note {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-left: auto;
+  letter-spacing: 0.01em;
+}
+@media (max-width: 700px) {
+  .legend-note { margin-left: 0; flex-basis: 100%; }
+}
+
+/* 권역 정보 그리드 */
+.location-grid-info {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 40px;
+}
+@media (max-width: 760px) {
+  .location-grid-info { grid-template-columns: 1fr; gap: 32px; }
+}
+.loc-info-block {
+  background: var(--bg-card);
+  border-radius: 4px;
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+}
+.loc-info-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.loc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.loc-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0;
+}
+.loc-list strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.loc-list span {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+/* ============================================================
+   FOOTER — 밝은 샌드톤 배경 (임형묵 센터장 지시 · 2026.07.02)
+   ============================================================ */
+.footer {
+  background: var(--bg-deep);
+  color: var(--ink-soft);
+  padding: 80px 32px 36px;
+  border-top: 1px solid var(--line);
+}
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr 1fr;
+  gap: 48px;
+}
+@media (max-width: 900px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+}
+@media (max-width: 600px) {
+  .footer-inner { grid-template-columns: 1fr; }
+  .footer { padding: 64px 20px 32px; }
+}
+
+/* 하단 로고 스트립 (지시 #13: 라벨 없이 옆으로 나란히, 밝은 배경) */
+.footer-logo-strip {
+  max-width: 1280px;
+  margin: 56px auto 0;
+  padding: 32px 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 72px;
+  flex-wrap: wrap;
+}
+.footer-logo-strip img {
+  height: 56px;
+  width: auto;
+  max-width: 340px;
+  object-fit: contain;
+  filter: none;
+}
+@media (max-width: 600px) {
+  .footer-logo-strip { gap: 40px; padding: 28px 0; margin-top: 44px; }
+  .footer-logo-strip img { height: 44px; max-width: 260px; }
+}
+.footer-brand .footer-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--teal-deep);
+  letter-spacing: -0.015em;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+.footer-mascot {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+  opacity: 0.9;
+}
+.footer-brand .footer-name span { color: var(--sand-deep); font-weight: 400; margin: 0 4px; }
+.footer-brand .footer-edition {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--shell);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+.footer-brand .footer-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 340px;
+}
+.footer h5 {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+.footer ul { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.footer ul a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer ul a:hover { color: var(--teal-deep); }
+.footer-orgs {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.footer-org {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.footer-org .role {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 700;
+  display: block;
+}
+/* 흰 박스 제거 — 밝은 footer 배경 위에 로고 직접 표시 */
+.footer-org-logo-wrap {
+  background: transparent;
+  border-radius: 0;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 64px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.footer-org-logo-wrap img {
+  display: block;
+  width: auto;
+  max-height: 52px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.footer-org-name {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.01em;
+  margin-top: 2px;
+}
+.footer-bottom {
+  max-width: 1280px;
+  margin: 32px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--ink-faint);
+  flex-wrap: wrap;
+  gap: 16px;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   Reveal on scroll
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s cubic-bezier(0.2,0.8,0.3,1), transform 0.8s cubic-bezier(0.2,0.8,0.3,1);
+}
+.reveal.in { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- ============================== NAV ============================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img class="nav-logo-mark" src="./assets/logo_mark_lineart.png" alt="갯것이 영화제 × 생태관광 주간 로고">
+      <span class="nav-logo-name">제3회 갯것이 영화제<span class="amp-full"> × </span><span style="display:none" class="amp-short">×</span>생태관광 주간</span>
+    </a>
+    <div class="nav-links">
+      <a href="#intro">소개</a>
+      <a href="#eco">생태관광</a>
+      <a href="#films">상영작</a>
+      <a href="#schedule">일정</a>
+      <a href="#location">오시는 길</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero-placeholder">
+    <!-- 트레일러 영상 (autoplay + muted + loop + playsinline · 오디오 스트립됨) -->
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source src="./assets/hero_intro.mp4" type="video/mp4">
+    </video>
+  </div>
+  <!-- 파도소리 BGM (지시 #6 a안 · mp3는 별도 조달 예정) -->
+  <audio id="heroWaveAudio" loop preload="none" aria-hidden="true">
+    <!-- <source src="./assets/wave_bgm.mp3" type="audio/mpeg"> -->
+  </audio>
+  <div class="hero-img-overlay"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-title reveal">
+      제3회 갯것이영화제<span class="x">×</span>2026생태관광주간
+    </h1>
+    <div class="hero-subtitle reveal" style="transition-delay: 0.15s;">
+      8일간의 바다 여행
+    </div>
+    <div class="hero-meta reveal" style="transition-delay: 0.3s;">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Dates</span>
+        <span class="hero-meta-value">2026.08.08 토 — 08.15 토</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Programs</span>
+        <span class="hero-meta-value">영화 6편 · 생태관광프로그램 6개를 8일간 운영</span>
+      </div>
+    </div>
+
+    <!-- 사운드 토글 (파도소리 언뮤트 버튼 · 지시 #6 (a)) -->
+    <button class="hero-sound" id="heroSoundBtn" type="button" aria-label="파도 소리 켜기" title="파도 소리 켜기">
+      <svg class="hero-sound-icon hero-sound-off" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.59 3L14 14.59 15.41 16 18 13.41 20.59 16 22 14.59 19.41 12 22 9.41 20.59 8 18 10.59 15.41 8 14 9.41 16.59 12z"/>
+      </svg>
+      <svg class="hero-sound-icon hero-sound-on" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" style="display:none">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+      </svg>
+      <span class="hero-sound-label">파도 소리</span>
+    </button>
+  </div>
+</header>
+
+<!-- ============================== FORK (시그니처) ============================== -->
+<section class="fork" aria-label="두 갈래 입구">
+  <div class="fork-grid">
+
+    <a href="#eco" class="fork-card eco reveal">
+      <div>
+        <div class="fork-card-num">01 — Eco Tourism Week</div>
+        <h2 class="fork-card-title">바다를 느끼다</h2>
+        <p class="fork-card-desc">
+          체험 스쿠버다이빙, 물질체험, 투명카약, 패들보드, 바닷가생태해설까지 6개의 프로그램.
+        </p>
+      </div>
+      <span class="fork-card-cta">생태관광 주간</span>
+      <div class="fork-card-meta">
+        <strong>06</strong>
+        Programs
+      </div>
+    </a>
+
+    <a href="#films" class="fork-card film reveal" style="transition-delay: 0.1s;">
+      <div>
+        <div class="fork-card-num">02 — Film Festival</div>
+        <h2 class="fork-card-title">바다를 보다</h2>
+        <p class="fork-card-desc">
+          바다를 지키고 탐험하고 기록하는 사람들과 그 안에 살아가는 생명들의 이야기를 담은 6편의 다큐멘터리.
+        </p>
+      </div>
+      <span class="fork-card-cta">갯것이 영화제</span>
+      <div class="fork-card-meta">
+        <strong>06</strong>
+        Films
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ============================== INTRO ============================== -->
+<section class="intro" id="intro">
+  <div class="container">
+    <div class="intro-single">
+
+      <div class="section-eyebrow reveal">About</div>
+      <h2 class="section-title reveal" style="transition-delay: 0.05s;">
+        파도 속으로,<br>
+        <span class="em">나만의 계절이 되다</span>
+      </h2>
+
+      <div class="intro-hero-copy reveal" style="transition-delay: 0.1s;">
+        <p class="intro-hero-line-1">생태관광주간과 갯것이영화제를 동시에.</p>
+        <p class="intro-hero-line-2">올 여름 제주에서 바다를 온전히 품는 시간,</p>
+        <p class="intro-hero-line-3">이제 이 계절은 당신의 것입니다.</p>
+      </div>
+
+      <div class="intro-blocks">
+
+        <!-- 신규 · 갯것이영화제 -->
+        <div class="intro-block reveal" style="transition-delay: 0.15s;">
+          <div class="intro-block-label">갯것이영화제</div>
+          <p class="intro-block-body">
+            <span class="accent">'갯것이'</span>는 바다에 사는 모든 것 — 깊은 바다의 큰 고래부터 갯바위의 작은 생물, 그리고 바다에 삶의 터를 둔 사람까지 모두 갯것이입니다. 갯것이영화제는 바다 환경 파괴에 눈감지 않으면서도, <span class="accent">아름답고 풍요로운 바다의 본질을 알리는 데 초점을 두는 영화제</span>입니다.
+          </p>
+        </div>
+
+        <!-- 신규 · 생태관광주간 -->
+        <div class="intro-block reveal" style="transition-delay: 0.2s;">
+          <div class="intro-block-label">생태관광주간</div>
+          <p class="intro-block-body">
+            제주특별자치도 생태관광지원센터의 사업으로 2022년부터 매년 제주도 내 생태관광 프로그램을 한 주간 집중 운영·지원해 온 프로그램입니다. 2026년은 시범적으로 여름 프로그램을 분리하여 실시하며, 가을 프로그램은 <strong>10월 3일부터 9일</strong>까지 예정되어 있습니다.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- 갯것이영화제 발자취 -->
+      <div class="intro-history reveal" style="transition-delay: 0.25s;">
+        <h3 class="intro-history-title">갯것이영화제 발자취</h3>
+        <ul class="history-list">
+          <li>
+            <span class="hist-year">2024 · 제1회</span>
+            <span class="hist-text">성산읍 오조리가 연안습지보호지역으로 지정된 것을 기념해 오조리에서 개최. 단편영화 6편 상영.</span>
+          </li>
+          <li>
+            <span class="hist-year">2025 · 제2회</span>
+            <span class="hist-text">제주생태관광지원센터의 사업으로 '갯것이영화제 + 생태관광' 프로그램 진행. 6편의 장·단편영화를 제주 전역 6개 상영관에서 상영.</span>
+          </li>
+          <li class="now">
+            <span class="hist-year">2026 · 제3회 <span class="hist-now-badge">NOW</span></span>
+            <span class="hist-text">갯것이영화제 × 생태관광 주간. 영화 6편 · 생태관광프로그램 6개를 8일간 운영.</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ECO (PRIMARY) ============================== -->
+<section class="eco" id="eco">
+  <div class="container">
+
+    <div class="eco-header">
+      <div>
+        <div class="section-eyebrow reveal">2026생태관광주간</div>
+        <h2 class="section-title reveal" style="transition-delay: 0.05s;">
+          온몸으로<br>
+          <span class="em">체감하는 제주 바당</span>
+        </h2>
+      </div>
+      <div class="eco-count reveal" style="transition-delay: 0.15s;">
+        <strong>6<span class="eco-count-x">×</span>6</strong>
+        <span>Programs · Films</span>
+      </div>
+    </div>
+
+    <div class="eco-grid">
+
+      <!-- 01. 제주바당 생물탐험 (지시 #2) -->
+      <div class="eco-card reveal" data-gallery="01_saengmul" data-gallery-title="제주바당 생물탐험" data-gallery-count="9" style="background-image:url('./assets/eco_01_saengmul.jpg');">
+        <div class="eco-card-shade"></div>
+        <div class="eco-card-inner">
+          <div class="eco-card-num">01 · 해양생태 해설</div>
+          <h3 class="eco-card-title">제주바당 생물탐험</h3>
+          <div class="eco-card-kind">운영 <strong>깅이와 바당</strong></div>
+          <dl class="eco-card-meta">
+            <dt>일정</dt><dd>8/11 화 13:00~14:30 · 8/12 수 14:00~15:30</dd>
+            <dt>장소</dt><dd>11일 성산 수마포 · 12일 상예동 977 (하예 조간대)</dd>
+            <dt>체험비</dt><dd>0원 <span class="time-tbd">(확정 예정)</span></dd>
+            <dt>준비물</dt><dd>물에 젖어도 되는 신발·옷, 채집도구(뜰채), 모자 · 손발 선크림 X</dd>
+          </dl>
+          <div class="eco-card-cta">
+            <span>현장 사진 9장</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02. 바다야 안녕 (지시 #3) -->
+      <div class="eco-card reveal" data-gallery="02_badaya" data-gallery-title="바다야 안녕" data-gallery-count="4" style="transition-delay: 0.05s; background-image:url('./assets/eco_02_badaya.jpg');">
+        <div class="eco-card-shade"></div>
+        <div class="eco-card-inner">
+          <div class="eco-card-num">02 · 체험 스쿠버</div>
+          <h3 class="eco-card-title">바다야 안녕</h3>
+          <div class="eco-card-kind">운영 <strong>해양시민과학조사단</strong></div>
+          <dl class="eco-card-meta">
+            <dt>일정</dt><dd>8/10 — 8/15 · 오전 10:00~12:00, 오후 14:00~16:00 <span class="time-tbd">(바다 상황에 따라 변동)</span></dd>
+            <dt>장소</dt><dd>보목포구</dd>
+            <dt>체험비</dt><dd>100,000원</dd>
+            <dt>준비물</dt><dd>수영복, 래쉬가드 또는 워터레깅스, 타올</dd>
+          </dl>
+          <div class="eco-card-cta">
+            <span>현장 사진 4장</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03. 바당에 퐁당 (지시 #4) -->
+      <div class="eco-card reveal" data-gallery="03_pungdang" data-gallery-title="바당에 퐁당" data-gallery-count="9" style="transition-delay: 0.1s; background-image:url('./assets/eco_03_pungdang.jpg');">
+        <div class="eco-card-shade"></div>
+        <div class="eco-card-inner">
+          <div class="eco-card-num">03 · 체험 다이빙</div>
+          <h3 class="eco-card-title">바당에 퐁당</h3>
+          <div class="eco-card-kind">운영 <strong>제주시 수중핀수영협회</strong></div>
+          <dl class="eco-card-meta">
+            <dt>일정</dt><dd>8/10 — 8/13 · 오전 10:00~12:00, 오후 14:00~16:00 <span class="time-tbd">(바다 상황에 따라 변동)</span></dd>
+            <dt>장소</dt><dd>사수항 또는 이호항 <span class="time-tbd">(현장 상황에 따라 결정 후 공지)</span></dd>
+            <dt>체험비</dt><dd>100,000원</dd>
+            <dt>준비물</dt><dd>수영복, 래쉬가드 또는 워터레깅스, 타올</dd>
+          </dl>
+          <div class="eco-card-cta">
+            <span>현장 사진 9장</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04. 하도리 해녀체험 (지시 #5) -->
+      <div class="eco-card reveal" data-gallery="04_haenyeo" data-gallery-title="하도리 해녀체험" data-gallery-count="7" style="transition-delay: 0.15s; background-image:url('./assets/eco_04_haenyeo.jpg');">
+        <div class="eco-card-shade"></div>
+        <div class="eco-card-inner">
+          <div class="eco-card-num">04 · 해녀 체험</div>
+          <h3 class="eco-card-title">하도리 해녀체험</h3>
+          <div class="eco-card-kind">운영 <strong>하도리 어촌계</strong></div>
+          <dl class="eco-card-meta">
+            <dt>일정</dt><dd>8/10 — 8/13 · 오전 10:30, 오후 14:00</dd>
+            <dt>장소</dt><dd>하도 어촌 체험마을</dd>
+            <dt>체험비</dt><dd>40,000원</dd>
+            <dt>준비물</dt><dd>수영복, 래쉬가드 또는 워터레깅스, 타올</dd>
+          </dl>
+          <div class="eco-card-cta">
+            <span>현장 사진 7장</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05. 돌고래와 바다여행 (지시 #6) -->
+      <div class="eco-card reveal" data-gallery="05_dolphin" data-gallery-title="돌고래와 바다여행" data-gallery-count="9" style="transition-delay: 0.2s; background-image:url('./assets/eco_05_dolphin.jpg');">
+        <div class="eco-card-shade"></div>
+        <div class="eco-card-inner">
+          <div class="eco-card-num">05 · 패들보드 체험</div>
+          <h3 class="eco-card-title">돌고래와 바다여행</h3>
+          <div class="eco-card-kind">운영 <strong>금능어촌계</strong></div>
+          <dl class="eco-card-meta">
+            <dt>일정</dt><dd>8/11 — 8/14 · 1차 오전 10:00~12:00, 2차 오후 17:00~19:00</dd>
+            <dt>장소</dt><dd>금능어촌계 (한림읍 금능리)</dd>
+            <dt>체험비</dt><dd>20,000원</dd>
+            <dt>준비물</dt><dd>간편한 복장, 목베개, 모자, 선글라스, 캠핑용 의자</dd>
+          </dl>
+          <div class="eco-card-cta">
+            <span>현장 사진 9장</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06. 하도 투명한 바다 (지시 #7) -->
+      <div class="eco-card reveal" data-gallery="06_kayak" data-gallery-title="하도 투명한 바다" data-gallery-count="20" style="transition-delay: 0.25s; background-image:url('./assets/eco_06_kayak.jpg');">
+        <div class="eco-card-shade"></div>
+        <div class="eco-card-inner">
+          <div class="eco-card-num">06 · 투명 카약</div>
+          <h3 class="eco-card-title">하도 투명한 바다</h3>
+          <div class="eco-card-kind">운영 <strong>제주하도카약</strong></div>
+          <dl class="eco-card-meta">
+            <dt>일정</dt><dd>8/10 — 8/15 · 09:00 ~ 18:00 <span class="time-tbd">(바다 상황에 따라 변동)</span></dd>
+            <dt>장소</dt><dd>제주시 구좌읍 하도리 43-4 · 하도카약</dd>
+            <dt>체험비</dt><dd>10,000원 / 1시간</dd>
+            <dt>준비물</dt><dd>평상복 차림 · 물놀이 시 수영복 · 온수 샤워장 무료 이용</dd>
+          </dl>
+          <div class="eco-card-cta">
+            <span>현장 사진 20장</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 예약 CTA (지시 #14: 생태관광은 탐나오 링크) -->
+    <div class="eco-reservation reveal">
+      <a href="https://tamnao.com/" target="_blank" rel="noopener noreferrer" class="reservation-btn eco-btn">
+        <span class="reservation-btn-label">생태관광 프로그램 신청</span>
+        <span class="reservation-btn-platform">탐나오에서 예약하기</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== GALLERY MODAL ============================== -->
+<div class="modal gallery-modal" id="galleryModal" role="dialog" aria-modal="true" aria-labelledby="galleryModalTitle" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel gallery-panel" role="document">
+    <button class="modal-close" type="button" aria-label="닫기" data-close>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="gallery-inner">
+      <div class="gallery-head">
+        <div class="modal-eyebrow" id="galleryModalEyebrow">Photo Gallery</div>
+        <h3 class="modal-title" id="galleryModalTitle">프로그램 현장 사진</h3>
+      </div>
+      <div class="gallery-grid" id="galleryGrid" role="list">
+        <!-- 갤러리 이미지 JS로 삽입 -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== FILMS (SUB) ============================== -->
+<section class="films" id="films">
+  <div class="container">
+
+    <div class="films-header">
+      <div>
+        <div class="section-eyebrow reveal">제3회 갯것이영화제</div>
+        <h2 class="section-title reveal" style="transition-delay: 0.05s;">
+          파도처럼<br>
+          <span class="em">마음에 부딪히는 바다이야기</span>
+        </h2>
+      </div>
+      <div class="films-count reveal" style="transition-delay: 0.15s;">
+        <strong>06</strong>
+        <span>Films</span>
+      </div>
+    </div>
+
+    <div class="film-grid">
+
+      <!-- 1. 수라 (개막작) -->
+      <article class="film-card reveal">
+        <div class="film-poster opening">
+          <span class="film-badge">개막작</span>
+          <img src="./assets/poster_sura.jpg" alt="수라 포스터" loading="lazy">
+        </div>
+        <div class="film-body">
+          <div class="film-meta">2023 · 한국 · 108분</div>
+          <h3 class="film-title">수라</h3>
+          <p class="film-tagline">새만금 갯벌 7년의 기록</p>
+          <div class="film-director">감독 <strong>황윤</strong></div>
+          <div class="film-screening">
+            <div class="film-screening-line">
+              <span class="film-screening-date">8/8 토</span>
+              <span>15:30 상영 · 17:25 GV</span>
+            </div>
+            <div class="film-screening-place">연동 롯데시네마</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. 꽁치풀의 속삭임 -->
+      <article class="film-card reveal" style="transition-delay: 0.06s;">
+        <div class="film-poster">
+          <img src="./assets/poster_kkongchipul.png" alt="꽁치풀의 속삭임 포스터" loading="lazy">
+        </div>
+        <div class="film-body">
+          <div class="film-meta">2026 · MBC · 45분</div>
+          <h3 class="film-title">꽁치풀의 속삭임</h3>
+          <p class="film-tagline">그 많던 꽁치풀은 다 어디로 갔나</p>
+          <div class="film-director">연출 <strong>이준호</strong> · MBC 강원영동</div>
+          <div class="film-screening">
+            <div class="film-screening-line">
+              <span class="film-screening-date">8/9 일</span>
+              <span>14:00 상영 · 14:50 GV</span>
+            </div>
+            <div class="film-screening-place">연동 롯데시네마</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. 물꽃의 전설 -->
+      <article class="film-card reveal" style="transition-delay: 0.12s;">
+        <div class="film-poster">
+          <img src="./assets/poster_mulkkot.jpg" alt="물꽃의 전설 포스터" loading="lazy">
+        </div>
+        <div class="film-body">
+          <div class="film-meta">2023 · 한국 · 92분</div>
+          <h3 class="film-title">물꽃의 전설</h3>
+          <p class="film-tagline">상군해녀×애기해녀, 삼달리 비밀 곳간을 찾아 떠나다</p>
+          <div class="film-director">감독 <strong>고희영</strong></div>
+          <div class="film-screening">
+            <div class="film-screening-line">
+              <span class="film-screening-date">8/9 일</span>
+              <span>15:50 상영 · 17:30 GV</span>
+            </div>
+            <div class="film-screening-place">연동 롯데시네마</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. 조수웅덩이 -->
+      <article class="film-card reveal" style="transition-delay: 0.18s;">
+        <div class="film-poster">
+          <img src="./assets/poster_josuwoongdeongi.jpg" alt="조수웅덩이: 바다의 시작 키비주얼" loading="lazy">
+        </div>
+        <div class="film-body">
+          <div class="film-meta">한국 · 57분</div>
+          <h3 class="film-title">조수웅덩이: 바다의 시작</h3>
+          <p class="film-tagline">제주 바닷가 생물다양성에 놀라다</p>
+          <div class="film-director">감독 <strong>임형묵</strong> · 깅이와 바당</div>
+          <div class="film-screening">
+            <div class="film-screening-line">
+              <span class="film-screening-date">8/11 화</span>
+              <span>15:30 상영 · 16:30 영화·생태 해설</span>
+            </div>
+            <div class="film-screening-place">해양동물박물관 (성산읍 수산리)</div>
+            <div class="film-screening-line" style="margin-top:6px;">
+              <span class="film-screening-date">8/12 수</span>
+              <span>13:00 상영 · 14:00 영화·생태 해설</span>
+            </div>
+            <div class="film-screening-place">예례생태체험관 (서귀포시 하예동)</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. 101 -->
+      <article class="film-card reveal" style="transition-delay: 0.24s;">
+        <div class="film-poster">
+          <img src="./assets/poster_101.png" alt="101 포스터 — 인간의 한계 수심 100m" loading="lazy">
+        </div>
+        <div class="film-body">
+          <div class="film-meta">한국 · 35분</div>
+          <h3 class="film-title">101</h3>
+          <p class="film-tagline">프리다이버 김경훈의 101미터 도전기</p>
+          <div class="film-director">감독 <strong>김동욱</strong> · MASTER CLIP</div>
+          <div class="film-screening">
+            <div class="film-screening-line">
+              <span class="film-screening-date">8/14 금</span>
+              <span>19:00 상영</span>
+            </div>
+            <div class="film-screening-place">카페 핀스 (대정) · 19:40 프리다이빙 세미나 (김경훈 강사)</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6. 이상한 놈들의 세상 (폐막작) -->
+      <article class="film-card reveal" style="transition-delay: 0.3s;">
+        <div class="film-poster closing">
+          <span class="film-badge">폐막작</span>
+          <img src="./assets/poster_coral.jpg" alt="이상한 놈들의 세상 포스터" loading="lazy">
+        </div>
+        <div class="film-body">
+          <div class="film-meta">한국 · 47분 · 8K</div>
+          <h3 class="film-title">코랄트라이앵글 이상한 놈들의 세상</h3>
+          <p class="film-tagline">'바다의 아마존' 코랄 트라이앵글을 기록하다</p>
+          <div class="film-director">촬영·출연 <strong>김동식</strong> 촬영감독</div>
+          <div class="film-screening">
+            <div class="film-screening-line">
+              <span class="film-screening-date">8/15 토</span>
+              <span>14:00 상영 · 14:50 GV</span>
+            </div>
+            <div class="film-screening-place">연동 롯데시네마</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- 예약 CTA (지시 #14: 영화는 구글폼 링크) -->
+    <div class="films-reservation reveal">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFeiZcQrGBDgf9Xh27HJ-3J2F7OtwO7jTqqMP5srZNSNHrcQ/viewform" target="_blank" rel="noopener noreferrer" class="reservation-btn film-btn">
+        <span class="reservation-btn-label">영화 관람 신청</span>
+        <span class="reservation-btn-platform">구글폼으로 신청하기</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== SCHEDULE ============================== -->
+<section class="schedule" id="schedule">
+  <div class="container">
+
+    <div class="schedule-head">
+      <div>
+        <div class="section-eyebrow reveal">Schedule</div>
+        <h2 class="section-title reveal" style="transition-delay: 0.05s;">
+          여덟 날의 <span class="em">파도</span>
+        </h2>
+      </div>
+      <button class="schedule-detail-btn reveal" type="button" id="scheduleDetailBtn" style="transition-delay: 0.1s;">
+        <span>전체 프로그램 상세 보기</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="schedule-cal reveal">
+
+      <!-- 8/8 토 — 개막 -->
+      <div class="cal-day weekend opening">
+        <div class="cal-date">
+          <span class="cal-date-num">08</span>
+          <span class="cal-date-day">SAT</span>
+          <span class="cal-date-badge">개막</span>
+        </div>
+        <div class="cal-films">
+          <div class="cal-slot">
+            <span class="cal-slot-time">15:00</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">개막식</span>
+              <span class="cal-slot-desc">개막공연 · 구좌 어린이 합창단</span>
+              <span class="cal-slot-place">연동 롯데시네마</span>
+            </div>
+          </div>
+          <div class="cal-slot">
+            <span class="cal-slot-time">15:30</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">수라 <small>· 108분</small></span>
+              <span class="cal-slot-desc">17:25 GV — 황윤 감독</span>
+              <span class="cal-slot-place">연동 롯데시네마 · 18:00 종료</span>
+            </div>
+          </div>
+        </div>
+        <div class="cal-ecos" aria-hidden="true"></div>
+      </div>
+
+      <!-- 8/9 일 -->
+      <div class="cal-day weekend">
+        <div class="cal-date">
+          <span class="cal-date-num">09</span>
+          <span class="cal-date-day">SUN</span>
+        </div>
+        <div class="cal-films">
+          <div class="cal-slot">
+            <span class="cal-slot-time">14:00</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">꽁치풀 <small>· 45분</small></span>
+              <span class="cal-slot-desc">14:50 GV — 이준호 감독</span>
+              <span class="cal-slot-place">연동 롯데시네마</span>
+            </div>
+          </div>
+          <div class="cal-slot">
+            <span class="cal-slot-time">15:50</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">물꽃의 전설 <small>· 92분</small></span>
+              <span class="cal-slot-desc">17:30 GV — 고희영 감독</span>
+              <span class="cal-slot-place">연동 롯데시네마 · 18:00 종료</span>
+            </div>
+          </div>
+        </div>
+        <div class="cal-ecos" aria-hidden="true"></div>
+      </div>
+
+      <!-- 8/10 월 -->
+      <div class="cal-day">
+        <div class="cal-date">
+          <span class="cal-date-num">10</span>
+          <span class="cal-date-day">MON</span>
+        </div>
+        <div class="cal-films"><span class="cal-noop">영화 상영 없음</span></div>
+        <div class="cal-ecos">
+          <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
+          <span class="cal-eco-chip">바당에 퐁당 · 사수항 or 이호항</span>
+          <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을</span>
+          <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
+        </div>
+      </div>
+
+      <!-- 8/11 화 -->
+      <div class="cal-day">
+        <div class="cal-date">
+          <span class="cal-date-num">11</span>
+          <span class="cal-date-day">TUE</span>
+        </div>
+        <div class="cal-films">
+          <div class="cal-slot">
+            <span class="cal-slot-time">15:30</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">조수웅덩이: 바다의 시작 <small>· 57분</small></span>
+              <span class="cal-slot-desc">16:30 영화·생태 해설 — 임형묵</span>
+              <span class="cal-slot-place">해양동물박물관 (성산읍 수산리)</span>
+            </div>
+          </div>
+        </div>
+        <div class="cal-ecos">
+          <span class="cal-eco-chip">제주바당 생물탐험 · 성산 수마포 <em>(13:00~14:30)</em></span>
+          <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
+          <span class="cal-eco-chip">바당에 퐁당 · 사수항 or 이호항</span>
+          <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을</span>
+          <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
+          <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
+        </div>
+      </div>
+
+      <!-- 8/12 수 -->
+      <div class="cal-day">
+        <div class="cal-date">
+          <span class="cal-date-num">12</span>
+          <span class="cal-date-day">WED</span>
+        </div>
+        <div class="cal-films">
+          <div class="cal-slot">
+            <span class="cal-slot-time">13:00</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">조수웅덩이: 바다의 시작 <small>· 57분</small></span>
+              <span class="cal-slot-desc">14:00 영화·생태 해설 — 임형묵</span>
+              <span class="cal-slot-place">예례생태체험관 (서귀포시 하예동)</span>
+            </div>
+          </div>
+        </div>
+        <div class="cal-ecos">
+          <span class="cal-eco-chip">제주바당 생물탐험 · 하예 조간대 <em>(14:00~15:30)</em></span>
+          <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
+          <span class="cal-eco-chip">바당에 퐁당 · 사수항 or 이호항</span>
+          <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을</span>
+          <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
+          <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
+        </div>
+      </div>
+
+      <!-- 8/13 목 -->
+      <div class="cal-day">
+        <div class="cal-date">
+          <span class="cal-date-num">13</span>
+          <span class="cal-date-day">THU</span>
+        </div>
+        <div class="cal-films"><span class="cal-noop">영화 상영 없음</span></div>
+        <div class="cal-ecos">
+          <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
+          <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을</span>
+          <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
+          <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
+        </div>
+      </div>
+
+      <!-- 8/14 금 -->
+      <div class="cal-day">
+        <div class="cal-date">
+          <span class="cal-date-num">14</span>
+          <span class="cal-date-day">FRI</span>
+        </div>
+        <div class="cal-films">
+          <div class="cal-slot">
+            <span class="cal-slot-time">19:00</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">101 <small>· 35분</small></span>
+              <span class="cal-slot-desc">김동욱 감독</span>
+              <span class="cal-slot-place">카페 핀스 (대정)</span>
+            </div>
+          </div>
+          <div class="cal-slot">
+            <span class="cal-slot-time">19:40</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">프리다이빙 세미나</span>
+              <span class="cal-slot-desc">김경훈 강사 · 101미터 도전기</span>
+              <span class="cal-slot-place">카페 핀스 (대정)</span>
+            </div>
+          </div>
+        </div>
+        <div class="cal-ecos">
+          <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
+          <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
+          <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
+        </div>
+      </div>
+
+      <!-- 8/15 토 — 폐막 -->
+      <div class="cal-day weekend closing">
+        <div class="cal-date">
+          <span class="cal-date-num">15</span>
+          <span class="cal-date-day">SAT</span>
+          <span class="cal-date-badge closing">폐막</span>
+        </div>
+        <div class="cal-films">
+          <div class="cal-slot">
+            <span class="cal-slot-time">14:00</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">코랄트라이앵글 이상한 놈들의 세상 <small>· 45분</small></span>
+              <span class="cal-slot-desc">14:50 GV — 촬영·출연 김동식 촬영감독</span>
+              <span class="cal-slot-place">연동 롯데시네마</span>
+            </div>
+          </div>
+          <div class="cal-slot">
+            <span class="cal-slot-time">15:30</span>
+            <div class="cal-slot-body">
+              <span class="cal-slot-title">폐막 인사 및 기념 촬영</span>
+              <span class="cal-slot-place">연동 롯데시네마 · 17:00 종료</span>
+            </div>
+          </div>
+        </div>
+        <div class="cal-ecos">
+          <span class="cal-eco-chip">바다야 안녕 · 보목포구 <em>(마지막일)</em></span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="schedule-note reveal">
+      <p>※ 상기 일정은 변경될 수 있습니다.</p>
+      <p>※ GV (Guest Visit): 감독 및 관계자와의 대화.</p>
+      <p>※ 생태관광 프로그램 상세 일정·모집인원·참가비는 <button type="button" class="schedule-note-link" onclick="document.getElementById('scheduleDetailBtn').click()">전체 프로그램 상세 보기</button>에서 확인하세요.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== SCHEDULE MODAL ============================== -->
+<div class="modal" id="scheduleModal" role="dialog" aria-modal="true" aria-labelledby="scheduleModalTitle" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel" role="document">
+    <button class="modal-close" type="button" aria-label="닫기" data-close>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="modal-inner">
+      <div class="modal-eyebrow">Full Program · 2026 여름 생태관광주간</div>
+      <h3 class="modal-title" id="scheduleModalTitle">6개 생태 프로그램 상세</h3>
+
+      <div class="modal-matrix">
+        <div class="mmx-row mmx-head">
+          <div>프로그램</div>
+          <div>내용</div>
+          <div>운영</div>
+          <div>장소</div>
+          <div>참가비</div>
+          <div>모집</div>
+          <div class="mmx-days">11 화 · 12 수 · 13 목 · 14 금 · 15 토</div>
+        </div>
+
+        <div class="mmx-row">
+          <div class="mmx-title">제주바당 생물탐험</div>
+          <div>해양생태 해설</div>
+          <div>깅이와 바당</div>
+          <div>8/11 성산 수마포 · 8/12 하예 조간대</div>
+          <div>20,000원</div>
+          <div>15명/일</div>
+          <div class="mmx-days">
+            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell">목</span><span class="mmx-cell">금</span><span class="mmx-cell">토</span>
+          </div>
+        </div>
+
+        <div class="mmx-row">
+          <div class="mmx-title">바다야 안녕</div>
+          <div>스쿠버다이빙 체험</div>
+          <div>해양시민과학조사단</div>
+          <div>보목포구</div>
+          <div>100,000원</div>
+          <div>오전 10명 · 오후 10명</div>
+          <div class="mmx-days">
+            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell on">목</span><span class="mmx-cell on">금</span><span class="mmx-cell on">토</span>
+          </div>
+        </div>
+
+        <div class="mmx-row">
+          <div class="mmx-title">바당에 퐁당</div>
+          <div>스쿠버다이빙 체험</div>
+          <div>제주시 수중핀수영협회</div>
+          <div>사수항 or 이호항 (현장 결정)</div>
+          <div>100,000원</div>
+          <div>오전 10명 · 오후 10명</div>
+          <div class="mmx-days">
+            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell">목</span><span class="mmx-cell">금</span><span class="mmx-cell">토</span>
+          </div>
+        </div>
+
+        <div class="mmx-row">
+          <div class="mmx-title">하도리 해녀체험</div>
+          <div>해녀 체험 · 물질</div>
+          <div>하도리 어촌계</div>
+          <div>하도어촌체험마을</div>
+          <div>40,000원</div>
+          <div>15명/일</div>
+          <div class="mmx-days">
+            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell on">목</span><span class="mmx-cell">금</span><span class="mmx-cell">토</span>
+          </div>
+        </div>
+
+        <div class="mmx-row">
+          <div class="mmx-title">돌고래와 바다여행</div>
+          <div>패들보드 체험</div>
+          <div>금능어촌계</div>
+          <div>금능리 (한림읍)</div>
+          <div>20,000원</div>
+          <div>10명/일</div>
+          <div class="mmx-days">
+            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell on">목</span><span class="mmx-cell on">금</span><span class="mmx-cell">토</span>
+          </div>
+        </div>
+
+        <div class="mmx-row">
+          <div class="mmx-title">하도 투명한 바다</div>
+          <div>투명 카약 체험</div>
+          <div>제주하도카약</div>
+          <div>구좌읍 하도리 43-4</div>
+          <div>10,000원 / 1시간</div>
+          <div>50명/회</div>
+          <div class="mmx-days">
+            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell on">목</span><span class="mmx-cell on">금</span><span class="mmx-cell">토</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="modal-foot">
+        ※ 8월 10일(월)은 바다야 안녕 · 바당에 퐁당 · 하도리 해녀체험 · 하도 투명한 바다 4종이 운영됩니다.<br>
+        ※ 각 프로그램 시간은 확정 즉시 공지됩니다. 참가비는 운영 사정에 따라 조정될 수 있습니다.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== LOCATION ============================== -->
+<section class="location" id="location">
+  <div class="container">
+
+    <div class="section-eyebrow reveal">Where We Gather</div>
+    <h2 class="section-title reveal" style="transition-delay: 0.05s;">
+      제주 동쪽 끝에서<br>
+      <span class="em">서쪽 끝까지</span>
+    </h2>
+    <p class="section-lead reveal" style="transition-delay: 0.1s;">
+      메인 상영관은 연동 롯데시네마. 조수웅덩이는 해양동물박물관·예례생태체험관, 101은 카페 핀스(대정)에서 상영합니다. 생태 프로그램은 보목·사수·이호·하도·금능·성산·하예 권역에서 운영됩니다. 우측 리스트에서 프로그램을 선택하면 지도에서 위치를 확인할 수 있습니다.
+    </p>
+
+    <div class="map-wrap reveal">
+      <div class="map-layout">
+
+        <div class="map-container">
+          <div id="jeju-map" class="jeju-map" role="img" aria-label="제주 권역 지도 — 영화 상영관과 생태 프로그램 운영지"></div>
+
+          <!-- 지도 컨트롤 툴바 (전체 보기 · 내 위치) -->
+          <div class="map-controls">
+            <button class="map-ctrl-btn" type="button" id="mapFitAllBtn" aria-label="전체 지도 보기" title="전체 지도 보기">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+              </svg>
+              <span>전체 지도</span>
+            </button>
+            <button class="map-ctrl-btn" type="button" id="mapMyLocBtn" aria-label="내 위치 표시" title="내 위치">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+              </svg>
+              <span>내 위치</span>
+            </button>
+          </div>
+
+          <!-- 지도 범례 -->
+          <div class="map-legend">
+            <div class="legend-item">
+              <span class="legend-dot film"></span>
+              <span>영화 상영</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot eco"></span>
+              <span>생태 프로그램</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="map-selector">
+          <div class="map-tabs" role="tablist" aria-label="프로그램 카테고리">
+            <button class="map-tab is-active" type="button" data-cat="eco" role="tab" aria-selected="true">
+              <span class="map-tab-dot eco"></span>생태관광
+            </button>
+            <button class="map-tab" type="button" data-cat="film" role="tab" aria-selected="false">
+              <span class="map-tab-dot film"></span>영화제
+            </button>
+          </div>
+
+          <div class="map-list-title">프로그램을 선택하세요</div>
+
+          <!-- 생태관광 리스트 -->
+          <ul class="map-list" data-cat="eco">
+            <li><button class="map-item" type="button" data-venue="성산 수마포 해안">
+              <span class="map-item-num">01</span>
+              <span class="map-item-body">
+                <strong>제주바당 생물탐험</strong>
+                <em>8/11 · 성산 수마포</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="하예 조간대">
+              <span class="map-item-num">01</span>
+              <span class="map-item-body">
+                <strong>제주바당 생물탐험</strong>
+                <em>8/12 · 하예 조간대</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="보목포구">
+              <span class="map-item-num">02</span>
+              <span class="map-item-body">
+                <strong>바다야 안녕</strong>
+                <em>체험 스쿠버 · 보목포구</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="사수항">
+              <span class="map-item-num">03</span>
+              <span class="map-item-body">
+                <strong>바당에 퐁당</strong>
+                <em>체험 다이빙 · 사수항</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="이호항">
+              <span class="map-item-num">03</span>
+              <span class="map-item-body">
+                <strong>바당에 퐁당</strong>
+                <em>체험 다이빙 · 이호항</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="하도어촌체험마을">
+              <span class="map-item-num">04</span>
+              <span class="map-item-body">
+                <strong>하도리 해녀체험</strong>
+                <em>해녀 체험 · 하도 어촌 체험마을</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="금능어촌계">
+              <span class="map-item-num">05</span>
+              <span class="map-item-body">
+                <strong>돌고래와 바다여행</strong>
+                <em>패들보드 · 금능어촌계</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="제주하도카약">
+              <span class="map-item-num">06</span>
+              <span class="map-item-body">
+                <strong>하도 투명한 바다</strong>
+                <em>투명 카약 · 제주하도카약</em>
+              </span>
+            </button></li>
+          </ul>
+
+          <!-- 영화제 리스트 -->
+          <ul class="map-list" data-cat="film" hidden>
+            <li><button class="map-item" type="button" data-venue="연동 롯데시네마">
+              <span class="map-item-num opening">개막</span>
+              <span class="map-item-body">
+                <strong>수라</strong>
+                <em>8/8 토 · 연동 롯데시네마</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="연동 롯데시네마">
+              <span class="map-item-num film">02</span>
+              <span class="map-item-body">
+                <strong>꽁치풀의 속삭임</strong>
+                <em>8/9 일 · 연동 롯데시네마</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="연동 롯데시네마">
+              <span class="map-item-num film">03</span>
+              <span class="map-item-body">
+                <strong>물꽃의 전설</strong>
+                <em>8/9 일 · 연동 롯데시네마</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="제주 해양동물박물관">
+              <span class="map-item-num film">04</span>
+              <span class="map-item-body">
+                <strong>조수웅덩이: 바다의 시작</strong>
+                <em>8/11 화 · 해양동물박물관 (성산읍 수산리)</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="예례생태체험관">
+              <span class="map-item-num film">04</span>
+              <span class="map-item-body">
+                <strong>조수웅덩이: 바다의 시작</strong>
+                <em>8/12 수 · 예례생태체험관 (서귀포시 하예동)</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="카페 핀스(FINS)">
+              <span class="map-item-num film">05</span>
+              <span class="map-item-body">
+                <strong>101</strong>
+                <em>8/14 금 · 카페 핀스 (대정)</em>
+              </span>
+            </button></li>
+            <li><button class="map-item" type="button" data-venue="연동 롯데시네마">
+              <span class="map-item-num closing">폐막</span>
+              <span class="map-item-body">
+                <strong>이상한 놈들의 세상</strong>
+                <em>8/15 토 · 연동 롯데시네마</em>
+              </span>
+            </button></li>
+          </ul>
+        </aside>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      <img src="./assets/logo_lineart.png" alt="갯것이 마스코트 · 긴발가락참집게 + 수두리 보말" class="footer-mascot">
+      <div class="footer-name">제3회 갯것이영화제<span>×</span>2026생태관광주간</div>
+      <p class="footer-desc">
+        2026년 8월 8일 — 8월 15일, 제주 전역. 생태 프로그램 6개 · 영화 6편 · 8일간의 바다 여행.
+      </p>
+    </div>
+
+    <div>
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="#intro">행사 소개</a></li>
+        <li><a href="#eco">생태관광</a></li>
+        <li><a href="#films">상영작</a></li>
+        <li><a href="#schedule">일정</a></li>
+        <li><a href="#location">오시는 길</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Contact</h5>
+      <ul>
+        <li>제3회 갯것이영화제 사무국</li>
+        <li>제주 생태관광지원센터 센터장 임형묵</li>
+        <li><a href="tel:0647823253">영화제 및 생태관광주간 프로그램 관련 문의 064-782-3253</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- 하단 로고 스트립 (지시 #13: 주최/주관 라벨 없이 옆으로 나란히) -->
+  <div class="footer-logo-strip">
+    <img src="./assets/logo_jejucenter.png" alt="제주특별자치도 생태관광지원센터">
+    <img src="./assets/logo_jejuecotour.png" alt="(사)제주생태관광협회 JEJU ECOTOUR ASSOCIATION">
+  </div>
+
+  <div class="footer-bottom">
+    <div>© 2026 제3회 갯것이영화제 × 2026생태관광주간</div>
+    <div>제작 JEJUGRAPHER · v5 · 2026.07.07</div>
+  </div>
+</footer>
+
+<!-- ============================== LIGHTBOX (갤러리 원본 확대) ============================== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 확대 보기">
+  <button class="lightbox-close" id="lightboxClose" type="button" aria-label="닫기">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="이전 사진">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="다음 사진">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+</div>
+
+<script>
+// Reveal on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Hero entrance — trigger immediately
+document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+  setTimeout(() => el.classList.add('in'), 100 + i * 80);
+});
+
+// Smooth scroll for fork cards
+document.querySelectorAll('.fork-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    const href = card.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Hero 파도소리 토글 (지시 #6 a안: 무음 자동재생 비디오 + 별도 오디오 언뮤트 버튼)
+const heroWaveAudio = document.getElementById('heroWaveAudio');
+const heroSoundBtn = document.getElementById('heroSoundBtn');
+if (heroSoundBtn) {
+  heroSoundBtn.addEventListener('click', () => {
+    const isOn = heroSoundBtn.classList.contains('is-on');
+    const willTurnOn = !isOn;
+    heroSoundBtn.classList.toggle('is-on', willTurnOn);
+    heroSoundBtn.setAttribute('aria-label', willTurnOn ? '파도 소리 끄기' : '파도 소리 켜기');
+    heroSoundBtn.title = willTurnOn ? '파도 소리 끄기' : '파도 소리 켜기';
+    heroSoundBtn.querySelector('.hero-sound-label').textContent = willTurnOn ? '소리 켜짐' : '파도 소리';
+    if (heroWaveAudio && heroWaveAudio.querySelector('source')) {
+      if (willTurnOn) {
+        const p = heroWaveAudio.play();
+        if (p !== undefined) p.catch(() => {});
+      } else {
+        heroWaveAudio.pause();
+      }
+    }
+  });
+}
+
+// Schedule 상세 모달 오픈/클로즈
+const scheduleBtn = document.getElementById('scheduleDetailBtn');
+const scheduleModal = document.getElementById('scheduleModal');
+function openScheduleModal() {
+  if (!scheduleModal) return;
+  scheduleModal.classList.add('is-open');
+  scheduleModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeScheduleModal() {
+  if (!scheduleModal) return;
+  scheduleModal.classList.remove('is-open');
+  scheduleModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+if (scheduleBtn) scheduleBtn.addEventListener('click', openScheduleModal);
+if (scheduleModal) {
+  scheduleModal.querySelectorAll('[data-close]').forEach(el => {
+    el.addEventListener('click', closeScheduleModal);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && scheduleModal.classList.contains('is-open')) {
+      closeScheduleModal();
+    }
+  });
+}
+
+// ============================================================
+// ECO 카드 갤러리 모달 (프로그램별 현장 사진 55장)
+// ============================================================
+const galleryData = {
+  "01_saengmul": {
+    num: "01",
+    kind: "해양생태 해설",
+    count: 9,
+    images: Array.from({length: 9}, (_, i) => `./assets/gal_01_saengmul_${String(i+1).padStart(2, '0')}.jpg`)
+  },
+  "02_badaya": {
+    num: "02",
+    kind: "체험 스쿠버",
+    count: 4,
+    images: Array.from({length: 4}, (_, i) => `./assets/gal_02_badaya_${String(i+1).padStart(2, '0')}.jpg`)
+  },
+  "03_pungdang": {
+    num: "03",
+    kind: "체험 다이빙",
+    count: 9,
+    images: Array.from({length: 9}, (_, i) => `./assets/gal_03_pungdang_${String(i+1).padStart(2, '0')}.jpg`)
+  },
+  "04_haenyeo": {
+    num: "04",
+    kind: "해녀 체험",
+    count: 7,
+    images: Array.from({length: 7}, (_, i) => `./assets/gal_04_haenyeo_${String(i+1).padStart(2, '0')}.jpg`)
+  },
+  "05_dolphin": {
+    num: "05",
+    kind: "패들보드 체험",
+    count: 9,
+    images: Array.from({length: 9}, (_, i) => `./assets/gal_05_dolphin_${String(i+1).padStart(2, '0')}.jpg`)
+  },
+  "06_kayak": {
+    num: "06",
+    kind: "투명 카약",
+    count: 20,
+    images: Array.from({length: 20}, (_, i) => `./assets/gal_06_kayak_${String(i+1).padStart(2, '0')}.jpg`)
+  }
+};
+
+const galleryModal = document.getElementById('galleryModal');
+const galleryGrid = document.getElementById('galleryGrid');
+const galleryModalTitle = document.getElementById('galleryModalTitle');
+const galleryModalEyebrow = document.getElementById('galleryModalEyebrow');
+let currentGalleryImages = [];
+let currentGalleryTitle = "";
+
+function openGalleryModal(gid, title) {
+  const data = galleryData[gid];
+  if (!data || !galleryModal) return;
+  currentGalleryImages = data.images;
+  currentGalleryTitle = title;
+  galleryModalEyebrow.textContent = `${data.num} · ${data.kind} · 현장 사진 ${data.count}장`;
+  galleryModalTitle.textContent = title;
+  galleryGrid.innerHTML = data.images.map((src, i) => `
+    <div class="gallery-item" role="listitem" data-index="${i}">
+      <img src="${src}" alt="${title} 현장 사진 ${i+1}" loading="lazy">
+    </div>
+  `).join('');
+  // 각 이미지 클릭 시 라이트박스 오픈
+  galleryGrid.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+      openLightbox(parseInt(item.dataset.index, 10));
+    });
+  });
+  galleryModal.classList.add('is-open');
+  galleryModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  // 스크롤 상단으로
+  galleryModal.querySelector('.modal-panel').scrollTop = 0;
+}
+function closeGalleryModal() {
+  if (!galleryModal) return;
+  galleryModal.classList.remove('is-open');
+  galleryModal.setAttribute('aria-hidden', 'true');
+  if (!document.getElementById('lightbox').classList.contains('is-open')) {
+    document.body.style.overflow = '';
+  }
+}
+// ECO 카드 클릭 → 갤러리 오픈
+document.querySelectorAll('.eco-card[data-gallery]').forEach(card => {
+  card.addEventListener('click', () => {
+    const gid = card.dataset.gallery;
+    const title = card.dataset.galleryTitle || "";
+    openGalleryModal(gid, title);
+  });
+});
+if (galleryModal) {
+  galleryModal.querySelectorAll('[data-close]').forEach(el => {
+    el.addEventListener('click', closeGalleryModal);
+  });
+}
+
+// ============================================================
+// 라이트박스 (원본 확대 · 좌우 네비게이션)
+// ============================================================
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCounter = document.getElementById('lightboxCounter');
+let lightboxIndex = 0;
+
+function openLightbox(index) {
+  if (!lightbox || !currentGalleryImages.length) return;
+  lightboxIndex = index;
+  lightboxImg.src = currentGalleryImages[index];
+  lightboxImg.alt = `${currentGalleryTitle} · ${index + 1}/${currentGalleryImages.length}`;
+  lightboxCounter.textContent = `${index + 1} / ${currentGalleryImages.length}`;
+  lightbox.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  if (!lightbox) return;
+  lightbox.classList.remove('is-open');
+  if (!galleryModal.classList.contains('is-open')) {
+    document.body.style.overflow = '';
+  }
+}
+function lightboxPrev() {
+  if (!currentGalleryImages.length) return;
+  lightboxIndex = (lightboxIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+  openLightbox(lightboxIndex);
+}
+function lightboxNext() {
+  if (!currentGalleryImages.length) return;
+  lightboxIndex = (lightboxIndex + 1) % currentGalleryImages.length;
+  openLightbox(lightboxIndex);
+}
+if (lightbox) {
+  lightbox.addEventListener('click', (e) => {
+    // 이미지·네비 버튼 외 클릭 시 닫기
+    if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
+  });
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxPrev').addEventListener('click', (e) => { e.stopPropagation(); lightboxPrev(); });
+  document.getElementById('lightboxNext').addEventListener('click', (e) => { e.stopPropagation(); lightboxNext(); });
+}
+
+// ESC / 화살표 키
+document.addEventListener('keydown', (e) => {
+  if (lightbox && lightbox.classList.contains('is-open')) {
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') lightboxPrev();
+    else if (e.key === 'ArrowRight') lightboxNext();
+  } else if (galleryModal && galleryModal.classList.contains('is-open')) {
+    if (e.key === 'Escape') closeGalleryModal();
+  }
+});
+</script>
+
+<!-- Leaflet 인터랙티브 지도 -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+/**
+ * 제주 권역 지도 — Leaflet.js + CARTO Positron 타일
+ * 좌표 출처: Google Places API (places_search) · 2026-06-30
+ * 좌표계: EPSG:4326 (WGS84)
+ */
+(function initJejuMap() {
+  if (typeof L === 'undefined') return;
+  const mapEl = document.getElementById('jeju-map');
+  if (!mapEl) return;
+
+  // 권역 데이터 (2026.07.07 3차 수정 반영)
+  const VENUES = [
+    // 영화 상영관 (film)
+    {
+      name: '연동 롯데시네마', category: 'film', primary: true,
+      lat: 33.480788, lng: 126.494737,
+      address: '제주시 과원로 128 B1F',
+      desc: '메인 상영관 · 개막·정규 상영 3일 (8/8, 8/9, 8/15)'
+    },
+    {
+      name: '제주 해양동물박물관', category: 'film',
+      lat: 33.429203, lng: 126.855457,
+      address: '서귀포시 성산읍 수산리 (서성일로 689-21)',
+      desc: '『조수웅덩이: 바다의 시작』 상영 · 8/11 · 임형묵 감독 해설'
+    },
+    {
+      name: '예례생태체험관', category: 'film',
+      lat: 33.244470, lng: 126.390978,
+      address: '서귀포시 하예동 24-1',
+      desc: '『조수웅덩이: 바다의 시작』 상영 · 8/12 · 임형묵 감독 해설'
+    },
+    {
+      name: '카페 핀스(FINS)', category: 'film',
+      lat: 33.263608, lng: 126.182368,
+      address: '서귀포시 대정읍 무릉리 4065-1',
+      desc: '『101』 상영 · 8/14 · 프리다이빙 세미나 동반 (김경훈 강사)'
+    },
+    // 생태 프로그램 (eco)
+    {
+      name: '성산 수마포 해안', category: 'eco',
+      lat: 33.460792, lng: 126.934821,
+      address: '서귀포시 성산읍 성산리',
+      desc: '제주바당 생물탐험 · 8/11 · 깅이와 바당 임형묵 감독'
+    },
+    {
+      name: '하예 조간대', category: 'eco',
+      lat: 33.241109, lng: 126.396257,
+      address: '서귀포시 상예동 977',
+      desc: '제주바당 생물탐험 · 8/12 · 깅이와 바당 임형묵 감독'
+    },
+    {
+      name: '보목포구', category: 'eco',
+      lat: 33.239532, lng: 126.608169,
+      address: '서귀포시 보목동',
+      desc: '바다야 안녕 · 체험 스쿠버 (해양시민과학조사단)'
+    },
+    {
+      name: '사수항', category: 'eco',
+      lat: 33.509714, lng: 126.479003,
+      address: '제주시 도두동 (서해안로 319)',
+      desc: '바당에 퐁당 · 체험 다이빙 · 사수항 또는 이호항 (현장 결정)'
+    },
+    {
+      name: '이호항', category: 'eco',
+      lat: 33.501757, lng: 126.452059,
+      address: '제주시 이호일동 375-43',
+      desc: '바당에 퐁당 · 체험 다이빙 (제주시 수중핀수영협회)'
+    },
+    {
+      name: '하도어촌체험마을', category: 'eco',
+      lat: 33.520092, lng: 126.904134,
+      address: '제주시 구좌읍 하도리 22-10 (해맞이해안로 1897-27)',
+      desc: '하도리 해녀체험 · 물질 체험 (하도리 어촌계)'
+    },
+    {
+      name: '금능어촌계', category: 'eco',
+      lat: 33.389911, lng: 126.227840,
+      address: '제주시 한림읍 금능리',
+      desc: '돌고래와 바다여행 · 패들보드 (금능어촌계)'
+    },
+    {
+      name: '제주하도카약', category: 'eco',
+      lat: 33.515160, lng: 126.900953,
+      address: '제주시 구좌읍 하도리 43-4',
+      desc: '하도 투명한 바다 · 투명 카약 (하도카약)'
+    }
+  ];
+
+  // 무결성 검증: 좌표가 제주 범위인지 (작업지침 §12)
+  const inJeju = v => v.lat >= 33.10 && v.lat <= 33.60 && v.lng >= 126.10 && v.lng <= 127.00;
+  const invalidCoords = VENUES.filter(v => !inJeju(v));
+  if (invalidCoords.length) console.warn('좌표 범위 이탈:', invalidCoords);
+
+  // 지도 초기화
+  const map = L.map('jeju-map', {
+    center: [33.385, 126.55],   // 한라산 중심부
+    zoom: 10,
+    minZoom: 9,
+    maxZoom: 16,
+    scrollWheelZoom: false,     // 페이지 스크롤 방해 방지
+    zoomControl: true,
+    attributionControl: true
+  });
+
+  // 스크롤 휠 클릭 시 활성화 (UX: 우발 줌 방지)
+  map.on('click', () => map.scrollWheelZoom.enable());
+  map.on('mouseout', () => map.scrollWheelZoom.disable());
+
+  // CARTO Positron 라이트 타일 (라이트 테마, 미니멀)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  // 마커 저장 (name 키 → marker 인스턴스)
+  const markersByName = {};
+
+  // 색상 팔레트 (CSS 변수와 동일)
+  const COLORS = {
+    teal: '#1C5E7E',
+    tealDeep: '#144658',
+    sandDeep: '#B89770',
+    white: '#ffffff'
+  };
+
+  // 마커 렌더링
+  // L.circleMarker는 SVG 벡터 원을 그리며 좌표에 원의 중심이 정확히 위치함이 보장됨
+  // (기존 divIcon 방식은 CSS border/box-sizing 이슈로 위치 어긋남 발생)
+  VENUES.forEach(v => {
+    // primary용 반투명 후광 (halo) - 클릭 불가
+    if (v.primary) {
+      L.circleMarker([v.lat, v.lng], {
+        radius: 14,
+        stroke: false,
+        fillColor: COLORS.teal,
+        fillOpacity: 0.18,
+        interactive: false,
+        pane: 'markerPane'
+      }).addTo(map);
+    }
+
+    // 메인 마커 - 원
+    const fillColor = v.category === 'film' ? COLORS.teal : COLORS.sandDeep;
+    const marker = L.circleMarker([v.lat, v.lng], {
+      radius: v.primary ? 8.5 : 6.5,
+      color: COLORS.white,
+      weight: 2.5,
+      fillColor: fillColor,
+      fillOpacity: 1,
+      className: 'venue-marker-svg ' + v.category + (v.primary ? ' primary' : '')
+    }).addTo(map);
+
+    // primary 내부 흰 점 - 클릭 불가
+    if (v.primary) {
+      L.circleMarker([v.lat, v.lng], {
+        radius: 2.5,
+        stroke: false,
+        fillColor: COLORS.white,
+        fillOpacity: 1,
+        interactive: false
+      }).addTo(map);
+    }
+
+    const catLabel = v.category === 'film' ? '영화 상영' : '생태 프로그램';
+    const noteHtml = v.note ? `<div class="popup-venue-addr" style="color:var(--shell);">${v.note}</div>` : '';
+    const popupHtml = `
+      <span class="popup-venue-cat ${v.category}">${catLabel}${v.primary ? ' · 메인' : ''}</span>
+      <strong class="popup-venue-name">${v.name}</strong>
+      <div class="popup-venue-desc">${v.desc}</div>
+      <div class="popup-venue-addr">${v.address}</div>
+      ${noteHtml}
+    `;
+    marker.bindPopup(popupHtml, { maxWidth: 300, autoPanPadding: [40, 60] });
+    markersByName[v.name] = { marker, lat: v.lat, lng: v.lng };
+  });
+
+  // 모든 마커가 보이도록 자동 fit
+  const bounds = L.latLngBounds(VENUES.map(v => [v.lat, v.lng]));
+  const fitAllView = () => map.fitBounds(bounds, { padding: [50, 50], maxZoom: 11 });
+  fitAllView();
+
+  // ============================================================
+  // 지도 컨트롤: 전체 지도 · 내 위치
+  // ============================================================
+  const fitAllBtn = document.getElementById('mapFitAllBtn');
+  const myLocBtn = document.getElementById('mapMyLocBtn');
+  let myLocMarker = null;
+  let myLocAccuracy = null;
+
+  if (fitAllBtn) {
+    fitAllBtn.addEventListener('click', () => {
+      fitAllView();
+      // 리스트 선택 해제
+      document.querySelectorAll('.map-item').forEach(i => i.classList.remove('is-active'));
+      map.closePopup();
+    });
+  }
+
+  if (myLocBtn) {
+    myLocBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        alert('이 브라우저에서는 위치 정보를 지원하지 않습니다.');
+        return;
+      }
+      myLocBtn.classList.add('is-loading');
+      const originalLabel = myLocBtn.querySelector('span').textContent;
+      myLocBtn.querySelector('span').textContent = '위치 확인 중…';
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude, accuracy } = pos.coords;
+
+          // 기존 내 위치 마커 제거
+          if (myLocMarker) map.removeLayer(myLocMarker);
+          if (myLocAccuracy) map.removeLayer(myLocAccuracy);
+
+          // 정확도 원
+          myLocAccuracy = L.circle([latitude, longitude], {
+            radius: accuracy,
+            color: '#2563EB',
+            weight: 1,
+            fillColor: '#2563EB',
+            fillOpacity: 0.08,
+            interactive: false
+          }).addTo(map);
+
+          // 내 위치 마커
+          const icon = L.divIcon({
+            className: 'my-loc-marker',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10],
+            html: ''
+          });
+          myLocMarker = L.marker([latitude, longitude], { icon, zIndexOffset: 1000 })
+            .addTo(map)
+            .bindPopup('<strong>내 위치</strong><div style="font-size:12px; color:#4A5860; margin-top:4px;">위치 정확도 약 ' + Math.round(accuracy) + 'm</div>');
+
+          // 지도 이동
+          map.setView([latitude, longitude], 13, { animate: true });
+          myLocMarker.openPopup();
+
+          myLocBtn.classList.remove('is-loading');
+          myLocBtn.querySelector('span').textContent = originalLabel;
+        },
+        (err) => {
+          myLocBtn.classList.remove('is-loading');
+          myLocBtn.querySelector('span').textContent = originalLabel;
+          const msg = err.code === 1
+            ? '위치 정보 사용 권한이 거부되었습니다. 브라우저 설정에서 허용해 주세요.'
+            : err.code === 2
+              ? '현재 위치를 확인할 수 없습니다.'
+              : err.code === 3
+                ? '위치 확인 시간이 초과되었습니다.'
+                : '위치 확인 중 오류가 발생했습니다.';
+          alert(msg);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
+      );
+    });
+  }
+
+  // ============================================================
+  // 사이드바 탭 + 프로그램 리스트 인터랙션
+  // ============================================================
+  const tabs = document.querySelectorAll('.map-tab');
+  const lists = document.querySelectorAll('.map-list');
+  const items = document.querySelectorAll('.map-item');
+
+  // 탭 전환
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.dataset.cat;
+      tabs.forEach(t => {
+        const active = t === tab;
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      lists.forEach(list => {
+        list.hidden = list.dataset.cat !== cat;
+      });
+      // 활성화 상태 초기화
+      items.forEach(i => i.classList.remove('is-active'));
+    });
+  });
+
+  // 프로그램 리스트 아이템 클릭 → 지도 이동 + 마커 팝업
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const venueName = item.dataset.venue;
+      const target = markersByName[venueName];
+      if (!target) return;
+      items.forEach(i => i.classList.remove('is-active'));
+      item.classList.add('is-active');
+      map.setView([target.lat, target.lng], 14, { animate: true });
+      target.marker.openPopup();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
