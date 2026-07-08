@@ -1268,12 +1268,38 @@ section { padding: 112px 32px; }
   overflow: hidden;
   font-size: 13px;
 }
+.modal-matrix + .modal-subtitle { margin-top: 32px; }
+.modal-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal-deep);
+  letter-spacing: 0.02em;
+  margin: 0 0 14px;
+  padding-left: 12px;
+  border-left: 3px solid var(--teal);
+}
+.mmx-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 2px;
+  margin-left: 6px;
+  letter-spacing: 0.06em;
+  vertical-align: 1px;
+}
+.mmx-badge.opening { background: #5B7A9C; color: #fff; }
+.mmx-badge.closing { background: var(--teal-deep); color: #fff; }
 .mmx-row {
   display: grid;
-  grid-template-columns: 130px 1fr 1fr 1.4fr 90px 130px 190px;
+  grid-template-columns: 130px 1fr 1fr 1.4fr 90px 130px 220px;
   border-bottom: 1px solid var(--line);
   min-height: 52px;
   align-items: center;
+}
+/* 영화 매트릭스는 5컬럼 */
+.modal-matrix-films .mmx-row {
+  grid-template-columns: 200px 1.1fr 1fr 1.4fr 1.5fr;
 }
 .mmx-row:last-child { border-bottom: none; }
 .mmx-row > div {
@@ -2182,7 +2208,7 @@ section { padding: 112px 32px; }
         <div class="intro-block reveal" style="transition-delay: 0.15s;">
           <div class="intro-block-label">갯것이영화제</div>
           <p class="intro-block-body">
-            <span class="accent">'갯것이'</span>는 바다에 사는 모든 것 — 깊은 바다의 큰 고래부터 갯바위의 작은 생물, 그리고 바다에 삶의 터를 둔 사람까지 모두 갯것이입니다. 갯것이영화제는 바다 환경 파괴에 눈감지 않으면서도, <span class="accent">아름답고 풍요로운 바다의 본질을 알리는 데 초점을 두는 영화제</span>입니다.
+            <span class="accent">'갯것이'</span>는 바다에 사는 모든 것 — 깊은 바다의 큰 고래부터 갯바위의 작은 생물, 그리고 바다에 삶의 터를 둔 사람까지 모두 갯것이입니다. 갯것이영화제는 바다 환경 파괴에 눈감지 않으면서도, <span class="accent">아름답고 풍요로운 바다의 본질을 알리는 영화제</span>입니다.
           </p>
         </div>
 
@@ -2245,11 +2271,11 @@ section { padding: 112px 32px; }
         <div class="eco-card-inner">
           <div class="eco-card-num">01 · 해양생태 해설</div>
           <h3 class="eco-card-title">제주바당 생물탐험</h3>
-          <div class="eco-card-kind">운영 <strong>깅이와 바당</strong></div>
+          <div class="eco-card-kind">운영 <strong>제주생태관광지원센터</strong></div>
           <dl class="eco-card-meta">
             <dt>일정</dt><dd>8/11 화 13:00~14:30 · 8/12 수 14:00~15:30</dd>
             <dt>장소</dt><dd>11일 성산 수마포 · 12일 상예동 977 (하예 조간대)</dd>
-            <dt>체험비</dt><dd>0원 <span class="time-tbd">(확정 예정)</span></dd>
+            <dt>체험비</dt><dd>무료</dd>
             <dt>준비물</dt><dd>물에 젖어도 되는 신발·옷, 채집도구(뜰채), 모자 · 손발 선크림 X</dd>
           </dl>
           <div class="eco-card-cta">
@@ -2798,10 +2824,66 @@ section { padding: 112px 32px; }
       </svg>
     </button>
     <div class="modal-inner">
-      <div class="modal-eyebrow">Full Program · 2026 여름 생태관광주간</div>
-      <h3 class="modal-title" id="scheduleModalTitle">6개 생태 프로그램 상세</h3>
+      <div class="modal-eyebrow">Full Program · 8일간의 바다 여행</div>
+      <h3 class="modal-title" id="scheduleModalTitle">전체 프로그램 상세</h3>
 
-      <div class="modal-matrix">
+      <!-- 영화제 6편 -->
+      <h4 class="modal-subtitle">영화제 · 6편 상영</h4>
+      <div class="modal-matrix modal-matrix-films">
+        <div class="mmx-row mmx-head">
+          <div>영화</div>
+          <div>시간 · 국가</div>
+          <div>감독</div>
+          <div>상영관</div>
+          <div>상영일</div>
+        </div>
+        <div class="mmx-row">
+          <div class="mmx-title">수라 <span class="mmx-badge opening">개막</span></div>
+          <div>108분 · 한국</div>
+          <div>황윤</div>
+          <div>연동 롯데시네마</div>
+          <div>8/8 토 15:30~ · 17:25 GV</div>
+        </div>
+        <div class="mmx-row">
+          <div class="mmx-title">꽁치풀의 속삭임</div>
+          <div>45분 · MBC 강원영동</div>
+          <div>이준호</div>
+          <div>연동 롯데시네마</div>
+          <div>8/9 일 14:00~ · 14:50 GV</div>
+        </div>
+        <div class="mmx-row">
+          <div class="mmx-title">물꽃의 전설</div>
+          <div>92분 · 한국</div>
+          <div>고희영</div>
+          <div>연동 롯데시네마</div>
+          <div>8/9 일 15:50~ · 17:30 GV</div>
+        </div>
+        <div class="mmx-row">
+          <div class="mmx-title">조수웅덩이: 바다의 시작</div>
+          <div>57분 · 한국</div>
+          <div>임형묵</div>
+          <div>해양동물박물관 · 예례생태체험관</div>
+          <div>8/11 화 15:30~ · 8/12 수 13:00~</div>
+        </div>
+        <div class="mmx-row">
+          <div class="mmx-title">101</div>
+          <div>35분 · 한국</div>
+          <div>김동욱</div>
+          <div>카페 핀스 (대정)</div>
+          <div>8/14 금 19:00~ · 프리다이빙 세미나</div>
+        </div>
+        <div class="mmx-row">
+          <div class="mmx-title">코랄트라이앵글 이상한 놈들의 세상 <span class="mmx-badge closing">폐막</span></div>
+          <div>47분 · 8K · 한국</div>
+          <div>촬영·출연 김동식</div>
+          <div>연동 롯데시네마</div>
+          <div>8/15 토 14:00~ · 14:50 GV</div>
+        </div>
+      </div>
+
+      <!-- 생태관광 6개 -->
+      <h4 class="modal-subtitle">생태관광 · 6개 프로그램</h4>
+      <div class="modal-matrix modal-matrix-eco">
         <div class="mmx-row mmx-head">
           <div>프로그램</div>
           <div>내용</div>
@@ -2809,45 +2891,45 @@ section { padding: 112px 32px; }
           <div>장소</div>
           <div>참가비</div>
           <div>모집</div>
-          <div class="mmx-days">11 화 · 12 수 · 13 목 · 14 금 · 15 토</div>
+          <div class="mmx-days">10 월 · 11 화 · 12 수 · 13 목 · 14 금 · 15 토</div>
         </div>
 
         <div class="mmx-row">
           <div class="mmx-title">제주바당 생물탐험</div>
           <div>해양생태 해설</div>
-          <div>깅이와 바당</div>
-          <div>8/11 성산 수마포 · 8/12 하예 조간대</div>
-          <div>20,000원</div>
+          <div>제주생태관광지원센터</div>
+          <div>8/11 성산 수마포 · 8/12 상예동 977</div>
+          <div>무료</div>
           <div>15명/일</div>
           <div class="mmx-days">
-            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell">월</span><span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
             <span class="mmx-cell">목</span><span class="mmx-cell">금</span><span class="mmx-cell">토</span>
           </div>
         </div>
 
         <div class="mmx-row">
           <div class="mmx-title">바다야 안녕</div>
-          <div>스쿠버다이빙 체험</div>
+          <div>체험 스쿠버</div>
           <div>해양시민과학조사단</div>
           <div>보목포구</div>
           <div>100,000원</div>
           <div>오전 10명 · 오후 10명</div>
           <div class="mmx-days">
-            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell on">월</span><span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
             <span class="mmx-cell on">목</span><span class="mmx-cell on">금</span><span class="mmx-cell on">토</span>
           </div>
         </div>
 
         <div class="mmx-row">
           <div class="mmx-title">바당에 퐁당</div>
-          <div>스쿠버다이빙 체험</div>
+          <div>체험 다이빙</div>
           <div>제주시 수중핀수영협회</div>
           <div>사수항 or 이호항 (현장 결정)</div>
           <div>100,000원</div>
           <div>오전 10명 · 오후 10명</div>
           <div class="mmx-days">
-            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
-            <span class="mmx-cell">목</span><span class="mmx-cell">금</span><span class="mmx-cell">토</span>
+            <span class="mmx-cell on">월</span><span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell on">목</span><span class="mmx-cell">금</span><span class="mmx-cell">토</span>
           </div>
         </div>
 
@@ -2859,7 +2941,7 @@ section { padding: 112px 32px; }
           <div>40,000원</div>
           <div>15명/일</div>
           <div class="mmx-days">
-            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell on">월</span><span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
             <span class="mmx-cell on">목</span><span class="mmx-cell">금</span><span class="mmx-cell">토</span>
           </div>
         </div>
@@ -2872,7 +2954,7 @@ section { padding: 112px 32px; }
           <div>20,000원</div>
           <div>10명/일</div>
           <div class="mmx-days">
-            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell">월</span><span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
             <span class="mmx-cell on">목</span><span class="mmx-cell on">금</span><span class="mmx-cell">토</span>
           </div>
         </div>
@@ -2885,15 +2967,15 @@ section { padding: 112px 32px; }
           <div>10,000원 / 1시간</div>
           <div>50명/회</div>
           <div class="mmx-days">
-            <span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
-            <span class="mmx-cell on">목</span><span class="mmx-cell on">금</span><span class="mmx-cell">토</span>
+            <span class="mmx-cell on">월</span><span class="mmx-cell on">화</span><span class="mmx-cell on">수</span>
+            <span class="mmx-cell on">목</span><span class="mmx-cell on">금</span><span class="mmx-cell on">토</span>
           </div>
         </div>
       </div>
 
       <p class="modal-foot">
-        ※ 8월 10일(월)은 바다야 안녕 · 바당에 퐁당 · 하도리 해녀체험 · 하도 투명한 바다 4종이 운영됩니다.<br>
-        ※ 각 프로그램 시간은 확정 즉시 공지됩니다. 참가비는 운영 사정에 따라 조정될 수 있습니다.
+        ※ 영화 관람은 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFeiZcQrGBDgf9Xh27HJ-3J2F7OtwO7jTqqMP5srZNSNHrcQ/viewform" target="_blank" rel="noopener noreferrer">구글폼</a>, 생태 프로그램은 <a href="https://tamnao.com/" target="_blank" rel="noopener noreferrer">탐나오</a>에서 예약하실 수 있습니다.<br>
+        ※ 각 생태 프로그램 시간은 확정 즉시 공지됩니다. 참가비는 운영 사정에 따라 조정될 수 있습니다.
       </p>
     </div>
   </div>
@@ -3420,13 +3502,13 @@ document.addEventListener('keydown', (e) => {
       name: '성산 수마포 해안', category: 'eco',
       lat: 33.460792, lng: 126.934821,
       address: '서귀포시 성산읍 성산리',
-      desc: '제주바당 생물탐험 · 8/11 · 깅이와 바당 임형묵 감독'
+      desc: '제주바당 생물탐험 · 8/11 · 제주생태관광지원센터'
     },
     {
       name: '하예 조간대', category: 'eco',
       lat: 33.241109, lng: 126.396257,
       address: '서귀포시 상예동 977',
-      desc: '제주바당 생물탐험 · 8/12 · 깅이와 바당 임형묵 감독'
+      desc: '제주바당 생물탐험 · 8/12 · 제주생태관광지원센터'
     },
     {
       name: '보목포구', category: 'eco',
