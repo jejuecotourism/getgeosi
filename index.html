@@ -1380,11 +1380,73 @@ section { padding: 112px 32px; }
   background: var(--bg-card);
   z-index: 3;
 }
+.gallery-tagline {
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--teal-deep);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.gallery-detail {
+  padding: 28px 44px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line-soft);
+}
+.gallery-detail-list {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 12px 24px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.gallery-detail-list dt {
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 0.02em;
+  padding-top: 2px;
+}
+.gallery-detail-list dd {
+  margin: 0;
+  color: var(--ink);
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+.gallery-detail-list > dt:last-of-type + dd,
+.gallery-detail-list dd:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.gallery-detail-list dd.highlight {
+  color: var(--teal-deep);
+  font-weight: 700;
+}
+.gallery-detail-list dd .subnote {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 3px;
+  font-weight: 400;
+}
+.gallery-subhead {
+  padding: 20px 44px 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+@media (max-width: 820px) {
+  .gallery-detail { padding: 22px 24px; }
+  .gallery-detail-list { grid-template-columns: 74px 1fr; gap: 10px 16px; font-size: 13px; }
+  .gallery-subhead { padding: 16px 24px 0; }
+}
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
-  padding: 24px 44px 44px;
+  padding: 16px 44px 44px;
 }
 @media (max-width: 820px) {
   .gallery-head { padding: 28px 24px 20px; }
@@ -2113,7 +2175,7 @@ section { padding: 112px 32px; }
   </div>
   <!-- 파도소리 BGM (지시 #6 a안 · mp3는 별도 조달 예정) -->
   <audio id="heroWaveAudio" loop preload="none" aria-hidden="true">
-    <!-- <source src="./assets/wave_bgm.mp3" type="audio/mpeg"> -->
+    <source src="./assets/wave_bgm.mp3" type="audio/mpeg">
   </audio>
   <div class="hero-img-overlay"></div>
 
@@ -2413,7 +2475,15 @@ section { padding: 112px 32px; }
       <div class="gallery-head">
         <div class="modal-eyebrow" id="galleryModalEyebrow">Photo Gallery</div>
         <h3 class="modal-title" id="galleryModalTitle">프로그램 현장 사진</h3>
+        <p class="gallery-tagline" id="galleryModalTagline"></p>
       </div>
+
+      <!-- 프로그램 상세 정보 (3차 지시서 원문 기반) -->
+      <div class="gallery-detail" id="galleryModalDetail">
+        <dl class="gallery-detail-list" id="galleryModalDetailList"></dl>
+      </div>
+
+      <div class="gallery-subhead">현장 사진</div>
       <div class="gallery-grid" id="galleryGrid" role="list">
         <!-- 갤러리 이미지 JS로 삽입 -->
       </div>
@@ -3352,6 +3422,61 @@ const galleryModal = document.getElementById('galleryModal');
 const galleryGrid = document.getElementById('galleryGrid');
 const galleryModalTitle = document.getElementById('galleryModalTitle');
 const galleryModalEyebrow = document.getElementById('galleryModalEyebrow');
+const galleryModalTagline = document.getElementById('galleryModalTagline');
+const galleryModalDetailList = document.getElementById('galleryModalDetailList');
+
+// 프로그램 상세 정보 (3차 지시서 원문 반영)
+const programDetails = {
+  "01_saengmul": {
+    tagline: "제주 조간대의 해양생물을 관찰하고 해설합니다.",
+    운영: "제주생태관광지원센터",
+    장소: "8/11 성산 수마포 · 8/12 상예동 977 (하예 조간대)",
+    일정: "8/11 화 13:00~14:30 · 8/12 수 14:00~15:30",
+    체험비: { text: "무료", highlight: true },
+    준비물: "물에 젖어도 되는 신발·옷, 간단한 채집 도구(뜰채), 모자<span class='subnote'>※ 손·발에는 선크림을 바르지 않습니다.</span>"
+  },
+  "02_badaya": {
+    tagline: "체험 스쿠버를 하며 물고기의 이름과 생활을 알아가는 프로그램입니다.",
+    운영: "해양시민과학조사단",
+    장소: "보목포구",
+    일정: "8/10 — 8/15 · 오전 10:00~12:00, 오후 14:00~16:00<span class='subnote'>※ 바다 상황에 따라 변동될 수 있습니다.</span>",
+    체험비: "100,000원",
+    준비물: "수영복, 래쉬가드 또는 워터레깅스, 타올"
+  },
+  "03_pungdang": {
+    tagline: "체험 다이빙을 통해 제주 바다의 소중함을 피부로, 가슴으로 느낍니다.",
+    운영: "제주시 수중핀수영협회",
+    장소: "사수항 또는 이호항<span class='subnote'>※ 현장 상황에 따라 결정 후 공지됩니다.</span>",
+    일정: "8/10 — 8/13 · 오전 10:00~12:00, 오후 14:00~16:00<span class='subnote'>※ 바다 상황에 따라 변동될 수 있습니다.</span>",
+    체험비: "100,000원",
+    준비물: "수영복, 래쉬가드 또는 워터레깅스, 타올"
+  },
+  "04_haenyeo": {
+    tagline: "현역 해녀로부터 잠수 기술을 배우고, 물질 체험 후 해산물을 즐깁니다.",
+    운영: "하도리 어촌계",
+    장소: "하도 어촌 체험마을",
+    일정: "8/10 — 8/13 · 오전 10:30, 오후 14:00",
+    체험비: "40,000원",
+    준비물: "수영복, 래쉬가드 또는 워터레깅스, 타올"
+  },
+  "05_dolphin": {
+    tagline: "푸른 바다에 떠 있는 패들보드 위에 누워, 내 삶을 다시 리부트합니다.",
+    운영: "금능어촌계",
+    장소: "금능어촌계 (제주시 한림읍 금능리)",
+    일정: "8/11 — 8/14 · 1차 오전 10:00~12:00, 2차 오후 17:00~19:00",
+    체험비: "20,000원",
+    준비물: "간편한 복장, 목베개, 모자, 선글라스, 캠핑용 의자"
+  },
+  "06_kayak": {
+    tagline: "투명 카약 등 다양한 수상 레저를 쉽게 배우고 즐기며 아름다운 바다를 체험합니다.",
+    운영: "제주하도카약",
+    장소: "제주시 구좌읍 하도리 43-4 · 하도카약",
+    일정: "8/10 — 8/15 · 09:00 ~ 18:00<span class='subnote'>※ 바다 상황에 따라 변동될 수 있습니다.</span>",
+    체험비: "10,000원 / 1시간",
+    준비물: "평상복 차림<span class='subnote'>※ 물놀이 시 수영복 · 온수 샤워장 무료 이용 가능</span>"
+  }
+};
+
 let currentGalleryImages = [];
 let currentGalleryTitle = "";
 
@@ -3360,14 +3485,33 @@ function openGalleryModal(gid, title) {
   if (!data || !galleryModal) return;
   currentGalleryImages = data.images;
   currentGalleryTitle = title;
-  galleryModalEyebrow.textContent = `${data.num} · ${data.kind} · 현장 사진 ${data.count}장`;
+  galleryModalEyebrow.textContent = `${data.num} · ${data.kind}`;
   galleryModalTitle.textContent = title;
+
+  // 프로그램 상세 정보 렌더링
+  const detail = programDetails[gid];
+  if (detail && galleryModalDetailList) {
+    if (galleryModalTagline) {
+      galleryModalTagline.textContent = detail.tagline || "";
+    }
+    const rows = [];
+    ['운영', '장소', '일정', '체험비', '준비물'].forEach(key => {
+      const val = detail[key];
+      if (val === undefined) return;
+      if (typeof val === 'object' && val !== null && 'text' in val) {
+        rows.push(`<dt>${key}</dt><dd class="${val.highlight ? 'highlight' : ''}">${val.text}</dd>`);
+      } else {
+        rows.push(`<dt>${key}</dt><dd>${val}</dd>`);
+      }
+    });
+    galleryModalDetailList.innerHTML = rows.join('');
+  }
+
   galleryGrid.innerHTML = data.images.map((src, i) => `
     <div class="gallery-item" role="listitem" data-index="${i}">
       <img src="${src}" alt="${title} 현장 사진 ${i+1}" loading="lazy">
     </div>
   `).join('');
-  // 각 이미지 클릭 시 라이트박스 오픈
   galleryGrid.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('click', () => {
       openLightbox(parseInt(item.dataset.index, 10));
@@ -3376,7 +3520,6 @@ function openGalleryModal(gid, title) {
   galleryModal.classList.add('is-open');
   galleryModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-  // 스크롤 상단으로
   galleryModal.querySelector('.modal-panel').scrollTop = 0;
 }
 function closeGalleryModal() {
