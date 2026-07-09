@@ -153,33 +153,34 @@ a { color: inherit; }
   pointer-events: none;
 }
 
-/* 사운드 토글 버튼 (HERO 우측 하단) */
+/* 사운드 토글 버튼 (fixed · HERO 영역에서만 표시) */
 .hero-sound-toggle {
-  position: absolute;
+  position: fixed;
   right: 24px;
   bottom: 24px;
-  z-index: 4;
+  z-index: 999;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(20, 40, 60, 0.72);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.28);
+  border: 1px solid rgba(229, 212, 177, 0.35);
   border-radius: 999px;
   cursor: pointer;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   font-family: inherit;
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: -0.005em;
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  transition: background 0.25s ease, transform 0.25s ease, opacity 0.35s ease, box-shadow 0.25s ease;
 }
 .hero-sound-toggle:hover {
-  background: rgba(255,255,255,0.22);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+  background: rgba(20, 40, 60, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
 }
 .hero-sound-toggle:focus-visible {
   outline: 2px solid var(--sand-light);
@@ -188,7 +189,16 @@ a { color: inherit; }
 .hero-sound-toggle .ico-unmuted { display: none; }
 .hero-sound-toggle.is-on .ico-muted { display: none; }
 .hero-sound-toggle.is-on .ico-unmuted { display: inline-block; }
-.hero-sound-toggle.is-on { background: rgba(212,184,150,0.28); border-color: rgba(212,184,150,0.55); }
+.hero-sound-toggle.is-on {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+  border-color: rgba(229, 212, 177, 0.6);
+}
+/* HERO 벗어나면 부드럽게 숨김 */
+.hero-sound-toggle.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+}
 @media (max-width: 640px) {
   .hero-sound-toggle {
     right: 16px;
@@ -3481,13 +3491,14 @@ document.querySelectorAll('.fork-card').forEach(card => {
 const heroVideo = document.getElementById('heroVideo');
 const heroSoundToggle = document.getElementById('heroSoundToggle');
 if (heroSoundToggle && heroVideo) {
+  const soundLabel = heroSoundToggle.querySelector('.hero-sound-label');
+  
   heroSoundToggle.addEventListener('click', () => {
     const willUnmute = heroVideo.muted;
     heroVideo.muted = !willUnmute;
     heroSoundToggle.classList.toggle('is-on', willUnmute);
     heroSoundToggle.setAttribute('aria-label', willUnmute ? '영상 소리 끄기' : '영상 소리 켜기');
-    const label = heroSoundToggle.querySelector('.hero-sound-label');
-    if (label) label.textContent = willUnmute ? '소리 켜짐' : '소리 켜기';
+    if (soundLabel) soundLabel.textContent = willUnmute ? '소리 켜짐' : '소리 켜기';
     // unmute 시점에 볼륨 확실히 세팅 + 재생 재시도 (일부 브라우저 대응)
     if (willUnmute) {
       heroVideo.volume = 1.0;
@@ -3495,6 +3506,25 @@ if (heroSoundToggle && heroVideo) {
       if (p !== undefined) p.catch(() => {});
     }
   });
+
+  // HERO 영역이 뷰포트 밖으로 나가면 토글 버튼 숨김 (다른 섹션과 충돌 방지)
+  const heroEl = document.querySelector('.hero');
+  if (heroEl && 'IntersectionObserver' in window) {
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        // HERO가 20% 이상 뷰포트에 보일 때만 버튼 표시
+        heroSoundToggle.classList.toggle('is-hidden', entry.intersectionRatio < 0.2);
+        // 완전히 벗어나면 자동으로 음소거 (다른 섹션 이동 시 사운드 방해 방지)
+        if (entry.intersectionRatio === 0 && !heroVideo.muted) {
+          heroVideo.muted = true;
+          heroSoundToggle.classList.remove('is-on');
+          heroSoundToggle.setAttribute('aria-label', '영상 소리 켜기');
+          if (soundLabel) soundLabel.textContent = '소리 켜기';
+        }
+      });
+    }, { threshold: [0, 0.2, 0.5, 1] });
+    heroObserver.observe(heroEl);
+  }
 }
 
 // Schedule 상세 모달 오픈/클로즈
