@@ -2308,19 +2308,6 @@ section { padding: 112px 32px; }
     <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" aria-label="갯것이영화제 트레일러">
       <source src="./assets/hero_intro.mp4" type="video/mp4">
     </video>
-    <!-- 사운드 토글 버튼 (브라우저 autoplay 정책상 초기 muted 필수 · 클릭시 unmute) -->
-    <button class="hero-sound-toggle" id="heroSoundToggle" type="button" aria-label="영상 소리 켜기">
-      <svg class="ico-muted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-        <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-      </svg>
-      <svg class="ico-unmuted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-      </svg>
-      <span class="hero-sound-label">소리 켜기</span>
-    </button>
   </div>
   <div class="hero-img-overlay"></div>
 
@@ -2341,19 +2328,22 @@ section { padding: 112px 32px; }
         <span class="hero-meta-value">영화 6편 · 생태관광 6개를 8일간 운영</span>
       </div>
     </div>
-
-    <!-- 사운드 토글 (파도소리 언뮤트 버튼 · 지시 #6 (a)) -->
-    <button class="hero-sound" id="heroSoundBtn" type="button" aria-label="파도 소리 켜기" title="파도 소리 켜기">
-      <svg class="hero-sound-icon hero-sound-off" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-        <path d="M3 9v6h4l5 5V4L7 9H3zm13.59 3L14 14.59 15.41 16 18 13.41 20.59 16 22 14.59 19.41 12 22 9.41 20.59 8 18 10.59 15.41 8 14 9.41 16.59 12z"/>
-      </svg>
-      <svg class="hero-sound-icon hero-sound-on" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" style="display:none">
-        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-      </svg>
-      <span class="hero-sound-label">파도 소리</span>
-    </button>
   </div>
 </header>
+
+<!-- 사운드 토글 버튼 (body 직속 · fixed · HERO 스택 컨텍스트 이슈 회피) -->
+<button class="hero-sound-toggle" id="heroSoundToggle" type="button" aria-label="영상 소리 켜기">
+  <svg class="ico-muted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+    <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+  </svg>
+  <svg class="ico-unmuted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+  </svg>
+  <span class="hero-sound-label">소리 켜기</span>
+</button>
 
 <!-- ============================== FORK (시그니처) ============================== -->
 <section class="fork" aria-label="두 갈래 입구">
