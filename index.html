@@ -3477,39 +3477,103 @@ document.querySelectorAll('.fork-card').forEach(card => {
   });
 });
 
-// Hero 영상 사운드 토글 · 초기 muted 자동재생 → 사용자 클릭시 unmute
+// Hero 영상 사운드 토글 · 처음부터 켜기 시도 + 실패시 첫 인터랙션에서 자동 unmute
 const heroVideo = document.getElementById('heroVideo');
 const heroSoundToggle = document.getElementById('heroSoundToggle');
 if (heroSoundToggle && heroVideo) {
   const soundLabel = heroSoundToggle.querySelector('.hero-sound-label');
-  
+
+  function setOnState() {
+    heroSoundToggle.classList.add('is-on');
+    heroSoundToggle.setAttribute('aria-label', '영상 소리 끄기');
+    if (soundLabel) soundLabel.textContent = '소리 켜짐';
+  }
+  function setOffState() {
+    heroSoundToggle.classList.remove('is-on');
+    heroSoundToggle.setAttribute('aria-label', '영상 소리 켜기');
+    if (soundLabel) soundLabel.textContent = '소리 켜기';
+  }
+
+  // (1) 소리 있는 자동재생 즉시 시도 (일부 브라우저·MEI 높은 사이트에서 성공)
+  const tryUnmutedAutoplay = () => {
+    heroVideo.muted = false;
+    heroVideo.volume = 1.0;
+    setOnState();  // Optimistic: 성공 가정
+    const p = heroVideo.play();
+    if (p !== undefined) {
+      p.catch(() => {
+        // 실패: 브라우저 정책 · muted로 폴백 + 인터랙션 대기
+        heroVideo.muted = true;
+        heroVideo.play().catch(() => {});
+        setOffState();
+        armAutoUnmute();
+      });
+    }
+    // 200ms 후 실제 muted 상태 재확인 (브라우저가 강제 muted 처리한 경우 대비)
+    setTimeout(() => {
+      if (heroVideo.muted) {
+        setOffState();
+        armAutoUnmute();
+      }
+    }, 200);
+  };
+
+  // (2) 첫 사용자 상호작용 감지 → 즉시 unmute (스크롤·클릭·터치·키 등 어떤 것이든)
+  function armAutoUnmute() {
+    const events = ['scroll', 'click', 'touchstart', 'keydown', 'wheel', 'pointerdown'];
+    const autoUnmute = () => {
+      if (!heroVideo.muted) return cleanup();
+      heroVideo.muted = false;
+      heroVideo.volume = 1.0;
+      setOnState();  // Optimistic: 성공 가정
+      const p = heroVideo.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          // 실패시 롤백
+          heroVideo.muted = true;
+          setOffState();
+        });
+      }
+      cleanup();
+    };
+    const cleanup = () => {
+      events.forEach(evt => window.removeEventListener(evt, autoUnmute, true));
+    };
+    events.forEach(evt =>
+      window.addEventListener(evt, autoUnmute, { once: true, passive: true, capture: true })
+    );
+  }
+
+  // 페이지 로드 완료 후 자동재생 시도
+  if (document.readyState === 'complete' || heroVideo.readyState >= 3) {
+    tryUnmutedAutoplay();
+  } else {
+    window.addEventListener('load', tryUnmutedAutoplay, { once: true });
+  }
+
+  // 수동 토글 (버튼 클릭)
   heroSoundToggle.addEventListener('click', () => {
     const willUnmute = heroVideo.muted;
     heroVideo.muted = !willUnmute;
-    heroSoundToggle.classList.toggle('is-on', willUnmute);
-    heroSoundToggle.setAttribute('aria-label', willUnmute ? '영상 소리 끄기' : '영상 소리 켜기');
-    if (soundLabel) soundLabel.textContent = willUnmute ? '소리 켜짐' : '소리 켜기';
-    // unmute 시점에 볼륨 확실히 세팅 + 재생 재시도 (일부 브라우저 대응)
     if (willUnmute) {
       heroVideo.volume = 1.0;
       const p = heroVideo.play();
       if (p !== undefined) p.catch(() => {});
+      setOnState();
+    } else {
+      setOffState();
     }
   });
 
-  // HERO 영역이 뷰포트 밖으로 나가면 토글 버튼 숨김 (다른 섹션과 충돌 방지)
+  // HERO 영역이 뷰포트 밖으로 나가면 토글 버튼 숨김 + 자동 음소거
   const heroEl = document.querySelector('.hero');
   if (heroEl && 'IntersectionObserver' in window) {
     const heroObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        // HERO가 20% 이상 뷰포트에 보일 때만 버튼 표시
         heroSoundToggle.classList.toggle('is-hidden', entry.intersectionRatio < 0.2);
-        // 완전히 벗어나면 자동으로 음소거 (다른 섹션 이동 시 사운드 방해 방지)
         if (entry.intersectionRatio === 0 && !heroVideo.muted) {
           heroVideo.muted = true;
-          heroSoundToggle.classList.remove('is-on');
-          heroSoundToggle.setAttribute('aria-label', '영상 소리 켜기');
-          if (soundLabel) soundLabel.textContent = '소리 켜기';
+          setOffState();
         }
       });
     }, { threshold: [0, 0.2, 0.5, 1] });
