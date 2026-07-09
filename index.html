@@ -152,6 +152,51 @@ a { color: inherit; }
     rgba(14,28,36,0.88) 100%);
   pointer-events: none;
 }
+
+/* 사운드 토글 버튼 (HERO 우측 하단) */
+.hero-sound-toggle {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+.hero-sound-toggle:hover {
+  background: rgba(255,255,255,0.22);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+}
+.hero-sound-toggle:focus-visible {
+  outline: 2px solid var(--sand-light);
+  outline-offset: 3px;
+}
+.hero-sound-toggle .ico-unmuted { display: none; }
+.hero-sound-toggle.is-on .ico-muted { display: none; }
+.hero-sound-toggle.is-on .ico-unmuted { display: inline-block; }
+.hero-sound-toggle.is-on { background: rgba(212,184,150,0.28); border-color: rgba(212,184,150,0.55); }
+@media (max-width: 640px) {
+  .hero-sound-toggle {
+    right: 16px;
+    bottom: 16px;
+    padding: 9px 12px;
+  }
+  .hero-sound-toggle .hero-sound-label { display: none; }
+}
 .hero-content {
   position: relative;
   z-index: 3;
@@ -2249,15 +2294,24 @@ section { padding: 112px 32px; }
 <!-- ============================== HERO ============================== -->
 <header class="hero">
   <div class="hero-placeholder">
-    <!-- 트레일러 영상 (autoplay + muted + loop + playsinline · 오디오 스트립됨) -->
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <!-- 트레일러 영상 (autoplay + 초기 muted + loop · 사운드 토글 지원) -->
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" aria-label="갯것이영화제 트레일러">
       <source src="./assets/hero_intro.mp4" type="video/mp4">
     </video>
+    <!-- 사운드 토글 버튼 (브라우저 autoplay 정책상 초기 muted 필수 · 클릭시 unmute) -->
+    <button class="hero-sound-toggle" id="heroSoundToggle" type="button" aria-label="영상 소리 켜기">
+      <svg class="ico-muted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+      </svg>
+      <svg class="ico-unmuted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      </svg>
+      <span class="hero-sound-label">소리 켜기</span>
+    </button>
   </div>
-  <!-- 파도소리 BGM (지시 #6 a안 · mp3는 별도 조달 예정) -->
-  <audio id="heroWaveAudio" loop preload="none" aria-hidden="true">
-    <source src="./assets/wave_bgm.mp3" type="audio/mpeg">
-  </audio>
   <div class="hero-img-overlay"></div>
 
   <div class="hero-content">
@@ -2417,7 +2471,7 @@ section { padding: 112px 32px; }
           <div class="eco-card-kind">운영 <strong>제주생태관광지원센터</strong></div>
           <dl class="eco-card-meta">
             <dt>일정</dt><dd>8/11 화 13:00~14:30 · 8/12 수 14:00~15:30</dd>
-            <dt>장소</dt><dd>8/11 성산 수마포 · 8/12 상예동 977 (하예 조간대)</dd>
+            <dt>장소</dt><dd>8/11 성산 수마포 · 8/12 상예동 977 (예례 조간대)</dd>
             <dt>체험비</dt><dd class="highlight">무료</dd>
             <dt>준비물</dt><dd>물에 젖어도 되는 신발·옷, 채집도구(뜰채), 모자</dd>
           </dl>
@@ -2426,7 +2480,7 @@ section { padding: 112px 32px; }
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNgFpuUfUPhmYkL6xXs84hha9i88Oq9QT9WbFOGutjv8_U1A/viewform" target="_blank" rel="noopener" class="eco-card-book gform" data-book-stop>
-            <span>영화제 신청 (구글폼)</span>
+            <span>체험 신청 (구글폼)</span>
             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
           </a>
         </div>
@@ -2513,7 +2567,7 @@ section { padding: 112px 32px; }
           <div class="eco-card-kind">운영 <strong>금능어촌계</strong></div>
           <dl class="eco-card-meta">
             <dt>일정</dt><dd>8/11 — 8/14 · 1차 오전 10:00~12:00, 2차 오후 17:00~19:00</dd>
-            <dt>장소</dt><dd>금능어촌계 (한림읍 금능리)</dd>
+            <dt>장소</dt><dd>금능어촌계 (제주시 한림읍 금능리)</dd>
             <dt>체험비</dt><dd>20,000원</dd>
             <dt>준비물</dt><dd>간편한 복장, 목베개, 모자, 선글라스, 캠핑용 의자</dd>
           </dl>
@@ -2684,7 +2738,7 @@ section { padding: 112px 32px; }
             <div class="film-screening-place">수산2리 복지회관 (성산읍 수산리)</div>
             <div class="film-screening-line" style="margin-top:6px;">
               <span class="film-screening-date">8/12 수</span>
-              <span>13:00 상영 · 14:00 영화·생태 해설</span>
+              <span>16:00 상영 · 17:00 영화·생태 해설</span>
             </div>
             <div class="film-screening-place">예례생태체험관 (서귀포시 하예동)</div>
           </div>
@@ -2790,7 +2844,7 @@ section { padding: 112px 32px; }
             <span class="cal-slot-time">15:30</span>
             <div class="cal-slot-body">
               <span class="cal-slot-title">수라 <small>· 108분</small></span>
-              <span class="cal-slot-desc">17:25 GV — 황윤 감독</span>
+              <span class="cal-slot-desc">17:25 GV — 황윤 감독 · 모더레이터 전성실</span>
               <span class="cal-slot-place">연동 롯데시네마 · 18:00 종료</span>
             </div>
           </div>
@@ -2809,7 +2863,7 @@ section { padding: 112px 32px; }
             <span class="cal-slot-time">14:00</span>
             <div class="cal-slot-body">
               <span class="cal-slot-title">꽁치풀 <small>· 45분</small></span>
-              <span class="cal-slot-desc">14:50 GV — 이준호 감독</span>
+              <span class="cal-slot-desc">14:50 GV — 이준호 감독 · 모더레이터 전성실</span>
               <span class="cal-slot-place">연동 롯데시네마</span>
             </div>
           </div>
@@ -2817,7 +2871,7 @@ section { padding: 112px 32px; }
             <span class="cal-slot-time">15:50</span>
             <div class="cal-slot-body">
               <span class="cal-slot-title">물꽃의 전설 <small>· 92분</small></span>
-              <span class="cal-slot-desc">17:30 GV — 고희영 감독</span>
+              <span class="cal-slot-desc">17:30 GV — 고희영 감독 · 모더레이터 전성실</span>
               <span class="cal-slot-place">연동 롯데시네마 · 18:00 종료</span>
             </div>
           </div>
@@ -2874,16 +2928,16 @@ section { padding: 112px 32px; }
         </div>
         <div class="cal-films">
           <div class="cal-slot">
-            <span class="cal-slot-time">13:00</span>
+            <span class="cal-slot-time">16:00</span>
             <div class="cal-slot-body">
               <span class="cal-slot-title">조수웅덩이: 바다의 시작 <small>· 57분</small></span>
-              <span class="cal-slot-desc">14:00 영화·생태 해설 — 임형묵</span>
+              <span class="cal-slot-desc">17:00 영화·생태 해설 — 임형묵</span>
               <span class="cal-slot-place">예례생태체험관 (서귀포시 하예동)</span>
             </div>
           </div>
         </div>
         <div class="cal-ecos">
-          <span class="cal-eco-chip">제주바당 생물탐험 · 하예 조간대 <em>(14:00~15:30)</em></span>
+          <span class="cal-eco-chip">제주바당 생물탐험 · 예례 조간대 <em>(14:00~15:30)</em></span>
           <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
           <span class="cal-eco-chip">바당에 퐁당 · 사수항 or 이호항</span>
           <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을</span>
@@ -2901,7 +2955,8 @@ section { padding: 112px 32px; }
         <div class="cal-films"><span class="cal-noop">영화 상영 없음</span></div>
         <div class="cal-ecos">
           <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
-          <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을</span>
+          <span class="cal-eco-chip">바당에 퐁당 · 사수항 or 이호항 <em>(마지막일)</em></span>
+          <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을 <em>(마지막일)</em></span>
           <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
           <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
         </div>
@@ -2964,6 +3019,7 @@ section { padding: 112px 32px; }
         </div>
         <div class="cal-ecos">
           <span class="cal-eco-chip">바다야 안녕 · 보목포구 <em>(마지막일)</em></span>
+          <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약 <em>(마지막일)</em></span>
         </div>
       </div>
 
@@ -3027,7 +3083,7 @@ section { padding: 112px 32px; }
           <div>57분 · 한국</div>
           <div>임형묵</div>
           <div>수산2리 복지회관 · 예례생태체험관</div>
-          <div>8/11 화 15:30~ · 8/12 수 13:00~</div>
+          <div>8/11 화 15:30~ · 8/12 수 16:00~</div>
         </div>
         <div class="mmx-row">
           <div class="mmx-title">101</div>
@@ -3114,7 +3170,7 @@ section { padding: 112px 32px; }
           <div class="mmx-title">돌고래와 바다여행</div>
           <div>패들보드 체험</div>
           <div>금능어촌계</div>
-          <div>금능리 (한림읍)</div>
+          <div>금능어촌계 (제주시 한림읍 금능리)</div>
           <div>20,000원</div>
           <div>10명/일</div>
           <div class="mmx-days">
@@ -3214,11 +3270,11 @@ section { padding: 112px 32px; }
                 <em>8/11 · 성산 수마포</em>
               </span>
             </button></li>
-            <li><button class="map-item" type="button" data-venue="하예 조간대">
+            <li><button class="map-item" type="button" data-venue="예례 조간대">
               <span class="map-item-num">01</span>
               <span class="map-item-body">
                 <strong>제주바당 생물탐험</strong>
-                <em>8/12 · 하예 조간대</em>
+                <em>8/12 · 예례 조간대</em>
               </span>
             </button></li>
             <li><button class="map-item" type="button" data-venue="보목포구">
@@ -3312,7 +3368,7 @@ section { padding: 112px 32px; }
             <li><button class="map-item" type="button" data-venue="연동 롯데시네마">
               <span class="map-item-num closing">폐막</span>
               <span class="map-item-body">
-                <strong>이상한 놈들의 세상</strong>
+                <strong>코랄트라이앵글 이상한 놈들의 세상</strong>
                 <em>8/15 토 · 연동 롯데시네마</em>
               </span>
             </button></li>
@@ -3421,24 +3477,22 @@ document.querySelectorAll('.fork-card').forEach(card => {
   });
 });
 
-// Hero 파도소리 토글 (지시 #6 a안: 무음 자동재생 비디오 + 별도 오디오 언뮤트 버튼)
-const heroWaveAudio = document.getElementById('heroWaveAudio');
-const heroSoundBtn = document.getElementById('heroSoundBtn');
-if (heroSoundBtn) {
-  heroSoundBtn.addEventListener('click', () => {
-    const isOn = heroSoundBtn.classList.contains('is-on');
-    const willTurnOn = !isOn;
-    heroSoundBtn.classList.toggle('is-on', willTurnOn);
-    heroSoundBtn.setAttribute('aria-label', willTurnOn ? '파도 소리 끄기' : '파도 소리 켜기');
-    heroSoundBtn.title = willTurnOn ? '파도 소리 끄기' : '파도 소리 켜기';
-    heroSoundBtn.querySelector('.hero-sound-label').textContent = willTurnOn ? '소리 켜짐' : '파도 소리';
-    if (heroWaveAudio && heroWaveAudio.querySelector('source')) {
-      if (willTurnOn) {
-        const p = heroWaveAudio.play();
-        if (p !== undefined) p.catch(() => {});
-      } else {
-        heroWaveAudio.pause();
-      }
+// Hero 영상 사운드 토글 · 초기 muted 자동재생 → 사용자 클릭시 unmute
+const heroVideo = document.getElementById('heroVideo');
+const heroSoundToggle = document.getElementById('heroSoundToggle');
+if (heroSoundToggle && heroVideo) {
+  heroSoundToggle.addEventListener('click', () => {
+    const willUnmute = heroVideo.muted;
+    heroVideo.muted = !willUnmute;
+    heroSoundToggle.classList.toggle('is-on', willUnmute);
+    heroSoundToggle.setAttribute('aria-label', willUnmute ? '영상 소리 끄기' : '영상 소리 켜기');
+    const label = heroSoundToggle.querySelector('.hero-sound-label');
+    if (label) label.textContent = willUnmute ? '소리 켜짐' : '소리 켜기';
+    // unmute 시점에 볼륨 확실히 세팅 + 재생 재시도 (일부 브라우저 대응)
+    if (willUnmute) {
+      heroVideo.volume = 1.0;
+      const p = heroVideo.play();
+      if (p !== undefined) p.catch(() => {});
     }
   });
 }
@@ -3524,7 +3578,7 @@ const programDetails = {
   "01_saengmul": {
     tagline: "제주 조간대의 해양생물을 관찰하고 해설합니다.",
     운영: "제주생태관광지원센터",
-    장소: "8/11 성산 수마포 · 8/12 상예동 977 (하예 조간대)",
+    장소: "8/11 성산 수마포 · 8/12 상예동 977 (예례 조간대)",
     일정: "8/11 화 13:00~14:30 · 8/12 수 14:00~15:30",
     체험비: { text: "무료", highlight: true },
     준비물: "물에 젖어도 되는 신발·옷, 간단한 채집 도구(뜰채), 모자<span class='subnote'>※ 손·발에는 선크림을 바르지 않습니다.</span>"
@@ -3748,7 +3802,7 @@ document.addEventListener('keydown', (e) => {
       desc: '제주바당 생물탐험 · 8/11 · 제주생태관광지원센터'
     },
     {
-      name: '하예 조간대', category: 'eco',
+      name: '예례 조간대', category: 'eco',
       lat: 33.241109, lng: 126.396257,
       address: '서귀포시 상예동 977',
       desc: '제주바당 생물탐험 · 8/12 · 제주생태관광지원센터'
