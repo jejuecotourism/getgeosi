@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="제3회 갯것이 영화제 × 생태관광 주간 — 2026.08.08~15 제주. 영화 6편 · 생태 프로그램 6개 · 8일.">
-<title>제3회 갯것이 영화제 × 생태관광 주간 · 2026</title>
+<meta name="description" content="제3회 갯것이 영화제 × 생태관광주간 — 2026.08.08~15 제주. 영화 6편 · 생태 프로그램 6개 · 8일.">
+<title>제3회 갯것이 영화제 × 생태관광주간 · 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
@@ -474,6 +474,37 @@ section { padding: 112px 32px; }
 .intro-single {
   max-width: 880px;
   margin: 0 auto;
+}
+
+/* INTRO 큰 슬로건 확대 (지시 · 2026.07.09) */
+.intro .section-title {
+  font-size: clamp(40px, 5.8vw, 64px);
+  margin-bottom: 8px;
+}
+.intro .section-title .em {
+  font-weight: 800;
+  color: var(--teal);
+}
+
+/* 여름 시즌 서브 슬로건 (지시 · 2026.07.09) */
+.intro-summer-line {
+  margin: 12px 0 44px;
+  font-size: clamp(24px, 3.4vw, 36px);
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: -0.018em;
+  line-height: 1.35;
+  opacity: 0.92;
+}
+.intro-summer-label {
+  color: var(--shell);
+  font-weight: 800;
+  margin-right: 4px;
+}
+@media (max-width: 640px) {
+  .intro-summer-line {
+    margin: 8px 0 32px;
+  }
 }
 
 /* 상단 강조 카피 (지시 #16) */
@@ -2288,8 +2319,8 @@ section { padding: 112px 32px; }
 <nav class="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <img class="nav-logo-mark" src="./assets/logo_mark_lineart.png" alt="갯것이 영화제 × 생태관광 주간 로고">
-      <span class="nav-logo-name">제3회 갯것이 영화제<span class="amp-full"> × </span><span style="display:none" class="amp-short">×</span>생태관광 주간</span>
+      <img class="nav-logo-mark" src="./assets/logo_mark_lineart.png" alt="갯것이 영화제 × 생태관광주간 로고">
+      <span class="nav-logo-name">제3회 갯것이 영화제<span class="amp-full"> × </span><span style="display:none" class="amp-short">×</span>생태관광주간</span>
     </a>
     <div class="nav-links">
       <a href="#intro">소개</a>
@@ -2354,10 +2385,10 @@ section { padding: 112px 32px; }
         <div class="fork-card-num">01 — Eco Tourism Week</div>
         <h2 class="fork-card-title">바다를 느끼다</h2>
         <p class="fork-card-desc">
-          체험 스쿠버다이빙, 물질체험, 투명카약, 패들보드, 바닷가생태해설까지 6개의 프로그램.
+          체험 스쿠버다이빙, 물질체험, 투명카약, 패들보드, 바닷가 생태해설까지 6개의 프로그램.
         </p>
       </div>
-      <span class="fork-card-cta">생태관광 주간</span>
+      <span class="fork-card-cta">생태관광주간</span>
       <div class="fork-card-meta">
         <strong>06</strong>
         Programs
@@ -2389,9 +2420,11 @@ section { padding: 112px 32px; }
 
       <div class="section-eyebrow reveal">About</div>
       <h2 class="section-title reveal" style="transition-delay: 0.05s;">
-        파도 속으로,<br>
-        <span class="em">나만의 계절이 되다</span>
+        <span class="em">제주, 나만의 계절이 되다.</span>
       </h2>
+      <p class="intro-summer-line reveal" style="transition-delay: 0.08s;">
+        <span class="intro-summer-label">여름 :</span> 파도속으로, 한편의 영화처럼
+      </p>
 
       <div class="intro-hero-copy reveal" style="transition-delay: 0.1s;">
         <p class="intro-hero-line-1">생태관광주간과 갯것이영화제를 동시에.</p>
@@ -2433,7 +2466,7 @@ section { padding: 112px 32px; }
           </li>
           <li class="now">
             <span class="hist-year">2026 · 제3회 <span class="hist-now-badge">NOW</span></span>
-            <span class="hist-text">갯것이영화제 × 생태관광 주간. 영화 6편 · 생태관광 6개를 8일간 운영.</span>
+            <span class="hist-text">갯것이영화제 × 생태관광주간. 영화 6편 · 생태관광 6개를 8일간 운영.</span>
           </li>
         </ul>
       </div>
@@ -2564,10 +2597,10 @@ section { padding: 112px 32px; }
         <div class="eco-card-inner">
           <div class="eco-card-num">05 · 패들보드 체험</div>
           <h3 class="eco-card-title">돌고래와 바다여행</h3>
-          <div class="eco-card-kind">운영 <strong>금능어촌계</strong></div>
+          <div class="eco-card-kind">운영 <strong>다시바다</strong></div>
           <dl class="eco-card-meta">
             <dt>일정</dt><dd>8/11 — 8/14 · 1차 오전 10:00~12:00, 2차 오후 17:00~19:00</dd>
-            <dt>장소</dt><dd>금능어촌계 (제주시 한림읍 금능리)</dd>
+            <dt>장소</dt><dd>금능포구 (제주시 한림읍 금능리)</dd>
             <dt>체험비</dt><dd>20,000원</dd>
             <dt>준비물</dt><dd>간편한 복장, 목베개, 모자, 선글라스, 캠핑용 의자</dd>
           </dl>
@@ -2688,7 +2721,7 @@ section { padding: 112px 32px; }
         <div class="film-body">
           <div class="film-meta">2026 · MBC · 45분</div>
           <h3 class="film-title">꽁치풀의 속삭임</h3>
-          <p class="film-tagline">그 많던 꽁치풀은 다 어디로 갔나</p>
+          <p class="film-tagline">전설 속 해조류를 찾는 200km의 추적기</p>
           <div class="film-director">연출 <strong>이준호</strong> · MBC 강원영동</div>
           <div class="film-screening">
             <div class="film-screening-line">
@@ -2915,7 +2948,7 @@ section { padding: 112px 32px; }
           <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
           <span class="cal-eco-chip">바당에 퐁당 · 사수항 or 이호항</span>
           <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을</span>
-          <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
+          <span class="cal-eco-chip">돌고래와 바다여행 · 금능포구</span>
           <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
         </div>
       </div>
@@ -2941,7 +2974,7 @@ section { padding: 112px 32px; }
           <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
           <span class="cal-eco-chip">바당에 퐁당 · 사수항 or 이호항</span>
           <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을</span>
-          <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
+          <span class="cal-eco-chip">돌고래와 바다여행 · 금능포구</span>
           <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
         </div>
       </div>
@@ -2957,7 +2990,7 @@ section { padding: 112px 32px; }
           <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
           <span class="cal-eco-chip">바당에 퐁당 · 사수항 or 이호항 <em>(마지막일)</em></span>
           <span class="cal-eco-chip">하도리 해녀체험 · 하도 어촌 체험마을 <em>(마지막일)</em></span>
-          <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
+          <span class="cal-eco-chip">돌고래와 바다여행 · 금능포구</span>
           <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
         </div>
       </div>
@@ -2988,7 +3021,7 @@ section { padding: 112px 32px; }
         </div>
         <div class="cal-ecos">
           <span class="cal-eco-chip">바다야 안녕 · 보목포구</span>
-          <span class="cal-eco-chip">돌고래와 바다여행 · 금능어촌계</span>
+          <span class="cal-eco-chip">돌고래와 바다여행 · 금능포구</span>
           <span class="cal-eco-chip">하도 투명한 바다 · 제주하도카약</span>
         </div>
       </div>
@@ -3052,49 +3085,49 @@ section { padding: 112px 32px; }
       <div class="modal-matrix modal-matrix-films">
         <div class="mmx-row mmx-head">
           <div>영화</div>
-          <div>시간 · 국가</div>
+          <div>시간</div>
           <div>감독</div>
           <div>상영관</div>
           <div>상영일</div>
         </div>
         <div class="mmx-row">
           <div class="mmx-title">수라 <span class="mmx-badge opening">개막</span></div>
-          <div>108분 · 한국</div>
+          <div>108분</div>
           <div>황윤</div>
           <div>연동 롯데시네마</div>
           <div>8/8 토 15:30~ · 17:25 GV</div>
         </div>
         <div class="mmx-row">
           <div class="mmx-title">꽁치풀의 속삭임</div>
-          <div>45분 · MBC 강원영동</div>
+          <div>45분</div>
           <div>이준호</div>
           <div>연동 롯데시네마</div>
           <div>8/9 일 14:00~ · 14:50 GV</div>
         </div>
         <div class="mmx-row">
           <div class="mmx-title">물꽃의 전설</div>
-          <div>92분 · 한국</div>
+          <div>92분</div>
           <div>고희영</div>
           <div>연동 롯데시네마</div>
           <div>8/9 일 15:50~ · 17:30 GV</div>
         </div>
         <div class="mmx-row">
           <div class="mmx-title">조수웅덩이: 바다의 시작</div>
-          <div>57분 · 한국</div>
+          <div>57분</div>
           <div>임형묵</div>
           <div>수산2리 복지회관 · 예례생태체험관</div>
           <div>8/11 화 15:30~ · 8/12 수 16:00~</div>
         </div>
         <div class="mmx-row">
           <div class="mmx-title">101</div>
-          <div>35분 · 한국</div>
+          <div>35분</div>
           <div>김동욱</div>
           <div>카페 핀스 (대정)</div>
           <div>8/14 금 19:00~ · 프리다이빙 세미나</div>
         </div>
         <div class="mmx-row">
           <div class="mmx-title">코랄트라이앵글 이상한 놈들의 세상 <span class="mmx-badge closing">폐막</span></div>
-          <div>47분 · 8K · 한국</div>
+          <div>47분 · 8K</div>
           <div>촬영·출연 김동식</div>
           <div>연동 롯데시네마</div>
           <div>8/15 토 14:00~ · 14:50 GV</div>
@@ -3169,8 +3202,8 @@ section { padding: 112px 32px; }
         <div class="mmx-row">
           <div class="mmx-title">돌고래와 바다여행</div>
           <div>패들보드 체험</div>
-          <div>금능어촌계</div>
-          <div>금능어촌계 (제주시 한림읍 금능리)</div>
+          <div>다시바다</div>
+          <div>금능포구 (제주시 한림읍 금능리)</div>
           <div>20,000원</div>
           <div>10명/일</div>
           <div class="mmx-days">
@@ -3211,7 +3244,7 @@ section { padding: 112px 32px; }
       <span class="em">서쪽 끝까지</span>
     </h2>
     <p class="section-lead reveal" style="transition-delay: 0.1s;">
-      메인 상영관은 연동 롯데시네마. 조수웅덩이는 수산2리 복지회관·예례생태체험관, 101은 카페 핀스(대정)에서 상영합니다. 생태 프로그램은 보목·사수·이호·하도·금능·성산·하예 권역에서 운영됩니다. 우측 리스트에서 프로그램을 선택하면 지도에서 위치를 확인할 수 있습니다.
+      메인 상영관은 연동 롯데시네마. 조수웅덩이는 수산2리 복지회관·예례생태체험관, 101은 카페 핀스(대정)에서 상영합니다. 생태 프로그램은 보목·사수·이호·하도·금능·성산·하예 권역에서 운영됩니다.<br>우측 리스트에서 프로그램을 선택하면 지도에서 위치를 확인할 수 있습니다.
     </p>
 
     <div class="map-wrap reveal">
@@ -3305,11 +3338,11 @@ section { padding: 112px 32px; }
                 <em>해녀 체험 · 하도 어촌 체험마을</em>
               </span>
             </button></li>
-            <li><button class="map-item" type="button" data-venue="금능어촌계">
+            <li><button class="map-item" type="button" data-venue="금능포구">
               <span class="map-item-num">05</span>
               <span class="map-item-body">
                 <strong>돌고래와 바다여행</strong>
-                <em>패들보드 · 금능어촌계</em>
+                <em>패들보드 · 금능포구</em>
               </span>
             </button></li>
             <li><button class="map-item" type="button" data-venue="제주하도카약">
@@ -3693,8 +3726,8 @@ const programDetails = {
   },
   "05_dolphin": {
     tagline: "푸른 바다에 떠 있는 패들보드 위에 누워, 내 삶을 다시 리부트합니다.",
-    운영: "금능어촌계",
-    장소: "금능어촌계 (제주시 한림읍 금능리)",
+    운영: "다시바다",
+    장소: "금능포구 (제주시 한림읍 금능리)",
     일정: "8/11 — 8/14 · 1차 오전 10:00~12:00, 2차 오후 17:00~19:00",
     체험비: "20,000원",
     준비물: "간편한 복장, 목베개, 모자, 선글라스, 캠핑용 의자"
@@ -3916,10 +3949,10 @@ document.addEventListener('keydown', (e) => {
       desc: '하도리 해녀체험 · 물질 체험 (하도리 어촌계)'
     },
     {
-      name: '금능어촌계', category: 'eco',
+      name: '금능포구', category: 'eco',
       lat: 33.389911, lng: 126.227840,
       address: '제주시 한림읍 금능리',
-      desc: '돌고래와 바다여행 · 패들보드 (금능어촌계)'
+      desc: '돌고래와 바다여행 · 패들보드 (다시바다 운영)'
     },
     {
       name: '제주하도카약', category: 'eco',
