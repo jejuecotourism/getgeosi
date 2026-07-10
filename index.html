@@ -1375,7 +1375,7 @@ section { padding: 112px 32px; }
 .modal-panel {
   position: relative;
   width: 100%;
-  max-width: 1080px;
+  max-width: 1280px;
   max-height: 88vh;
   background: var(--bg-card);
   border-radius: 4px;
@@ -1454,20 +1454,25 @@ section { padding: 112px 32px; }
 .mmx-badge.closing { background: var(--teal-deep); color: #fff; }
 .mmx-row {
   display: grid;
-  grid-template-columns: 130px 1fr 1fr 1.4fr 90px 130px 220px;
+  grid-template-columns: 130px 130px 170px 230px 90px 100px 240px;
   border-bottom: 1px solid var(--line);
   min-height: 52px;
   align-items: center;
 }
 /* 영화 매트릭스는 5컬럼 */
 .modal-matrix-films .mmx-row {
-  grid-template-columns: 200px 1.1fr 1fr 1.4fr 1.5fr;
+  grid-template-columns: 220px 100px 140px 260px 240px;
 }
 .mmx-row:last-child { border-bottom: none; }
 .mmx-row > div {
   padding: 12px 14px;
   color: var(--ink);
   border-right: 1px solid var(--line-soft);
+  /* 한국어 어절 단위 줄바꿈 (문자 단위 강제 갈라짐 방지) */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  -webkit-hyphens: none;
+  hyphens: none;
 }
 .mmx-row > div:last-child { border-right: none; }
 .mmx-head {
