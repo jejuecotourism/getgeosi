@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://jejuecotourism.github.io/getgeosi/</loc>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://jejuecotourism.github.io/getgeosi/assets/og_image.jpg</image:loc>
+      <image:title>제3회 갯것이영화제 × 2026 생태관광주간</image:title>
+      <image:caption>2026.08.08~15 제주에서 열리는 해양·생태 다큐멘터리 영화제와 생태관광 체험 프로그램</image:caption>
+    </image:image>
+  </url>
+</urlset>

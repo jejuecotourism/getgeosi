@@ -1,0 +1,20 @@
+# 제3회 갯것이영화제 × 2026 생태관광주간
+# https://jejuecotourism.github.io/getgeosi/
+
+User-agent: *
+Allow: /
+
+# 주요 검색 엔진 명시 허용
+User-agent: Googlebot
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+User-agent: Daumoa
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://jejuecotourism.github.io/getgeosi/sitemap.xml
