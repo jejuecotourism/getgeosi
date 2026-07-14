@@ -984,11 +984,68 @@ section { padding: 112px 32px; }
 }
 .eco-card-book svg { flex-shrink: 0; }
 
+/* 마감 상태 버튼 (신청 종료 · 2026.07.14) */
+.eco-card-book.is-closed {
+  background: rgba(30, 30, 30, 0.55) !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  letter-spacing: 0.04em;
+}
+.eco-card-book.is-closed:hover {
+  transform: none !important;
+  background: rgba(30, 30, 30, 0.55) !important;
+  box-shadow: none !important;
+}
+
 /* 체험비 무료 강조 (제주바당 생물탐험) */
 .eco-card-meta dd.highlight {
   color: var(--sand-light);
   font-weight: 800;
   letter-spacing: 0.02em;
+}
+
+/* 마감 배지 (신청 마감된 프로그램 · 2026.07.14) */
+.eco-card-closed-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  background: rgba(20, 12, 8, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 2px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.eco-card-closed-badge::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #E85D5D;
+  box-shadow: 0 0 0 2px rgba(232, 93, 93, 0.25);
+}
+@media (max-width: 640px) {
+  .eco-card-closed-badge {
+    top: 14px;
+    right: 14px;
+    padding: 5px 10px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+  }
 }
 .eco-card-shade {
   position: absolute;
@@ -2709,6 +2766,7 @@ section { padding: 112px 32px; }
       <!-- 01. 제주바당 생물탐험 (센터 특별 프로그램에서 편입 · 2026.07.09) -->
       <div class="eco-card reveal" data-gallery="01_saengmul" data-gallery-title="제주바당 생물탐험" data-gallery-count="9" style="background-image:url('./assets/eco_01_saengmul.jpg');">
         <div class="eco-card-shade"></div>
+        <div class="eco-card-closed-badge" aria-label="신청 마감">마감</div>
         <div class="eco-card-inner">
           <div class="eco-card-num">01 · 해양생태 해설</div>
           <h3 class="eco-card-title">제주바당 생물탐험</h3>
@@ -2723,10 +2781,10 @@ section { padding: 112px 32px; }
             <span>현장 사진 9장</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNgFpuUfUPhmYkL6xXs84hha9i88Oq9QT9WbFOGutjv8_U1A/viewform" target="_blank" rel="noopener" class="eco-card-book gform" data-book-stop>
-            <span>체험 신청 (구글폼)</span>
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-          </a>
+          <span class="eco-card-book gform is-closed" aria-disabled="true">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <span>신청 마감</span>
+          </span>
         </div>
       </div>
 
