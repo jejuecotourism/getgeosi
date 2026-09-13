@@ -28,6 +28,8 @@ img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
 .badge.new{color:#fff;background:var(--maple)}
 .badge.center{color:#274E6B;background:#DEEAF2;border:1px solid #BAD3E4}
 .badge.cat{color:#fff;background:var(--forest)}
+.badge.demo{color:#5A3A86;background:#ECE3F7;border:1px solid #D3C2ED}
+.badge.closed{color:#fff;background:#8B7E70}
 .nav{position:sticky;top:0;z-index:50;background:rgba(247,242,232,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:60px;max-width:var(--maxw);margin:0 auto;padding:0 22px}
 .nav-logo{display:flex;align-items:center;gap:9px;font-family:"Noto Serif KR",serif;font-weight:700;color:var(--forest-deep)}
@@ -64,14 +66,14 @@ footer{background:linear-gradient(180deg,var(--gold),var(--persimmon));color:#3A
 <body>
 <nav class="nav"><div class="nav-in">
   <a class="nav-logo" href="index.html"><span class="mark">가</span>2026생태관광주간</a>
-  <a class="back" href="index.html#programs">← 프로그램 목록</a>
+  <a class="back" href="index.html#programs" onclick="if(document.referrer&&history.length>1){history.back();return false;}">← 프로그램 목록</a>
 </div></nav>
 
 <div id="app"></div>
 
 <footer><div class="wrap">
   <b>2026생태관광주간</b> · 주최 제주생태관광협회 · 제주생태관광지원센터<br>
-  문의 <span class="tbd">연락처 미정</span> · 신청 탐나오/구글폼 <span class="tbd">링크 미정</span>
+  대표전화 <a href="tel:0647823253" style="font-weight:700">064-782-3253</a> · 예약 탐나오 기획전 <span class="tbd">링크 미정</span>
 </div></footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -82,7 +84,8 @@ const p=PROGRAMS.find(x=>x.id===id);
 const app=document.getElementById('app');
 
 function badges(p){let s=`<span class="badge cat">${p.cat}</span>`;
-  s+=(p.fee||'').trim()==='무료'?'<span class="badge free">무료</span>':(p.fee==='미정'?'<span class="tbd">요금 미정</span>':'<span class="badge paid">유료</span>');
+  if(p.closed)s+='<span class="badge demo">시범 프로그램</span><span class="badge closed">모집 마감</span>';
+  else s+=(p.fee||'').trim()==='무료'?'<span class="badge free">무료</span>':(p.fee==='미정'?'<span class="tbd">요금 미정</span>':'<span class="badge paid">유료</span>');
   (p.tags||[]).forEach(t=>{if(t==='new')s+='<span class="badge new">신규</span>';if(t==='center')s+='<span class="badge center">센터 단독</span>';});
   if(p.tbd)s+='<span class="tbd">자료 미제출</span>';return s;}
 const v=x=>(!x||x==='미정')?'<span class="tbd">미정</span>':x;
@@ -100,7 +103,7 @@ if(!p){
   </header>
   <div class="wrap">
     <div class="head">
-      <div class="crumbs">프로그램 · ${p.cat} · No.${p.no}</div>
+      <div class="crumbs">프로그램 · ${p.cat}</div>
       <h1 class="title">${p.title}</h1>
       <div class="tagrow">${badges(p)}</div>
     </div>
@@ -125,13 +128,18 @@ if(!p){
             <dt>지역</dt><dd>${p.region||'<span class="tbd">미정</span>'}</dd>
             <dt>모임</dt><dd>${v(p.place)}</dd>
             <dt>일정</dt><dd>${v(p.date)}</dd>
-            <dt>요금</dt><dd>${(p.fee||'').trim()==='무료'?'무료':v(p.fee)}</dd>
+            <dt>요금</dt><dd>${p.closed?'무료 (시범 · 모집 마감)':((p.fee||'').trim()==='무료'?'무료':v(p.fee))}</dd>
             <dt>대상</dt><dd>${v(p.target)}</dd>
             <dt>준비물</dt><dd>${v(p.prep)}</dd>
           </dl>
           <div class="btns">
-            <a class="btn primary" href="#" onclick="return false">신청하기 <span class="tbd">링크 미정</span></a>
+            ${p.closed
+              ? `<span class="btn line" style="opacity:.6;cursor:default">시범 프로그램 · 모집 마감</span>`
+              : (TAMNAO_PLAN
+                  ? `<a class="btn primary" href="${TAMNAO_PLAN}" target="_blank" rel="noopener">예약하기 (탐나오)</a>`
+                  : `<a class="btn primary" href="#" onclick="return false">예약하기 <span class="tbd">탐나오 링크 미정</span></a>`)}
             ${p.tel ? `<a class="btn line" href="tel:${(p.tel.match(/0\d[\d-]{6,}\d/)||[''])[0].replace(/-/g,'')}">담당처 문의 · ${p.tel}</a>` : `<a class="btn line" href="#" onclick="return false">담당처 문의 <span class="tbd">연락처 미정</span></a>`}
+            <button class="btn line" type="button" id="shareBtn">↗ 공유하기</button>
           </div>
           ${p.ll?'<div id="mini"></div>':'<p class="detail" style="font-size:.85rem;margin-top:12px"><span class="tbd">위치 미정</span></p>'}
         </div>
@@ -141,6 +149,13 @@ if(!p){
   if(p.ll){const m=L.map('mini',{scrollWheelZoom:false,dragging:false}).setView(p.ll,11);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(m);
     L.marker(p.ll).addTo(m).bindPopup(`${p.title}<br><small style="color:#9A6B14">정확한 주소 미정</small>`);}
+  const sb=document.getElementById('shareBtn');
+  if(sb)sb.onclick=async()=>{
+    const data={title:`${p.title} · 2026생태관광주간`,text:p.desc||'',url:location.href};
+    if(navigator.share){try{await navigator.share(data);return;}catch(e){if(e.name==='AbortError')return;}}
+    try{await navigator.clipboard.writeText(location.href);alert('링크를 복사했습니다.\n'+location.href);}
+    catch(e){prompt('아래 링크를 복사하세요',location.href);}
+  };
 }
 </script>
 </body>
