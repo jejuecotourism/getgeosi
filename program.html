@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>프로그램 안내 · 2026생태관광주간</title>
 <meta name="description" content="2026생태관광주간 가을 생태관광 프로그램 안내">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="2026생태관광주간">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="프로그램 안내 · 2026생태관광주간">
+<meta property="og:description" content="2026생태관광주간 가을 생태관광 프로그램 안내">
+<meta property="og:image" content="https://jejuecotourism.com/assets/hero.jpg">
+<meta property="og:url" content="https://jejuecotourism.com/program.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jejuecotourism.com/program.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
@@ -98,6 +108,28 @@ if(!p){
     <p style="margin-top:10px">주소의 id 값을 확인해 주세요. <a class="back" href="index.html#programs">프로그램 목록으로</a></p></div>`;
 }else{
   document.title=`${p.title} · 2026생태관광주간`;
+  // 검색엔진·공유용 메타 갱신(프로그램별)
+  (function(){
+    const site='https://jejuecotourism.com', url=`${site}/program.html?id=${p.id}`;
+    const desc=(p.desc||'2026생태관광주간 가을 생태관광 프로그램 안내').replace(/<[^>]+>/g,'').slice(0,150);
+    const img=p.img?`${site}/${p.img}`:`${site}/assets/hero.jpg`;
+    const set=(sel,attr,val)=>{const el=document.querySelector(sel);if(el)el.setAttribute(attr,val);};
+    set('meta[name="description"]','content',desc);
+    set('meta[property="og:title"]','content',`${p.title} · 2026생태관광주간`);
+    set('meta[property="og:description"]','content',desc);
+    set('meta[property="og:image"]','content',img);
+    set('meta[property="og:url"]','content',url);
+    set('link[rel="canonical"]','href',url);
+    const ld={"@context":"https://schema.org","@type":"Event","name":p.title,"description":desc,"url":url,"image":[img],
+      "startDate":"2026-10-03","endDate":"2026-10-09","eventStatus":"https://schema.org/EventScheduled",
+      "eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","inLanguage":"ko",
+      "location":{"@type":"Place","name":(p.place&&p.place!=='미정')?p.place:(p.region||'제주특별자치도'),"address":{"@type":"PostalAddress","addressRegion":"제주특별자치도","addressCountry":"KR"}},
+      "organizer":{"@type":"Organization","name":p.op||"제주생태관광협회"},
+      "superEvent":{"@type":"Event","name":"2026 생태관광주간 · 제주","url":site+"/"}};
+    if(p.closed){ld.eventStatus="https://schema.org/EventScheduled";ld.offers={"@type":"Offer","availability":"https://schema.org/SoldOut","price":"0","priceCurrency":"KRW"};}
+    else if((p.fee||'').trim()==='무료'){ld.offers={"@type":"Offer","price":"0","priceCurrency":"KRW","availability":"https://schema.org/InStock"};}
+    const s=document.createElement('script');s.type='application/ld+json';s.textContent=JSON.stringify(ld);document.head.appendChild(s);
+  })();
   app.innerHTML=`
   <header class="hero">
     <img src="${p.img||('assets/il_'+p.id+'.png')}" alt="${p.title}"

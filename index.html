@@ -12,6 +12,52 @@
 <meta property="og:url" content="https://jejuecotourism.com/">
 <meta property="og:image" content="https://jejuecotourism.com/assets/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="ko_KR">
+<meta name="keywords" content="생태관광주간, 제주 생태관광, 2026 생태관광주간, 제주생태관광협회, 생태관광지원센터, 곶자왈, 습지, 오름, 동굴, 가로숲, 다크투어, 제주 가을 여행, 제주 체험 프로그램">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="author" content="제주생태관광협회 · 제주특별자치도 생태관광지원센터">
+<link rel="canonical" href="https://jejuecotourism.com/">
+<!-- 네이버 서치어드바이저 소유확인: 발급받은 태그로 아래 주석을 교체 -->
+<!-- <meta name="naver-site-verification" content="여기에_발급코드" /> -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Event",
+ "name": "2026 생태관광주간 · 제주",
+ "alternateName": "제주, 나만의 계절을 발견하다 — 오름 너머로, 제주 빛에 물들며",
+ "description": "2026년 10월 3일부터 9일까지 제주 곳곳의 생태관광마을과 기관이 진행하는 가을 생태관광 프로그램. 습지·곶자왈·오름·동굴·가로숲·다크투어·바다 16개 프로그램.",
+ "startDate": "2026-10-03",
+ "endDate": "2026-10-09",
+ "eventStatus": "https://schema.org/EventScheduled",
+ "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+ "url": "https://jejuecotourism.com/",
+ "image": [
+  "https://jejuecotourism.com/assets/hero.jpg"
+ ],
+ "location": {
+  "@type": "Place",
+  "name": "제주특별자치도 일원",
+  "address": {
+   "@type": "PostalAddress",
+   "addressRegion": "제주특별자치도",
+   "addressCountry": "KR"
+  }
+ },
+ "organizer": [
+  {
+   "@type": "Organization",
+   "name": "(사)제주생태관광협회",
+   "telephone": "+82-64-782-3253",
+   "url": "https://jejuecotourism.com/"
+  },
+  {
+   "@type": "Organization",
+   "name": "제주특별자치도 생태관광지원센터"
+  }
+ ],
+ "inLanguage": "ko"
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
@@ -59,6 +105,10 @@ a{color:inherit;text-decoration:none}
 .hero{position:relative;overflow:hidden;color:#fff;min-height:clamp(460px,72vh,680px);display:flex;align-items:flex-end}
 .hero svg.scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.hero-video{opacity:0;transition:opacity 1.2s ease}
+.hero.video-on .hero-video{opacity:1}
+.hero.video-on .hero-leaves{display:none} /* 영상 자체에 낙엽이 있어 이모지 낙엽은 숨김 */
+@media(prefers-reduced-motion:reduce){.hero-video{display:none}}
 .hero-scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(20,20,10,.12) 0%,rgba(20,20,10,.10) 45%,rgba(20,20,10,.52) 100%)}
 .hero-note{position:absolute;top:14px;right:16px;z-index:5;font-size:.72rem;background:rgba(0,0,0,.32);color:#fff;padding:.3em .7em;border-radius:999px;backdrop-filter:blur(4px)}
 .hero-in{position:relative;z-index:4;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 22px 8vh}
@@ -239,6 +289,11 @@ footer{background:linear-gradient(180deg,var(--gold) 0%,var(--persimmon) 100%);c
     </g>
   </svg>
   <img class="hero-photo" src="assets/hero.jpg" alt="2026생태관광주간 메인 이미지" onload="var n=document.getElementById('heroNote');if(n)n.remove()" onerror="this.remove()">
+  <!-- 히어로 루프 영상(무음·자동재생). 재생 불가/동작 줄임 설정이면 위 정지 이미지 유지 -->
+  <video class="hero-photo hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/hero.jpg" aria-hidden="true" tabindex="-1">
+    <source src="assets/hero_loop.webm" type="video/webm">
+    <source src="assets/hero_loop.mp4" type="video/mp4">
+  </video>
   <div class="hero-scrim"></div>
   <div class="hero-leaves" aria-hidden="true"><i>🍁</i><i>🍂</i><i>🍁</i></div>
   <div class="hero-note" id="heroNote">🎨 메인 이미지 예정 · 임시 배경 <span class="tbd">미정</span></div>
@@ -430,6 +485,21 @@ function bindShare(){
     const u=location.origin+location.pathname.replace(/index\.html$/,'')+'program.html?id='+b.dataset.id;
     shareLink(u,b.dataset.title);});
 }
+// 히어로 루프 영상: 재생 시작되면 페이드인, 실패하면 정지 이미지 유지
+(function(){
+  const hv=document.getElementById('heroVideo'), hero=document.getElementById('top');
+  if(!hv||!hero)return;
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){hv.removeAttribute('autoplay');hv.pause();hv.remove();return;}
+  const on=()=>hero.classList.add('video-on');
+  hv.addEventListener('playing',on,{once:true});
+  hv.addEventListener('error',()=>hv.remove(),{once:true});
+  const tryPlay=()=>{if(!hv.isConnected||!hv.paused)return;const p=hv.play();if(p&&p.catch)p.catch(()=>{});};
+  tryPlay();
+  // 탭이 숨김 상태로 열렸거나 자동재생이 막힌 경우: 다시 보일 때 / 첫 조작 시 재시도
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')tryPlay();});
+  ['pointerdown','touchstart','keydown','scroll'].forEach(ev=>window.addEventListener(ev,tryPlay,{once:true,passive:true}));
+})();
 // 히어로: 예약(탐나오)·공유
 const heroBook=document.getElementById('heroBook'), heroShare=document.getElementById('heroShare');
 if(TAMNAO_PLAN){heroBook.href=TAMNAO_PLAN;heroBook.target='_blank';heroBook.rel='noopener';}
