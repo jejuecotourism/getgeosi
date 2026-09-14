@@ -50,6 +50,9 @@ img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
 .detail{color:var(--ink-soft);margin-top:8px}
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
 .gallery .g{aspect-ratio:1;background:linear-gradient(135deg,#EFE6D2,#E3D6BB);border-radius:12px;display:grid;place-items:center;color:#B39A6E;font-size:.76rem;font-weight:600}
+.posters{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:12px}
+.posters a{display:block;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#fff}
+.posters img{width:100%;height:auto;display:block}
 .info{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);position:sticky;top:78px}
 .info dl{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;font-size:.94rem}
 .info dt{color:var(--ink-faint);font-weight:700}
@@ -113,6 +116,9 @@ if(!p){
         <div class="sec-h">프로그램 안내</div>
         <p class="detail">${p.detail||'<span class="tbd">미정</span>'}</p>
         ${p.note?`<p class="detail" style="color:var(--maple);margin-top:8px">※ ${p.note}</p>`:''}
+        ${(p.posters&&p.posters.length)?`<div class="sec-h">안내 포스터</div>
+        <div class="posters">${p.posters.map(u=>`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="${p.title} 안내 포스터" loading="lazy"></a>`).join('')}</div>
+        <p class="detail" style="font-size:.85rem;color:var(--ink-faint);margin-top:8px">※ 포스터를 누르면 크게 볼 수 있습니다.</p>`:''}
         <div class="sec-h">사진</div>
         <div class="gallery">
           ${(p.gallery&&p.gallery.length)
@@ -135,8 +141,8 @@ if(!p){
           <div class="btns">
             ${p.closed
               ? `<span class="btn line" style="opacity:.6;cursor:default">시범 프로그램 · 모집 마감</span>`
-              : (TAMNAO_PLAN
-                  ? `<a class="btn primary" href="${TAMNAO_PLAN}" target="_blank" rel="noopener">예약하기 (탐나오)</a>`
+              : ((p.tamnao||TAMNAO_PLAN)
+                  ? `<a class="btn primary" href="${p.tamnao||TAMNAO_PLAN}" target="_blank" rel="noopener">예약하기 (탐나오${p.tamnao?'':' 기획전'})</a>`
                   : `<a class="btn primary" href="#" onclick="return false">예약하기 <span class="tbd">탐나오 링크 미정</span></a>`)}
             ${p.tel ? `<a class="btn line" href="tel:${(p.tel.match(/0\d[\d-]{6,}\d/)||[''])[0].replace(/-/g,'')}">담당처 문의 · ${p.tel}</a>` : `<a class="btn line" href="#" onclick="return false">담당처 문의 <span class="tbd">연락처 미정</span></a>`}
             <button class="btn line" type="button" id="shareBtn">↗ 공유하기</button>
@@ -148,7 +154,7 @@ if(!p){
   </div>`;
   if(p.ll){const m=L.map('mini',{scrollWheelZoom:false,dragging:false}).setView(p.ll,11);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(m);
-    L.marker(p.ll).addTo(m).bindPopup(`${p.title}<br><small style="color:#9A6B14">정확한 주소 미정</small>`);}
+    L.marker(p.ll).addTo(m).bindPopup(`${p.title}<br><small style="color:#9A6B14">${p.place&&p.place!=='미정'?p.place:'정확한 주소 미정'}</small>`);}
   const sb=document.getElementById('shareBtn');
   if(sb)sb.onclick=async()=>{
     const data={title:`${p.title} · 2026생태관광주간`,text:p.desc||'',url:location.href};
