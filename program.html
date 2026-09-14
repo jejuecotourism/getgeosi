@@ -73,6 +73,16 @@ img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
 .btn.line{background:#fff;border:1px solid var(--line);color:var(--forest)}
 #mini{height:200px;border-radius:14px;border:1px solid var(--line);margin-top:14px}
 .miss{padding:80px 0;text-align:center;color:var(--ink-soft)}
+/* 라이트박스: 사진·포스터를 페이지 안에서 크게 보기(새 탭 이동 없음) */
+.lbx{position:fixed;inset:0;z-index:2000;background:rgba(20,16,12,.92);display:none;align-items:center;justify-content:center;padding:56px 16px 24px}
+.lbx.open{display:flex}
+.lbx img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5);user-select:none}
+.lbx .lbx-close{position:absolute;top:10px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer}
+.lbx .lbx-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:1.4rem;cursor:pointer}
+.lbx .lbx-prev{left:10px}.lbx .lbx-next{right:10px}
+.lbx .lbx-cap{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#EADFCB;font-size:.85rem}
+.lbx .lbx-nav[hidden]{display:none}
+body.lbx-lock{overflow:hidden}
 footer{background:linear-gradient(180deg,var(--gold),var(--persimmon));color:#3A2A14;padding:34px 0;font-size:.9rem}
 </style>
 </head>
@@ -124,10 +134,14 @@ if(!p){
       "startDate":"2026-10-03","endDate":"2026-10-09","eventStatus":"https://schema.org/EventScheduled",
       "eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","inLanguage":"ko",
       "location":{"@type":"Place","name":(p.place&&p.place!=='미정')?p.place:(p.region||'제주특별자치도'),"address":{"@type":"PostalAddress","addressRegion":"제주특별자치도","addressCountry":"KR"}},
-      "organizer":{"@type":"Organization","name":p.op||"제주생태관광협회"},
+      "organizer":{"@type":"Organization","name":p.op||"제주생태관광협회","url":site+"/"},
+      "performer":{"@type":"Organization","name":p.op||"제주생태관광협회"},
       "superEvent":{"@type":"Event","name":"2026 생태관광주간 · 제주","url":site+"/"}};
-    if(p.closed){ld.eventStatus="https://schema.org/EventScheduled";ld.offers={"@type":"Offer","availability":"https://schema.org/SoldOut","price":"0","priceCurrency":"KRW"};}
-    else if((p.fee||'').trim()==='무료'){ld.offers={"@type":"Offer","price":"0","priceCurrency":"KRW","availability":"https://schema.org/InStock"};}
+    const bookUrl=p.tamnao||TAMNAO_PLAN||url;
+    if(p.closed){ld.offers={"@type":"Offer","url":url,"availability":"https://schema.org/SoldOut","price":"0","priceCurrency":"KRW"};}
+    else if((p.fee||'').trim()==='무료'){ld.offers={"@type":"Offer","url":bookUrl,"price":"0","priceCurrency":"KRW","availability":"https://schema.org/InStock"};}
+    else{const m=(p.fee||'').replace(/,/g,'').match(/(\d{4,6})\s*원/);
+      if(m)ld.offers={"@type":"Offer","url":bookUrl,"price":m[1],"priceCurrency":"KRW","availability":"https://schema.org/InStock","validFrom":"2026-09-14"};}
     const s=document.createElement('script');s.type='application/ld+json';s.textContent=JSON.stringify(ld);document.head.appendChild(s);
   })();
   app.innerHTML=`
@@ -149,12 +163,12 @@ if(!p){
         <p class="detail">${p.detail||'<span class="tbd">미정</span>'}</p>
         ${p.note?`<p class="detail" style="color:var(--maple);margin-top:8px">※ ${p.note}</p>`:''}
         ${(p.posters&&p.posters.length)?`<div class="sec-h">안내 포스터</div>
-        <div class="posters">${p.posters.map(u=>`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="${p.title} 안내 포스터" loading="lazy"></a>`).join('')}</div>
-        <p class="detail" style="font-size:.85rem;color:var(--ink-faint);margin-top:8px">※ 포스터를 누르면 크게 볼 수 있습니다.</p>`:''}
+        <div class="posters">${p.posters.map((u,i)=>`<a class="lb" href="${u}" data-lb="posters" data-idx="${i}" aria-label="포스터 크게 보기"><img src="${u}" alt="${p.title} 안내 포스터" loading="lazy"></a>`).join('')}</div>
+        <p class="detail" style="font-size:.85rem;color:var(--ink-faint);margin-top:8px">※ 포스터를 누르면 크게 볼 수 있습니다. 닫기(×)나 바깥을 누르면 돌아옵니다.</p>`:''}
         <div class="sec-h">사진</div>
         <div class="gallery">
           ${(p.gallery&&p.gallery.length)
-            ? p.gallery.map(g=>`<a class="g" href="${g}" target="_blank" style="padding:0;overflow:hidden"><img src="${g}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='사진 미정'"></a>`).join('')
+            ? p.gallery.map((g,i)=>`<a class="g lb" href="${g}" data-lb="gallery" data-idx="${i}" style="padding:0;overflow:hidden" aria-label="사진 크게 보기"><img src="${g}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='사진 미정'"></a>`).join('')
             : '<div class="g">대표 이미지<br>미정</div><div class="g">사진 미정</div><div class="g">사진 미정</div>'}
         </div>
         <p class="detail" style="font-size:.85rem;color:var(--ink-faint);margin-top:8px">※ 사진은 각 운영처 제공. 대표 이미지·추가 사진은 확정되는 대로 보완됩니다.</p>
@@ -187,6 +201,22 @@ if(!p){
   if(p.ll){const m=L.map('mini',{scrollWheelZoom:false,dragging:false}).setView(p.ll,11);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(m);
     L.marker(p.ll).addTo(m).bindPopup(`${p.title}<br><small style="color:#9A6B14">${p.place&&p.place!=='미정'?p.place:'정확한 주소 미정'}</small>`);}
+  // 라이트박스
+  const lbx=document.createElement('div');lbx.className='lbx';lbx.setAttribute('role','dialog');lbx.setAttribute('aria-modal','true');lbx.setAttribute('aria-label','사진 크게 보기');
+  lbx.innerHTML='<button class="lbx-close" type="button" aria-label="닫기">×</button><button class="lbx-nav lbx-prev" type="button" aria-label="이전">‹</button><img alt=""><button class="lbx-nav lbx-next" type="button" aria-label="다음">›</button><div class="lbx-cap"></div>';
+  document.body.appendChild(lbx);
+  const lbImg=lbx.querySelector('img'),lbCap=lbx.querySelector('.lbx-cap'),lbPrev=lbx.querySelector('.lbx-prev'),lbNext=lbx.querySelector('.lbx-next');
+  let lbList=[],lbIdx=0,lbOpenedByHash=false;
+  function lbShow(i){lbIdx=(i+lbList.length)%lbList.length;lbImg.src=lbList[lbIdx];lbCap.textContent=`${lbIdx+1} / ${lbList.length} · ${p.title}`;const one=lbList.length<2;lbPrev.hidden=one;lbNext.hidden=one;}
+  function lbOpen(list,i){lbList=list;lbShow(i);lbx.classList.add('open');document.body.classList.add('lbx-lock');history.pushState({lbx:1},'');lbOpenedByHash=true;}
+  function lbClose(fromPop){if(!lbx.classList.contains('open'))return;lbx.classList.remove('open');document.body.classList.remove('lbx-lock');lbImg.src='';if(!fromPop&&lbOpenedByHash){lbOpenedByHash=false;history.back();}}
+  document.querySelectorAll('a.lb').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();
+    const kind=a.dataset.lb,list=kind==='posters'?p.posters:p.gallery;lbOpen(list,+a.dataset.idx);}));
+  lbx.querySelector('.lbx-close').onclick=()=>lbClose(false);
+  lbPrev.onclick=e=>{e.stopPropagation();lbShow(lbIdx-1);};lbNext.onclick=e=>{e.stopPropagation();lbShow(lbIdx+1);};
+  lbx.addEventListener('click',e=>{if(e.target===lbx||e.target===lbImg)lbClose(false);});
+  document.addEventListener('keydown',e=>{if(!lbx.classList.contains('open'))return;if(e.key==='Escape')lbClose(false);if(e.key==='ArrowLeft')lbShow(lbIdx-1);if(e.key==='ArrowRight')lbShow(lbIdx+1);});
+  window.addEventListener('popstate',()=>{if(lbx.classList.contains('open')){lbOpenedByHash=false;lbClose(true);}});
   const sb=document.getElementById('shareBtn');
   if(sb)sb.onclick=async()=>{
     const data={title:`${p.title} · 2026생태관광주간`,text:p.desc||'',url:location.href};
