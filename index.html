@@ -417,6 +417,7 @@ footer{background:linear-gradient(180deg,var(--gold) 0%,var(--persimmon) 100%);c
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="assets/data.js"></script>
+<script src="assets/share.js"></script>
 <script>
 /* 프로그램 데이터: assets/data.js (PROGRAMS, CATS) */
 const P = PROGRAMS;
@@ -495,17 +496,11 @@ function buildCalendar(){
 }
 buildCalendar();
 
-// 공유하기
-async function shareLink(url,title){
-  const data={title:'2026생태관광주간 · 제주',text:title||'제주, 나만의 계절을 발견하다',url};
-  if(navigator.share){try{await navigator.share(data);return;}catch(e){if(e.name==='AbortError')return;}}
-  try{await navigator.clipboard.writeText(url);alert('링크를 복사했습니다.\n'+url);}
-  catch(e){prompt('아래 링크를 복사하세요',url);}
-}
+// 공유하기 (assets/share.js 공유 시트) — 공유 링크는 항상 공식 도메인 기준
 function bindShare(){
   document.querySelectorAll('.share').forEach(b=>b.onclick=()=>{
-    const u=location.origin+location.pathname.replace(/index\.html$/,'')+'program.html?id='+b.dataset.id;
-    shareLink(u,b.dataset.title);});
+    const p=P.find(x=>x.id===b.dataset.id)||{};
+    openShare({url:`${SITE_URL}/program.html?id=${b.dataset.id}`,title:p.title||b.dataset.title,text:p.desc||'',img:p.img?`${SITE_URL}/${p.img}`:''});});
 }
 // 히어로 루프 영상: 재생 시작되면 페이드인, 실패하면 정지 이미지 유지
 (function(){
@@ -526,7 +521,7 @@ function bindShare(){
 const heroBook=document.getElementById('heroBook'), heroShare=document.getElementById('heroShare');
 if(TAMNAO_PLAN){heroBook.href=TAMNAO_PLAN;heroBook.target='_blank';heroBook.rel='noopener';}
 else heroBook.title='탐나오 기획전 링크 준비중';
-heroShare.onclick=()=>shareLink(SITE_URL||location.href,SLOGAN_MAIN);
+heroShare.onclick=()=>openShare({url:(SITE_URL||location.origin)+'/',title:'2026생태관광주간 · '+SLOGAN_MAIN,text:SLOGAN_SUB+' — 2026.10.03~10.09 제주 가을 생태관광 프로그램',img:SITE_URL+'/assets/hero.jpg'});
 
 // 지도
 function initMap(){
