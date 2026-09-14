@@ -67,7 +67,7 @@ const PROGRAMS = [
 
  { id:"p13", days:[3, 4, 5, 6, 7], no:"13·15", title:"저지곶자왈 — 빛이 숲을 떠나는 시간", cat:"곶자왈",
    op:"저지리생태관광마을협의체", tel:"010-7129-7651", region:"한경 저지", ll:[33.313,126.243],
-   img:"assets/photo/p13.jpg", gallery:["assets/photo/p13_g1.jpg","assets/photo/p13_g2.jpg","assets/photo/p13_g3.jpg"],
+   img:"assets/photo/p13.jpg", gallery:["assets/photo/p13_g1.jpg","assets/photo/p13_g2.jpg","assets/photo/p13_g3.jpg","assets/photo/p13_g4.jpg"],
    fee:"1) 1인 10,000원 (회당 5인 이상) · 2) 1인 35,000원 (회당 5~12인)",
    place:"1) 한경면 저지리 주가흘길 84 / 2) 한경면 저지9길 33(저지오름보전관리정보센터 1층)",
    date:"10.03~10.07 매일 · 1) 10:00~12:00 / 2) 17:00~19:00", target:"중고등·성인", prep:"긴팔·긴바지·운동화, 휴대폰(카메라)",
@@ -116,7 +116,7 @@ const PROGRAMS = [
 
  { id:"p27", days:[], no:"27", title:"우리가 돌고래를 만나는 법", cat:"바다",
    op:"해양환경단체 핫핑크돌핀스", tel:"064-772-3366", region:"서귀포 대정", ll:[33.226,126.251],
-   img:"assets/photo/p27.jpg", gallery:["assets/photo/p27_g1.jpg"],
+   img:"assets/photo/p27.jpg", gallery:["assets/photo/p27_g1.jpg","assets/photo/p27_g2.jpg"],
    fee:"1인 25,000원", place:"제주돌핀센터 · 서귀포시 대정읍 도원로17번길 5-7",
    date:"주간 중(미정) · 09:50 집결 ~ 12:00", target:"5세 이상", prep:"모자, 운동화",
    desc:"대정읍 노을해안로에서 제주 남방큰돌고래를 생태해설사와 함께, 돌고래의 생태적 특성을 존중하는 방식으로 만나며 해양생태감수성을 기르는 프로그램.",
