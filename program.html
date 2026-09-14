@@ -101,6 +101,7 @@ footer{background:linear-gradient(180deg,var(--gold),var(--persimmon));color:#3A
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="assets/data.js"></script>
+<script src="assets/share.js"></script>
 <script>
 const id=new URLSearchParams(location.search).get('id');
 const p=PROGRAMS.find(x=>x.id===id);
@@ -218,12 +219,7 @@ if(!p){
   document.addEventListener('keydown',e=>{if(!lbx.classList.contains('open'))return;if(e.key==='Escape')lbClose(false);if(e.key==='ArrowLeft')lbShow(lbIdx-1);if(e.key==='ArrowRight')lbShow(lbIdx+1);});
   window.addEventListener('popstate',()=>{if(lbx.classList.contains('open')){lbOpenedByHash=false;lbClose(true);}});
   const sb=document.getElementById('shareBtn');
-  if(sb)sb.onclick=async()=>{
-    const data={title:`${p.title} · 2026생태관광주간`,text:p.desc||'',url:location.href};
-    if(navigator.share){try{await navigator.share(data);return;}catch(e){if(e.name==='AbortError')return;}}
-    try{await navigator.clipboard.writeText(location.href);alert('링크를 복사했습니다.\n'+location.href);}
-    catch(e){prompt('아래 링크를 복사하세요',location.href);}
-  };
+  if(sb)sb.onclick=()=>openShare({url:`${SITE_URL}/program.html?id=${p.id}`,title:p.title,text:(p.desc||'').replace(/<[^>]+>/g,''),img:p.img?`${SITE_URL}/${p.img}`:''});
 }
 </script>
 </body>
