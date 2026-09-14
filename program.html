@@ -6,6 +6,7 @@
 <title>프로그램 안내 · 2026생태관광주간</title>
 <meta name="description" content="2026생태관광주간 가을 생태관광 프로그램 안내">
 <meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="keywords" content="생태관광주간, 제주 생태관광, 제주 체험 프로그램">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="2026생태관광주간">
 <meta property="og:locale" content="ko_KR">
@@ -126,6 +127,7 @@ if(!p){
     const img=p.img?`${site}/${p.img}`:`${site}/assets/hero.jpg`;
     const set=(sel,attr,val)=>{const el=document.querySelector(sel);if(el)el.setAttribute(attr,val);};
     set('meta[name="description"]','content',desc);
+    set('meta[name="keywords"]','content',[p.title,p.cat+' 생태관광',p.region,p.op,'2026 생태관광주간','제주 가을 여행','제주 체험 프로그램'].filter(Boolean).join(', '));
     set('meta[property="og:title"]','content',`${p.title} · 2026생태관광주간`);
     set('meta[property="og:description"]','content',desc);
     set('meta[property="og:image"]','content',img);
