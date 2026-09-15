@@ -110,6 +110,7 @@ const app=document.getElementById('app');
 
 function badges(p){let s=`<span class="badge cat">${p.cat}</span>`;
   if(p.closed)s+='<span class="badge demo">시범 프로그램</span><span class="badge closed">모집 마감</span>';
+  else if(p.type==='시범')s+='<span class="badge demo">시범 운영 병행</span>'+((p.fee||'').trim()==='무료'?'<span class="badge free">무료</span>':'<span class="badge paid">유료</span>');
   else s+=(p.fee||'').trim()==='무료'?'<span class="badge free">무료</span>':(p.fee==='미정'?'<span class="tbd">요금 미정</span>':'<span class="badge paid">유료</span>');
   (p.tags||[]).forEach(t=>{if(t==='new')s+='<span class="badge new">신규</span>';if(t==='center')s+='<span class="badge center">센터 단독</span>';});
   if(p.tbd)s+='<span class="tbd">자료 미제출</span>';return s;}
