@@ -1,7 +1,7 @@
 /* 공유 시트 — index.html(히어로·카드)·program.html(상세) 공용
    openShare({url, title, text, img})
-   - 페이스북 / X / 스레드 / 네이버 밴드 / 텔레그램 / 라인: 공유 URL로 새 창
-   - 카카오톡·인스타그램·틱톡·유튜브: 웹 공유 URL이 없음 → 기기 공유(navigator.share) + 링크 복사 + 대표 이미지 저장으로 안내 */
+   - 2026-09-16 운영처 요청: 카카오톡 · 페이스북 · 인스타그램 · 링크 복사 4개만, 각 서비스 고유 아이콘 사용
+   - 페이스북: 공유 URL로 새 창 / 카카오톡·인스타그램: 웹 공유 URL 없음 → 기기 공유(navigator.share) + 링크 복사 */
 (function(){
   const css=`
   .shs-bg{position:fixed;inset:0;z-index:3000;background:rgba(20,16,12,.55);display:none;align-items:flex-end;justify-content:center}
@@ -13,11 +13,11 @@
   .shs-t{font-weight:700;font-size:1rem;line-height:1.3}
   .shs-x{border:0;background:#F0E7D6;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;flex:none}
   .shs-sub{font-size:.82rem;color:#8B7E70;margin-bottom:12px;word-break:break-all}
-  .shs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px}
-  @media(max-width:380px){.shs-grid{grid-template-columns:repeat(3,1fr)}}
+  .shs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px;max-width:360px;margin:0 auto}
+  
   .shs-b{display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:transparent;cursor:pointer;padding:6px 2px;border-radius:12px;color:#2A2320;text-decoration:none;font:inherit}
   .shs-b:hover{background:#F7F2E8}
-  .shs-i{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+  .shs-i{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;color:#fff}
   .shs-b span{font-size:.74rem;font-weight:600;line-height:1.2;text-align:center}
   .shs-sec{margin:14px 0 6px;font-size:.78rem;font-weight:700;color:#5E5248}
   .shs-note{font-size:.76rem;color:#8B7E70;margin-top:10px;line-height:1.5}
@@ -43,29 +43,25 @@
   function pop(u){window.open(u,'_blank','noopener,width=640,height=720');}
 
   window.openShare=function(o){
-    const url=o.url,title=o.title||document.title,text=o.text||'',img=o.img||'';
+    const url=o.url,title=o.title||document.title,text=o.text||'';
     const enc=encodeURIComponent, msg=`${title} — 2026생태관광주간 · 제주`;
     const canNative=!!navigator.share;
+    const ICON={
+      kakao:'<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="#3C1E1E" d="M12 3C6.9 3 2.8 6.3 2.8 10.3c0 2.6 1.7 4.8 4.3 6.1-.2.7-.7 2.5-.8 2.9-.1.5.2.5.4.4.2-.1 2.7-1.8 3.8-2.6.5.1 1 .1 1.5.1 5.1 0 9.2-3.3 9.2-7.3S17.1 3 12 3z"/></svg>',
+      fb:'<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="#fff" d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.3 0-1.3-.1-2.45-.1-2.4 0-4.05 1.5-4.05 4.2v2.2H7.5V13h2.7v8h3.3z"/></svg>',
+      ig:'<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1.9"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2"/><circle cx="12" cy="12" r="4.1"/></g><circle cx="17" cy="7" r="1.25" fill="#fff"/></svg>',
+      link:'<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"><path d="M10.2 13.8a3.6 3.6 0 0 0 5.1 0l2.8-2.8a3.6 3.6 0 0 0-5.1-5.1l-1.3 1.3"/><path d="M13.8 10.2a3.6 3.6 0 0 0-5.1 0l-2.8 2.8a3.6 3.6 0 0 0 5.1 5.1l1.3-1.3"/></g></svg>'};
     const items=[
-      canNative?{k:'native',bg:'linear-gradient(135deg,#2F5E3A,#6B8F5A)',ic:'⇪',l:'카카오톡·문자 등<br>기기 공유'}:null,
-      {k:'kakao',bg:'#FEE500',fg:'#3C1E1E',ic:'톡',l:'카카오톡'},
-      {k:'fb',bg:'#1877F2',ic:'f',l:'페이스북'},
-      {k:'ig',bg:'linear-gradient(45deg,#F58529,#DD2A7B,#8134AF)',ic:'◎',l:'인스타그램'},
-      {k:'th',bg:'#000',ic:'@',l:'스레드'},
-      {k:'x',bg:'#111',ic:'X',l:'X(트위터)'},
-      {k:'yt',bg:'#FF0000',ic:'▶',l:'유튜브'},
-      {k:'tt',bg:'#010101',ic:'♪',l:'틱톡'},
-      {k:'band',bg:'#21C531',ic:'B',l:'네이버 밴드'},
-      {k:'line',bg:'#06C755',ic:'L',l:'라인'},
-      {k:'tg',bg:'#26A5E4',ic:'✈',l:'텔레그램'},
-      {k:'copy',bg:'#8B7E70',ic:'🔗',l:'링크 복사'},
-      img?{k:'img',bg:'#B5763E',ic:'⤓',l:'대표 이미지<br>저장'}:null,
-    ].filter(Boolean);
+      {k:'kakao',bg:'#FEE500',ic:ICON.kakao,l:'카카오톡'},
+      {k:'fb',bg:'#1877F2',ic:ICON.fb,l:'페이스북'},
+      {k:'ig',bg:'linear-gradient(45deg,#F9CE34,#EE2A7B,#6228D7)',ic:ICON.ig,l:'인스타그램'},
+      {k:'copy',bg:'#5E5248',ic:ICON.link,l:'링크 복사'},
+    ];
     bg.innerHTML=`<div class="shs">
       <div class="shs-h"><div class="shs-t">공유하기</div><button class="shs-x" type="button" aria-label="닫기">×</button></div>
       <div class="shs-sub">${title}<br>${url}</div>
       <div class="shs-grid">${items.map(i=>`<button class="shs-b" type="button" data-k="${i.k}"><span class="shs-i" style="background:${i.bg};${i.fg?'color:'+i.fg:''}">${i.ic}</span><span>${i.l}</span></button>`).join('')}</div>
-      <p class="shs-note">인스타그램·유튜브·틱톡·카카오톡은 웹에서 링크를 바로 넘길 수 없습니다. 버튼을 누르면 링크가 복사되니(모바일은 기기 공유창) 앱에서 게시글·스토리·댓글에 붙여 넣으세요. 대표 이미지는 저장해 함께 올리면 좋습니다.</p>
+      <p class="shs-note">카카오톡·인스타그램은 웹에서 링크를 바로 넘길 수 없습니다. 버튼을 누르면 링크가 복사되니(모바일은 기기 공유창) 앱에서 대화·게시글·스토리에 붙여 넣으세요.</p>
     </div>`;
     bg.classList.add('open');document.body.classList.add('shs-lock');
     bg.querySelector('.shs-x').onclick=close;
@@ -73,17 +69,11 @@
       const k=b.dataset.k;
       if(k==='native'){try{await navigator.share({title:msg,text:text,url:url});close();return;}catch(e){if(e.name==='AbortError')return;}await copy(url);return;}
       if(k==='fb'){pop(`https://www.facebook.com/sharer/sharer.php?u=${enc(url)}`);return;}
-      if(k==='x'){pop(`https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(msg)}`);return;}
-      if(k==='th'){pop(`https://www.threads.net/intent/post?text=${enc(msg+'\n'+url)}`);return;}
-      if(k==='band'){pop(`https://band.us/plugin/share?body=${enc(msg)}&route=${enc(url)}`);return;}
-      if(k==='line'){pop(`https://social-plugins.line.me/lineit/share?url=${enc(url)}&text=${enc(msg)}`);return;}
-      if(k==='tg'){pop(`https://t.me/share/url?url=${enc(url)}&text=${enc(msg)}`);return;}
       if(k==='copy'){await copy(url);return;}
-      if(k==='img'){const a=document.createElement('a');a.href=img;a.download=(title.replace(/[\\/:*?"<>|]/g,'')||'image')+'.jpg';document.body.appendChild(a);a.click();a.remove();say('이미지를 저장합니다');return;}
-      // kakao / ig / yt / tt : 링크 전달 API 없음 → 모바일은 기기 공유, 아니면 링크 복사
+      // kakao / ig : 링크 전달 API 없음 → 모바일은 기기 공유, 아니면 링크 복사
       if(navigator.share){try{await navigator.share({title:msg,text:text,url:url});close();return;}catch(e){if(e.name==='AbortError')return;}}
       await copy(url);
-      const app={kakao:'카카오톡',ig:'인스타그램',yt:'유튜브',tt:'틱톡'}[k];
+      const app={kakao:'카카오톡',ig:'인스타그램'}[k];
       say(`링크를 복사했습니다 · ${app} 앱에 붙여 넣으세요`);
     });
   };
