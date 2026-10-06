@@ -37,7 +37,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .btn.sm{padding:.45rem .8rem;font-size:.88rem}
 
 /* 잠금 화면 */
-.gate{min-height:100svh;display:grid;place-items:center;padding:2rem 1rem;background:radial-gradient(110% 80% at 50% 0%,#1f4a2e 0%,var(--sky) 50%,var(--deep) 100%)}
+.gate{min-height:auto;display:grid;place-items:center;padding:clamp(2.6rem,7vw,4.4rem) 1rem;border-top:1px solid var(--line);background:radial-gradient(110% 80% at 50% 0%,#1f4a2e 0%,var(--sky) 50%,var(--deep) 100%)}
 .gate-box{width:min(440px,100%);text-align:center}
 .gate-box .pen{font-size:clamp(3rem,11vw,4.6rem);line-height:1.05}
 .gate-box p{color:var(--mute);margin:.9rem 0 1.6rem}
@@ -169,20 +169,7 @@ label{display:grid;gap:.35rem;font-size:.88rem;color:var(--mute)}
 </head>
 <body>
 
-<div class="gate" id="gate">
-  <div class="gate-box">
-    <div class="pen">숨, 평대</div>
-    <p>이 사진은 그날 함께한 분들만 볼 수 있어요.<br>안내받은 비밀번호 여섯 자리를 입력해 주세요.</p>
-    <form id="gateForm" autocomplete="off">
-      <input id="pw" inputmode="numeric" maxlength="10" placeholder="숫자 여섯 자리" aria-label="비밀번호 여섯 자리" required>
-      <button class="btn" type="submit">열기</button>
-    </form>
-    <div class="err" id="gateErr" role="alert"></div>
-    <small>비밀번호는 문자나 카카오톡으로 안내해 드렸어요.</small>
-  </div>
-</div>
-
-<div id="app" hidden>
+<div id="app">
 <header class="top">
   <div class="wrap">
     <a class="back" href="/record.html">← 현장 기록 · 2026생태관광주간</a>
@@ -191,9 +178,9 @@ label{display:grid;gap:.35rem;font-size:.88rem;color:var(--mute)}
         <h1 class="pen">숨, 평대</h1>
         <p class="lede">돝오름 숲길을 걷고, 바다를 품은 순비기 향낭과 평대의 향을 담은 AROMATIC THERAPY INHALER를 만들었습니다. 천년의 숲 비자를 향으로 기억해 보세요. 함께한 얼굴들을 크게 보고, 마음에 드는 사진을 골라 받고, 원본이 필요하면 알려 주세요.</p>
         <div class="acts">
-          <a class="btn ghost" href="#photos">사진 고르기</a>
+          <a class="btn ghost" href="#gate" id="toPhotos">사진첩 열기 🔒</a>
           <a class="btn ghost" href="#video" id="toVideo">영상 보기</a>
-          <a class="btn ghost" id="allDrive" href="#" target="_blank" rel="noopener">전체 폴더 열기 (구글 드라이브)</a>
+          <a class="btn ghost" id="allDrive" href="#" target="_blank" rel="noopener" hidden>전체 폴더 열기 (구글 드라이브)</a>
         </div>
       </div>
       <p class="log">
@@ -221,6 +208,19 @@ label{display:grid;gap:.35rem;font-size:.88rem;color:var(--mute)}
     </div>
   </section>
 
+<section class="gate" id="gate">
+  <div class="gate-box">
+    <div class="pen" style="font-size:clamp(2.4rem,8vw,3.4rem)">사진첩 열기</div>
+    <p>🔒 사진첩은 그날 함께한 분들만 볼 수 있어요.<br>안내받은 비밀번호 여섯 자리를 입력해 주세요.</p>
+    <form id="gateForm" autocomplete="off">
+      <input id="pw" inputmode="numeric" maxlength="10" placeholder="숫자 여섯 자리" aria-label="비밀번호 여섯 자리" required>
+      <button class="btn" type="submit">열기</button>
+    </form>
+    <div class="err" id="gateErr" role="alert"></div>
+    <small>비밀번호는 문자나 카카오톡으로 안내해 드렸어요.</small>
+  </div>
+</section>
+  <div id="photoArea" hidden>
   <section style="padding-bottom:1.5rem">
     <div class="wrap">
       <h2>사진 받는 법</h2>
@@ -241,11 +241,13 @@ label{display:grid;gap:.35rem;font-size:.88rem;color:var(--mute)}
     </div>
   </div>
   <div class="wrap" id="groups"></div>
+  </div>
 </main>
 
 <footer>
   <div class="wrap">
-    <span>© 2026 JEJUGRAPHER · 숨, 평대 — 바다를 품은 순비기 향낭 · 평대의 향을 담은 AROMATIC THERAPY INHALER</span>
+    <span>숨, 평대 — 바다를 품은 순비기 향낭 · 평대의 향을 담은 AROMATIC THERAPY INHALER · 2026생태관광주간 현장 기록</span>
+    <span>제작 : <a href="https://jejugrapher.com/" target="_blank" rel="noopener" style="color:var(--glow);font-weight:700;text-decoration:underline;text-underline-offset:3px">제주그래퍼</a></span>
     <span>요청 때 사진 번호를 알려 주시면 더 빨리 찾아 드려요</span>
   </div>
 </footer>
@@ -360,7 +362,8 @@ async function sha(s) {
   const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
   return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
 }
-function unlock() { $("#gate").hidden = true; $("#app").hidden = false; start(); }
+function unlock() { $("#gate").hidden = true; $("#photoArea").hidden = false; $("#allDrive").hidden = false;
+  $("#toPhotos").textContent = "사진 고르기"; $("#toPhotos").href = "#photos"; start(); }
 $("#gateForm").addEventListener("submit", async e => {
   e.preventDefault();
   if ((await sha("byeolbam-pw:" + normDate($("#pw").value))) === PW_HASH) {
@@ -381,8 +384,7 @@ const SEL_KEY = "jejugrapher-sel-" + SESSION;
 const state = { filter: "전체", list: PHOTOS, idx: 0, sel: new Set() };
 try { JSON.parse(localStorage.getItem(SEL_KEY) || "[]").forEach(n => byN[n] && state.sel.add(n)); } catch (e) {}
 
-function start() {
-  $("#allDrive").href = DRIVE_FOLDER; $("#dlFolder").href = DRIVE_FOLDER;
+function initVideo() {
   $("#countLine").textContent = `사진 ${PHOTOS.length}장`;
   if (YT) {
     $("#video").hidden = false;
@@ -392,6 +394,11 @@ function start() {
     $("#video").hidden = false; $("#player").hidden = true;
   } else $("#toVideo").hidden = true;
   if (VIDEO_DL) { $("#vidDl").hidden = false; $("#vidDl").href = VIDEO_DL; }
+}
+initVideo();
+function start() {
+  $("#allDrive").href = DRIVE_FOLDER; $("#dlFolder").href = DRIVE_FOLDER;
+  
   const cnt = PHOTOS.reduce((m, p) => (m[p.s] = (m[p.s] || 0) + 1, m), {});
   $("#chips").innerHTML = ["전체", ...SECTS.filter(s => cnt[s])].map(l =>
     `<button type="button" class="chip" data-l="${l}" aria-pressed="${l === "전체"}">${l}<span class="c">${l === "전체" ? PHOTOS.length : cnt[l]}</span></button>`).join("");
@@ -537,7 +544,6 @@ $("#playBtn").addEventListener("click", () => {
   let ok = false;
   try { ok = sessionStorage.getItem(KEY) === "1"; } catch (e) {}
   if (ok) return unlock();
-  $("#pw").focus();
 })();
 </script>
 </body>
