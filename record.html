@@ -142,6 +142,20 @@ a.pc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
   </div>
 </section>
 
+<section class="r" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Eco Week Programs</div>
+    <h2 class="s-title">2026 생태관광주간 행사</h2>
+    <p class="s-lead">「제주, 나만의 계절이 되다」 — 생태관광주간 프로그램 가운데 현장을 기록한 행사입니다. 영상은 누구나 볼 수 있고, 사진첩은 참여하신 분께 안내한 비밀번호로 열립니다.</p>
+    <div class="cards" id="cards2"></div>
+  </div>
+</section>
+
+<dialog id="yt" style="border:0;padding:0;background:transparent;width:min(960px,94vw)">
+  <div style="position:relative;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden"><iframe id="ytf" title="기록 영상" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>
+  <button type="button" id="ytx" style="margin-top:10px;float:right;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4em 1em;font-weight:700;cursor:pointer">닫기</button>
+</dialog>
+
 <section class="r note">
   <div class="wrap">
     <h2 class="s-title" style="font-size:1.35rem">사진 속 얼굴이 마음에 걸리면 바로 알려 주세요</h2>
@@ -188,6 +202,19 @@ const REC=[
  {t:"하례리 보물찾기", s:"고살리숲 — 밧줄놀이 · 숲속 보물찾기", c:"오름", w:"고살리숲 · 남원읍 하례리", url:"", img:"", has:[0,0]},
  {t:"동백동산 기후탐사대 · 오감찾기 프로젝트", s:"탄소 흡수원 찾기 · 동백동산에서 오감 찾기", c:"습지", w:"동백동산 · 조천읍 선흘리", url:"", img:"", has:[0,0]},
 ];
+const REC2=[
+ {t:"화순곶자왈 사운드워킹", s:"헤드셋을 쓰고, 숲의 소리를 따라 걷기 · ㈜더사운드벙커", c:"곶자왈", w:"화순곶자왈 생태탐방숲길 · 안덕면 화순리", url:"record/g/8a4215c03b89/", img:"record/g/8a4215c03b89/cover.jpg", has:[1,1]},
+ {t:"이성권과 함께하는 제주나무이야기", s:"동백동산 곶자왈과 습지의 나무 이야기 · (주)평화여행자", c:"곶자왈", w:"동백동산습지센터 · 조천읍 선흘리", url:"", yt:"I6uVG54iCM8", img:"record/tree_cover.jpg", has:[0,1]},
+];
+function card(p){const o=!!p.url, v=!o&&p.yt, T=o?'a':(v?'button':'div');
+ return '<'+T+' class="pc"'+(o?' href="'+p.url+'"':'')+(v?' type="button" data-yt="'+p.yt+'" style="text-align:left;font:inherit;cursor:pointer;padding:0"':'')+'><div class="ph">'+(p.img?'<img src="'+p.img+'" alt="" loading="lazy">':'<span class="none">사진 준비 중</span>')+
+ '<span class="badge '+(o||v?'free':'closed')+'">'+(o?'사진 공개':(v?'영상 공개':'준비 중'))+'</span></div><div class="bd"><span class="cat">'+p.c+'</span><h3>'+p.t+'</h3><span class="sub">'+p.s+'</span><span class="where">'+p.w+'</span>'+
+ '<div class="has"><span class="'+(p.has[0]?'on':'')+'">사진'+(p.has[0]?'':' 준비 중')+'</span><span class="'+(p.has[1]?'on':'')+'">기록 영상'+(p.has[1]?'':' 준비 중')+'</span></div>'+(o?'<span class="go">사진첩 열기 →</span>':(v?'<span class="go">영상 보기 ▶</span>':''))+'</div></'+T+'>';}
+document.getElementById('cards2').innerHTML=REC2.map(card).join('');
+const yt=document.getElementById('yt'), ytf=document.getElementById('ytf');
+document.getElementById('cards2').addEventListener('click',e=>{const b=e.target.closest('[data-yt]'); if(!b) return; ytf.src='https://www.youtube-nocookie.com/embed/'+b.dataset.yt+'?autoplay=1&rel=0'; yt.showModal();});
+const ytClose=()=>{ytf.src=''; yt.close();};
+document.getElementById('ytx').onclick=ytClose; yt.addEventListener('click',e=>{if(e.target===yt) ytClose();}); yt.addEventListener('close',()=>{ytf.src='';});
 document.getElementById('cards').innerHTML=REC.map(p=>{const o=!!p.url,T=o?'a':'div';
  return '<'+T+' class="pc"'+(o?' href="'+p.url+'"':'')+'><div class="ph">'+(p.img?'<img src="'+p.img+'" alt="" loading="lazy">':'<span class="none">사진 준비 중</span>')+
  '<span class="badge '+(o?'free':'closed')+'">'+(o?'사진 공개':'준비 중')+'</span></div><div class="bd"><span class="cat">'+p.c+'</span><h3>'+p.t+'</h3><span class="sub">'+p.s+'</span><span class="where">'+p.w+'</span>'+
