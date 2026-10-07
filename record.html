@@ -116,6 +116,12 @@ a.pc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
   .nav-menu::-webkit-scrollbar{display:none}
   .nav-menu a{flex:none;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6)}
 }
+
+/* 기록 영상 창: 화면 한가운데, 뒤는 어둡게, 닫기는 영상 위 오른쪽 */
+#yt{margin:auto!important;border:0;padding:0;background:transparent;width:min(960px,calc(100vw - 24px));max-width:none;overflow:visible}
+#yt::backdrop{background:rgba(10,12,14,.88)}
+#yt .ytbar{display:flex;justify-content:flex-end;margin-bottom:10px}
+#yt #ytx{float:none!important;margin:0!important;min-height:44px;padding:.5em 1.3em!important;font-weight:700;border-radius:999px;background:#fff;border:0;cursor:pointer;color:#222}
 </style>
 </head>
 <body>
@@ -169,8 +175,8 @@ a.pc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 </section>
 
 <dialog id="yt" style="border:0;padding:0;background:transparent;width:min(960px,94vw)">
+  <div class="ytbar"><button type="button" id="ytx" style="margin-top:10px;float:right;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4em 1em;font-weight:700;cursor:pointer">닫기</button></div>
   <div style="position:relative;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden"><iframe id="ytf" title="기록 영상" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>
-  <button type="button" id="ytx" style="margin-top:10px;float:right;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4em 1em;font-weight:700;cursor:pointer">닫기</button>
 </dialog>
 
 <section class="r note">
@@ -215,8 +221,8 @@ a.pc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 const REC=[
  {t:"숨, 평대", s:"바다를 품은 순비기 향낭 · 평대의 향을 담은 AROMATIC THERAPY INHALER", c:"오름 · 바다", w:"평대 돝오름 ~ 평대리생태체험장 · 구좌읍 평대리", url:"record/g/9a0a9d467758/", yt:"xWmK9Opii3w", img:"record/g/9a0a9d467758/cover.jpg", has:[1,1]},
  {t:"빛이 숲을 떠나는 시간", s:"해 질 녘 저지곶자왈", c:"곶자왈", w:"저지곶자왈 · 한경면 저지리", url:"record/g/409184708a11/", yt:"Na_Yx3Be0CY", img:"record/g/409184708a11/cover.jpg", has:[1,1]},
- {t:"다시, 대나무 · 미로숲길에서 쉬멍, 맛있게 차롱", s:"오영희 장인의 호근", c:"숲길", w:"호근동 마을회관 · 하논 · 서귀포 치유의숲", url:"record/g/c211db604c81/", yt:"", img:"record/g/c211db604c81/cover.jpg", has:[1,0]},
- {t:"하례리 보물찾기", s:"고살리숲 — 밧줄놀이 · 숲속 보물찾기", c:"오름", w:"고살리숲 · 남원읍 하례리", url:"record/g/4fee7759275a/", yt:"", img:"record/g/4fee7759275a/cover.jpg", has:[1,0]},
+ {t:"다시, 대나무 · 미로숲길에서 쉬멍, 맛있게 차롱", s:"오영희 장인의 호근", c:"숲길", w:"호근동 마을회관 · 하논 · 서귀포 치유의숲", url:"record/g/c211db604c81/", yt:"gg6-9TWov0g", img:"record/g/c211db604c81/cover.jpg", has:[1,1]},
+ {t:"하례리 보물찾기", s:"고살리숲 — 밧줄놀이 · 숲속 보물찾기", c:"오름", w:"고살리숲 · 남원읍 하례리", url:"record/g/4fee7759275a/", yt:"RWKi5WYQKMY", img:"record/g/4fee7759275a/cover.jpg", has:[1,1]},
  {t:"동백동산 기후탐사대 · 오감찾기 프로젝트", s:"탄소 흡수원 찾기 · 동백동산에서 오감 찾기", c:"습지", w:"동백동산 · 조천읍 선흘리", url:"", img:"", has:[0,0]},
 ];
 const REC2=[
