@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>이성권과 함께하는 제주나무이야기 | 현장 기록 | 2026생태관광주간</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* 별밤사진관 회차 페이지와 같은 짜임 — 색만 숲(곶자왈) 쪽으로 */
+:root{
+  --sky:#0F2418; --deep:#08160E; --panel:#163322; --cloud:#EEF5EC;
+  --glow:#C9F2B6; --glow-2:#7BCB8E; --amber:#F2C86B; --mute:#9DB8A4;
+  --line:rgba(201,242,182,.18); --ok:#9BE7B5; --err:#FF9A8F;
+  --serif:"Gowun Batang","Noto Serif KR","Apple SD Gothic Neo",serif;
+  --pen:"Nanum Pen Script","Gowun Batang",cursive;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;background:var(--deep)}
+body{background:var(--sky);color:var(--cloud);font:1rem/1.8 var(--serif);word-break:keep-all;overflow-wrap:break-word}
+img{display:block;max-width:100%}
+a{color:var(--glow)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.wrap{width:min(1180px,100% - 2rem);margin-inline:auto}
+.pen{font-family:var(--pen);font-weight:400;color:#F7FFF3;text-shadow:0 0 8px rgba(201,242,182,.6),0 0 22px rgba(123,203,142,.45)}
+
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.2rem;color:var(--deep);background:var(--glow);text-decoration:none;font-weight:700;border:0;cursor:pointer;box-shadow:0 0 14px rgba(123,203,142,.35)}
+.btn:hover{background:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.ghost{background:transparent;color:var(--cloud);border:1px solid var(--line);box-shadow:none;font-weight:400}
+.btn.ghost:hover{border-color:var(--glow);color:var(--glow)}
+.btn.sm{padding:.45rem .8rem;font-size:.88rem}
+
+/* 잠금 화면 */
+.gate{min-height:auto;display:grid;place-items:center;padding:clamp(2.6rem,7vw,4.4rem) 1rem;border-top:1px solid var(--line);background:radial-gradient(110% 80% at 50% 0%,#1f4a2e 0%,var(--sky) 50%,var(--deep) 100%)}
+.gate-box{width:min(440px,100%);text-align:center}
+.gate-box .pen{font-size:clamp(3rem,11vw,4.6rem);line-height:1.05}
+.gate-box p{color:var(--mute);margin:.9rem 0 1.6rem}
+.gate form{display:flex;gap:.5rem}
+.gate input{flex:1;min-width:0;background:rgba(8,22,14,.7);border:1px solid var(--line);padding:.75rem 1rem;font:500 1.15rem var(--mono);letter-spacing:.14em;text-align:center;color:var(--cloud)}
+.gate input::placeholder{letter-spacing:.06em;color:#6c8a74}
+.gate .err{color:var(--err);min-height:1.8em;margin-top:.8rem;font-size:.95rem}
+.gate small{display:block;color:#7d9a85;margin-top:1.4rem;font-size:.85rem}
+
+/* 머리말 */
+.top{padding:clamp(3rem,8vw,5.5rem) 0 2.5rem;background:radial-gradient(110% 90% at 70% 0%,#24502f 0%,var(--sky) 55%);border-bottom:1px solid var(--line)}
+.back{font-size:.9rem;color:var(--mute);text-decoration:none}
+.back:hover{color:var(--glow)}
+.top-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:2rem 3rem;align-items:end;margin-top:1.4rem}
+.top h1{font-size:clamp(3.2rem,9vw,5.6rem);line-height:1}
+.lede{margin-top:1rem;max-width:32em}
+.log{font:400 .82rem/2 var(--mono);color:var(--mute);border-left:1px solid var(--line);padding-left:1.1rem}
+.log b{color:var(--cloud);font-weight:500}
+.acts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem}
+
+section{padding:clamp(2.6rem,6vw,4.2rem) 0}
+h2{font-family:var(--pen);font-weight:400;font-size:clamp(2.3rem,5.5vw,3.2rem);line-height:1.05;color:#F7FFF3;text-shadow:0 0 10px rgba(123,203,142,.45);margin-bottom:.9rem}
+.sub{color:var(--mute);max-width:40em;margin-bottom:1.4rem}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem}
+.how div{border-top:1px solid var(--line);padding-top:.9rem}
+.how b{display:block}
+.how p{color:#D3E2D5;font-size:.95rem}
+
+.player{position:relative;aspect-ratio:16/9;background:var(--deep);border:1px solid var(--line)}
+.player button{position:absolute;inset:0;border:0;padding:0;cursor:pointer;background:none}
+.player img{width:100%;height:100%;object-fit:cover}
+.play{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:rgba(8,22,14,.7);border:1px solid var(--glow)}
+.play::after{content:"";position:absolute;left:31px;top:23px;border-left:21px solid var(--glow);border-top:15px solid transparent;border-bottom:15px solid transparent}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(15,36,24,.94);backdrop-filter:blur(8px);border-block:1px solid var(--line);padding-block:.7rem}
+.tools .wrap{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;justify-content:space-between}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{border:1px solid var(--line);background:transparent;padding:.25rem .8rem;font-size:.88rem;cursor:pointer;color:var(--mute)}
+.chip[aria-pressed="true"]{background:var(--glow);color:var(--deep);border-color:var(--glow)}
+.chip .c{font:500 .72rem var(--mono);opacity:.7;margin-left:.3rem}
+.pick{display:flex;gap:.4rem;align-items:center}
+
+.grp{padding-top:1.6rem}
+.grp h3{font-family:var(--pen);font-weight:400;font-size:2rem;color:#F7FFF3;line-height:1.1;display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap}
+.grp h3 small{font:400 .8rem var(--mono);color:var(--mute)}
+.grp h3 button{font:400 .82rem var(--serif);background:none;border:1px solid var(--line);color:var(--mute);padding:.1rem .6rem;cursor:pointer}
+.grp h3 button:hover{color:var(--glow);border-color:var(--glow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem .9rem;padding-block:1rem .5rem}
+.card{display:grid;gap:.4rem}
+.shot{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--deep);cursor:zoom-in;border:0;padding:0;width:100%}
+.shot img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease,filter .5s ease}
+.shot img.v{object-position:50% 22%}
+.shot:hover img{transform:scale(1.035);filter:brightness(1.08)}
+.tag{position:absolute;top:.45rem;left:.45rem;font:500 .7rem/1 var(--mono);background:rgba(8,22,14,.8);border:1px solid var(--line);padding:.32rem .42rem}
+.sel{position:absolute;top:.4rem;right:.4rem;width:34px;height:34px;border:1.5px solid rgba(255,255,255,.85);background:rgba(8,22,14,.45);cursor:pointer;display:grid;place-items:center;color:transparent;font-weight:700}
+.card.on .sel{background:var(--amber);border-color:var(--amber);color:var(--deep)}
+.card.on .shot{outline:3px solid var(--amber);outline-offset:-3px}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;font:400 .8rem var(--mono);color:#86a28d}
+.meta .no{font:500 .92rem var(--mono);color:var(--cloud)}
+.meta a{color:var(--mute);text-decoration:none}
+.meta a:hover{color:var(--glow)}
+
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:8;background:rgba(8,22,14,.97);border-top:1px solid var(--amber);padding:.7rem 0 max(.7rem,env(safe-area-inset-bottom,0px))}
+.bar .wrap{display:flex;gap:.6rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar .n{font:500 1rem var(--mono)}
+.bar .n b{color:var(--amber);font-size:1.2rem}
+.bar .row{display:flex;gap:.4rem;flex-wrap:wrap}
+
+footer{padding:2.5rem 0 6rem;border-top:1px solid var(--line);color:var(--mute);font-size:.85rem;margin-top:3rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+dialog{border:0;padding:0;background:transparent;color:var(--cloud)}
+dialog::backdrop{background:rgba(4,12,7,.94)}
+/* 크게 보기: 화면 전체를 덮는 고정 창 (휴대폰 주소창 높이 변화에도 버튼이 화면 안에 남도록 dvh) */
+#viewer{position:fixed;inset:0;width:100%;height:100%;height:100dvh;max-width:none;max-height:none;margin:0;background:#050d08}
+#viewer[open]{display:block}
+html.lock,html.lock body{overflow:hidden}
+.vw{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:max(.6rem,env(safe-area-inset-top,0px)) max(.6rem,env(safe-area-inset-right,0px)) max(.7rem,env(safe-area-inset-bottom,0px)) max(.6rem,env(safe-area-inset-left,0px))}
+.vw-top{display:flex;justify-content:space-between;align-items:center;gap:.6rem;padding-bottom:.5rem}
+.vw-top .t{font:500 .88rem/1.4 var(--mono);min-width:0}
+.vw-top .t b{color:var(--amber);font-weight:500;margin-right:.5rem}
+.vw-img{position:relative;display:flex;align-items:center;justify-content:center;min-height:0;touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none}
+.vw-img img{max-width:100%;max-height:100%;object-fit:contain;-webkit-user-drag:none;transition:opacity .15s}
+.vw-img img.ld{opacity:.35}
+.nav,.x{background:rgba(5,13,8,.55);border:1px solid rgba(238,245,236,.35);color:var(--cloud);width:48px;height:48px;cursor:pointer;font-size:1.6rem;line-height:1;border-radius:50%;flex:none;-webkit-tap-highlight-color:transparent}
+.nav:hover,.x:hover{border-color:var(--glow);color:var(--glow)}
+.nav{position:absolute;top:50%;margin-top:-24px;z-index:2}
+.nav.prev{left:.2rem}.nav.next{right:.2rem}
+.vw-bot{display:flex;justify-content:center;align-items:center;gap:.45rem;flex-wrap:wrap;padding-top:.7rem}
+.vw-bot .btn{min-height:44px}
+.vw-hint{text-align:center;font-size:.78rem;color:#7d9a85;padding-top:.35rem}
+#vwPick[aria-pressed="true"]{background:var(--amber);color:var(--deep);border-color:var(--amber)}
+
+.dlg{width:min(560px,100vw - 2rem);max-height:calc(100vh - 2rem);margin:auto}
+.sheet{background:var(--sky);border:1px solid var(--line);padding:1.5rem;overflow:auto;max-height:calc(100vh - 2rem)}
+.sheet h3{font-family:var(--pen);font-weight:400;font-size:2.3rem;line-height:1;color:#F7FFF3}
+.sheet .sub{margin:.5rem 0 1rem;font-size:.95rem}
+.thumbs{display:flex;gap:.3rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1rem}
+.thumbs img{width:72px;height:48px;object-fit:cover;flex:none;background:var(--deep)}
+.dl-list{display:grid;gap:.3rem;max-height:40vh;overflow:auto;margin:.8rem 0;font:400 .85rem var(--mono)}
+.dl-list a{color:var(--cloud);text-decoration:none;border-bottom:1px solid var(--line);padding:.3rem 0;display:flex;justify-content:space-between}
+.dl-list a:hover{color:var(--glow)}
+.dl-list a.done::after{content:"받음";color:var(--ok)}
+.dl-list button{background:none;border:0;border-bottom:1px solid var(--line);color:var(--cloud);padding:.35rem 0;display:flex;justify-content:space-between;cursor:pointer;text-align:left;font:inherit}
+.dl-list button.done::after{content:"받음";color:var(--ok)}
+.dl-list button.bad::after{content:"다시 눌러 주세요";color:var(--err)}
+.prog{height:6px;background:var(--deep);border:1px solid var(--line);margin:.6rem 0}
+.prog i{display:block;height:100%;width:0;background:var(--amber);transition:width .2s}
+.chunks{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.chunks .btn.done{background:var(--ok)}
+.meta button{background:none;border:0;color:var(--mute);cursor:pointer;font:inherit;padding:.2rem 0 .2rem .6rem}
+.meta button:hover{color:var(--glow)}
+form.rq{display:grid;gap:1rem}
+label{display:grid;gap:.35rem;font-size:.88rem;color:var(--mute)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.rq input[type=text],.rq textarea{width:100%;background:var(--deep);border:1px solid var(--line);padding:.6rem .75rem;color:var(--cloud);font-size:1rem}
+.rq textarea{min-height:90px;resize:vertical}
+.rq textarea.nos{min-height:56px;font:400 .9rem var(--mono)}
+.kinds{display:flex;flex-wrap:wrap;gap:.4rem}
+.kinds label{display:block}
+.kinds input{position:absolute;opacity:0;pointer-events:none}
+.kinds span{display:inline-block;border:1px solid var(--line);padding:.3rem .8rem;font-size:.9rem;color:var(--cloud);cursor:pointer}
+.kinds input:checked+span{background:var(--glow);border-color:var(--glow);color:var(--deep);font-weight:700}
+.kinds input:focus-visible+span{outline:2px solid var(--amber);outline-offset:2px}
+.agree{display:flex;gap:.5rem;align-items:flex-start;font-size:.88rem}
+.agree input{margin-top:.35rem}
+.hp{position:absolute;left:-9999px}
+.msg{font-size:.93rem;min-height:1.4em}
+.msg.ok{color:var(--ok)}.msg.err{color:var(--err)}
+.foot{display:flex;justify-content:flex-end;gap:.5rem;flex-wrap:wrap}
+.done{text-align:center;padding:1.8rem .5rem}
+.done .pen{font-size:2.6rem;display:block;line-height:1.1;margin-bottom:.5rem}
+
+@media (max-width:860px){
+  .top-grid,.how{grid-template-columns:minmax(0,1fr)}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem .6rem}
+  .two{grid-template-columns:minmax(0,1fr)}
+  .sel{width:40px;height:40px}
+  .chip{padding:.4rem .85rem;min-height:38px}
+  .bar .wrap{gap:.45rem}
+  .bar .row{width:100%}
+  .bar .row .btn{flex:1;justify-content:center;min-height:44px}
+  .tools .pick{width:100%}
+  .dl-list button{min-height:42px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="app">
+<header class="top">
+  <div class="wrap">
+    <a class="back" href="/record.html">← 현장 기록 · 2026생태관광주간</a>
+    <div class="top-grid">
+      <div>
+        <h1 class="pen">이성권과 함께하는 제주나무이야기</h1>
+        <p class="lede">동백동산 곶자왈에서 나무 한 그루 한 그루의 이야기를 들었습니다. 잎을 만져 보고, 열매와 버섯, 숲의 작은 것들을 함께 들여다봤어요. 마음에 드는 사진을 골라 받고, 원본이 필요하면 알려 주세요.</p>
+        <div class="acts">
+          <a class="btn ghost" href="#gate" id="toPhotos">사진첩 열기 🔒</a>
+          <a class="btn ghost" href="#video" id="toVideo">영상 보기</a>
+          <a class="btn ghost" id="allDrive" href="#" target="_blank" rel="noopener" hidden>전체 폴더 열기 (구글 드라이브)</a>
+        </div>
+      </div>
+      <p class="log">
+        <b>촬영</b> 10:01 – 12:35<br>
+        동백동산습지센터 · 동백동산 곶자왈 · 조천읍 선흘리<br>
+        해설 이성권 · (주)평화여행자<br>
+        2026 생태관광주간<br>
+        <b id="countLine"></b>
+      </p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="video" hidden>
+    <div class="wrap">
+      <h2>나무가 들려준 이야기</h2>
+      <p class="sub">동백동산 곶자왈에서 나무 이야기를 들으며 걸은 기록 영상입니다. <a id="vidDl" hidden target="_blank" rel="noopener">영상 파일 받기 (구글 드라이브)</a></p>
+      <div class="player" id="player">
+        <button type="button" id="playBtn" aria-label="이성권과 함께하는 제주나무이야기 영상 재생">
+          <img id="ytThumb" alt="" loading="lazy">
+          <span class="play" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+<section class="gate" id="gate">
+  <div class="gate-box">
+    <div class="pen" style="font-size:clamp(2.4rem,8vw,3.4rem)">사진첩 열기</div>
+    <p>🔒 사진첩은 그날 함께한 분들만 볼 수 있어요.<br>안내받은 비밀번호 여섯 자리를 입력해 주세요.</p>
+    <form id="gateForm" autocomplete="off">
+      <input id="pw" inputmode="numeric" maxlength="10" placeholder="숫자 여섯 자리" aria-label="비밀번호 여섯 자리" required>
+      <button class="btn" type="submit">열기</button>
+    </form>
+    <div class="err" id="gateErr" role="alert"></div>
+    <small>비밀번호는 문자나 카카오톡으로 안내해 드렸어요.</small>
+  </div>
+</section>
+  <div id="photoArea" hidden>
+  <section style="padding-bottom:1.5rem">
+    <div class="wrap">
+      <h2>사진 받는 법</h2>
+      <div class="how">
+        <div><b>골라서 한 번에 받기</b><p>사진 오른쪽 위 네모를 눌러 여러 장을 고르거나 <b style="display:inline">이 묶음 고르기</b>를 누른 뒤, 아래에 뜨는 <b style="display:inline">받기</b>를 누르세요. 휴대폰은 사진 앱에 바로 저장되고, 컴퓨터는 ZIP 파일 하나로 받아집니다.</p></div>
+        <div><b>원본이 필요하면</b><p>여기서 받는 사진은 휴대폰·SNS에 알맞은 크기(긴 변 2048px)입니다. 인화나 큰 화면용 원본은 사진을 고른 뒤 <b style="display:inline">원본 요청</b>을 보내 주세요. 준비되면 연락드려요.</p></div>
+        <div><b>내리고 싶은 사진</b><p>공개되길 원하지 않는 사진이 있으면 골라서 원본 요청 창에서 <b style="display:inline">사진 내려 주세요</b>를 선택해 보내 주세요. 확인하는 대로 내리겠습니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tools" id="photos">
+    <div class="wrap">
+      <div class="chips" id="chips" role="group" aria-label="시간대로 거르기"></div>
+      <div class="pick">
+        <button class="btn ghost sm" type="button" id="pickAll">보이는 사진 모두 고르기</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" id="groups"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>이성권과 함께하는 제주나무이야기 · 2026생태관광주간 현장 기록</span>
+    <span>제작 : <a href="https://jejugrapher.com/" target="_blank" rel="noopener" style="color:var(--glow);font-weight:700;text-decoration:underline;text-underline-offset:3px">제주그래퍼</a></span>
+    <span>요청 때 사진 번호를 알려 주시면 더 빨리 찾아 드려요</span>
+  </div>
+</footer>
+</div>
+
+<div class="bar" id="bar" hidden>
+  <div class="wrap">
+    <span class="n"><b id="selN">0</b>장 골랐어요</span>
+    <div class="row">
+      <button class="btn sm" type="button" id="barDl">받기</button>
+      <button class="btn ghost sm" type="button" id="barReq">원본 요청</button>
+      <button class="btn ghost sm" type="button" id="barClear">고른 것 지우기</button>
+    </div>
+  </div>
+</div>
+
+<dialog id="viewer" aria-label="사진 크게 보기">
+  <div class="vw">
+    <div class="vw-top">
+      <span class="t" id="vwTitle"></span>
+      <button class="x" type="button" id="vwClose" aria-label="닫기">×</button>
+    </div>
+    <div class="vw-img" id="vwStage">
+      <img id="vwImg" alt="" draggable="false">
+      <button class="nav prev" type="button" id="vwPrev" aria-label="이전 사진">‹</button>
+      <button class="nav next" type="button" id="vwNext" aria-label="다음 사진">›</button>
+    </div>
+    <div class="vw-bot">
+      <button class="btn ghost sm" type="button" id="vwPick" aria-pressed="false">고르기</button>
+      <button class="btn sm" type="button" id="vwDown">이 사진 받기</button>
+      <button class="btn ghost sm" type="button" id="vwReq">원본 요청</button>
+    </div>
+    <div class="vw-hint">옆으로 밀거나 ‹ › 를 눌러 다음 사진으로 넘겨요</div>
+  </div>
+</dialog>
+
+<dialog id="dl" class="dlg" aria-label="고른 사진 받기">
+  <div class="sheet">
+    <h3>고른 사진 받기</h3>
+    <p class="sub" id="dlSub"></p>
+    <div class="foot" style="justify-content:flex-start">
+      <button class="btn sm" type="button" id="dlAll">한 번에 받기</button>
+      <button class="btn ghost sm" type="button" id="dlZip" hidden>ZIP 파일로 받기</button>
+      <button class="btn ghost sm" type="button" id="dlClose">닫기</button>
+    </div>
+    <div class="prog" id="dlProg" hidden><i></i></div>
+    <p class="msg" id="dlMsg" role="status"></p>
+    <div class="chunks" id="dlChunks"></div>
+    <details style="margin-top:.4rem"><summary style="cursor:pointer;color:var(--mute);font-size:.88rem">한 장씩 받기</summary>
+    <div class="dl-list" id="dlList"></div></details>
+    <p class="sub" style="font-size:.85rem;margin:.6rem 0 0">많이 받으실 때는 <a id="dlFolder" target="_blank" rel="noopener">드라이브 폴더</a>에서 받으셔도 됩니다.</p>
+  </div>
+</dialog>
+
+<dialog id="req" class="dlg" aria-label="원본 요청">
+  <div class="sheet">
+    <div id="reqForm">
+      <h3>원본 요청</h3>
+      <p class="sub">고른 사진 번호가 아래에 들어가 있어요. 원본(고해상도)을 드라이브에 올리고 남겨 주신 연락처로 알려 드립니다.</p>
+      <div class="thumbs" id="rqThumbs"></div>
+      <form class="rq" id="form" novalidate>
+        <label for="f_nos">사진 번호 (쉼표로 구분, 고쳐 써도 돼요)
+          <textarea class="nos" id="f_nos"></textarea>
+        </label>
+        <div>
+          <div style="font-size:.88rem;color:var(--mute);margin-bottom:.4rem">어떤 요청인가요?</div>
+          <div class="kinds">
+            <label for="k1"><input type="radio" name="kind" id="k1" value="원본(고해상도)" checked><span>원본(고해상도)</span></label>
+            <label for="k2"><input type="radio" name="kind" id="k2" value="밝기·색감"><span>밝기·색감</span></label>
+            <label for="k3"><input type="radio" name="kind" id="k3" value="사진 내려 주세요"><span>사진 내려 주세요</span></label>
+            <label for="k4"><input type="radio" name="kind" id="k4" value="기타"><span>기타</span></label>
+          </div>
+        </div>
+        <label for="f_msg">남길 말 (선택)
+          <textarea id="f_msg" placeholder="예) 액자로 뽑고 싶어요. / 아이 얼굴이 나온 사진은 내려 주세요."></textarea>
+        </label>
+        <div class="two">
+          <label for="f_name">이름<input type="text" id="f_name" autocomplete="name" placeholder="예) 김OO"></label>
+          <label for="f_contact">연락처 (휴대폰 또는 이메일)<input type="text" id="f_contact" autocomplete="tel" placeholder="원본이 준비되면 알려 드려요"></label>
+        </div>
+        <label class="hp" aria-hidden="true">웹사이트<input type="text" id="f_web" tabindex="-1" autocomplete="off"></label>
+        <label class="agree" for="f_agree"><input type="checkbox" id="f_agree"> 이름과 연락처는 이 사진의 안내에만 쓰고, 안내가 끝나면 지웁니다.</label>
+        <p class="msg" id="rqMsg" role="status"></p>
+        <div class="foot">
+          <button class="btn ghost sm" type="button" id="rqCancel">닫기</button>
+          <button class="btn sm" type="submit" id="rqSend">요청 보내기</button>
+        </div>
+      </form>
+    </div>
+    <div class="done" id="reqDone" hidden>
+      <span class="pen">요청을 받았어요</span>
+      <p style="color:var(--mute);margin-bottom:1.2rem">준비되면 남겨 주신 연락처로 알려 드릴게요.</p>
+      <button class="btn ghost sm" type="button" id="doneClose">닫기</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* ── 설정 (build_gallery.py가 채움) ─────────────── */
+const SESSION = "eco-tree";
+const PW_HASH = "8104dcf66cdf15f535bad938c296504104651d9c8326dd0e4bbb8a49f8ddc94a";            // sha256("byeolbam-pw:" + 날짜 6자리)
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwYW8zN_7UyGnbeYpf3A5hSeSp4GVTc3N3Rj3c28WgnOiAZHVDuovvn4WvN5zHE6_WV/exec";       // 구글 Apps Script 웹 앱 (별밤사진관과 같은 창구)
+const YT = "I6uVG54iCM8";
+const DRIVE_FOLDER = "https://drive.google.com/drive/folders/1tHacIohtcwCRgCN21R7mVraDRu6YDWF_";
+const PHOTOS = [{"n":"001","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"002","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"003","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"004","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"005","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"006","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"007","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"008","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"009","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"010","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"011","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"012","t":"10:01","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"013","t":"10:02","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"014","t":"10:03","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"015","t":"10:03","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"016","t":"10:03","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"017","t":"10:03","cam":"A1","s":"동백동산 입구에서","v":1},{"n":"018","t":"10:03","cam":"A1","s":"동백동산 입구에서","v":1},{"n":"019","t":"10:03","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"020","t":"10:05","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"021","t":"10:05","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"022","t":"10:05","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"023","t":"10:06","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"024","t":"10:06","cam":"A1","s":"동백동산 입구에서","v":1},{"n":"025","t":"10:09","cam":"A1","s":"동백동산 입구에서","v":1},{"n":"026","t":"10:09","cam":"A1","s":"동백동산 입구에서","v":1},{"n":"027","t":"10:09","cam":"A1","s":"동백동산 입구에서","v":1},{"n":"028","t":"10:10","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"029","t":"10:13","cam":"A1","s":"동백동산 입구에서","v":1},{"n":"030","t":"10:15","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"031","t":"10:16","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"032","t":"10:16","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"033","t":"10:16","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"034","t":"10:16","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"035","t":"10:17","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"036","t":"10:17","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"037","t":"10:17","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"038","t":"10:17","cam":"A1","s":"동백동산 입구에서","v":0},{"n":"039","t":"10:26","cam":"A1","s":"나무를 만나다","v":0},{"n":"040","t":"10:26","cam":"A1","s":"나무를 만나다","v":0},{"n":"041","t":"10:27","cam":"A1","s":"나무를 만나다","v":0},{"n":"042","t":"10:27","cam":"A1","s":"나무를 만나다","v":0},{"n":"043","t":"10:27","cam":"A1","s":"나무를 만나다","v":0},{"n":"044","t":"10:27","cam":"A1","s":"나무를 만나다","v":0},{"n":"045","t":"10:27","cam":"A1","s":"나무를 만나다","v":0},{"n":"046","t":"10:27","cam":"A1","s":"나무를 만나다","v":0},{"n":"047","t":"10:28","cam":"A1","s":"나무를 만나다","v":0},{"n":"048","t":"10:28","cam":"A1","s":"나무를 만나다","v":0},{"n":"049","t":"10:28","cam":"A1","s":"나무를 만나다","v":0},{"n":"050","t":"10:28","cam":"A1","s":"나무를 만나다","v":0},{"n":"051","t":"10:28","cam":"A1","s":"나무를 만나다","v":0},{"n":"052","t":"10:28","cam":"A1","s":"나무를 만나다","v":0},{"n":"053","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"054","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"055","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"056","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"057","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"058","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"059","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"060","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"061","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"062","t":"10:30","cam":"A1","s":"나무를 만나다","v":0},{"n":"063","t":"10:32","cam":"A1","s":"나무를 만나다","v":0},{"n":"064","t":"10:32","cam":"A1","s":"나무를 만나다","v":0},{"n":"065","t":"10:32","cam":"A1","s":"나무를 만나다","v":0},{"n":"066","t":"10:32","cam":"A1","s":"나무를 만나다","v":0},{"n":"067","t":"10:32","cam":"A1","s":"나무를 만나다","v":0},{"n":"068","t":"10:32","cam":"A1","s":"나무를 만나다","v":0},{"n":"069","t":"10:33","cam":"A1","s":"나무를 만나다","v":0},{"n":"070","t":"10:33","cam":"A1","s":"나무를 만나다","v":0},{"n":"071","t":"10:35","cam":"A1","s":"나무를 만나다","v":0},{"n":"072","t":"10:41","cam":"A1","s":"나무를 만나다","v":0},{"n":"073","t":"10:41","cam":"A1","s":"나무를 만나다","v":0},{"n":"074","t":"10:43","cam":"A1","s":"나무를 만나다","v":0},{"n":"075","t":"10:43","cam":"A1","s":"나무를 만나다","v":0},{"n":"076","t":"10:43","cam":"A1","s":"나무를 만나다","v":0},{"n":"077","t":"10:43","cam":"A1","s":"나무를 만나다","v":0},{"n":"078","t":"10:43","cam":"A1","s":"나무를 만나다","v":0},{"n":"079","t":"10:45","cam":"A1","s":"나무를 만나다","v":0},{"n":"080","t":"10:45","cam":"A1","s":"나무를 만나다","v":0},{"n":"081","t":"10:45","cam":"A1","s":"나무를 만나다","v":0},{"n":"082","t":"10:45","cam":"A1","s":"나무를 만나다","v":0},{"n":"083","t":"10:45","cam":"A1","s":"나무를 만나다","v":0},{"n":"084","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"085","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"086","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"087","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"088","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"089","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"090","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"091","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"092","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"093","t":"10:46","cam":"A1","s":"나무를 만나다","v":0},{"n":"094","t":"10:47","cam":"A1","s":"나무를 만나다","v":0},{"n":"095","t":"10:47","cam":"A1","s":"나무를 만나다","v":0},{"n":"096","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"097","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"098","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"099","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"100","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"101","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"102","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"103","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"104","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"105","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"106","t":"10:48","cam":"A1","s":"나무를 만나다","v":0},{"n":"107","t":"10:49","cam":"A1","s":"나무를 만나다","v":0},{"n":"108","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"109","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"110","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"111","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"112","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"113","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"114","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"115","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"116","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"117","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"118","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"119","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"120","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"121","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"122","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"123","t":"10:51","cam":"A1","s":"나무를 만나다","v":0},{"n":"124","t":"10:52","cam":"A1","s":"나무를 만나다","v":0},{"n":"125","t":"10:52","cam":"A1","s":"나무를 만나다","v":0},{"n":"126","t":"10:52","cam":"A1","s":"나무를 만나다","v":0},{"n":"127","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"128","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"129","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"130","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"131","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"132","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"133","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"134","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"135","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"136","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"137","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"138","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"139","t":"10:56","cam":"A1","s":"나무를 만나다","v":0},{"n":"140","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"141","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"142","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"143","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"144","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"145","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"146","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"147","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"148","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"149","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"150","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"151","t":"10:57","cam":"A1","s":"나무를 만나다","v":1},{"n":"152","t":"10:57","cam":"A1","s":"나무를 만나다","v":1},{"n":"153","t":"10:57","cam":"A1","s":"나무를 만나다","v":1},{"n":"154","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"155","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"156","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"157","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"158","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"159","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"160","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"161","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"162","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"163","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"164","t":"10:57","cam":"A1","s":"나무를 만나다","v":0},{"n":"165","t":"10:58","cam":"A1","s":"나무를 만나다","v":0},{"n":"166","t":"10:58","cam":"A1","s":"나무를 만나다","v":0},{"n":"167","t":"10:58","cam":"A1","s":"나무를 만나다","v":0},{"n":"168","t":"10:58","cam":"A1","s":"나무를 만나다","v":0},{"n":"169","t":"10:58","cam":"A1","s":"나무를 만나다","v":0},{"n":"170","t":"10:58","cam":"A1","s":"나무를 만나다","v":0},{"n":"171","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"172","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"173","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"174","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"175","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"176","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"177","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"178","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"179","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"180","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"181","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"182","t":"10:59","cam":"A1","s":"나무를 만나다","v":1},{"n":"183","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"184","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"185","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"186","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"187","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"188","t":"10:59","cam":"A1","s":"나무를 만나다","v":0},{"n":"189","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"190","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"191","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"192","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"193","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"194","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"195","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"196","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"197","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"198","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"199","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"200","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"201","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"202","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"203","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"204","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"205","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"206","t":"11:01","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"207","t":"11:02","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"208","t":"11:02","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"209","t":"11:02","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"210","t":"11:02","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"211","t":"11:02","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"212","t":"11:02","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"213","t":"11:02","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"214","t":"11:02","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"215","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"216","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"217","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"218","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"219","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"220","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"221","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"222","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"223","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"224","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"225","t":"11:04","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"226","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"227","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"228","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"229","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"230","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"231","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"232","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"233","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"234","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"235","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"236","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"237","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"238","t":"11:05","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"239","t":"11:06","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"240","t":"11:06","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"241","t":"11:06","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"242","t":"11:07","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"243","t":"11:07","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"244","t":"11:07","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"245","t":"11:07","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"246","t":"11:07","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"247","t":"11:07","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"248","t":"11:07","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"249","t":"11:09","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"250","t":"11:10","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"251","t":"11:10","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"252","t":"11:10","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"253","t":"11:10","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"254","t":"11:10","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"255","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"256","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"257","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"258","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"259","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"260","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"261","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"262","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"263","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"264","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"265","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"266","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"267","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"268","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"269","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"270","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"271","t":"11:11","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"272","t":"11:12","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"273","t":"11:12","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"274","t":"11:12","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"275","t":"11:12","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"276","t":"11:12","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"277","t":"11:12","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"278","t":"11:12","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"279","t":"11:12","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"280","t":"11:13","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"281","t":"11:14","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"282","t":"11:14","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"283","t":"11:18","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"284","t":"11:18","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"285","t":"11:18","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"286","t":"11:18","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"287","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"288","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"289","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"290","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"291","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"292","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"293","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"294","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"295","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"296","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"297","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"298","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"299","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"300","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"301","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"302","t":"11:20","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"303","t":"11:21","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"304","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"305","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"306","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"307","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"308","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"309","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"310","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"311","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"312","t":"11:22","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"313","t":"11:23","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"314","t":"11:23","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"315","t":"11:31","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"316","t":"11:31","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"317","t":"11:31","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"318","t":"11:31","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"319","t":"11:31","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"320","t":"11:31","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"321","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"322","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"323","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"324","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"325","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"326","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"327","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"328","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"329","t":"11:35","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"330","t":"11:36","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"331","t":"11:36","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"332","t":"11:36","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"333","t":"11:36","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"334","t":"11:37","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"335","t":"11:37","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"336","t":"11:37","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"337","t":"11:37","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"338","t":"11:39","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"339","t":"11:39","cam":"A1","s":"곶자왈 숲길","v":0},{"n":"340","t":"11:41","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"341","t":"11:41","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"342","t":"11:41","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"343","t":"11:41","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"344","t":"11:41","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"345","t":"11:41","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"346","t":"11:44","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"347","t":"11:44","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"348","t":"11:44","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"349","t":"11:44","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"350","t":"11:44","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"351","t":"11:45","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"352","t":"11:45","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"353","t":"11:45","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"354","t":"11:45","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"355","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"356","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"357","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"358","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"359","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"360","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"361","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"362","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"363","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"364","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"365","t":"11:46","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"366","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"367","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"368","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"369","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"370","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"371","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"372","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"373","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"374","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"375","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"376","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"377","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"378","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"379","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"380","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"381","t":"11:47","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"382","t":"11:48","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"383","t":"11:48","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"384","t":"11:48","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"385","t":"11:49","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"386","t":"11:49","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"387","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"388","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"389","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"390","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"391","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"392","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"393","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"394","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"395","t":"11:50","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"396","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"397","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"398","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"399","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"400","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"401","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"402","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"403","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"404","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"405","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"406","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"407","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"408","t":"11:52","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"409","t":"11:59","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"410","t":"11:59","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"411","t":"11:59","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"412","t":"11:59","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"413","t":"11:59","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"414","t":"11:59","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"415","t":"11:59","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"416","t":"11:59","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"417","t":"12:00","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"418","t":"12:00","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"419","t":"12:00","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"420","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"421","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"422","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"423","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"424","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"425","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"426","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"427","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"428","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"429","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"430","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"431","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"432","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"433","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"434","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"435","t":"12:01","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"436","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"437","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"438","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"439","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"440","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"441","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"442","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"443","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"444","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"445","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"446","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"447","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"448","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"449","t":"12:02","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"450","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"451","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"452","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"453","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"454","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"455","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"456","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"457","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"458","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"459","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"460","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"461","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"462","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"463","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"464","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"465","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"466","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"467","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"468","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"469","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"470","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"471","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"472","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"473","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"474","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"475","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"476","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"477","t":"12:03","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"478","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"479","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"480","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"481","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"482","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"483","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"484","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"485","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"486","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"487","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"488","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"489","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"490","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"491","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"492","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"493","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"494","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"495","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"496","t":"12:04","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"497","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"498","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"499","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"500","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"501","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"502","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"503","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"504","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"505","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"506","t":"12:05","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"507","t":"12:08","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"508","t":"12:08","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"509","t":"12:08","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"510","t":"12:08","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"511","t":"12:08","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"512","t":"12:08","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"513","t":"12:08","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"514","t":"12:09","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"515","t":"12:09","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"516","t":"12:09","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"517","t":"12:09","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"518","t":"12:10","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"519","t":"12:10","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"520","t":"12:10","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"521","t":"12:12","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"522","t":"12:17","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"523","t":"12:17","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"524","t":"12:17","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"525","t":"12:18","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"526","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"527","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"528","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"529","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"530","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"531","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"532","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"533","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"534","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"535","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"536","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"537","t":"12:22","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"538","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"539","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"540","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"541","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"542","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"543","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"544","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"545","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"546","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"547","t":"12:24","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"548","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"549","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"550","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"551","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"552","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"553","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"554","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"555","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"556","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"557","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"558","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"559","t":"12:27","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"560","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"561","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"562","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"563","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"564","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"565","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"566","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"567","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"568","t":"12:28","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"569","t":"12:32","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"570","t":"12:33","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"571","t":"12:33","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"572","t":"12:33","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"573","t":"12:35","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"574","t":"12:35","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"575","t":"12:35","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"576","t":"12:35","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"577","t":"12:35","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"578","t":"12:35","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0},{"n":"579","t":"12:35","cam":"A1","s":"잎과 열매, 숲의 작은 것들","v":0}];             // [{n,t,cam,s,v}]  v=1 세로 사진
+const IDS = {"001":"1abDQPL54y5Hi0px5LfqeApGTh5MnkQBR","002":"1uAZ6rrXT0gEA5O8wv2hbm053LZEXusmc","003":"1GJIKtt8418rnw63wdM1KNeMRGifLl2JM","004":"1k26mjFcX9bUSAloTAMTZekrXSA1-4fBJ","005":"1ramIgj-X_PMTmBbhHJhGEkZfxHylCZ0t","006":"11F80T-QuTlK-6oc2_MDdizHYLZ5wh8ze","007":"1w8aQa4PHQiM9lN7pMCDGdnMXaOIbWpFj","008":"1OAus0TX8vfMvh7clu2CjHz79vG_Jcse5","009":"1d0ht5ldOV9wVxIIHHMyAYsajjBIqwJ1f","010":"1jtRyXtqZWUVYly8wIdOie0dDluVEnYKr","011":"1JWPyYbyDzZoDrwiVEgeZPh06lswSk3v_","012":"1Eex4fuCfoe5EcWsl69GjGyl5OwfN4M8A","013":"1icXb6EsG7a_xVqwPGX1jcK5fsSfsmRiC","014":"1LfCBDlUs5wQhB4Up061l-kz0iHZlcAc_","015":"1irvHZLE_HBEXyCQ1F9Rn5SZq5o-_ousV","016":"1wUVGdaHIl03NqeIXuXA5YrtKcrMqTcvc","017":"1Z3FJBMN2fh2_4haedEMnWHumJ5f9PQGq","018":"1AvdDdotQXntDgFzEepmfj-kuzN0mbRv5","019":"16Al_FOTAQ1lkDKQqGaziX2lWp7dq5PA_","020":"10Z-Y2IS2rteDa424UjSrZgB9b5j9GMGh","021":"1mEGZBJ90wJ4i8HS3EROzauxmboYUh58j","022":"1Hfa5S1LTSbEEZeX6pOgvCt8ZHCYVJ8UM","023":"1XsYpPyJ6WzvS8C0_yuqwJVdVvaUKJYJu","024":"1TM37cT71Dk1SD74ZRMb5iq2NRegKZv8D","025":"10FiX_jXUogkMkkzm6orDrecm1HnszMto","026":"1yHrb0zNSfVQH1gvKNnJ9X8iDAHa39r2S","027":"1EP8mq296_7lD870mY6RJyOx94A_duUy8","028":"1SnU79HUeOLRT71BiGTE-ywP4ayi0dKX1","029":"14cj8s6gjD-82KGM4_AYe-ADN89bFhYqA","030":"1pYyciiBLIQG_NP2YgAcbWblyvJp6h0k8","031":"1V62fMlLhVChOAUcE9WyBI7aA6GvkFtqX","032":"1waCgD5Z4fca-0VtXTGHnU90CxPPk_bVo","033":"125RepzBQNIw4TrzbPoXzLMPY7mRbz-Pu","034":"1fyYIWGm0ICr6IPwB5IE3gJ_kdQhSdmgJ","035":"1Xamf_yrkG-AmP1gJ5VFXFpfV_W4U_TrS","036":"1AXop_Bw3BcfmpTOqht1W1Z_518qCBnQP","037":"1QAg5QzOKWhGTasx5BWHfP_vnZaXMdUHc","038":"1fnQYYF0Xasc02B_YE22idbGKWpjoi-MR","039":"1OrJ6Ma_SGXlmnyCqTsxcTVYQ0K__4C8t","040":"16mTFFrhOTF4vFmSDMETGB3VK7mfWmzx4","041":"103fWLpOZIk7-aFj-A9kSRlSR8d_f0mrx","042":"1Amn5sIIPSZxCxd3BikW5uhbuhqqHnwbi","043":"1j7V0rK4pJbMDhLH5RCs0rtMgMzhjNpg_","044":"1XAIZT_QnsdEO-ZqOPryUcWgl5pVRlAks","045":"1rV_napI0mGhuNYJV62vAK7sI-Yu07Aos","046":"1kfSza66EU64ennsPe26Rb9yfpozOH1oK","047":"1SGqeqClVRgp4DwvYCpeHUYX1g4_E56Mp","048":"115sJN2n5o7ccEiD7WVhSB_sZwpC-8glh","049":"1aIycs5OYkjC1GZW4sXIzWwv9oCoUWuf6","050":"1Bkwtzs85NEjZhY5OEX9LJgUFvIilcwr4","051":"18fUlHcDx9n3TkpyEA9pCjF_5JXn04KUM","052":"1Dqo6EML3KeCCCq5pSngSJHMBT2fpCVEF","053":"1CvUD3mLh-KyDMCki4LoXF3du5pcvOczS","054":"1HfNl3TLSJ2cvgXYO2SX2ZmTVK2ngNrRS","055":"1a60hq2qG8iyQLlFiZCBRqRTVH7F2J3Fq","056":"1-viKCL_GzY0JITvb_-0kkArl-aw3oNHa","057":"1cxiDqBwx0AdEuIAqFdJf_oB3BUp0kLHn","058":"1J7Gdrb2enrE8O7tqgG4NbxQS4Qgri9oR","059":"1MDslIf41uX3EifTYh-bLpxxQIJyMH8wJ","060":"12HtAK4vTdPzzWN6r74xyV-WBfJJkaAvd","061":"17T4rszgzJjAAmQ3PRTatunOgXbnOBdFY","062":"126ic8JemTSaKO6JTSLJeaKPkoSuHOnZ1","063":"1tkjH3jvsTJR4iKK46ebjbWBHXU-4gHgw","064":"1lKnu16G1_a_dHOVRPzhAQc4HMD5VHNgM","065":"1DU_21tt2ywswwqytGCWilEN2Ms8CQqXK","066":"1e7TU1-YPlQj9j1s-yQP6EIODMbwlIikG","067":"1lq9KISJ8pkvw0liiw-F6vRcKMJwqaxDD","068":"1tEfUwItVMRjTLDO9C7-hIDRUfVCaGTBE","069":"1Xch8hyDcXd-qcoeP_pZSkkvslj7OMRg8","070":"1PHRpPDeRPy30diK-KHDzPzVY4hKOnfG_","071":"1Z025kr6w0SEqGfXpqShImUxJPSo9Z1aj","072":"19GqhvIEdRqVz84wslDewpR1x_SDgSjgS","073":"1gKuCHV68Kz4MJ-nbZT0o1v9mLvnqlAB7","074":"1z9R6pAhaT-vkybyo_j-UaZQHUjh5JZws","075":"1vf5FL6s7JPqKQO4yTcPo2T5AY1yOzROn","076":"1uTU6HeO8JtzO7ldATRcO4hWdWHtBumN9","077":"1evFxm0inR3XYWO-PE7MufwdDafnFiHdj","078":"1v-NH1PCAF0XFVDc1b5hqT2zcNjXH-1lU","079":"11OBDPEviV1MMB4U2fIg99tM193wvhFRR","080":"1HotyLI160HT5pYMldeBDsqcM18UeT5gr","081":"1NXMoukWQ0tSBwSwcXOupRcphoQfkxk6K","082":"1ZFfbCxP8G33FZ2gQXU8cwM08SQZuvezk","083":"1vVnG2Aa4vJ3pIO3nFhKoFKyVw1xS9NQp","084":"1Nsn3knZos1YLxRwNLaDjSIE3KGBoG7YH","085":"1SlhKOAfy_xM3DO-xM-VgC8GGxLHvGVDA","086":"1bNtSOsRc2jSgM71GW6Yfy29QcMxMQhkU","087":"1SbXINXNB60urfnvyyobDpO_32OZLj2j7","088":"1Klduzn3Fn4X03RzsmdrUJJY9Pf6HGzvX","089":"1iHoCA2gR6wfM6hv-7yQHrg8VyR0uSrux","090":"1QVxgpFHn4xMJu8Zs5NH6OjQL-ONnlRQr","091":"1DWRPNbzQIY6jfFvr9CFPqowpdabMTd7y","092":"1AIlhohszMx2B6W9s0kVN42UOfqNa6Qd4","093":"13NgLegi334xNj2ZaQr73Sh9hMWP-6Vs_","094":"1mQzZgOBlDdB67syLlboTP6-HEhoRDPRV","095":"1rukZNSLgDha6GTLeKW6Hqz0WG8xAv2vu","096":"1wfbFOv0pLwpK322VRRf6u72g_XzovwDr","097":"1i5LbSy1ZcnPUJW4u01Rn1e9s4tDOroq6","098":"1MqemZfp1EwpjapUtXwZ6HwdzeXi9SQWl","099":"1z-6alj4wn3Gr5ScHAoJAfDHjG6Ppaopj","100":"1lnWOPsADnYmbq3eis6ljP3PgnrOda1oh","101":"1YkhV8ZVJlSKG8KVYwjmOu4pV7DpdtLX9","102":"1WcB39ltdJ8LlvDIQ9nwJlWJJ6_J-uVTC","103":"1tsMTp_QiS7kRWVps8FWz-PlQTB-I51Yo","104":"1t9V8lLffm4UmG1Xv9TWIVgmP5gy6uvL9","105":"1x3IohKouI0lFOxexABNTAnb2khgFWjWB","106":"1YKk8F4yoSSj_8V-4cT28f2mzDoYksTt9","107":"1mCnq8O7EntI7apfSzmZuRbCcQp77FjNa","108":"1w7rzhqGrT8j5MOakH-TPhUCC2eWxHKDC","109":"1RHOTKOLN7o3n2ave1PFoEKYV0FE1wrz9","110":"1onrZF6fJzK1ipuS49m8coKe8fEYydccZ","111":"1eSRD_lYE5sK1yS5XM8eDC2YCm7i18WGr","112":"18rCmG27Ib2ikk7nJmIqUS0riKmqbzlIV","113":"1S4N0VThXjkznRkLX8upL1oXBS6i8DBWc","114":"1FL0pdc08t9vnz4gvlduzPR9f8GTwQN49","115":"1-sT42VqBGqGtdhsqEEmIWIWvrV_ysYEc","116":"1uVG8ueVwIP5CRRPAldAgPC3VFtQqDeJJ","117":"1TrbLayngxgaBfUpFD63NWuT0C9D3w8CG","118":"1W9ld1qWsSA1NSAI0pg2PEG_VSX1qdrAy","119":"1XpDVoJblnPJUxyDN1JZCbVpQ9iOeBPSC","120":"1P8AUwYsz_akyvisxoJjPuD4YDuuINXcj","121":"1hOwLa4g5AGal-8UdthWYPSmw_5wb8OA3","122":"1HX-wsVXlZT31S1DdxsaIkiQViSqNP1b6","123":"12wReaiLSy-fdLN38_1Nmxa_AVmoftDxS","124":"174QAmTLj8vaAB6GMuyIMIZ_niPyij2O3","125":"1lIfVSKrOw7WsEn6Ov2MKLJ3S4a7xyb1I","126":"1Olo8l_QD6YShURRp1s9TF0CTCjNXqQql","127":"1DVw_7fZWoL7gP3b1LrDbDuC_xb4u5qPP","128":"1tyn2YDR0HqSTHAxwkGXgcf5ai6fh5rYQ","129":"1rzDW5Gn7v4DPH-Hn7uuwZrgqSqzZDAFu","130":"1c5QreRg6wS63ryL0jnXIjLE4Kv83qH3B","131":"170Ba-D3JAYyWI2iCNYZkCb6j1HJDWMvu","132":"1osa_b0rEWbey7vrJfJDIp9ZuttqNpXcY","133":"10ewvxrODYAVBtxvjKTSO3QGggBsOodCY","134":"1bHOXxnA_FW2-Txn9ZmMpzdAs8RVmLooI","135":"1dO3XN6BUQddUCOehGVK3XD8Qe1ZliHyd","136":"1WfTg3dUSbfghcZ3bcoEOVZD2CvCQwudt","137":"1mUw8SyrhsK6GAOWK7a_jCTvJtLhcgqKm","138":"1xViCqhr-9zUACjN7PufH2kXJehi3HkcA","139":"1mZBK4pZot6VS2tr2A0qciU2-Hhlr-3th","140":"1yqUxv_SCH4MX_yU4bID-lwUNhnI2lngF","141":"1k4O0mVEkipuWGJk3nrIOdaqBaCFR_3O6","142":"1UVW8fMzf_yM6BVmhSR-cb3boZ_ZOps1X","143":"1UM6xtkt1vomZD1Jd9qAyLkA3RkzwtZFW","144":"1j7pQyAwgX3WA0-0VOrNnVZIJBXbwV0v-","145":"1Ds2JdBSnVkrM13wTidEGthbfQSpQrpFH","146":"147MN2FJG0jAY-dAE-V1cQAB82HSj2jhd","147":"15zz6FDw3r7-w7fM-w9IvaQFRnzOZufH_","148":"1z21dhubMo5vWemO3BrCv4bvluGp4ryNC","149":"1CiywOjeVPIfzwZfxzMap1r0dGV97ZAyv","150":"1QkaH_nGEmbTaseOmAoRw5-kpaA4a8avq","151":"1g3oVw4aSbP2LbU_ZiQBhstXa4kjrcA1B","152":"11mES8qmrWxanpBywWGmvvNR6aYWPjY6n","153":"1MazfaJ-JMmi9f9uDPsG73domNtpYlEeW","154":"1o4ogzSY-85duut1cujUxDtwg7mYVjAEU","155":"1zwKwaSWX6fRNcOFpOthlA4WJpsdm3eAM","156":"1JRCT7yNflRD0d3dSdtEDd9P24iww0KFl","157":"17SlXaChkVqndSKQTONeQfhY9lVTZGts6","158":"1_qKmym6SBqTTOB_WrXsU7ziN0PL8k9mY","159":"1drF0-QtR2pnIn103nDBaCL_z-WqLTeQf","160":"1bLjhLmX6k6CQD5-lULY3ogJqjV9z9vj0","161":"1FWwnKebl_y8o6VuOtiIRQ5-weOPqypGI","162":"1yxxVn8c4tzTwYsJbCdFx2gQuSVcvH2hl","163":"1p6Yi84GFttG8QKRgLFLGiL--KAh40Kd9","164":"1IlJp0Rs76w6pXi5b8DWGNbRQMue8raTk","165":"1WhygPlDZjJm4XnjKcvVDfUJMRyPO33Ow","166":"1DplzCwQ3IOFI0AAGGxOlKqG0cWMbrVyz","167":"13goqrQPtx1M6_DTyyYKv02eBBNbPOVbU","168":"1FSIgBczlpYxynEdeVurWkPEMQ9rHYSwP","169":"1ETEQ7O3-LRflxUgZm3NI_uGWWfTPKndb","170":"1iI5c0Oc8zH-YUCw76D-5c3ahzUrzGbOe","171":"1asEUZHWkcrrPfDe2n4BNxoeFIeCenN9K","172":"10GfAApKpMdsB56LayPmZdKH1SkXi3uLS","173":"10bQinQ6wvl4ubkJRsoQXFs8br3eET-Xb","174":"1vgxImDp_aY3ztbEr8zFDGcNFuBpqFJGs","175":"1zq5sK0QQKdBSSAQZW7Z--BcwPnHZPtcz","176":"1bC7wI--YD19wlas46I2jjKF-vHDj1slk","177":"1DTmpGJdciLLUfoakRDLDDqJgpUgC4a98","178":"1jtIKw9jzXBBDqgSTwLNuFRaZa_TWuR4b","179":"160Kw1NGxERcnH4rHE2Ur3Ye49wl9qoLk","180":"1CHScICAd290_V_49I2jz4U0rjKwJNf1i","181":"1HbTioCoNcT0duydMW7ioWJwfDOpIjdhA","182":"18qfMbLpcvIicYkUBvit_3SqjL7tCqq4p","183":"1tNHtdaOTemZ2FnwS1p-5pqx7cyjl0xe5","184":"1XCUZ4aPJL3Jyt6WnxgYxcTy93_RZ15VY","185":"1ObilKEnTWhaiJoW2zmELHcu1J2l4Da_k","186":"1vChsERxAiUmYsQ8W23XO0_6pwriYNDFG","187":"1Fu5L6dRRWMBzepwyTCADfJvvT8UZO36p","188":"1nvRf93PglLapeT-mjvYa3-vGH3_S0NTL","189":"156Vjp88gFGSJrxSB71fOhmDY_Q-ljwCP","190":"1EY6-pZA4qCuHboGazwH7F1mU3ZffrXV8","191":"14ZPrTNl4bA9TX2mSBeSJx43x6bnhlZLs","192":"1N9ynHwDpAkpQrWPoWwMC4i2eOEN2CNBu","193":"1pBdxmVtDdyl1jQRaJYGksNJitWTdpnxd","194":"1GHzN9-j08tcfAI_4qb87FJWb9PQVmIDL","195":"1unCTuV5_EfcnWAscFrW3oSEYnJgNiNnE","196":"1TMOzpK5hpolscPQYVrLPSeyPpK5IZ8Bf","197":"1YmUwOKVlYQiyotgh-kPvU1f1vGv1qHxd","198":"1svdC8yLz8Ff-HjSujeswxXdssB309tql","199":"1oE8N5k2USC-DDgNZBYAQjDJRC_GPAnub","200":"1RfNXNU0dr2FR6dOWT2MyFAD9Nay8WAx_","201":"1kuzcFcF5dEs6Tu2dBMLQ50jCCjt1wC3o","202":"13YTfdD0yqnhHI5eNylyegiyH2c5IMpNX","203":"1JZwabwN1q74Z3WC0JFyYUHQl5BKwpmJ1","204":"1Qvm-c-oAwkuaGI41HcNxUscrqxPQSfcS","205":"1FGbwVhOeyxL8kVBLbQttwCOlrinXgUHo","206":"1Czmpsj5vLyyk41yc3b864WJDO1AcY6wQ","207":"1O95sMxwyKxMWsTUiHk0mRmZdhDaD5wk_","208":"1KgdmK7K1doXM2dN6CZe-gEH3z5DezZHe","209":"1q38wtRrkuEcwdgVGfCEl1O5XddvXVstx","210":"18McDY5-Rat6m_Z1zVDU7b6fF-l5Jao7i","211":"1eFdIMQ30wKgtRuMmCdUErRsO2AQv87T9","212":"18OBdj3R4fEYp1jtlUbfAeTMiBcfkvkF5","213":"1ZR--iyngSfQuvILcSxfI6xhx7b9uwptS","214":"1f7iruQJ2ImbIfK3s-w8EY34L4j0nQEk6","215":"17XG7A9VaiB78-GBD3h-lT2PyMRkE3cLP","216":"1K59GIJyZS61j_DGM8g7CUywmWChjr_iE","217":"1T1wMoVSf6_ZC_d9dUViD1MOo4ixq4H4r","218":"1dHl1MTT2adiWJRVpGeUR8FbDrR4EDWs-","219":"11FfrxDYkFyTTGRHDudAm0F-L6adKCteW","220":"1evcSCzBeT7BRoyw3WyhbGH-8qPCnPHfm","221":"1oab-r5meTb4O6kfvi3midVid3mbzqRCw","222":"1C6CgQzpayMX-4oM8xvXUCx4SLHOoP7dU","223":"1AwKrykxKvW-YRpA-J2743F6tCLmdOH6C","224":"1zTapmNH9NGOAYWvPg2MLS3bdCbxzEXga","225":"1Ch5zpTt0sN4Jdy6OHH2UWxyYW3oiGufs","226":"17y5w_q4LNasu7YyUTBwBNYXvGaXK6cXj","227":"1tCFsQx7_bns9JWvySl9QSWW8btsko8vV","228":"1crP5vGaS686vW2TKlMMRfq1ySrNqdPoj","229":"16Vj9jOWDjhvedm4hW8GrDjRIaiMtvffE","230":"1uRGnsyHXMUQtxNZZ6c4ci8ZiqpHkDH7i","231":"1pe4Fcn1Gu-v73qEmBKnK0kAvT2_rMrev","232":"12DiLGOargec810vHDSZ89rRkALv7zs3B","233":"1YPO2Fe8x_IOOoWDjwZKf2MwQVHwkMtuY","234":"1BoMG8cwCHF6IBz9flkW_-Ckq8JOICTIv","235":"1zNFoYPnilqX7UBvhWBsnIXCpV0dN8g10","236":"1brjSAc2RJOLnFjWacRNkFL2_FwsnPO-w","237":"1T8p7yGwv-5KrWWusU7ZbNELLLsuFSbXw","238":"15psGqOEW0yOlV8KXyu8KdaGSigqpdqfI","239":"1j1erD3IfjM9hiAhoH2ABbQIBEy6u-reJ","240":"11zFmorexS5RbPyr7_eh_PXUdd9JvLh8s","241":"1pZDl3Saoiih2eRNOTLTkTbxr3Zb6-Trl","242":"1P0R2tgM27u_TogLtaTf5POhcPyV5ZlUx","243":"1phzk4e6koA75QDRGFRbJMwOZAMQFzu_t","244":"1rX0MEyNWvJf_5uH6b8nhcZ2qjIAdlpIP","245":"1eh1faA8vZDa7mU_CSTOZxPN9Rg8uxUyk","246":"1sr-Tr1WsvTju3oEAOX8FLjn6yNJreQqY","247":"13jAMVPt61ArGfa2Lz0mIabooO1GRV7oC","248":"1XwJy9PW5t06giV3bbBIJGpKjRVEQlHo3","249":"1uR14xSAeChZeDhGnpg-YwXgfq7u0bV7V","250":"1edUXwDNZoq_xedBG4nrbcuRn1hiGc_nZ","251":"1h-THHVo_VDYN8MYQ48qfrtO2Gz8xc5un","252":"1MTmcTr2TAD6Q4iZW_-BzfuigJCOVO0BN","253":"1ceGE--xwMXfBq6QrOBgLtId6nkimEvr9","254":"1-gSt0XdI1NvLoTcJ-2l_5PCyukfFjr_U","255":"1UgOxthQnFZQ91iFpCGi2Ojz0_fEpaUCs","256":"1lXX04Y1YFPkq18-RHgGPfapw0SbbYUfV","257":"1A9icSD5PTsZ6aoW4-lPBBx1jpbNsN3z1","258":"13IvoozHsuPefK6AXgHOIxP1niaJxGvuy","259":"11gdq_YK6LSDhud-CvG7u0aj-7ba8HuwT","260":"1CeG4rOcsqX3jtEswRVD6DFAuVGmuy2Ya","261":"10ouKYDce5RfOJ61JDCSoV26jseqi4tIg","262":"1E0sgd0R83CnveQ1C5rShxxW2wE1AIUv3","263":"15fnWJ-DIFEqJQb0zW-7E-cw45qPNBKZg","264":"1HlnS4DV9w-QKKW0KmSVL4ybh4GQ60Fqo","265":"1IpbRNijZQlUyAqncq_gNQjxAPXSXwiP4","266":"1c--BvoIgxU215oz2aH-M8urstY58d8Jq","267":"1yhxotiNGoq_pTYxJUxWG8NjdOIhVrZyd","268":"14YhtIhZf-c4WeXCA65cdHIT1FlZy31ee","269":"1spPNWkrLvKlDC1Qt0hjnW8gRrjwLW4l8","270":"1Xb8MYRrZvx6zbU8wtJafWfeFXB3fQKnA","271":"1l_6sMY6qcBv6ENh8cKE2utOrTXVcmTOR","272":"1VGEUmigYOX8MIhPpDCN6B9NUlwbuVhnB","273":"1XbrntGxPwCChz20dCcClbFdkm25zrczw","274":"1h3Nt-6F-fs-vx40ushvUj5Za84bf0Gb5","275":"1OpryxwfnG9C-Mb9ix5BVMmyxOj3-gMZ-","276":"13z-jvMEBPbgJD4wUVcpJvMw4oA6xHmOe","277":"1cUrFGoWFZOTDnElfjjoHaF3TvsK6Qn9k","278":"1f7rz6femM9y8TS4-AXKfPRn3pWsIgcDr","279":"1-ChWfIQPGmWZJanNBdKEYyEkBrlPgRjs","280":"11-muxIDEF7V8RwOlvHR7WPgOa3FymHsW","281":"1_Catq036Z4PUJgeFVYyIE_O-MEHYNGGP","282":"1CVADOgzY1Pw6RumR5dfCx-VhCr6qBhTX","283":"1TgQPYA19md9laWpOdKEX48Bh9Szbi1Vt","284":"1d_V-5khFpqcn2lrL0LnlAEz2rhzxrWIK","285":"17Idm6wM7cj2tihmiOv6tABmqGWqHscy_","286":"1hUf3z64aat_zD6aL6bMvbH04NXEWsCJH","287":"1RtU-tlU-4Bv3u29SB8rPaFFU48GZMfMH","288":"1qCsIerr1zXtYqZTk6y8VNOYM5NQo6ekK","289":"1wh-Tdg4EdIeP4Ju8gU7LZostZXLvJKom","290":"1uh2RvjmVT9FikcqWK_0pu7RlN0nINi9w","291":"1QR_RtCaIAiAU-KGtbXjRVby5JHnWPw1A","292":"1lyM3b564-kKOpdKbmkPd5UF9dT-9zLJY","293":"1lEzWls4ecPJncXznuxgynptGL-k1ueR4","294":"1mapnDWOZ1CgQjkKPNtPqViZs-9qjkI0a","295":"11N2-g1eDBWRy5ZrbZjxbU365I9zpQbzz","296":"1e4u1vaRRQgLQFCYxvD879_dOnQX4_YVM","297":"1d0oru81dZtZGuKHBgQBPKsMcHV9Bu8x9","298":"1JaKWjjOn0BZa3cZbUdvhW_Kq7LX_zkDb","299":"1Lt0pgSWb4bHKsky0CALKHXI4W4iuHBEF","300":"1saHZiGHCIHSEhy3PkRPceIKkJFzG3bWx","301":"17dXfwUsRpySBcoaj0ZhmxwMJWtpEp95f","302":"1fyzbQo7T_9cORdnAenYZnsK6rgRm4atZ","303":"1SoiNnu4OSXogEHxjjviOb9k1UmZBDlD6","304":"1z0oXNmDsV6Q8b5YT1oyXD-SiT9z8iLsU","305":"1Bv7ecpiOkCixooPXKYrhlO49wAf9p791","306":"1vqPpjaWdwCMPKK48y_TzlBnzdXZdxv_P","307":"14W7FJqa52oURXmbVoTeOemQXwue_K_3-","308":"1-eI7onSBMnD_TC8giPPgzaBw-A_27Xuz","309":"1wO0kMWoYaItjA-jdYf4RLCcO2puJH2kr","310":"1z_VZb5Rb7UIn1I_2Ddtdgt9cM0SNOrXO","311":"1Eye2SjKZGAuleXhFyIU2PFQ0xk_BFyha","312":"1tomMrXK1MrfKdFD0gsM_kcwM_ijirOs4","313":"1YVYprt6GbUiDqj12wm5v3i5CXS1Bd7O6","314":"1wx28vsDRVhY_LE9rGwbLkVyZV-6Sm0GE","315":"12hakJ3ZACSgR1BUZX_MMNFxKAK5leLHe","316":"1rH_SUS7l549h9NXjVgQ504ryvEwYpHdS","317":"1pyoBgkOzRLkSnIqihE7LsBVzN95joh7d","318":"15HvieQW0QONonqYaB_fai_hgTDxHRA_U","319":"1Af6vm5c8rd51C_j6VR8YNhr2J7Y40_uc","320":"1sv8JicEHoqhhQTr6w2kSdxfmvnXWgsfc","321":"1T6UBU-7H10oEVK-wpG_k9vKqIkQs_xkm","322":"1iUkVJgLvzNKPOv2uuMf6Gp5nmmC-v5D3","323":"1XLIF79NBsKUGlQMeXCL-_2E9lk2saDrW","324":"1s-33OfNJvyQxyrWVbdCVQ_ndlwGucm7d","325":"1I6yTDP41q4ddUxCc2wkMJLbkanb0l06Y","326":"1XAHBtBF7CktHvsjpKmI-Es25HRnZtOZP","327":"1rDzkJVQ_aY1l3SRnWh0s6yf0SU-gkp5C","328":"1n8ROBtzG6nZSHjnjFEA0iTA1IblpUVOQ","329":"13a3lJYQD_irXGTbmzFg8NnVycKLH9UAx","330":"1ocyR3D9mpD0lQx3TRxLUUR4M0h8_T8XP","331":"1Yq29ZFrkO__GZiT3AqqILBgF7hM369Kf","332":"13Z1Si3oJXbyP1FvAr3fKYhJ0v7_HN_q2","333":"18ru4aqSUPZXsyg7ZdKByB6jlg_TaHANR","334":"16enZQacNUn4KgqQ3z-CYV0kq_7KkNrWB","335":"1BlQL6aNMgsBvkdG2msDsXs8IoH86N-SW","336":"1LxtrMBcpDveLdP-wYX8OVXIT7pS0Az5T","337":"1IElLhWsPdnx9kHskrv1v8gugHTatNZj_","338":"1Tpst8tqsEx9bq-CGz1cZtEPWPgENmu7V","339":"1P-WLs4n1Rd6Ua8S-MfWOP9BoHy1FkrUe","340":"1e9eUXtccbvwaKStc_lw4bqrHKkiH0ZhG","341":"1UpWxLZkQHUuy3lgI-wddMYKKJib7Qxeb","342":"1yNLf4KOfwq0OwM1JNkjAxDqphr_Db01L","343":"1C3c1JbpcG4rNOGsWQwJQ8MZPOsOu5UxT","344":"1hPRdglnhooO210793VnRjh1csN4kFDKm","345":"1AtuknOq6-A7m4ltypkZusZFHGEeZC0Ci","346":"1t_-4G4QjIEeeMmR2sBKXxETjRzDP7f_I","347":"1azeroXkqmoMPiWkMGGj3FWUvLAYoGSRN","348":"14mVWZzMkZqOTLfJeedo-8r-TQldtRMfS","349":"1rw6dBQxuEz2Wgi7m4rFzQ8ultYk0QHyD","350":"1xKQRirFClvPVL1ql-h4GCBeUKefAeZS7","351":"1XsyQ6ohSlxwZttyBItxPDpoDINOZXwi3","352":"1qGNhsKLIJF1eV6RxYbXx28uIapXnrDh7","353":"1tYS4RMFzhvZuADB2IF59x2VjjO3rzx0j","354":"1bHCTLjeC_tKdVHXfUYcCFRXYGa3u6UUD","355":"1xUCTY5T2wcJ-YhIzH4ZHrJIDlQ1HhKXn","356":"1ziNL-lQhsU76KoDgbA8R9FFx5_4Y0oGh","357":"1xhu6iSf98amiF14UtexHXoa2bUQ2mySY","358":"1E5OHBy4If6tfYF6tCNti_by_osA0aF5L","359":"1fH5YDafPohIDYF1b6EGVJSKnQDGubRvc","360":"1sv871xiMBV_7zULDS5Ztm_5DChl4a4sm","361":"1rCX_av6AFjH6WrXRAssE7YkTACzqV3dZ","362":"1wMXipulF6oCWCu1uJO9te0AppKuugxAW","363":"1VDER6hjN35D2WhtV0t6GjxfnMHN7hFiY","364":"1NSS5BOTdphx4M2DMAH0OSmtY2FWxXSrP","365":"13j3QqNVw6y8d5V177tVssvEgPW0xdwY7","366":"11at8m8vYHLVE221Qgcp4a4k5ItNHmmRS","367":"1ApZNQ9bf3MT0x0D2TptNi7X7zqkBwhcv","368":"1V4tzZGR-AT9dawNPR253uDNw7BfLNvFO","369":"1c_GZOdgGyIwPEmGjcjYk5o6YfHh9nVp9","370":"1U929a8CVGrB-oMLv43qKy06O_YKPfhRk","371":"1wGWn2qzNjcAtqVTD08jICA4j_CjWT4xD","372":"1ng4qSKjz8rCtiS_6R0sdxAeA90jxx7lu","373":"1uHEk_Tvuha_78sK4h8g16a-jVvHIn8p-","374":"1Ud6YeuAfjF6st3uDU92R87D9s8X1yfmu","375":"1HcQpjfO7-eq1zQ2bHOjOzLDVMVZGl6ej","376":"1rkaenrNrc3U8zAxTkGssXApAHAPh_U28","377":"1RuMbbCpEpsRWVSSoiHPKGODVvNaBKNO-","378":"1BHToeJyBz24x59bWYi1B5F3rVsYN35H4","379":"1e50rJeOjPGjHJSRSiwClzgakQCLXGrQ6","380":"1Rdt8NbTpm2yMfX34LuFY6IHbuNLOhs3C","381":"1AS1qadtz7t51CQU0PTiieDMaj-U6JXkt","382":"1W2tI6hTqkJ5Whjy9rijhD7boi7lS2lDr","383":"1F2unjcpCbb2L8wYLjpAuHmJgk9PkmKaV","384":"1krxDI-7ZMbhG2i5y-VyG1I6gY6mzBy3j","385":"1i1rDLAZl6wc94qAB8CrjOxkwmSM6_nB5","386":"16VIsx1lsk7eU4VfK6i8cWD7QdgyFG4-v","387":"1fk2JstimM4kuhkfJgppPstRByINgeN2z","388":"12u2zE0Uoj8t-Bew_-uadqZgJeCP7e919","389":"1pG5yXvdhfh7YIz5JtIcDE0ImxKwTbV1z","390":"18jGIJIaGus6BLZ4dwiXVdi_33efexpLf","391":"1tCzcEmocukn9NS52iwatn_0ieBPIfXic","392":"1XALxBgoUvdcoAp-rAXMaKrvoOT4KLbgd","393":"1YgnLNq1EnI67QFnXKlEIkLM7II5rJ0I3","394":"1hh6PPs9Xkhajd5KaOQh0pLKApa-XwMkK","395":"1WHt1nB3ai2r8fLCbwJepl_qE8Hc25BS0","396":"1oZLQI8qNsYd5MUUOiGRg5WHhiJTDSvFW","397":"1cpo6Fb2ZRb31JUV2vz4rxJFjwjWXLIbe","398":"1xtpFKm6z7bBcvGpR9bc53Nh8xIniBiVc","399":"1W7TNzUG7KNGDvz0MJ7KAJDXo-H79ZpXF","400":"1o7hSsP-uGgXyQwXSCvtko4L7U65jY7Tw","401":"1JNQwhg2-6z4aXFiC7Ne36kO3t0leUVz2","402":"1kJeRWdMS5bkaHnPeV2pyi2NBPoaSIwGr","403":"1DpZWqSi2ZPxhIxWr6zcEkehafJ1hKGVV","404":"1T1qdCVpDFjDuccE-4WNjfhsUJ5Rl7VBg","405":"1tGUsSL8lb1q907n8VZGMDil1KldyTDx3","406":"1T4z56IAcBaRUObpJc5qqqZg3SBBcxjWC","407":"14KEeKWyf_bvSrUOOZGOtnnDbzY4UXCPj","408":"1UBe7McQ79420QEgaLjS3QXTfjmx3sSVJ","409":"1pzwwI9zhuI9gA70teya-c7v-QvjPFYQL","410":"1pIbxvKEJ7e2_bEQkWRTMIRyfjR1K-hyC","411":"1vUl52e8Tl4I9pophGA8RCPVIQ917YKwR","412":"1d6UbTQcHWYY-EplUYZdnirVsqnQLxnv2","413":"19NWC6gEsMptUsObuqPkEmb4ZRtj6J6nT","414":"1Gn2jqXxMhls6xz50Rc2pcXK2eOe572mv","415":"1eB-FlqW-I91va91xilFbuPbkPoJ1Nmpv","416":"1Z0qBQ-xGP741NfvrANzHIuNP8PegAclO","417":"1yOCQ5posk_fgY16QCMnFmIZx5hKNVTZp","418":"1-bga4hLB7XpyBznekaiip50t-6-gl7M8","419":"1TLJFz5aprVjBJvJ2mRVKTIeCO-1_haA5","420":"12CvryhN_-iudq1cxWHfbYBxAQQWGz7UF","421":"1vU6K8qKcVbHMnxy21B5oIro584HPn53i","422":"1vMzaRFRw7atvPjoY6QXKYuomiWgl7lSY","423":"1ev74GgmFZrMi7D_-WHE_SkpZqK1vAskk","424":"1SAIVZVrcpzGb7R4ytA1Sb7oI5LkdyyJC","425":"1cG04P_FzzmAGZm6IwL_PGS5nC1fOCn60","426":"1nhIbR5fqrgbgzrIUf_RUjHn6Y08RLSg9","427":"1ZpI0YdZ0GEzYMhGZc6Vyynn-dMawLHWb","428":"1d8SHZ4MMacmRZvWW0RSYsWS5SmGGR_-p","429":"1HHBjxs4RF4Eu5ZccGYdPWQRztB9E28de","430":"1SelHfNadYGgpHkGZ1SpWKwqcCS28XdEm","431":"1nHvSEQWbf-cOXAvJJ8y4MoXqERgNZpv8","432":"1oyE8X-u8X91hoK_mqXYYDgz4uCtASvr2","433":"17EOSSZGSL00Af6G91I5PXWWAtbnPL0M7","434":"1jkQnwq5k97sevpdB19oFV4QFZJzJFSkx","435":"1skinmYHTLEv9BmyXaY3h7GFYCDJCqwHr","436":"1YgrKU-pJvmtdDCmyFpghTlAvmPa6xD59","437":"1zSTCozzzvCkYb3tQCXNEWd6XgzEsTt9Y","438":"1b4-Gq9PdpEbsMqLs3WGswE5lN0DNTtyx","439":"17zZiWVDfiFKAj0W3hYMglQJ3dRWRXq11","440":"1kwmF-yvZCJq2DO8GANohzVSNxqnuiAFu","441":"18BgbpJv6FeJOtCrP4M4s3aDFRK9Jr7ro","442":"1meXRqmfYspnopL654AAFYTT-T5asCb5y","443":"14wqyMUdl77FfIvANQvlWNqv4YuPLtGRr","444":"1j3Vl1V80bL95bAAIZeiPavQB67Z4YoOt","445":"1ElCAesyQp4B_3ahaoijNj9e6v5FzATiI","446":"17QHRXV5J-1RE0pnEleeMh48s23oisC2c","447":"1BFpdhNYfxZqOrXIjfG4SQjkq3L5J1SA9","448":"1brhT5ynXSResOiw3Igi3uOA7Qt43zyTa","449":"1-tqG_zwR-epW1bCcJ1yYN39z-jhLf8Ww","450":"1-_uKhWEjjsfKRuPluyMlcKaKbfX_rgBZ","451":"1dIaxjxyShi7-rZd0zv2OL7CLJ5sd6GJ2","452":"1D2_bKPHOLbVpyuxcywDBK7Ue0LbEMjZf","453":"1aEaANNJvthfsMdvZuI8sz2-Qo9_nu_Wd","454":"1F8PneHSgigjZhQ6PHU-K83gBmGAK2EmZ","455":"1gep_VC9y5Y6QrZvqj4jqRBlQW96eNFd1","456":"1a6T4CUAyyOvRVaq8qi0SjrRCPmnFRJwf","457":"1o2rXe6PcX7KnegAEKxnwxseWjNvNAK-q","458":"16sjnvAZmyGTosmLW4L-lZdiLa1WePMWl","459":"1HUCCy6LRi7On9BQEcy7mdZglA1q_JjMt","460":"1-nFlJHzt4eXXdw8ZmidFNxN7--WnLrvs","461":"1Jg6POLAQwtOXTJHD_DQiHHrPCGXxcMa3","462":"1neo9m2QPR-Xww4MYsHgsHpn9C755kA8l","463":"17L-hk8qyrDeFbSipLCaPN1WgVDjutGkB","464":"1ToJ16fCouUZYPcWUYUfo_hGR-YgMA1U7","465":"1OsEnT3fXMHNTXJfMv2cH51uU5NZdgWBk","466":"1SMmyZV4CyUt_fdNAL1BKJ91gxcdFNMjn","467":"1iBp--mZDthNDwalBmovnQlp4r-cDiv3P","468":"1DnCM-bPl62GG6gEGuY8DaMVJYNnViTA0","469":"13r_PMpLkE4xgDQ8CVGvnYKePuk0lm4Qd","470":"1W7bsYaPct64YxbLRvslHYKzXs1OAF9Iy","471":"1gTyOlH66npeOZLHnQCzxLQNmKE6iD2G6","472":"1mFCW2HLH7OXMcFpT05pteAjdTbOvl06j","473":"1yClRiKQ7NxHLDD8vnDTlbUVMkN48PzHo","474":"10clhO6smqFJbpsFgNNdnP5DcH4BwB81X","475":"1puNw1GJnRpBHesM2x43muXWr33vwT9hH","476":"1vEX1PSEnEtXtqTTPM3a1Ke4W94qPX-f3","477":"1m_gbRumediajerZ0gItaAz_C1c_FmohJ","478":"1FJyhDnJmNNzFXC38ehq_65KVLljsFlv9","479":"1bZ3H4jPaepx44IVStxwNRlz5JVBMl0js","480":"1VTXKdQplbep8wGYVfhVblrXZoyrfLkq9","481":"1gcPoj4SvK1bG1f09m0wIi4T2ms6zIwfV","482":"1gX8bxKi5bt6Cs9YYf6dmj1UsEU_d7OLP","483":"1nrn2dNA9C-zfOXM3-dgtcvD7rkfoB3lZ","484":"1GTSGO11ABI5IJlZwZlUyOOam2h1o4ofL","485":"1iPReKz-eAjZ1mAXW6DI-7IoX2nNr4m25","486":"1hl12NkEh8_adElJAFwWhEnu2rUJ1GRC7","487":"1v_IJUnaZaLpA8EQKdt0-t_6Eh8SiUT3n","488":"13ARusfT7yyYhrVnBt_LeEVd-t9b0VkZx","489":"11U1WqPXCr5uYcM4QIeU1cS72Z-kHmhmL","490":"1IyW1fYDz0KmO8TfVfKyy7gChFGswtDxg","491":"1SIXCMGkOKMNflrBsBrWpl9hiIUrb5q0H","492":"1bYNluD0chLat2lnPXfOaAG0wH5DbCYfP","493":"1-JEWMmaTwUdImeZWmlD9uO8firMurkw6","494":"1sLYDfckPW0UrmIAVeygei2dZavzVCJSY","495":"1i_-fKM4akhr08QomEpRJJPx2XfV8R-7Z","496":"19UKr_b01jIuYUMRV5oG0C89XKXQd2vFo","497":"1I8J-eIUHLbA3PO0PlaEkTWLK2y8tbVbg","498":"12teEly6lqN_QX2eQYuzYBtSQk7wQM8l-","499":"1iCLy_ZwsxqcNxeTTpUBknuLwdp7K56xr","500":"1KkjrqCtPDRCZLHTYB0pIAdaXIpoiMRpY","501":"1z3EoYIPZ2rCpO5-ElmnhGYx0uJpVfXdu","502":"1gx9VmXmlb0ECYMcWB4N3pLqrjunsXsNF","503":"1UWnj0TQeYBgWp8mya2Su8PK1p-Y74KBd","504":"1vri3YhJmfEwtamj2cNMBV-ileFomtj2K","505":"1I73QzlPPzaXD9ZiT1LptsSRHvQ4g3jzI","506":"1q0jKviVr_wawZkGU9cp87_4b_bLcIdsd","507":"14BGIFuT29R2fuzIxeTeS3ESRRjKlw8c3","508":"1j9utnhuaxlQA2zFfWiW6hkAxcAdYEG7q","509":"1wwE2TCgEozVsdIdB75hIjHW0XdB6yNlI","510":"18mTN2-BDdozsvwAJsPp_tm4429csf3Ew","511":"1uNBaoqwcU0zX46jTDj1VttzM6PYpNu55","512":"1c2RyjCnrA-eS6whdG7S9BMyZVvOCXjy-","513":"1N5ipnr6wB_AyGGJs2Zymcv0OEJx_kHDB","514":"1iaYsFGz5ZUtBWhGO_GxPjWwBvr1g2Lps","515":"1VPXBCsw99Mnob-Kh5Ka8iGhJiw5m2QIF","516":"1jPIZuVS2_yW1RPik-ZVIYp9BE6EDyxQ-","517":"1s9BKecmcD52ZHf8Pe9ZBK0K1r0-2OC9U","518":"1DbEgzIbPK5oP1z-x5kO9lzi3WlEWf15s","519":"13RjNSF_9Eac0UhmN9a9ou8Bc7wHPV9Ex","520":"15_VMe8ALId-bniOlXTh6fBTfX4PNgbQy","521":"1Er115PgtjJk4lBDqQc-sCEjm6cO-1voY","522":"1g07Y8eSQHuhmTywW2Q4RWmK7VZd89lZ0","523":"1KKpfc0c7EbIqZLKmpW2FUtY368e8C5X6","524":"1ChY3-i2mzTekAtmf5191eqFv0aZ1fZ4c","525":"1H6yRQmWMKMMSP7NmoN1dpbfL5JjuHKJd","526":"1mCA1XdE78IeUQkvx6ZzNdA_oQw2K9LZM","527":"1d7htNA7uvPSIAcjg8fx2KiXIbnaoqoJi","528":"1jhCkC9JloHcDIlhe6k-iHnOGSpVnmOp9","529":"1eUG15GJjHGaWwnOEfdvzCc-R_v2hU_bE","530":"1TIG8szSyqOVMn9N1wQ6FUfKjOF6mv8Fe","531":"1m-RP21gWtuXafePGhxc_UYf0_IIzkFjS","532":"1GA-qbvBoGs_MfbfiHGQk-b0FI30VkVLT","533":"1EE3FDDQZR6HV0pJO1R41frKrAuonj-2g","534":"1OASLFMd5TVdo4XHiBf_EQE5vy16JfO8L","535":"1ucgLaC_qW75TFboUONqCoiUOvy0j5dJB","536":"1fvZj93Ed0YJ_SMehZdwRaOXYALvIxNCs","537":"1Ts5tGIb9UMc7zsnScKjobKRgiaw8B19I","538":"10ZIskS2jnvZSitx6EzEqDpwIaRzc8kqS","539":"1vJK-op8aGcTeM9MXkcBK-9WP3dWsotlz","540":"1tH_OHN2LWkezwHUR7kmMtKJL_5qYGF7X","541":"1LY6iJNLjqzr5DlcRHr4Br3txQXDe8OB7","542":"1g7Xd9EugtoPsKi_xZ7fWFYq7hyB30Sns","543":"1QdJt7piGVevXoVn5yNz_pXmlG0Ys1qzw","544":"1YWxHHQQRN2w6UjmtKF0y6qZDHCj4kexG","545":"1gLQountYeQ7ICxEQ76AZ2_hbtzm52yqD","546":"1D97wivpmBc457kct_QSD0LcbvyWEPtjj","547":"1BFKc7gbmsYgFBbDHVzdHj7j5EgnD9NM9","548":"1ot18ApusD3f9EGnHAehzfMBorNYHRwlg","549":"1ntrP_AA77H70of9Ozyhwy3OG6C7ceAj8","550":"1Y8SKaBQF91lis2IVzhLaV3mexIaQAI5l","551":"1-YaX3vbwCQhLdKxKPKaV-ReR7P-RXjaf","552":"1rsKCmRplPChiNcVmC1ErGcVJYtoQgPja","553":"1FE6EqIWjOYDUsNlFQVQ1Rt7oCFFvvO0D","554":"1vYGeo7ph_RiiecPoi9l_ChFZG-QlGc0C","555":"1LL8Lg-BkiQNZIuZnRdc8CL9kY8E-Ymxn","556":"1FWWdHUpRLRd9H8Hih65odiHK2b7nRq5-","557":"1UdtYVt5SkSqjjjFwsXwqlmFYtW6-JnLK","558":"12y472Yg6NbtuSNMGRVQdydm-_XljZItA","559":"1xGY5sj3eIm5Dwi7XFSVcn4ppzgc8ny7j","560":"11XS6IxO5BYlL1sMo4Bh7aDt8V-j621Eq","561":"1GIqHzLW58DV6_Lcc7XHFTYiG3bnWuuhb","562":"1DFXdntJLReC3kfQoKCTtdKe5CCtyIZJK","563":"1evErtF3dwMdeELtkpSacy5KVeu6CaqqJ","564":"1igrWZBOgNEo_Tdb_8YHEn1MwmvxftAzL","565":"1nu2SIfKy37ydODAq8dQofLhGqAUWzdDp","566":"1Z5-L9uAvCVF6niUU8-MIPrQyT1zshS-x","567":"1FYEOEz0B_TomU8kw_8rslnAMaSmTT4I2","568":"1LJ7E9kozH6Ky515nlIrWEQcS8g3_kLko","569":"1fyZtL_F4SMWy36qUBdlqon86VumP0ttV","570":"1-Rh6zC4BlOe1l6eYsOR_NwIa03EKr0VJ","571":"15QekMOhALOO32u_c4U7NJ5faiQ0VZlso","572":"1ysLMxgwxtZ8Ygd8Mn2N9t8iLMhbomfoX","573":"1N9Sfdmm488IS7Canm23jwXU2EBFyiO2M","574":"1tJIdqPZj1tAEa5t6Vm15sgv2ve_zw3lx","575":"1GQ6D7VOSUdyA1Rndi0jeUS1H-CjgYEPG","576":"1U68_8V8_Eka2ekBQINWUBZ8NwmxO0n-T","577":"1Zj8fxoAj1LouxUCejPWK2DJVgZjLX9BJ","578":"1wDIBrCx3MRsceShcWkFb1W-IRIkOvBDV","579":"1g8B1V9M2Rl4eS4opWC5DvM8P-jbHa3jJ"};                   // {"2468":"드라이브 파일 ID"}
+const SECTS = ["동백동산 입구에서", "나무를 만나다", "곶자왈 숲길", "잎과 열매, 숲의 작은 것들"];
+const VERSION = "제주나무이야기";
+const VIDEO_DL = "";   // 영상 파일(드라이브) — 없으면 빈 칸
+
+const $ = s => document.querySelector(s);
+const KEY = "jejugrapher-open-" + SESSION;
+
+/* ── 날짜 잠금 ───────────────────────────────── */
+const normDate = v => { const d = String(v).replace(/\D/g, ""); return d.length === 8 ? d.slice(2) : d; };
+async function sha(s) {
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+}
+function unlock() { $("#gate").hidden = true; $("#photoArea").hidden = false; $("#allDrive").hidden = false;
+  $("#toPhotos").textContent = "사진 고르기"; $("#toPhotos").href = "#photos"; start(); }
+$("#gateForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if ((await sha("byeolbam-pw:" + normDate($("#pw").value))) === PW_HASH) {
+    try { sessionStorage.setItem(KEY, "1"); } catch (err) {}
+    $("#gateErr").textContent = ""; unlock();
+  } else {
+    $("#gateErr").textContent = "비밀번호가 맞지 않아요. 안내받은 여섯 자리를 다시 확인해 주세요.";
+    $("#pw").select();
+  }
+});
+
+/* ── 사진첩 ─────────────────────────────────── */
+// 미리보기(드라이브 업로드 전): IDS 값이 "local:" 로 시작하면 내 컴퓨터의 사진을 바로 보여 줌
+const img = (n, w) => IDS[n].startsWith("local:") ? IDS[n].slice(6) : `https://drive.google.com/thumbnail?id=${IDS[n]}&sz=w${w}`;
+// 원본 파일: lh3 주소는 CORS를 허용해서 파일로 받아 저장·공유·ZIP에 쓸 수 있음 (uc?export=download 는 막힘)
+const full = n => IDS[n].startsWith("local:") ? IDS[n].slice(6) : `https://lh3.googleusercontent.com/d/${IDS[n]}=s0`;
+const fname = n => `${VERSION}_${n}.jpg`;
+const byN = Object.fromEntries(PHOTOS.map(p => [p.n, p]));
+const SEL_KEY = "jejugrapher-sel-" + SESSION;
+const state = { filter: "전체", list: PHOTOS, idx: 0, sel: new Set() };
+try { JSON.parse(localStorage.getItem(SEL_KEY) || "[]").forEach(n => byN[n] && state.sel.add(n)); } catch (e) {}
+
+function initVideo() {
+  $("#countLine").textContent = `사진 ${PHOTOS.length}장`;
+  if (YT) {
+    $("#video").hidden = false;
+    $("#ytThumb").onerror = () => { $("#ytThumb").onerror = null; $("#ytThumb").src = `https://i.ytimg.com/vi/${YT}/hqdefault.jpg`; };
+    $("#ytThumb").src = "cover.jpg";   // 페이지와 함께 올리는 썸네일
+  } else if (VIDEO_DL) {
+    $("#video").hidden = false; $("#player").hidden = true;
+  } else $("#toVideo").hidden = true;
+  if (VIDEO_DL) { $("#vidDl").hidden = false; $("#vidDl").href = VIDEO_DL; }
+}
+initVideo();
+function start() {
+  $("#allDrive").href = DRIVE_FOLDER; $("#dlFolder").href = DRIVE_FOLDER;
+  
+  const cnt = PHOTOS.reduce((m, p) => (m[p.s] = (m[p.s] || 0) + 1, m), {});
+  $("#chips").innerHTML = ["전체", ...SECTS.filter(s => cnt[s])].map(l =>
+    `<button type="button" class="chip" data-l="${l}" aria-pressed="${l === "전체"}">${l}<span class="c">${l === "전체" ? PHOTOS.length : cnt[l]}</span></button>`).join("");
+  render(); syncBar();
+}
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  state.filter = b.dataset.l;
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b));
+  render(); $("#photos").scrollIntoView({ behavior: "smooth" });
+});
+function card(p, i) {
+  const on = state.sel.has(p.n);
+  return `<article class="card${on ? " on" : ""}" data-n="${p.n}">
+    <button class="shot" type="button" data-i="${i}" aria-label="사진 ${p.n} 크게 보기">
+      <img class="${p.v ? "v" : ""}" src="${img(p.n, 480)}" alt="사진 ${p.n}, ${p.s}, ${p.t}" loading="lazy" referrerpolicy="no-referrer">
+      <span class="tag">No. ${p.n}</span>
+    </button>
+    <button class="sel" type="button" data-sel="${p.n}" aria-pressed="${on}" aria-label="사진 ${p.n} 고르기">✓</button>
+    <div class="meta"><span><span class="no">${p.n}</span> · ${p.t}</span><button type="button" data-dl="${p.n}">받기</button></div>
+  </article>`;
+}
+function render() {
+  state.list = state.filter === "전체" ? PHOTOS : PHOTOS.filter(p => p.s === state.filter);
+  const groups = SECTS.map(s => [s, state.list.map((p, i) => [p, i]).filter(([p]) => p.s === s)]).filter(g => g[1].length);
+  $("#groups").innerHTML = groups.map(([s, ps]) => `
+    <div class="grp"><h3>${s}<small>${ps[0][0].t} – ${ps[ps.length - 1][0].t} · ${ps.length}장</small><button type="button" data-gsel="${s}">이 묶음 고르기</button></h3>
+    <div class="grid">${ps.map(([p, i]) => card(p, i)).join("")}</div></div>`).join("");
+  // 카드 위에 고르기 버튼이 겹치도록 위치 지정
+  document.querySelectorAll(".card").forEach(c => c.style.position = "relative");
+}
+function toggle(n, force) {
+  const on = force === undefined ? !state.sel.has(n) : force;
+  on ? state.sel.add(n) : state.sel.delete(n);
+  const c = document.querySelector(`.card[data-n="${n}"]`);
+  if (c) { c.classList.toggle("on", on); c.querySelector(".sel").setAttribute("aria-pressed", on); }
+  syncBar();
+}
+function syncBar() {
+  $("#bar").hidden = state.sel.size === 0; $("#selN").textContent = state.sel.size;
+  try { localStorage.setItem(SEL_KEY, JSON.stringify([...state.sel])); } catch (e) {}
+}
+$("#groups").addEventListener("click", e => {
+  const s = e.target.closest("[data-sel]"); if (s) return toggle(s.dataset.sel);
+  const d = e.target.closest("[data-dl]"); if (d) return saveOne(d.dataset.dl, d);
+  const g = e.target.closest("[data-gsel]"); if (g) { state.list.filter(p => p.s === g.dataset.gsel).forEach(p => toggle(p.n, true)); return; }
+  const sh = e.target.closest(".shot"); if (sh) openViewer(+sh.dataset.i);
+});
+$("#pickAll").onclick = () => state.list.forEach(p => toggle(p.n, true));
+$("#barClear").onclick = () => [...state.sel].forEach(n => toggle(n, false));
+const selList = () => PHOTOS.filter(p => state.sel.has(p.n)).map(p => p.n);
+
+/* 파일 받기 도구 */
+const MOBILE = matchMedia("(pointer:coarse)").matches || /iPhone|iPad|Android/i.test(navigator.userAgent);
+const CAN_SHARE = (() => { try { return !!navigator.canShare && navigator.canShare({ files: [new File(["x"], "t.jpg", { type: "image/jpeg" })] }); } catch (e) { return false; } })();
+const USE_SHARE = MOBILE && CAN_SHARE;   // 휴대폰: 공유 창 → '이미지 저장'으로 사진 앱에 바로
+const cache = new Map();                 // n → Promise<File>
+function getFile(n) {
+  if (!cache.has(n)) cache.set(n, fetch(full(n), { referrerPolicy: "no-referrer" })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+    .then(b => new File([b], fname(n), { type: b.type && b.type.startsWith("image/") ? b.type : "image/jpeg" }))
+    .catch(e => { cache.delete(n); throw e; }));
+  return cache.get(n);
+}
+function saveBlob(blob, name) {
+  const u = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 60000);
+}
+async function shareFiles(files) {
+  try { await navigator.share({ files }); return true; }
+  catch (e) { if (e.name === "AbortError") return false; throw e; }
+}
+const ready = {};                        // 이미 받아 둔 파일 (공유는 누르는 순간 바로 불러야 해서)
+async function saveOne(n, btn) {
+  const old = btn && btn.textContent;
+  try {
+    if (USE_SHARE && ready[n]) { await shareFiles([ready[n]]); return; }
+    if (btn) btn.textContent = "준비 중…";
+    const f = await getFile(n); ready[n] = f;
+    if (USE_SHARE) {
+      try { await shareFiles([f]); }
+      catch (e) { if (btn) { btn.textContent = "저장하기 ↓"; return; } }   // 시간이 지나 막히면 한 번 더 누르면 됨
+    } else saveBlob(f, f.name);
+    if (btn) btn.textContent = old;
+  } catch (e) {
+    if (btn) btn.textContent = old;
+    window.open(full(n), "_blank", "noopener");   // 마지막 방법: 새 창에서 길게 눌러 저장
+  }
+}
+
+/* 크게 보기 */
+const viewer = $("#viewer");
+function openViewer(i) { state.idx = i; showV(); document.documentElement.classList.add("lock"); viewer.showModal(); $("#vwNext").focus({ preventScroll: true }); }
+viewer.addEventListener("close", () => document.documentElement.classList.remove("lock"));
+function showV() {
+  const p = state.list[state.idx], im = $("#vwImg");
+  im.classList.add("ld"); im.onload = () => im.classList.remove("ld");
+  im.src = img(p.n, 2000); im.alt = `사진 ${p.n}`;
+  $("#vwTitle").innerHTML = `<b>${state.idx + 1} / ${state.list.length}</b>No. ${p.n} · ${p.s}`;
+  $("#vwPick").setAttribute("aria-pressed", state.sel.has(p.n));
+  $("#vwPick").textContent = state.sel.has(p.n) ? "고름 ✓" : "고르기";
+  $("#vwDown").textContent = "이 사진 받기";
+  // 앞뒤 사진 미리 불러오기
+  [1, -1].forEach(d => { const q = state.list[(state.idx + d + state.list.length) % state.list.length]; if (q) new Image().src = img(q.n, 2000); });
+  if (USE_SHARE) getFile(p.n).then(f => ready[p.n] = f).catch(() => {});
+}
+const step = d => { state.idx = (state.idx + d + state.list.length) % state.list.length; showV(); };
+$("#vwPrev").onclick = e => { e.stopPropagation(); step(-1); };
+$("#vwNext").onclick = e => { e.stopPropagation(); step(1); };
+$("#vwClose").onclick = () => viewer.close();
+$("#vwPick").onclick = () => { toggle(state.list[state.idx].n); showV(); };
+$("#vwDown").onclick = e => saveOne(state.list[state.idx].n, e.currentTarget);
+$("#vwReq").onclick = () => { const n = state.list[state.idx].n; viewer.close(); openReq([n]); };
+viewer.addEventListener("keydown", e => { if (e.key === "ArrowLeft") step(-1); if (e.key === "ArrowRight") step(1); if (e.key === " ") { e.preventDefault(); $("#vwPick").click(); } });
+// 사진 왼쪽/오른쪽을 누르면 이전/다음 (사진을 눌러도 창이 닫히지 않음)
+$("#vwStage").addEventListener("click", e => {
+  if (e.target.closest(".nav") || moved) return;
+  const r = e.currentTarget.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
+  if (x < .33) step(-1); else if (x > .67) step(1);
+});
+let tx = null, ty = null, moved = false;
+const zoomed = () => window.visualViewport && window.visualViewport.scale > 1.05;
+$("#vwStage").addEventListener("touchstart", e => { moved = false; if (e.touches.length !== 1 || zoomed()) { tx = null; return; } tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+$("#vwStage").addEventListener("touchend", e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
+  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) { moved = true; step(dx < 0 ? 1 : -1); setTimeout(() => moved = false, 400); }
+});
+
+/* 고른 사진 한 번에 받기
+   휴대폰: 사진을 미리 받아 둔 뒤 공유 창 → '이미지 n개 저장' (한 번에 10장씩)
+   컴퓨터: ZIP 파일 하나로 */
+const dlg = $("#dl"); const CHUNK = 10;
+let JSZIP = null;
+const loadZip = () => JSZIP || (JSZIP = new Promise((ok, no) => { const sc = document.createElement("script");
+  sc.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"; sc.onload = () => ok(window.JSZip); sc.onerror = no; document.head.appendChild(sc); }));
+function prog(i, n) { $("#dlProg").hidden = false; $("#dlProg i").style.width = (100 * i / n) + "%"; }
+const say = (t, c = "") => { $("#dlMsg").className = "msg " + c; $("#dlMsg").textContent = t; };
+async function fetchAll(ns) {
+  let done = 0; const out = new Array(ns.length), bad = [];
+  let k = 0;
+  async function worker() { while (k < ns.length) { const i = k++; try { out[i] = await getFile(ns[i]); } catch (e) { bad.push(ns[i]); } prog(++done, ns.length); say(`사진을 준비하는 중… ${done} / ${ns.length}`); } }
+  await Promise.all([1, 2, 3, 4].map(worker));
+  return { files: out.filter(Boolean), bad };
+}
+let dlNs = [];
+$("#barDl").onclick = () => {
+  dlNs = selList();
+  $("#dlSub").textContent = USE_SHARE
+    ? `${dlNs.length}장을 받습니다. ‘한 번에 받기’를 누르면 사진을 준비한 뒤, 저장 버튼이 나타나요. 공유 창에서 ‘이미지 저장’을 누르면 사진 앱에 들어갑니다.`
+    : `${dlNs.length}장을 ZIP 파일 하나로 받습니다.`;
+  $("#dlZip").hidden = !USE_SHARE;
+  $("#dlList").innerHTML = dlNs.map(n => `<button type="button" data-n="${n}"><span>No. ${n} · ${byN[n].s}</span></button>`).join("");
+  $("#dlChunks").innerHTML = ""; $("#dlProg").hidden = true; say(""); $("#dlAll").disabled = false; dlg.showModal();
+};
+$("#dlList").addEventListener("click", async e => { const b = e.target.closest("button"); if (!b) return;
+  try { await saveOne(b.dataset.n); b.classList.add("done"); b.classList.remove("bad"); } catch (err) { b.classList.add("bad"); } });
+async function zipAll() {
+  $("#dlAll").disabled = $("#dlZip").disabled = true;
+  try {
+    const [Z, r] = await Promise.all([loadZip(), fetchAll(dlNs)]);
+    say("ZIP 파일을 만드는 중…");
+    const z = new Z(); r.files.forEach(f => z.file(f.name, f));
+    const blob = await z.generateAsync({ type: "blob", compression: "STORE" });
+    saveBlob(blob, `${VERSION}_사진${r.files.length}장.zip`);
+    say(r.bad.length ? `${r.files.length}장을 받았어요. 받지 못한 사진: ${r.bad.join(", ")} (한 장씩 받기에서 다시 눌러 주세요)` : `${r.files.length}장을 ZIP 파일로 받았어요. 받은 파일 폴더를 확인해 주세요.`, r.bad.length ? "err" : "ok");
+  } catch (e) { say("받지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요. 안 되면 ‘한 장씩 받기’를 이용해 주세요.", "err"); }
+  $("#dlAll").disabled = $("#dlZip").disabled = false;
+}
+$("#dlAll").onclick = async () => {
+  if (!USE_SHARE) return zipAll();
+  $("#dlAll").disabled = true;
+  const r = await fetchAll(dlNs);
+  const groups = []; for (let i = 0; i < r.files.length; i += CHUNK) groups.push(r.files.slice(i, i + CHUNK));
+  $("#dlChunks").innerHTML = groups.map((g, i) => `<button type="button" class="btn sm" data-g="${i}">${groups.length > 1 ? `${i * CHUNK + 1}–${i * CHUNK + g.length}번째 ` : ""}${g.length}장 저장</button>`).join("");
+  $("#dlChunks").onclick = async e => { const b = e.target.closest("[data-g]"); if (!b) return;
+    try { if (await shareFiles(groups[+b.dataset.g])) { b.classList.add("done"); b.textContent = "저장함 ✓ " + b.textContent.replace("저장함 ✓ ", ""); } }
+    catch (err) { say("저장 창을 열지 못했어요. 버튼을 한 번 더 눌러 주세요. 계속 안 되면 ZIP 파일로 받아 주세요.", "err"); } };
+  say((r.bad.length ? `받지 못한 사진: ${r.bad.join(", ")} · ` : "") + (groups.length > 1 ? "준비됐어요. 아래 버튼을 차례로 눌러 저장해 주세요." : "준비됐어요. 아래 버튼을 눌러 저장해 주세요."), "ok");
+  $("#dlAll").disabled = false; $("#dlAll").textContent = "다시 준비하기";
+};
+$("#dlZip").onclick = zipAll;
+$("#dlClose").onclick = () => dlg.close();
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+
+/* 원본 요청 */
+const req = $("#req");
+function openReq(ns) {
+  $("#reqForm").hidden = false; $("#reqDone").hidden = true; $("#rqMsg").textContent = ""; $("#rqMsg").className = "msg";
+  $("#f_nos").value = ns.join(", ");
+  $("#rqThumbs").innerHTML = ns.slice(0, 40).map(n => `<img src="${img(n, 160)}" alt="사진 ${n}" referrerpolicy="no-referrer">`).join("");
+  try { const d = JSON.parse(localStorage.getItem("jejugrapher-who") || "{}"); if (d.name) $("#f_name").value = d.name; if (d.contact) $("#f_contact").value = d.contact; } catch (e) {}
+  req.showModal();
+}
+$("#barReq").onclick = () => openReq(selList());
+$("#rqCancel").onclick = () => req.close(); $("#doneClose").onclick = () => req.close();
+req.addEventListener("click", e => { if (e.target === req) req.close(); });
+$("#form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("#rqMsg");
+  const nos = $("#f_nos").value.split(/[^0-9]+/).filter(n => byN[n]);
+  const data = {
+    session: SESSION, photo: nos.join(","), version: VERSION,
+    kind: (document.querySelector('input[name="kind"]:checked') || {}).value || "",
+    message: `[${nos.length}장] ` + $("#f_msg").value.trim(), name: $("#f_name").value.trim(), contact: $("#f_contact").value.trim(),
+    website: $("#f_web").value
+  };
+  if (!nos.length) { msg.className = "msg err"; msg.textContent = "사진 번호를 하나 이상 넣어 주세요."; $("#f_nos").focus(); return; }
+  if (!data.contact) { msg.className = "msg err"; msg.textContent = "원본을 보내 드릴 연락처를 남겨 주세요."; $("#f_contact").focus(); return; }
+  if (!$("#f_agree").checked) { msg.className = "msg err"; msg.textContent = "연락처를 남기시려면 안내 문구에 동의해 주세요."; return; }
+  try { localStorage.setItem("jejugrapher-who", JSON.stringify({ name: data.name, contact: data.contact })); } catch (err) {}
+  $("#rqSend").disabled = true; msg.className = "msg"; msg.textContent = "보내는 중…";
+  try {
+    await fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
+    $("#form").reset(); $("#reqForm").hidden = true; $("#reqDone").hidden = false;
+  } catch (err) {
+    msg.className = "msg err"; msg.textContent = "보내지 못했어요. 인터넷 연결을 확인한 뒤 다시 눌러 주세요.";
+  } finally { $("#rqSend").disabled = false; }
+});
+
+/* 영상 */
+$("#playBtn").addEventListener("click", () => {
+  const f = document.createElement("iframe");
+  f.src = `https://www.youtube-nocookie.com/embed/${YT}?autoplay=1&rel=0`;
+  f.title = document.title;
+  f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  f.allowFullscreen = true;
+  $("#player").replaceChildren(f);
+});
+
+(function () {
+  let ok = false;
+  try { ok = sessionStorage.getItem(KEY) === "1"; } catch (e) {}
+  if (ok) return unlock();
+})();
+</script>
+</body>
+</html>
