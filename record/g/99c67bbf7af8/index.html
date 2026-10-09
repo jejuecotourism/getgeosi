@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>미로숲놀이터 자연놀이 네트플레이 | 현장 기록 | 2026생태관광주간</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* 별밤사진관 회차 페이지와 같은 짜임 — 색만 숲(곶자왈) 쪽으로 */
+:root{
+  --sky:#0F2418; --deep:#08160E; --panel:#163322; --cloud:#EEF5EC;
+  --glow:#C9F2B6; --glow-2:#7BCB8E; --amber:#F2C86B; --mute:#9DB8A4;
+  --line:rgba(201,242,182,.18); --ok:#9BE7B5; --err:#FF9A8F;
+  --serif:"Gowun Batang","Noto Serif KR","Apple SD Gothic Neo",serif;
+  --pen:"Nanum Pen Script","Gowun Batang",cursive;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;background:var(--deep)}
+body{background:var(--sky);color:var(--cloud);font:1rem/1.8 var(--serif);word-break:keep-all;overflow-wrap:break-word}
+img{display:block;max-width:100%}
+a{color:var(--glow)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.wrap{width:min(1180px,100% - 2rem);margin-inline:auto}
+.pen{font-family:var(--pen);font-weight:400;color:#F7FFF3;text-shadow:0 0 8px rgba(201,242,182,.6),0 0 22px rgba(123,203,142,.45)}
+
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.2rem;color:var(--deep);background:var(--glow);text-decoration:none;font-weight:700;border:0;cursor:pointer;box-shadow:0 0 14px rgba(123,203,142,.35)}
+.btn:hover{background:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.ghost{background:transparent;color:var(--cloud);border:1px solid var(--line);box-shadow:none;font-weight:400}
+.btn.ghost:hover{border-color:var(--glow);color:var(--glow)}
+.btn.sm{padding:.45rem .8rem;font-size:.88rem}
+
+/* 잠금 화면 */
+.gate{min-height:auto;display:grid;place-items:center;padding:clamp(2.6rem,7vw,4.4rem) 1rem;border-top:1px solid var(--line);background:radial-gradient(110% 80% at 50% 0%,#1f4a2e 0%,var(--sky) 50%,var(--deep) 100%)}
+.gate-box{width:min(440px,100%);text-align:center}
+.gate-box .pen{font-size:clamp(3rem,11vw,4.6rem);line-height:1.05}
+.gate-box p{color:var(--mute);margin:.9rem 0 1.6rem}
+.gate form{display:flex;gap:.5rem}
+.gate input{flex:1;min-width:0;background:rgba(8,22,14,.7);border:1px solid var(--line);padding:.75rem 1rem;font:500 1.15rem var(--mono);letter-spacing:.14em;text-align:center;color:var(--cloud)}
+.gate input::placeholder{letter-spacing:.06em;color:#6c8a74}
+.gate .err{color:var(--err);min-height:1.8em;margin-top:.8rem;font-size:.95rem}
+.gate small{display:block;color:#7d9a85;margin-top:1.4rem;font-size:.85rem}
+
+/* 머리말 */
+.top{padding:clamp(3rem,8vw,5.5rem) 0 2.5rem;background:radial-gradient(110% 90% at 70% 0%,#24502f 0%,var(--sky) 55%);border-bottom:1px solid var(--line)}
+.back{font-size:.9rem;color:var(--mute);text-decoration:none}
+.back:hover{color:var(--glow)}
+.top-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:2rem 3rem;align-items:end;margin-top:1.4rem}
+.top h1{font-size:clamp(3.2rem,9vw,5.6rem);line-height:1}
+.lede{margin-top:1rem;max-width:32em}
+.log{font:400 .82rem/2 var(--mono);color:var(--mute);border-left:1px solid var(--line);padding-left:1.1rem}
+.log b{color:var(--cloud);font-weight:500}
+.acts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem}
+
+section{padding:clamp(2.6rem,6vw,4.2rem) 0}
+h2{font-family:var(--pen);font-weight:400;font-size:clamp(2.3rem,5.5vw,3.2rem);line-height:1.05;color:#F7FFF3;text-shadow:0 0 10px rgba(123,203,142,.45);margin-bottom:.9rem}
+.sub{color:var(--mute);max-width:40em;margin-bottom:1.4rem}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem}
+.how div{border-top:1px solid var(--line);padding-top:.9rem}
+.how b{display:block}
+.how p{color:#D3E2D5;font-size:.95rem}
+
+.player{position:relative;aspect-ratio:16/9;background:var(--deep);border:1px solid var(--line)}
+.player button{position:absolute;inset:0;border:0;padding:0;cursor:pointer;background:none}
+.player img{width:100%;height:100%;object-fit:cover}
+.play{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:rgba(8,22,14,.7);border:1px solid var(--glow)}
+.play::after{content:"";position:absolute;left:31px;top:23px;border-left:21px solid var(--glow);border-top:15px solid transparent;border-bottom:15px solid transparent}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(15,36,24,.94);backdrop-filter:blur(8px);border-block:1px solid var(--line);padding-block:.7rem}
+.tools .wrap{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;justify-content:space-between}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{border:1px solid var(--line);background:transparent;padding:.25rem .8rem;font-size:.88rem;cursor:pointer;color:var(--mute)}
+.chip[aria-pressed="true"]{background:var(--glow);color:var(--deep);border-color:var(--glow)}
+.chip .c{font:500 .72rem var(--mono);opacity:.7;margin-left:.3rem}
+.pick{display:flex;gap:.4rem;align-items:center}
+
+.grp{padding-top:1.6rem}
+.grp h3{font-family:var(--pen);font-weight:400;font-size:2rem;color:#F7FFF3;line-height:1.1;display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap}
+.grp h3 small{font:400 .8rem var(--mono);color:var(--mute)}
+.grp h3 button{font:400 .82rem var(--serif);background:none;border:1px solid var(--line);color:var(--mute);padding:.1rem .6rem;cursor:pointer}
+.grp h3 button:hover{color:var(--glow);border-color:var(--glow)}
+.shorts{display:flex;gap:.9rem;overflow-x:auto;padding:.9rem 0 .2rem;scroll-snap-type:x mandatory}
+.short{flex:0 0 150px;scroll-snap-align:start;border:1px solid var(--line);background:var(--deep)}
+.short .pv{position:relative;display:block;width:100%;aspect-ratio:9/16;border:0;padding:0;background:#000;cursor:pointer}
+.short .pv img{width:100%;height:100%;object-fit:cover;display:block}
+.short .pv .play{width:48px;height:48px;margin:-24px 0 0 -24px}
+.short .pv .play::after{left:19px;top:14px;border-left-width:14px;border-top-width:10px;border-bottom-width:10px}
+.short .lb{font-size:.82rem;line-height:1.4;padding:.45rem .55rem .2rem;color:var(--cloud)}
+.short .lb small{display:block;color:var(--mute);font:400 .72rem var(--mono)}
+.short a.get{display:block;margin:.35rem .55rem .55rem;text-align:center;font-size:.8rem;padding:.3rem 0;border:1px solid var(--glow);color:var(--glow);text-decoration:none}
+.short a.get:hover{background:var(--glow);color:var(--deep)}
+#sv .sheet{max-width:min(420px,94vw);padding:.8rem}
+#sv .stage{aspect-ratio:9/16;max-height:78vh;margin:0 auto;background:#000}
+#sv .stage iframe,#sv .stage video{width:100%;height:100%;border:0;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem .9rem;padding-block:1rem .5rem}
+.card{display:grid;gap:.4rem}
+.shot{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--deep);cursor:zoom-in;border:0;padding:0;width:100%}
+.shot img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease,filter .5s ease}
+.shot img.v{object-position:50% 22%}
+.shot:hover img{transform:scale(1.035);filter:brightness(1.08)}
+.tag{position:absolute;top:.45rem;left:.45rem;font:500 .7rem/1 var(--mono);background:rgba(8,22,14,.8);border:1px solid var(--line);padding:.32rem .42rem}
+.sel{position:absolute;top:.4rem;right:.4rem;width:34px;height:34px;border:1.5px solid rgba(255,255,255,.85);background:rgba(8,22,14,.45);cursor:pointer;display:grid;place-items:center;color:transparent;font-weight:700}
+.card.on .sel{background:var(--amber);border-color:var(--amber);color:var(--deep)}
+.card.on .shot{outline:3px solid var(--amber);outline-offset:-3px}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;font:400 .8rem var(--mono);color:#86a28d}
+.meta .no{font:500 .92rem var(--mono);color:var(--cloud)}
+.meta a{color:var(--mute);text-decoration:none}
+.meta a:hover{color:var(--glow)}
+
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:8;background:rgba(8,22,14,.97);border-top:1px solid var(--amber);padding:.7rem 0 max(.7rem,env(safe-area-inset-bottom,0px))}
+.bar .wrap{display:flex;gap:.6rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar .n{font:500 1rem var(--mono)}
+.bar .n b{color:var(--amber);font-size:1.2rem}
+.bar .row{display:flex;gap:.4rem;flex-wrap:wrap}
+
+footer{padding:2.5rem 0 6rem;border-top:1px solid var(--line);color:var(--mute);font-size:.85rem;margin-top:3rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+dialog{border:0;padding:0;background:transparent;color:var(--cloud)}
+dialog::backdrop{background:rgba(4,12,7,.94)}
+/* 크게 보기: 화면 전체를 덮는 고정 창 (휴대폰 주소창 높이 변화에도 버튼이 화면 안에 남도록 dvh) */
+#viewer{position:fixed;inset:0;width:100%;height:100%;height:100dvh;max-width:none;max-height:none;margin:0;background:#050d08}
+#viewer[open]{display:block}
+html.lock,html.lock body{overflow:hidden}
+.vw{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:max(.6rem,env(safe-area-inset-top,0px)) max(.6rem,env(safe-area-inset-right,0px)) max(.7rem,env(safe-area-inset-bottom,0px)) max(.6rem,env(safe-area-inset-left,0px))}
+.vw-top{display:flex;justify-content:space-between;align-items:center;gap:.6rem;padding-bottom:.5rem}
+.vw-top .t{font:500 .88rem/1.4 var(--mono);min-width:0}
+.vw-top .t b{color:var(--amber);font-weight:500;margin-right:.5rem}
+.vw-img{position:relative;display:flex;align-items:center;justify-content:center;min-height:0;touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none}
+.vw-img img{max-width:100%;max-height:100%;object-fit:contain;-webkit-user-drag:none;transition:opacity .15s}
+.vw-img img.ld{opacity:.35}
+.nav,.x{background:rgba(5,13,8,.55);border:1px solid rgba(238,245,236,.35);color:var(--cloud);width:48px;height:48px;cursor:pointer;font-size:1.6rem;line-height:1;border-radius:50%;flex:none;-webkit-tap-highlight-color:transparent}
+.nav:hover,.x:hover{border-color:var(--glow);color:var(--glow)}
+.nav{position:absolute;top:50%;margin-top:-24px;z-index:2}
+.nav.prev{left:.2rem}.nav.next{right:.2rem}
+.vw-bot{display:flex;justify-content:center;align-items:center;gap:.45rem;flex-wrap:wrap;padding-top:.7rem}
+.vw-bot .btn{min-height:44px}
+.vw-hint{text-align:center;font-size:.78rem;color:#7d9a85;padding-top:.35rem}
+#vwPick[aria-pressed="true"]{background:var(--amber);color:var(--deep);border-color:var(--amber)}
+
+.dlg{width:min(560px,100vw - 2rem);max-height:calc(100vh - 2rem);margin:auto}
+.sheet{background:var(--sky);border:1px solid var(--line);padding:1.5rem;overflow:auto;max-height:calc(100vh - 2rem)}
+.sheet h3{font-family:var(--pen);font-weight:400;font-size:2.3rem;line-height:1;color:#F7FFF3}
+.sheet .sub{margin:.5rem 0 1rem;font-size:.95rem}
+.thumbs{display:flex;gap:.3rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1rem}
+.thumbs img{width:72px;height:48px;object-fit:cover;flex:none;background:var(--deep)}
+.dl-list{display:grid;gap:.3rem;max-height:40vh;overflow:auto;margin:.8rem 0;font:400 .85rem var(--mono)}
+.dl-list a{color:var(--cloud);text-decoration:none;border-bottom:1px solid var(--line);padding:.3rem 0;display:flex;justify-content:space-between}
+.dl-list a:hover{color:var(--glow)}
+.dl-list a.done::after{content:"받음";color:var(--ok)}
+.dl-list button{background:none;border:0;border-bottom:1px solid var(--line);color:var(--cloud);padding:.35rem 0;display:flex;justify-content:space-between;cursor:pointer;text-align:left;font:inherit}
+.dl-list button.done::after{content:"받음";color:var(--ok)}
+.dl-list button.bad::after{content:"다시 눌러 주세요";color:var(--err)}
+.prog{height:6px;background:var(--deep);border:1px solid var(--line);margin:.6rem 0}
+.prog i{display:block;height:100%;width:0;background:var(--amber);transition:width .2s}
+.chunks{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.chunks .btn.done{background:var(--ok)}
+.meta button{background:none;border:0;color:var(--mute);cursor:pointer;font:inherit;padding:.2rem 0 .2rem .6rem}
+.meta button:hover{color:var(--glow)}
+form.rq{display:grid;gap:1rem}
+label{display:grid;gap:.35rem;font-size:.88rem;color:var(--mute)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.rq input[type=text],.rq textarea{width:100%;background:var(--deep);border:1px solid var(--line);padding:.6rem .75rem;color:var(--cloud);font-size:1rem}
+.rq textarea{min-height:90px;resize:vertical}
+.rq textarea.nos{min-height:56px;font:400 .9rem var(--mono)}
+.kinds{display:flex;flex-wrap:wrap;gap:.4rem}
+.kinds label{display:block}
+.kinds input{position:absolute;opacity:0;pointer-events:none}
+.kinds span{display:inline-block;border:1px solid var(--line);padding:.3rem .8rem;font-size:.9rem;color:var(--cloud);cursor:pointer}
+.kinds input:checked+span{background:var(--glow);border-color:var(--glow);color:var(--deep);font-weight:700}
+.kinds input:focus-visible+span{outline:2px solid var(--amber);outline-offset:2px}
+.agree{display:flex;gap:.5rem;align-items:flex-start;font-size:.88rem}
+.agree input{margin-top:.35rem}
+.hp{position:absolute;left:-9999px}
+.msg{font-size:.93rem;min-height:1.4em}
+.msg.ok{color:var(--ok)}.msg.err{color:var(--err)}
+.foot{display:flex;justify-content:flex-end;gap:.5rem;flex-wrap:wrap}
+.done{text-align:center;padding:1.8rem .5rem}
+.done .pen{font-size:2.6rem;display:block;line-height:1.1;margin-bottom:.5rem}
+
+@media (max-width:860px){
+  .top-grid,.how{grid-template-columns:minmax(0,1fr)}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem .6rem}
+  .two{grid-template-columns:minmax(0,1fr)}
+  .sel{width:40px;height:40px}
+  .chip{padding:.4rem .85rem;min-height:38px}
+  .bar .wrap{gap:.45rem}
+  .bar .row{width:100%}
+  .bar .row .btn{flex:1;justify-content:center;min-height:44px}
+  .tools .pick{width:100%}
+  .chips{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:.2rem;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;white-space:nowrap}
+  .dl-list button{min-height:42px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="app">
+<header class="top">
+  <div class="wrap">
+    <a class="back" href="/record.html">← 현장 기록 · 2026생태관광주간</a>
+    <div class="top-grid">
+      <div>
+        <h1 class="pen">미로숲놀이터 자연놀이 네트플레이</h1>
+        <p class="lede">서귀포 호근동 미로숲길, 나무와 나무 사이에 걸린 오색 그물 위에서 마음껏 놀았습니다. 아이마다·가족마다 사진을 묶고, 드론으로 함께 남긴 가족 단체 영상의 장면과 아이별 쇼츠 영상도 함께 넣었어요. 마음에 드는 것을 골라 받으세요.</p>
+        <div class="acts">
+          <a class="btn ghost" href="#gate" id="toPhotos">사진첩 열기 🔒</a>
+          <a class="btn ghost" href="#video" id="toVideo">영상 보기</a>
+          <a class="btn ghost" id="allDrive" href="#" target="_blank" rel="noopener" hidden>전체 폴더 열기 (구글 드라이브)</a>
+        </div>
+      </div>
+      <p class="log">
+        <b>촬영</b> 10:14 – 13:00<br>
+        서귀포 호근동 · 미로숲길 미로숲놀이터<br>
+        운영 호근동생태관광마을협의체 · 트리아이<br>
+        2026 생태관광주간<br>
+        <b id="countLine"></b>
+      </p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="video" hidden>
+    <div class="wrap">
+      <h2>숲속 네트 놀이터</h2>
+      <p class="sub">나무 사이 오색 그물에서 신나게 논 하루를 담은 기록 영상입니다. <a id="vidDl" hidden target="_blank" rel="noopener">영상 파일 받기 (구글 드라이브)</a></p>
+      <div class="player" id="player">
+        <button type="button" id="playBtn" aria-label="미로숲놀이터 자연놀이 네트플레이 영상 재생">
+          <img id="ytThumb" alt="" loading="lazy">
+          <span class="play" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+<section class="gate" id="gate">
+  <div class="gate-box">
+    <div class="pen" style="font-size:clamp(2.4rem,8vw,3.4rem)">사진첩 열기</div>
+    <p>🔒 사진첩은 그날 함께한 분들만 볼 수 있어요.<br>안내받은 비밀번호 여섯 자리를 입력해 주세요.</p>
+    <form id="gateForm" autocomplete="off">
+      <input id="pw" inputmode="numeric" maxlength="10" placeholder="숫자 여섯 자리" aria-label="비밀번호 여섯 자리" required>
+      <button class="btn" type="submit">열기</button>
+    </form>
+    <div class="err" id="gateErr" role="alert"></div>
+    <small>비밀번호는 문자나 카카오톡으로 안내해 드렸어요.</small>
+  </div>
+</section>
+  <div id="photoArea" hidden>
+  <section style="padding-bottom:1.5rem">
+    <div class="wrap">
+      <h2>사진 받는 법</h2>
+      <div class="how">
+        <div><b>골라서 한 번에 받기</b><p>사진 오른쪽 위 네모를 눌러 여러 장을 고르거나 <b style="display:inline">이 묶음 고르기</b>를 누른 뒤, 아래에 뜨는 <b style="display:inline">받기</b>를 누르세요. 휴대폰은 사진 앱에 바로 저장되고, 컴퓨터는 ZIP 파일 하나로 받아집니다.</p></div>
+        <div><b>원본이 필요하면</b><p>여기서 받는 사진은 휴대폰·SNS에 알맞은 크기(긴 변 2048px)입니다. 인화나 큰 화면용 원본은 사진을 고른 뒤 <b style="display:inline">원본 요청</b>을 보내 주세요. 준비되면 연락드려요.</p></div>
+        <div><b>내리고 싶은 사진</b><p>공개되길 원하지 않는 사진이 있으면 골라서 원본 요청 창에서 <b style="display:inline">사진 내려 주세요</b>를 선택해 보내 주세요. 확인하는 대로 내리겠습니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tools" id="photos">
+    <div class="wrap">
+      <div class="chips" id="chips" role="group" aria-label="시간대로 거르기"></div>
+      <div class="pick">
+        <button class="btn ghost sm" type="button" id="pickAll">보이는 사진 모두 고르기</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" id="groups"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>미로숲놀이터 자연놀이 네트플레이 · 2026생태관광주간 현장 기록</span>
+    <span>제작 : <a href="https://jejugrapher.com/" target="_blank" rel="noopener" style="color:var(--glow);font-weight:700;text-decoration:underline;text-underline-offset:3px">제주그래퍼</a></span>
+    <span>요청 때 사진 번호를 알려 주시면 더 빨리 찾아 드려요</span>
+  </div>
+</footer>
+</div>
+
+<div class="bar" id="bar" hidden>
+  <div class="wrap">
+    <span class="n"><b id="selN">0</b>장 골랐어요</span>
+    <div class="row">
+      <button class="btn sm" type="button" id="barDl">받기</button>
+      <button class="btn ghost sm" type="button" id="barReq">원본 요청</button>
+      <button class="btn ghost sm" type="button" id="barClear">고른 것 지우기</button>
+    </div>
+  </div>
+</div>
+
+<dialog id="viewer" aria-label="사진 크게 보기">
+  <div class="vw">
+    <div class="vw-top">
+      <span class="t" id="vwTitle"></span>
+      <button class="x" type="button" id="vwClose" aria-label="닫기">×</button>
+    </div>
+    <div class="vw-img" id="vwStage">
+      <img id="vwImg" alt="" draggable="false">
+      <button class="nav prev" type="button" id="vwPrev" aria-label="이전 사진">‹</button>
+      <button class="nav next" type="button" id="vwNext" aria-label="다음 사진">›</button>
+    </div>
+    <div class="vw-bot">
+      <button class="btn ghost sm" type="button" id="vwPick" aria-pressed="false">고르기</button>
+      <button class="btn sm" type="button" id="vwDown">이 사진 받기</button>
+      <button class="btn ghost sm" type="button" id="vwReq">원본 요청</button>
+    </div>
+    <div class="vw-hint">옆으로 밀거나 ‹ › 를 눌러 다음 사진으로 넘겨요</div>
+  </div>
+</dialog>
+
+<dialog id="sv" class="dlg" aria-label="쇼츠 영상 보기">
+  <div class="sheet">
+    <div class="stage" id="svStage"></div>
+    <div class="foot" style="justify-content:space-between;margin-top:.6rem">
+      <a class="btn sm" id="svGet" target="_blank" rel="noopener">이 영상 받기</a>
+      <button class="btn ghost sm" type="button" id="svClose">닫기</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dl" class="dlg" aria-label="고른 사진 받기">
+  <div class="sheet">
+    <h3>고른 사진 받기</h3>
+    <p class="sub" id="dlSub"></p>
+    <div class="foot" style="justify-content:flex-start">
+      <button class="btn sm" type="button" id="dlAll">한 번에 받기</button>
+      <button class="btn ghost sm" type="button" id="dlZip" hidden>ZIP 파일로 받기</button>
+      <button class="btn ghost sm" type="button" id="dlClose">닫기</button>
+    </div>
+    <div class="prog" id="dlProg" hidden><i></i></div>
+    <p class="msg" id="dlMsg" role="status"></p>
+    <div class="chunks" id="dlChunks"></div>
+    <details style="margin-top:.4rem"><summary style="cursor:pointer;color:var(--mute);font-size:.88rem">한 장씩 받기</summary>
+    <div class="dl-list" id="dlList"></div></details>
+    <p class="sub" style="font-size:.85rem;margin:.6rem 0 0">많이 받으실 때는 <a id="dlFolder" target="_blank" rel="noopener">드라이브 폴더</a>에서 받으셔도 됩니다.</p>
+  </div>
+</dialog>
+
+<dialog id="req" class="dlg" aria-label="원본 요청">
+  <div class="sheet">
+    <div id="reqForm">
+      <h3>원본 요청</h3>
+      <p class="sub">고른 사진 번호가 아래에 들어가 있어요. 원본(고해상도)을 드라이브에 올리고 남겨 주신 연락처로 알려 드립니다.</p>
+      <div class="thumbs" id="rqThumbs"></div>
+      <form class="rq" id="form" novalidate>
+        <label for="f_nos">사진 번호 (쉼표로 구분, 고쳐 써도 돼요)
+          <textarea class="nos" id="f_nos"></textarea>
+        </label>
+        <div>
+          <div style="font-size:.88rem;color:var(--mute);margin-bottom:.4rem">어떤 요청인가요?</div>
+          <div class="kinds">
+            <label for="k1"><input type="radio" name="kind" id="k1" value="원본(고해상도)" checked><span>원본(고해상도)</span></label>
+            <label for="k2"><input type="radio" name="kind" id="k2" value="밝기·색감"><span>밝기·색감</span></label>
+            <label for="k3"><input type="radio" name="kind" id="k3" value="사진 내려 주세요"><span>사진 내려 주세요</span></label>
+            <label for="k4"><input type="radio" name="kind" id="k4" value="기타"><span>기타</span></label>
+          </div>
+        </div>
+        <label for="f_msg">남길 말 (선택)
+          <textarea id="f_msg" placeholder="예) 액자로 뽑고 싶어요. / 아이 얼굴이 나온 사진은 내려 주세요."></textarea>
+        </label>
+        <div class="two">
+          <label for="f_name">이름<input type="text" id="f_name" autocomplete="name" placeholder="예) 김OO"></label>
+          <label for="f_contact">연락처 (휴대폰 또는 이메일)<input type="text" id="f_contact" autocomplete="tel" placeholder="원본이 준비되면 알려 드려요"></label>
+        </div>
+        <label class="hp" aria-hidden="true">웹사이트<input type="text" id="f_web" tabindex="-1" autocomplete="off"></label>
+        <label class="agree" for="f_agree"><input type="checkbox" id="f_agree"> 이름과 연락처는 이 사진의 안내에만 쓰고, 안내가 끝나면 지웁니다.</label>
+        <p class="msg" id="rqMsg" role="status"></p>
+        <div class="foot">
+          <button class="btn ghost sm" type="button" id="rqCancel">닫기</button>
+          <button class="btn sm" type="submit" id="rqSend">요청 보내기</button>
+        </div>
+      </form>
+    </div>
+    <div class="done" id="reqDone" hidden>
+      <span class="pen">요청을 받았어요</span>
+      <p style="color:var(--mute);margin-bottom:1.2rem">준비되면 남겨 주신 연락처로 알려 드릴게요.</p>
+      <button class="btn ghost sm" type="button" id="doneClose">닫기</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* ── 설정 (build_gallery.py가 채움) ─────────────── */
+const SESSION = "eco-netplay";
+const PW_HASH = "96b0c79fa46201a959c16a56529a240d8cc1f44f532593cceaaf9aa4425ddb51";            // sha256("byeolbam-pw:" + 날짜 6자리)
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwYW8zN_7UyGnbeYpf3A5hSeSp4GVTc3N3Rj3c28WgnOiAZHVDuovvn4WvN5zHE6_WV/exec";       // 구글 Apps Script 웹 앱 (별밤사진관과 같은 창구)
+const YT = "07dIm0ToziQ";
+const DRIVE_FOLDER = "https://drive.google.com/drive/folders/1gacnOSs1oCb83fAMCpybvBXOmm_GkH6_";
+const PHOTOS = [{"n":"001","t":"10:14","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"002","t":"10:16","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"003","t":"10:16","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"004","t":"10:16","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"005","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"006","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"007","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"008","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"009","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"010","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"011","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"012","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"013","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"014","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"015","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"016","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"017","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"018","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"019","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"020","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"021","t":"10:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"022","t":"10:32","cam":"Avata360","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"023","t":"10:32","cam":"Avata360","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"024","t":"10:32","cam":"Avata360","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"025","t":"10:32","cam":"Avata360","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"026","t":"10:52","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"027","t":"10:52","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"028","t":"10:54","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"029","t":"10:54","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"030","t":"10:59","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"031","t":"11:00","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"032","t":"11:00","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"033","t":"11:01","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"034","t":"11:01","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"035","t":"11:01","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"036","t":"11:09","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"037","t":"11:10","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"038","t":"11:10","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"039","t":"11:10","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"040","t":"11:11","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"041","t":"11:11","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"042","t":"11:11","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"043","t":"11:11","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"044","t":"11:11","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"045","t":"11:11","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"046","t":"11:11","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"047","t":"11:12","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"048","t":"11:12","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"049","t":"11:12","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"050","t":"11:14","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"051","t":"11:14","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"052","t":"11:14","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"053","t":"11:16","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"054","t":"11:16","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"055","t":"11:16","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"056","t":"11:16","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"057","t":"11:16","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"058","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"059","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"060","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"061","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"062","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"063","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"064","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"065","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"066","t":"11:17","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"067","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"068","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"069","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"070","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"071","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"072","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"073","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"074","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"075","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"076","t":"11:18","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"077","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"078","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"079","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"080","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"081","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"082","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"083","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"084","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"085","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"086","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"087","t":"11:19","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"088","t":"11:20","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"089","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"090","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"091","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"092","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"093","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"094","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"095","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"096","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"097","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"098","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"099","t":"11:21","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"100","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"101","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"102","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"103","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"104","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"105","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"106","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"107","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"108","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"109","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"110","t":"11:25","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"111","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"112","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"113","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"114","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"115","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"116","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"117","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"118","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"119","t":"11:28","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"120","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"121","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"122","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"123","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"124","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"125","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"126","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"127","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"128","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"129","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"130","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"131","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"132","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"133","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"134","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"135","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"136","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"137","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"138","t":"11:29","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":1},{"n":"139","t":"11:47","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"140","t":"11:49","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"141","t":"11:51","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"142","t":"11:54","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"143","t":"12:55","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"144","t":"12:55","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"145","t":"12:55","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"146","t":"12:55","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"147","t":"13:00","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"148","t":"13:00","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"149","t":"13:00","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"150","t":"13:00","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"151","t":"13:00","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"152","t":"13:00","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"153","t":"13:00","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"154","t":"13:00","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"155","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"156","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"157","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"158","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"159","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"160","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"161","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"162","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"163","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"164","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"165","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"166","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"167","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"168","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"169","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"170","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"171","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"172","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"173","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"174","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"175","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"176","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"177","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"178","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"179","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"180","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"181","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"182","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"183","t":"13:04","cam":"A1","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"184","t":"13:12","cam":"Avata360","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"185","t":"13:12","cam":"Avata360","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"186","t":"13:14","cam":"Avata360","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"187","t":"13:14","cam":"Avata360","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"188","t":"13:25","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"189","t":"13:25","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"190","t":"13:25","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"191","t":"13:25","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"192","t":"13:26","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"193","t":"13:26","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"194","t":"13:27","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"195","t":"13:29","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"196","t":"13:30","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"197","t":"13:32","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"198","t":"13:32","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"199","t":"13:32","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"200","t":"13:34","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"201","t":"13:36","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"202","t":"13:36","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"203","t":"13:37","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"204","t":"13:37","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"205","t":"13:37","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"206","t":"13:37","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"207","t":"13:38","cam":"Avata2","s":"숲속 네트 놀이터 · 함께","v":0},{"n":"208","t":"10:03","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"209","t":"10:03","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"210","t":"10:03","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"211","t":"10:03","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"212","t":"10:04","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"213","t":"10:04","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"214","t":"10:05","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"215","t":"10:05","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"216","t":"10:05","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"217","t":"10:05","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"218","t":"10:06","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"219","t":"10:06","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"220","t":"10:06","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"221","t":"10:06","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"222","t":"10:06","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"223","t":"10:06","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"224","t":"10:07","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"225","t":"10:07","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"226","t":"10:07","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"227","t":"10:07","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"228","t":"10:07","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"229","t":"10:08","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"230","t":"10:14","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"231","t":"10:16","cam":"A1 영상","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"232","t":"10:16","cam":"A1 영상","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"233","t":"10:16","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"234","t":"10:16","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"235","t":"10:18","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"236","t":"10:18","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"237","t":"10:18","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"238","t":"10:18","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"239","t":"10:18","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"240","t":"10:18","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"241","t":"10:18","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"242","t":"10:18","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"243","t":"10:18","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"244","t":"10:18","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"245","t":"10:18","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"246","t":"10:18","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"247","t":"10:18","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"248","t":"10:18","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"249","t":"10:19","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"250","t":"10:19","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"251","t":"10:19","cam":"A1 영상","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"252","t":"10:19","cam":"A1 영상","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"253","t":"10:21","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"254","t":"10:21","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"255","t":"10:21","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"256","t":"10:21","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"257","t":"10:22","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"258","t":"10:23","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"259","t":"10:23","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"260","t":"10:23","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"261","t":"10:42","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"262","t":"10:42","cam":"Pocket3","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"263","t":"11:19","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"264","t":"11:19","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"265","t":"11:19","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"266","t":"11:27","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"267","t":"11:27","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"268","t":"11:27","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"269","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"270","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"271","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"272","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"273","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"274","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"275","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"276","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"277","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"278","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"279","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"280","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"281","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"282","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"283","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"284","t":"11:28","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"285","t":"11:29","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"286","t":"11:29","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"287","t":"11:29","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"288","t":"11:29","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":1},{"n":"289","t":"11:29","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":1},{"n":"290","t":"11:29","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":1},{"n":"291","t":"11:29","cam":"A1","s":"줄무늬 티 · 미키 티 가족","v":1},{"n":"292","t":"11:47","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"293","t":"11:47","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"294","t":"11:47","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"295","t":"11:47","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"296","t":"11:47","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"297","t":"11:47","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"298","t":"11:47","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"299","t":"11:47","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"300","t":"11:48","cam":"Avata2 오르빗","s":"줄무늬 티 · 미키 티 가족","v":0},{"n":"301","t":"10:11","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"302","t":"10:11","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"303","t":"10:12","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"304","t":"10:12","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"305","t":"10:13","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"306","t":"10:13","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"307","t":"10:17","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"308","t":"10:17","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"309","t":"10:20","cam":"A1 영상","s":"꼬마 탐험가 가족","v":0},{"n":"310","t":"10:20","cam":"A1 영상","s":"꼬마 탐험가 가족","v":0},{"n":"311","t":"10:20","cam":"A1 영상","s":"꼬마 탐험가 가족","v":0},{"n":"312","t":"10:20","cam":"A1 영상","s":"꼬마 탐험가 가족","v":0},{"n":"313","t":"10:22","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"314","t":"10:22","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"315","t":"10:23","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"316","t":"10:23","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"317","t":"10:23","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"318","t":"10:23","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"319","t":"10:42","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"320","t":"10:42","cam":"Pocket3","s":"꼬마 탐험가 가족","v":0},{"n":"321","t":"11:10","cam":"Avata2","s":"꼬마 탐험가 가족","v":0},{"n":"322","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"323","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"324","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"325","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"326","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"327","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"328","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"329","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"330","t":"11:49","cam":"Avata2 오르빗","s":"꼬마 탐험가 가족","v":0},{"n":"331","t":"10:14","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"332","t":"10:14","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"333","t":"10:14","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"334","t":"10:14","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"335","t":"10:14","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"336","t":"10:14","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"337","t":"10:14","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"338","t":"10:14","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"339","t":"10:15","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"340","t":"10:15","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"341","t":"10:15","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"342","t":"10:15","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"343","t":"10:15","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"344","t":"10:15","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"345","t":"10:16","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"346","t":"10:17","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"347","t":"10:17","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"348","t":"10:17","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"349","t":"10:17","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"350","t":"10:18","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"351","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"352","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"353","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"354","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"355","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"356","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"357","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"358","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"359","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"360","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"361","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"362","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"363","t":"10:19","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"364","t":"10:21","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"365","t":"10:21","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"366","t":"10:22","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"367","t":"10:22","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"368","t":"10:22","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"369","t":"10:22","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"370","t":"10:23","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"371","t":"10:23","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"372","t":"10:23","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"373","t":"10:23","cam":"Pocket3","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"374","t":"10:53","cam":"Avata2","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"375","t":"11:10","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"376","t":"11:10","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"377","t":"11:10","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"378","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"379","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"380","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"381","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"382","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"383","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"384","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"385","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"386","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"387","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"388","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"389","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"390","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"391","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"392","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"393","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"394","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"395","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"396","t":"11:11","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"397","t":"11:15","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"398","t":"11:15","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"399","t":"11:17","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"400","t":"11:17","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"401","t":"11:19","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"402","t":"11:19","cam":"A1 영상","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"403","t":"11:20","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"404","t":"11:20","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"405","t":"11:20","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"406","t":"11:20","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"407","t":"11:20","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"408","t":"11:29","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"409","t":"11:29","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"410","t":"11:29","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"411","t":"11:29","cam":"A1","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":1},{"n":"412","t":"11:51","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"413","t":"11:51","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"414","t":"11:51","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"415","t":"11:51","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"416","t":"11:51","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"417","t":"11:51","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"418","t":"11:51","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"419","t":"11:52","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"420","t":"11:52","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"421","t":"11:52","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"422","t":"11:52","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"423","t":"11:52","cam":"Avata2 오르빗","s":"분홍 셔츠 · 흰 그림 티 남매 가족","v":0},{"n":"424","t":"10:12","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"425","t":"10:12","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"426","t":"10:12","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"427","t":"10:12","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"428","t":"10:17","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"429","t":"10:17","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"430","t":"10:18","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"431","t":"10:18","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"432","t":"10:18","cam":"A1","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"433","t":"10:19","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"434","t":"10:19","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"435","t":"10:19","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"436","t":"10:19","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"437","t":"10:20","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"438","t":"10:20","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"439","t":"10:22","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"440","t":"10:22","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"441","t":"10:22","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"442","t":"10:22","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"443","t":"10:23","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"444","t":"10:23","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"445","t":"11:10","cam":"A1 영상","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"446","t":"11:10","cam":"A1 영상","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"447","t":"11:13","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"448","t":"11:13","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"449","t":"11:13","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"450","t":"11:13","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"451","t":"11:15","cam":"A1 영상","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"452","t":"11:15","cam":"A1 영상","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"453","t":"11:17","cam":"A1 영상","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"454","t":"11:17","cam":"A1 영상","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"455","t":"11:18","cam":"A1","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"456","t":"11:21","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"457","t":"11:21","cam":"Pocket3","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"458","t":"11:21","cam":"A1","s":"하늘색 티 · 흰 티 형제 가족","v":1},{"n":"459","t":"11:21","cam":"A1","s":"하늘색 티 · 흰 티 형제 가족","v":1},{"n":"460","t":"11:21","cam":"A1","s":"하늘색 티 · 흰 티 형제 가족","v":1},{"n":"461","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"462","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"463","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"464","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"465","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"466","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"467","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"468","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"469","t":"11:54","cam":"Avata2 오르빗","s":"하늘색 티 · 흰 티 형제 가족","v":0},{"n":"470","t":"12:56","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"471","t":"12:56","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"472","t":"12:57","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"473","t":"12:57","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"474","t":"12:58","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"475","t":"12:58","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"476","t":"12:59","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"477","t":"12:59","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"478","t":"12:59","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"479","t":"13:00","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"480","t":"13:00","cam":"A1","s":"주황 티 친구","v":0},{"n":"481","t":"13:00","cam":"A1","s":"주황 티 친구","v":0},{"n":"482","t":"13:00","cam":"A1","s":"주황 티 친구","v":0},{"n":"483","t":"13:01","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"484","t":"13:01","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"485","t":"13:01","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"486","t":"13:02","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"487","t":"13:02","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"488","t":"13:02","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"489","t":"13:04","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"490","t":"13:04","cam":"A1 영상","s":"주황 티 친구","v":0},{"n":"491","t":"13:06","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"492","t":"13:07","cam":"Pocket3","s":"주황 티 친구","v":0},{"n":"493","t":"12:56","cam":"A1 영상","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"494","t":"12:58","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"495","t":"12:58","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"496","t":"12:59","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"497","t":"12:59","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"498","t":"12:59","cam":"A1 영상","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"499","t":"12:59","cam":"A1 영상","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"500","t":"13:00","cam":"A1","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"501","t":"13:00","cam":"A1","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"502","t":"13:00","cam":"A1","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"503","t":"13:00","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"504","t":"13:00","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"505","t":"13:01","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"506","t":"13:01","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"507","t":"13:01","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"508","t":"13:01","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"509","t":"13:06","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"510","t":"13:06","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"511","t":"13:07","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"512","t":"13:07","cam":"Pocket3","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"513","t":"13:30","cam":"Avata2","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"514","t":"13:35","cam":"Avata2","s":"안경 쓴 까만 셔츠 친구","v":0},{"n":"515","t":"12:58","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"516","t":"12:58","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"517","t":"12:58","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"518","t":"12:58","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"519","t":"13:00","cam":"Pocket3","s":"노란 티 · 흰 모자 친구","v":0},{"n":"520","t":"13:00","cam":"Pocket3","s":"노란 티 · 흰 모자 친구","v":0},{"n":"521","t":"13:01","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"522","t":"13:01","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"523","t":"13:01","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"524","t":"13:01","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"525","t":"13:02","cam":"Pocket3","s":"노란 티 · 흰 모자 친구","v":0},{"n":"526","t":"13:02","cam":"Pocket3","s":"노란 티 · 흰 모자 친구","v":0},{"n":"527","t":"13:04","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"528","t":"13:04","cam":"A1 영상","s":"노란 티 · 흰 모자 친구","v":0},{"n":"529","t":"13:05","cam":"Pocket3","s":"노란 티 · 흰 모자 친구","v":0},{"n":"530","t":"13:05","cam":"Pocket3","s":"노란 티 · 흰 모자 친구","v":0},{"n":"531","t":"13:06","cam":"Pocket3","s":"노란 티 · 흰 모자 친구","v":0},{"n":"532","t":"13:06","cam":"Pocket3","s":"노란 티 · 흰 모자 친구","v":0},{"n":"533","t":"13:25","cam":"Avata2","s":"노란 티 · 흰 모자 친구","v":0},{"n":"534","t":"12:56","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"535","t":"12:57","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"536","t":"12:57","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"537","t":"12:57","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"538","t":"12:57","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"539","t":"12:59","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"540","t":"12:59","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"541","t":"12:59","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"542","t":"12:59","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"543","t":"13:00","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"544","t":"13:00","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"545","t":"13:01","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"546","t":"13:01","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"547","t":"13:01","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"548","t":"13:01","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"549","t":"13:02","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"550","t":"13:02","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"551","t":"13:03","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"552","t":"13:03","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"553","t":"13:03","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"554","t":"13:03","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"555","t":"13:04","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"556","t":"13:04","cam":"A1 영상","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"557","t":"13:05","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"558","t":"13:05","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"559","t":"13:06","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"560","t":"13:06","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"561","t":"13:07","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"562","t":"13:07","cam":"Pocket3","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"563","t":"13:37","cam":"Avata2","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"564","t":"13:37","cam":"Avata2","s":"분홍 모자 · 줄무늬 친구","v":0},{"n":"565","t":"12:55","cam":"A1","s":"파랑 소매 친구","v":0},{"n":"566","t":"12:55","cam":"A1","s":"파랑 소매 친구","v":0},{"n":"567","t":"12:55","cam":"A1","s":"파랑 소매 친구","v":0},{"n":"568","t":"12:55","cam":"A1","s":"파랑 소매 친구","v":0},{"n":"569","t":"12:55","cam":"A1","s":"파랑 소매 친구","v":0},{"n":"570","t":"12:55","cam":"A1","s":"파랑 소매 친구","v":0},{"n":"571","t":"12:59","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"572","t":"12:59","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"573","t":"13:00","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"574","t":"13:00","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"575","t":"13:01","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"576","t":"13:01","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"577","t":"13:01","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"578","t":"13:01","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"579","t":"13:02","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"580","t":"13:02","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"581","t":"13:02","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"582","t":"13:02","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"583","t":"13:03","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"584","t":"13:03","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"585","t":"13:04","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"586","t":"13:04","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"587","t":"13:04","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"588","t":"13:04","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"589","t":"13:04","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"590","t":"13:04","cam":"A1 영상","s":"파랑 소매 친구","v":0},{"n":"591","t":"13:05","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"592","t":"13:05","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"593","t":"13:06","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"594","t":"13:06","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"595","t":"13:07","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"596","t":"13:07","cam":"Pocket3","s":"파랑 소매 친구","v":0},{"n":"597","t":"13:25","cam":"Avata2","s":"파랑 소매 친구","v":0},{"n":"598","t":"12:57","cam":"A1 영상","s":"남색 모자 친구","v":0},{"n":"599","t":"12:57","cam":"A1 영상","s":"남색 모자 친구","v":0},{"n":"600","t":"12:57","cam":"A1 영상","s":"남색 모자 친구","v":0},{"n":"601","t":"12:59","cam":"Pocket3","s":"남색 모자 친구","v":0},{"n":"602","t":"12:59","cam":"Pocket3","s":"남색 모자 친구","v":0},{"n":"603","t":"12:59","cam":"Pocket3","s":"남색 모자 친구","v":0},{"n":"604","t":"12:59","cam":"Pocket3","s":"남색 모자 친구","v":0},{"n":"605","t":"13:00","cam":"A1","s":"남색 모자 친구","v":0}];             // [{n,t,cam,s,v}]  v=1 세로 사진
+const IDS = {"001":"1MwaPzOyLUAwuq3ObLSCd9_16UrFyxSjA","002":"1VJTvMYlrq2CD58fjlN63tGhbR6QYkGaw","003":"1tBthNQZUs5Jm4VMW8HUhTeHLh9C5OQbX","004":"1uXDboMCkiFF-knV5lpohC25L0EAxaqeP","005":"1N24SXY1JXIbAwWI1AknnAArSBXrIckp8","006":"1aN199rEfMMsZzEEKdNvG7VZrHtxhM5xr","007":"18Jte2HBCLXI_kaZLoUXkOQuE7N8OZ7RJ","008":"12WscyrM0lrFc0zKaaChzw1owMJ23rUcZ","009":"19-2V_xCXyDsAr6jQzt3f640UKEExYTbn","010":"1QfoDld9kIbx2mHYcJRCYV8oN0KA0vHj1","011":"1K8c-K-PL4hiMlh432hxYJQes-JZkVfXl","012":"1oK5YEVROQrYdEXyAqHzFm-5SBalCtpxC","013":"1bF2FOoqK3ksAlNS-VDiOxL9-YIt8bvtE","014":"1UH5hHjX1reWg-EQ5fm-GTHphxvJELfMN","015":"1RpH4z8qdEMBA_hDw_6dVqZkm6OgcfEHo","016":"1jqNV02sHslDprsOqD61lDPf9DCaggSNC","017":"1lL86KoYbdwOzmu8IyLaPSwZNUyVAHiyo","018":"1bxi0e7c40Ng9QcWPJvlMeVwK_9GIJXAT","019":"1ygSkm0wZdwRxbyMyZlE8VKjIv3J9dTFT","020":"169ChZDJLvUR8s4_0xOmNvx7Sl8cpp6jk","021":"1nono9bItMtvyV-MVNW7cFfXfKE12KSAn","022":"1xeJQgUyRsUxMvjDBEN8Ujx-Kl7WAR-9K","023":"1hsx0Bax_8xtoFolgmY0e57n46Zfyxj0Z","024":"1nWtFVKjUaOgwvyGVH7AVdSFGlce5m2-3","025":"1v1_CqpDAbjeSIJ72GW4NoS3mwLOK4uU_","026":"1FquFFvNJ35NLXzX5FCgvR_MpFXfHZjz1","027":"1La536i48v1z8Ae17pHS8j9uYuCQOGO7z","028":"1Ag8V4DyI4QQzvncDwIIjH_gYoy-hwRAF","029":"1cvuKJBjGUaNMuH7YNJ7Ro-Pu1pA0pdJF","030":"1pW9j8P1-q7TJifQLm02KjYyQwij1Tmst","031":"1g90lKJAeqsMSeeoEKPS6puBMqZMLprhd","032":"1muFWERREQouf1WoZl_3ouFc-M-8zXfnm","033":"1eOU8L8ZNp9jz-w2j8pUp3gCIXqQLboxx","034":"165aV-Rj77InOQxrkq9RjeAvagSB5Rd4A","035":"1cYUMEhducjxHmTA6VgsKOLPRkCRnfyVB","036":"1WK3PBbDOyGLD5wWycxn4ncKTtuilFlng","037":"1sRU3ddL5ef9CFI-XtqxD8jRWoS8fixyv","038":"1I-jAJ67Wc4kazplNkFvBumplvd-07gW4","039":"1iACsnHvDCtF0cyies88h8ZJ5F8OhUFIL","040":"105HJZa46rKISe71C8J2lxiwq18rkbk3T","041":"1xxhD3YMCLwOb7HBYvA6G1eihjIeenbDZ","042":"12cX82zFtEvlrTpAx5uAsGNQ6oRRmjZ19","043":"1tEwDA_CkVXXrJbVPTCfIR3A-o_53CZd-","044":"1m6R3hI2n2EU3ta8tk00QwVNtxVVZVza2","045":"1eJbe7e42EMdUpaz67ThvMhaQUCLMAreW","046":"1BuOPBTYOOOTnF_BDhCn2_wQ463CcSIVJ","047":"16W4QwJc8rUqC-yadYHlmE4zRvTjSiX2s","048":"1iDjUGHuUyooqZH9Jvg9qHnwil8QzcQ2A","049":"1Uc10PecqridIan-fsDylnapytYoA8QPn","050":"13ozSFTG9TwPc9KblhIc2CDb0-VC3SdlS","051":"1u2Ol7yJkAH2qspiCpV5mb5g9EIGfAzrV","052":"1XeBq8ZNNNIWxqvPuipYwGtb8LSsaXHa6","053":"1TKCaD0PcuX825Drd16ncaujDpLWcpmCu","054":"1vRUgUdzk8psnrhjvkLhl_IOoI1tTL3vh","055":"1Tkn5-XWe6NGLMenFIsBGMWJA4azYlFfZ","056":"1kybBtq2urm_MLmbZDwEJPrvk7Chmfufe","057":"19oCznjM8us7cY-xMS7DvQMTwzsLGFrIp","058":"11VeyoTT1Plj08tbtpdzgolD1MPS_e7DE","059":"1rDIW09geWZJrgqORN0q4siP8le3G1EnU","060":"1QxPSC4TuzwfqO-2BtWhvDo6jTPmJURdd","061":"1inudB3ECnQnokiH1oIHkHVQs3h2C_pOB","062":"1VM2K_SjAgCq-TA8dZASBK2lAR8O2hh_E","063":"1LDIHsdfBlwdc9ulB7hNclnSse7WQ6TS6","064":"19kjqiWnq6kVjY3VjKkD4-juApfd7jhI1","065":"1WF0vlWYCOjtY4xCyj0GsHaqn4TV3M-kH","066":"1EyHtZN-5yRqErCBs1Z2MiY0Vwc3iKt3O","067":"1Up_AsH5YYw_o4Q_kY4yrEnoX7FRAGKYd","068":"1mmHfs2v41XI4WHx1vfKDwFiRWmCXSilW","069":"15g-CMgfQz8-aAjk4JgfyUiJr3yiIIV0q","070":"1q7xElFEf6iENKRGOykebVJovmVIGgydu","071":"1hxqm0W8DvMPgwRxs6-st_1hAelTCL-mz","072":"1SIHWqZDO20E7RreCUQC_sb6YraNk66gZ","073":"11elhFp8vbTEDAfNhY3iG5rL4LvHYD1UI","074":"1nxE72TGBCK4mbHxsGr19ODAjoyPkI5Tt","075":"10OkdXU-lEij740LYoeGy4oj59fGx_eJy","076":"1iQFWvIZuvAjlihoJOAW3csDAX2qO-Qcq","077":"1Hyeff7CqhvqjGuqwB9qD9BUL43bfCAvs","078":"10Wu9zLM9VovKh3grhs1om8Ej2HaMPdE6","079":"1Q2igkE_mNIibyQO9Ts36IQV41XExM7Kn","080":"1tehy8EoKSrP-eTatRs-qZ64fTk0tj030","081":"1HlUoGc97vMOAb4Oi2Syov0AN-8UQbQ0e","082":"1TmGgZB9euKv8jUDmaF0GVEhpYR5j2VKW","083":"1DETv1Y98FBt53kGGpZvtCyNLmVqkKVKc","084":"14N5314Tk3D-mlT9-z4heeVAk9hApZYan","085":"17KBw0kJiPv_97ik5-6cSc7AAN-jwOpuE","086":"1JGyGAqfH0l-XU-1yz5PijD8PiKkYYIMv","087":"1nbpi5BzyGmSNWXGC2sSAXiHUpsvuy5d6","088":"1tCiFLYfP72Zxn-KKIhYkX80_aIpVsHEn","089":"1B00xDdvxwIKX9YCyWxbUx07K8RV6uF42","090":"1qlyPvIQtzALNfxw-jsNO3KnbVAao_NmF","091":"150uk3i8MNKV0Nt5lbN8zOgLGrzbJ36q0","092":"1GIHsdJoFf0L55VDmmIlk3lBnr5vQaa6z","093":"10UjiTxUlbNJHvhz3rg1ZEQNRMPvgkmwl","094":"1MZTwRxFcSPcNxpI7lUj1NdI3vGOMVYdd","095":"1mLVVjRjthNfnOfQFzBvcvYSl1TGa2Ajw","096":"1AfQAcw-kZY2FgUEWOlg7y26PorceNP9L","097":"15RYOHnAjMUSSwTTZIEqo-2NqCd8r01iC","098":"1pFULvbFJYpm5SJgFWhSVqX_UrHqLtKIJ","099":"1ZH9r_a-YfVGhaGcslesK92I7HaXMjplo","100":"1M0t11-chwtBqcwN5wweHgE8j2-lr1ftZ","101":"1fVu9ipcERZN6ZhlxqD_igmGzE7POKKV9","102":"1SDYBB3j9yKiJyLNvkJ6Icn9uTjBPFh_Y","103":"1On8trq5oSQbjJuOK5nNW6y_9pXEnePsB","104":"1Lb_3F8p9vRQv3t2g5fOTogr5QHF7GbN4","105":"1hUSTpIIcX-ebtjEjKnhSXviusTX19Zxl","106":"1D0-fpBpyxzxElPZgz7YZPqljuSiTxdgN","107":"1PECi2jPMoZmqjj8ZTNG90HkZF-n594mC","108":"1mFmdbjda4DvQtfR0Z3ZnQWk31Wuuy-mc","109":"11tORpqEnJ--Shfz1HH13aE2dBuD2V45M","110":"1N-exXN5476WdgJBOxsirVtVbHCM7A7AX","111":"1umGFGLWOAbfHPgAt_T7dcTKSbyMRAlD9","112":"1EiMOH1IbreoXrURHCeyu8zdJ3Yami0yi","113":"1PRbS1KH0plYXQOQ4T8xvUquGcFmPYjzB","114":"1WRNpTcFtcnhTmZGnHfF7GYXboqgsy7yE","115":"1BQWhNSMdXqiEEybkctze6hRqCMXWsi7Q","116":"1WgP-HAsf0WTwDva3JE-EiE07tmvVYRaI","117":"1jbAEKYiaHBAQU15RTzzzhqLOrLU0JBlG","118":"1V7k2YpuW2knjdvXi-7EIJuI5ixB5rGBh","119":"1h4inaNz8xpPfgp4PwS1spRyVZz78Yf--","120":"1wT8Q-c73sLiSyNFXIqbrE3Btn7-ttzeg","121":"19qeHKqfKA6TsdGlWq1STMC1pPoUyG-nL","122":"1rarTWb71rWK9m6rpcRwxiDOoVLDqeMfP","123":"14PfdENSHHDHSMm_58lSe63myHC6dv-L2","124":"1u8uNfy_W1_hTeqOnPaNWSGVvzC6O_wJ2","125":"1CrcR_n40v32wrekGE1E-hTX3RlLppYk0","126":"1V6U7oj2Hdoks8JildfFZfAP-Ag_jfmHA","127":"1SZSKXYEqkwImYPOHiSBUNSNF8tSMUAtz","128":"18k1o30EPCgVQdd3QX0YbTPYzEu2eYllr","129":"140vkvIhGA1G2ieckQL9gpuw7tGjbfCjr","130":"1hLPbARig4nrzuoRoQhky6AjljD3AW-ED","131":"1NQYg5aiq4Dbh-9s5p3PTmxAlRIgniVQA","132":"1ofItzFJBQlsYGhym-hqyj4DqRyQ1A6jE","133":"1-DHAd3JGmDe227_t7sgbAraUjMeLEiC6","134":"1biqbkGD-026UA6f5X35owDQ_xHEEO6Kw","135":"1tGWxexucz6mvwn0I3IWNTYp0PDuLiS63","136":"1yyajrQz1wLTBESgDtNl4ni3MBHf-ZD0y","137":"108DlOn5KCUsau00GMI1d7Ig9gItQF31G","138":"1b0xyq7hqG1gLsE67ATs71MZAWpSjxcBH","139":"1F_J3-QyKL8ACNLL6FW5v9wSw5Y9PGq5w","140":"1VUJYIGwBQiaehhbLP5CeS5B7w8QFi9X7","141":"1zW3woqbFix51pfV_9lNkQ7XJJwdnyLRq","142":"17WuH24frTXnbyvYPVmFe2LnTHbNgkQhh","143":"1A70iBBmYCXacBCStfprwrefvnCX0R3yQ","144":"1_mfxZRKDJWi6LjF_P7priuiSkH3V_5i0","145":"1K0sFIDEvzswxtcPv5XLQ5KA_0s2FWwxs","146":"1GyAp-bwycDV4p-_DQHiNhb_R45Mxu6-M","147":"1ADLhwlHkaKGUA15gOpj0PNrQLZCq8VNZ","148":"1R_tj49__1Cs-Xo_RVZOo_Vdcn6RS6V7B","149":"1FgUrkfsmZrEPMz3Dq1jbL1p0Ux_ByBTM","150":"17Ew5mwxtVHzZYrNbm0vYAEy1plxWHxpD","151":"1i_DikEsa9Emi3bl0FM7tnADUbctmfzBo","152":"10oIQmhJypxawSuQhXgLk-n-ctDjhKyWT","153":"1EKDmeTQATvYwHBy_0cZM9uoCOt9uL4iY","154":"1BfBOktSqEZJfI-PTbQA6KCIVX_qXRXyG","155":"1o-CVvNz8iuoioaDYzyrAXtt7Kx8NWPV9","156":"1dPnC0IXo-lea4M87_Lj7UpBvUoAVaYwy","157":"13YEWl6PuuoR-14BhXxKUtwBa5suzhllS","158":"1t7zwxVnWPNZ7UGop1_Pfy1Varb9R06oN","159":"1uluWOE68JOTqdoTiqcDDA1LPgKpyjCBO","160":"1G2tyLW5q68P7eDzWecFthM74c5Vpgs4Z","161":"1sNGbphdFLaEFBxTmZT-ef_2lESbm_e2R","162":"1QUz10Dfu7HYJXmj6xJ7gU35arBJMmUK7","163":"1cKLCzR-hg4lNgG1-jBUkwxjm6YetXSLO","164":"1B2xl6L29EYQHlfZH4-kTnxDpKFpALTJP","165":"184q-kCTc91CSenug2Vc36yxiXM3WraOE","166":"1RmR9KlGJMJaG_B03g_PikE5sEv1qoFgD","167":"1qJLU3M0zionta62pUw45h72k4a-9N6oq","168":"1dSZnSQDuBd4USMUdCgMt1DtXUesD7eiE","169":"1Ba7gOMmmeAuCad0TyZhTzIrlS9CDeT3_","170":"14iiYs1Qb4R_tYOotT38sl-aPVTlYixpG","171":"1G6dLgj7GTGfMRXuvjqDoK77QnSeHrxKv","172":"1s9fwwUWD0i5c1mwXxgNCmedEoorLZY-6","173":"1hd7bmhBjghJ-ZQtwxmC4ETyDgsJziNpN","174":"1IhqzF1c8F2Rvbv2KjllEdC9zr16XFCq2","175":"15f2yoPIXVKg1L5VlqVMfwm8WqPTQCIcl","176":"1p6GNJuFY0ZMvYgXXa8zUrAMFXGGi-zeB","177":"13dOJdtITESGH2ByLxHVu8nvruNOYfcow","178":"1D3LzXaExrMZiYDLPGNO9BKyD_70qHmVb","179":"1_rNoSJ8TTaza_56OKgeKLK3d0ntEMeI1","180":"1PkASDst_bZARioj00MDs9N4eGsWDjc9X","181":"1ZyRw8m1CE3zo7HWjUogFq4SflhuA56dw","182":"1IlxmB1k43SO3atnfhX4Eu4J8C2UNYDo-","183":"1Z2-pgrFz9yQgrODKQL1MKDB-bQb2FMpl","184":"1cP1qeQi4i0dNVi6OpOfmSWFCK5rCSaJ2","185":"1tRQLVP4jg_kenoG0FAk164wM1FTARb9u","186":"1mrf4Cx7XjPHb9zv1Wp4zwzywyHGPd2H8","187":"1MoebgLhgNmI6n_L-L822IXn58a8_GVLx","188":"1My35X_WNThlMZMtF3KsXiv8cdg41vMaM","189":"1NGnR61F7HEtLYMBV0f-30s-eUNSc5wdh","190":"10teOd7LQKqiaQS0GkQByL1dMt3n4U25M","191":"1CV0re1GxoFhyHwodityazQGd4XSb542z","192":"1Lg2q4cJezn8GAr9ZA7tsWAhy4kYy-NTG","193":"12rJBTpDdSZyQErsyh3xV6k4mDAF_B2XJ","194":"1U0Jt37crVq4W7i_dbhsusv9-uZ6O682B","195":"1g1GOCAaDIUF4qla20w6-Yk3-thYv3nWw","196":"1hqG7Rwn-NDWUlTpJT4IAHlusGgn5uJ6d","197":"1INfvJP6p7gtk5071NNPO1ou5uxNNAvpx","198":"1X8_NyripkifGk7_9a-qHFT_n2chIV00r","199":"1UCH3UZFspBn6NPv6RAKGpuCLeTMdzItV","200":"1v5iTQ8gxPFmsyxNciQNRcFnkugVALwTU","201":"1KH-wS_qWIHgmpHk_29vDJCQyWwv1-n0Z","202":"1ajjmW2Zhz8mjc1AoIZXewbhbGxMJFdb5","203":"1UqHtE5nf3gu1I0X3rGJ0BlA91webJkrs","204":"1RxKFE4BaEjvmvrpDNyQKWrGAAUVI4gyP","205":"1dLVWR84fN8VcpUXU_mso7kbGccOujUq2","206":"1WwU0QjhRt5MHg08EntMNrIcxBvx2nAY8","207":"1p9-bSyBEI5wviRe4Adktw_xRNACwcABZ","208":"16feKl_Zy90bSm0CsJYDHp45quM5PhlBU","209":"13Ec01z_bN0zKMIrTy1MgR25hyOhwqOkz","210":"1HVQFmgrhIXxUOqQckIfM4sQpH4El1RHk","211":"12A3FP8K26-I3z1XEncEnuMmzpgoHQ1tR","212":"1U9bbqzSQE9ZdycRfrocBcs0lS830-NKf","213":"1qQzawYSwrCmEGylZZcNyLN3KRIApNh6f","214":"1wTjE7w-OxsXVzjxfse708ujR_Mf9Crak","215":"15-be-kdy1WStTtGCIZd8Zwzk__5VKhAG","216":"14_BE_A6o9WZ6iXrkORecUv_lI-bNhy3-","217":"1hXn9lB7rznWvDSfQRvgbwkTXSxd7D6PR","218":"1F0vpgpf-qbXGcSpmtsvOZd_Y0h2RU49W","219":"1E3q0u3sfbNJ9uT012_AmGM8Qza3yQi5T","220":"1M9niNakg9EywJpRbxaxfATru1s7N1jpP","221":"1t5cTi1joFoA2_dy9HyQgYth3QZ5UfnGA","222":"1jK97CMSoef1ssoyEZNVeQVHrt0w84k6O","223":"1Z-gvFQOiD-kzK-1x9D-aYA3-u7mU6DVo","224":"1pp9K7he8sji6mSylcOKiAgIxruJBhTJ3","225":"1z9Yiy565xw9gT89ZKjXZuXudXn3hJZlq","226":"1mGpDfG_9vhxYMl-4QGmsEOJjMDg_XyAM","227":"1W6hwahEceRqVPdZYx-x5_F0q0KZEqx0S","228":"15JSSEFKa8jNtH31BZ9o-VJvmeZra4qSz","229":"1bFkugCaSThXwZU-cZhX7cfvNYwycw5Tm","230":"1tXRLtn3ouuEfTuGaCBOW6SWW6JMOJzJu","231":"1Qxm7QrUZU7F7F6XCCFS7Xs4PFVNEzQm9","232":"1DZ0CDaghTdaSAUb9u-mOi9OXb_0h1DyH","233":"1g6pu_mX1DZ6_qYJIs04Q0g_SqfjkA_AW","234":"1C4ic8A0NZzKLbP3leCOyAYH5Lgza17rr","235":"1DRYZ3BP7YsZxMaLl8pSlPDm5XTQ6Q3Iz","236":"1ogVFZ17HouyFH_HHKt1qGGiTJ9L5ZyPp","237":"1LPPctEYc7pdh4cn2ed95ZXaSD7xTq4AP","238":"105rwweqp1Tz8YyL6hGXk3DfaNPNvF30M","239":"1DzcRo78zARuQKx7BAewJpodZrxqjskI5","240":"1AhzOXhELwzNjbzCrH10Dk9Up2Yj7ZooF","241":"16oyakIYHXn33ZWf4u7BoNhbfGCjeB9l7","242":"1HRLLDFkDaFlAy_1yMiZyCQpmQgBNro7z","243":"1zwpwaIeumJ9eBUdxe8GsLarfg_Griez3","244":"1tf4u41Kkn5VJqL1m6tSj2_c6I1q5Crsg","245":"1kwK28XRiZcw3azR7R3Ftok0kVMMKNZ4Q","246":"17u-RKq6rIG83K9YSToOqdM4mbPdavzZs","247":"1Qdd8dBu9ZQiqhw5zADqWsJIpYEug4q-8","248":"1drc5Vj4KS_jUxQKGV0_BIjVZ2nRqQNye","249":"1o1KdMlY7wkVX7xXQ1G6xYM6vGhAtqoVD","250":"1zJz6CkBslgklZDZV6l6fLfEJcOFKt3Pr","251":"1GS8X1fQ9ek5kmmdYW4PI653atfM9-lWr","252":"1is8NchMdMpRlQeDWavSe4o-yjhLzHNnx","253":"1xJ61rvnKfPiC2fVCsNLTMLC870xivcb8","254":"14GGMplR0F0rCow1qsi6kurNTQknz-a33","255":"1L5WJ9IPO7rUq2NpqtMM8THP9CM73hdfI","256":"15rSc4HN1cu0tRIptG5ol9ecunLUu7eK7","257":"15Nc2bnKupAUVGLdfWWzB4wStV1_WrEF6","258":"1AiBMI5tYabIfIKl6rNcSCG3h_2lU6gFB","259":"1_VeiMSyBUOORCdhQBLFwBg_lIGNyRYGC","260":"1mJW8oPAh0gmeOfAH2gE4ER1Ftkrwof2e","261":"1UizYeX-V1PXFPtnOmT_2Em2NYoXeXjkI","262":"1NAi5oB85_P7_5f67iLuBH334OFrxZtko","263":"15Jx9NdK9bKSlAfMBjJ45L4hUnYL4DlxE","264":"1q_loe22_Zq8hwtT4b3S03Edo6ijtPxkU","265":"1rNWV495AM9a3SR06AcMm6caLiLC6mlC2","266":"1GnrlyfaMKSVVFA9SEhVZOtH-684QIndx","267":"1O4rYSHYtO694AU0xoAuxDG6rYDOSiJ6F","268":"1Xv00prT1BLW8446fO4f-MKf7tPqaJHqy","269":"11mXrQC4K5rZgJpBDiYyQd0xAC9rN4AfV","270":"14ssbZBzaxOGjCvEavkgS6SQLowHRwBkK","271":"1cjfkzcxiLt8S9rzJEi6k1RaxwnRgzjIo","272":"1S7bABQX607ENo-wXyGvc65XG71DKuB9a","273":"1dn2rWu1Syocxv7T0oVsNGgtIK5M4dJa2","274":"11YeZhBbZGQI2rFvf6xLWCkF8Nzbzj5N9","275":"140Rv089Hxn8ghf2B0ugSyYRznmpmdz13","276":"1kYh07HtgSF39yTWBRic1K5yGfPMRCwcN","277":"1O5YrpojmzEYWS1WEauJOfzLvTHKFxWa8","278":"1e8H52mXFumWNTx2B0T2fzyp87hVpkyw-","279":"13gafADqlYPgoPHyiF2tQ9r6ponP8r0WB","280":"1ch_tdUnSWNJrG-1qtTpSN_nq0RfH12-A","281":"13EN5H-Xcw5c0Xv3ZlO5pF4ATP9SkZy4Q","282":"1diBteFGMaC7uPPP1h8EDjwLLqISlShCU","283":"1d0TiBCB7XoWD_nC5PlpJlMBxhEa02RNg","284":"1uSMt5_FarL808YBg_AWDqBSn6toMQwX1","285":"1ZyA7MU5GnlM_XvJz0pUvPZMcR9L0eY3y","286":"1zjHEHSI-_2smB99gbbZ9z8A3eDnstt3h","287":"1ss9qze-QWSoxCoAGtXgb5DZumboa_z_E","288":"1L5ZZWCjX7Y1LjVEybyDEr5fFBBC0YMqr","289":"1TF3FREW72tgxEU8cUUc4HCpYdzEOgKXF","290":"1lW6J1Ttvo_BZot5fcGoc4qqcgPCa3npB","291":"1mlxjz6b8Zsxth3cpNYeoZsj7EOVuUua6","292":"1tABfSyyy7PADfO4iTRKxE62YYolsrCHO","293":"1clnf04zfXBDsnyDPrD6tb0-0UV3u0gvT","294":"18xbSVOnbsqMuMyE_BEQJ87IHmXP5msKS","295":"1KzTTXwZrIaZWrIHMzDLVqfRk-AR3DrkU","296":"1v4e_KMwsq0z3AUnBHfDQgG4zTWZuxuW5","297":"1o0wxZM3BnTOFDc_9vYW9InJ6P1Gt4CBX","298":"1zhLnJsAmcT4d6X7osamRVA8iH5uwHptl","299":"1qIjRDvo3MCrcjiCk3xZ91Y_QsP1xzT7M","300":"17ac1M0VRkC0zr7sdAir5mD2Jk8Z2a0Dk","301":"12X-mKNb2llfM2ChZKKcw_TObJPS6TErr","302":"1kcH6QDs__ltcflqx2qYyCOdduy0dtrXf","303":"1sW_tZdTxlJ7MxG9gmjGrmy5A-yayUqYB","304":"12oGmD1479evgVyXTXh9Gk0qbwHyyEdtv","305":"1LivOsZWywYtwHaa0KlQNXM9UXY8sPFAA","306":"1eqiYlfAdm4_TnMBUYQuW9ZJbqp-p0NEJ","307":"1PoUNaLRpyUFx7kPSttY83uhfLSorLmHQ","308":"15VlsXlG-wGVMNX_iXOQwNibp0agtgn9R","309":"11GvXMFk3F30Dfd0L8caAX_sxCECivgil","310":"1PJAvSkar6hxBBMHv3BIM36cQl4YNWFm9","311":"16EYRt_XSaS2ehnvPySeH2OGyALSn1zr7","312":"1GAvUW6y3i23GfauOvNy57g2FElxsMuF2","313":"11KTGiFB1FhtQhSFuFSZgrCQI9Jp_Wjcz","314":"1i5gq6fVQCdjRNc-bnZT7duBon93FBU2T","315":"1Z2lWqFUhwFHKiCCq78XwWaNl-Wm1Nmfi","316":"1FMGQw7E9LFkOmkPvSLuhhna0yxLjyjTj","317":"1gv2GCj722rWs-7eK58__Z85IuehnLDWb","318":"1ygPzzX33GINiiewNyhTxtxVyBrQyHh8l","319":"1GLhT8n7Nd5K4W6NrxarinzHgOXuwyN8K","320":"1dOi9zih6aX_BjMHzBb9o_3Hn7lHzTwTq","321":"1AYgsRM9CwwW1ZwuX5FLTJAH6sORct497","322":"1BqFCHCm2R5kHOUUr_ZFidDFYZLOmc9p2","323":"1GbY9304gJZJPh5DD0En8F7DUwwe4J4H3","324":"1J0qC0O9VuPZ7mnyACJ3hneB43EZTl-9Z","325":"1y9rRgbDmyQv-YOfaABAnAT7xHCeMSQUx","326":"1ezgUQl-TVKElRWLnirUtPS-KG7JwHSA_","327":"1zAOE2YC4OEKb3MCVeWpJkW6caqgocIIy","328":"1OzYKlHPYPea4Tw01hwElyDdzzO_Sm-HO","329":"1VsWglKKvKEt-VPlT0B2qkuPGAu2Fxf1o","330":"1CON3KVFwphNwgBvmbKf7sZIzwcF2VsDp","331":"1z2bW1xjfeTkRXKGgIuxK-atJb6cMlpTo","332":"1o55nQRLEtD1b0VYbLOiGa6kKflvgTBqz","333":"17OLKImpxFhZzzWgCzJIdErWPLtBHgdWn","334":"1xES17rlrJWY1puP1HOqMy4V6Kv9AkXkL","335":"1-CxZzHDVxJLoh9QR7_tJsQu7XpIqNuwd","336":"1HxnkuxlYQVc8c-wVSpMyOmCUDHzhIeOY","337":"1jBpQkaFqrTmqAl82Kk-UV76AtDAG1OIo","338":"1ONrS6mwIKJFc_mJKS5bocov5fld5qiU3","339":"1Bg4W8-e3nvZD9HW4xmAPQKG00tfE3rmv","340":"1zdG5ha3AaiYnRRTlnLKhPl9fL7Mf82Ga","341":"1KOOtHqwiFGzv-VBEBQqmy2H-8PnbZhOw","342":"1ns8vXNymE0eXaB0425GGnba-KgxU2F8X","343":"1DYRBLx6O1_1sqaYVno609b9uvSq-GwcH","344":"1UpucPtaYStcQWSEQoUtwPY0eOJ5zavVK","345":"1KcPodOEudHd-O2TE5h4djizaBGE5cSV9","346":"1MhQpUGiJS_7kNC1XQFH1lNwOlx4-4bVd","347":"1YAaRYSLBxBasUzP9g-q7PU8eomtgS_XD","348":"1p93pjI5gqfohU5jCFbMgOEDzgzXWBA1Q","349":"1-27s57hGiS-8FQC90P3NgbsFYxW8mxo9","350":"1d9vrufvWD6iOPDIbojEZsBdr0FMfgi28","351":"1c4LfSjLVI1Ngu1rCc_Xr_qoL1wJ8jw3d","352":"1128BpxNTwZzm-xeS3h4ZjcApfmAGmLvE","353":"1aMWAFPsHjmuaR2mONJh4Ab7R2eNVrfiF","354":"1pgQ2Iox9MMkJHKNAgBL7o65kaG0XVOuk","355":"1dMKhoW-zS4tPZFvtVs7r-lmaqh9_PT51","356":"1GSFE4SeIx5DrZWHbPJgBcqR4Gssmofjh","357":"1Uj7e9IDREcAy2rfAqrH2TINZHCOtd86_","358":"1MRidNenKcUiyT4xBZ5pCbNb5r632Hjme","359":"1OmDQTqQXvWdfaUsOWVZk-xrGIWlUKFCC","360":"1lkJjY1XvXy8xJm64OfJYGYkt2dJ8sfHb","361":"1RcVnqyZsEiYDJiPZKNk-HoK8u_E16E-1","362":"1DOINZLyXRH0bB5yKcx_Wx54Dh51byVmf","363":"140LrIDxpB_93RHy2P0H1GAdyBREs9jx9","364":"14Zkn-64iJzHMnRB6TgF3gJ0miBYP8UGX","365":"1CPWuXUea-x-Q1CGRpxzukC0E3SOzG8Bm","366":"1HApR-0tnMdQq3B8DlephGMfEPeIgbgps","367":"1ecseBnkx2phFbxQnvUVdqF9m8S4DIaR0","368":"1bWQQ7-fFQYRxejNYRJxJdTOEpek9_s6W","369":"12pzMXdMr28ydB35iDMR0smMvxPVx-5kV","370":"1299CGydvEObc431mawBN4qkPE88AhkV6","371":"1_ZX-mGuEroaGfm8Pq9naQvYB9QhrhkES","372":"1_YJs4ILcLZgIyrTwT2hHfO4jr3N1zTtU","373":"16ocoEtbzZlsjtPGOGdEQA5dH7TlaPUpg","374":"1JwpaLLBbxiUvtj2WmGOyra-vRh7w4H8u","375":"197lcsJNbIeMR4vstMhr_C0O4Rym97ga-","376":"1as-3-EE4TjaVrzu02zkkGyUCOChbFHrv","377":"1kef4Q_-S9DtYM9e08Fc56mJ_p2dBHL0L","378":"1O3BH6-8bxzIHK8REUS3218rSNJjzGG1p","379":"1xX4VpTXeNPjV3w6jutQRW39AUalo3YBo","380":"1g532FxoF58f2CUqiEXdThSN1KTSAN2AW","381":"1h3SARcmke-kFYa44LOEx8jI7BDMUS0NG","382":"1rKqXSZH7zjp3jIvOhnNF4fyV-9HNNx6t","383":"1csD8VXxGyuaTBeUBb9jlb1DKXdfk-9Cu","384":"1MvuNaf7tFnnS8W2INzysuHM-lwYUDSfh","385":"1zGt7rhd-K-ffX_8jQJdj7XBexG2biTwF","386":"1DuC2bNZRsV51802DqJJ_tC8HpBl17Ubw","387":"1hy_NOpUHzCAAzGig6KE0qMxhcdUZZqsd","388":"162Con4I5N1TrKt6NN5Ht6kE8kWzBNQ7R","389":"1A7U8YfjwaVUFtHKNoQOr8wijeClooY_H","390":"1LBeUe_2J-F6GtzhvOE0QBUZMkqVXo2dp","391":"1X_pVwtUiheV5KuAzdNEk-x-DLVzMD6Uf","392":"1r8sdH_vtOeter8xpuZyN8WhPoZ6Mbgym","393":"1moo0er2naB8CLw22CYNV9z30Qtwsc6ea","394":"1r1Su0Muazf0smpBRSBudMqDgmtrK23EW","395":"1Z3WJLj2zgPpBIZphb9wVBisBlNG9mJrO","396":"1RoFHZR5RpLLGL28fEyHFi158lDgvOhRf","397":"1tagexCdrH8KYjhM_nYBDbZUzOgAaXjPn","398":"1FsoUhfgG73ywGJn6BpecezkM_jE4Zpe1","399":"1r8a9ucEm74OwQ1jq4Niw_HS0qWougjTE","400":"1hiJFK_yTzK7MD8T1cSlYCO-utUMAn7OM","401":"1NV5FDdiX2LfKqkKZ1A5J2v2ze_ca-9eN","402":"17alv9xKuaJk2arPMyEKmkOJX9Kgi7EFx","403":"1v6nOCsnM4tuSYnuGzHKf8t6BZEABftEw","404":"10cP9YWZKfPNeDv410UqmtOViJQiiF2Yn","405":"1gbnjDCgb-JsCFmfJsSwyLbRwzLDefIVE","406":"1jqqCnLLU0RfnSh_LKakLTdWBVY1jsFrt","407":"139kGVockQcup23pSxkhmy2Rq2Hq179Yc","408":"1xNPBC1LhNQ2e3ManvISviipTW5FfZa5u","409":"1g4-RfeIy_IFMPy7JLi3cxizalnMJ5K0X","410":"15DBfzgOWLkD1wuYB7BtebU9TGQ6ob6Ts","411":"1J08bhVyNAo1hC1U_WK1CVMnALBygyE0R","412":"1SKqZ9VL6LdcgdLeOCuUYdbZc_61Qho3J","413":"1ejipC2sWtt2MK9yfpdIsnuxCPwCtmeWo","414":"1uumNn2hyyuYliIgJdNnqzxwlLk0EZxbf","415":"1XRaV2YavpBCe3NN_fvKrnariPGEf-Xdk","416":"1x50gPBxkiGd8F1VZ85gPGi8bEUagbqwc","417":"1Pl6SV7jd9vHp-P5IjZWEB5UEnukhTJ23","418":"1TqJnYXMZD8Na0XZvtB28ftQp7X_jg3W7","419":"1sgOAw6Ze6wdVZH_miix3ZQflUYafIJ5B","420":"1Jlr78ZInuAL_BnqWuYw-rAgYzgZTFHnW","421":"1PvNMgWwa3_XbU50OF3gfckONfcIW9cRX","422":"1IGj6VgNDYE7Q1X0DTFFE1Agg-pKU9vTj","423":"1Bq3Pxs7J5AUSHaLCZKGt8xa8A7zIIKrs","424":"17-FANhgmNscc0A56-e5plin3OCOKmH_6","425":"1KAEVgkO70sfKyvHb_kKoq2jDBdhd5ZTO","426":"1LnMV6-0BQMCZgDqfwQHRMWUxP4w08V4W","427":"15UiiCe1ftPidKHjDQgofXAAj4ZHW1bv0","428":"19MjqI8DAHdjuIT1LspTXjLc1I0WpLXu0","429":"1gfRH8Ksx1yhijWcFz3JHJyz-36gYFrP-","430":"1Yz6W1tLGhlwZusFxX_6XRQUZx11BkZMp","431":"1iTe5rPu6unvJWsa3SjigQ7yfHmwEu_48","432":"12AFoDEtst14oxOL1DBgMRe5U_-hXluEe","433":"1dEgVKBgoda2Jf4VrApanIBjEoSQygirI","434":"1xDJwCYtgQOmJ8vkGK0cbiFOBBX4B1W4N","435":"1ynaoMwedJqoKsnWcbwukKYCc3gsSli01","436":"1ygxVccPrN5RluQu0yQDoRCMWZTVgb2Wa","437":"1UvHYbnu_FIsmrCauSs-6cT-aouEDbcjt","438":"1IP2sQGLhPcNXH0-Gb1gUISs8fqeoBSZ5","439":"1JqRkS8uxpy56ecqktxlmA6toX7Nm2-pe","440":"18VBDyDiyuUIa4FkvTwXpvYA3TmcL9E-i","441":"14rC6_JvCDU0O6y1KybrHLIbm8aOl4Nzf","442":"1kfpsAa1icfT8HxBHiNB_lJrY9kDsDl7L","443":"1eIlDhPY0PxQ4OW_BMJ14sxXPpI7vHM7W","444":"1Ur6jcU19zFYlTMc9vqGokwjSFPbn_OrC","445":"15r56PvuTY_PTYcrTeA9JWutUhqOflCfB","446":"1HVIxn2H16ybMbP-Z1awQ9yEbHgKHN90D","447":"1xyZsWEALfeEFTRotJ3tRfodZlGd2YBzB","448":"1f5utZwJplXLvIezkAO3aRDSPbwN9uHVW","449":"1UtQraaWf1p9dGEfQEwojX2T1-KpyY4v8","450":"1dQZNdAM6LRLneIiwacbTP6oBkKIXdox9","451":"1jxdK_nHgQFTk_3A2PmlTMANYTeL2umc1","452":"1crCm6eWRNtRtSzJcyOijr685OVvchg6R","453":"1Sk3KUJsR4QjhU6RiHcMFRRBG-qxIk70J","454":"1Jvy5g1-bUbIj92fsEwRbDF9tQ-JyK1RB","455":"1o5dXpplrQ_QRgQqhhNqJUTCz33K9wCYz","456":"1qVN8v0SvhNBx66zI3QgQbkd6nPpeibpU","457":"1RX-IecVwGjRxpM-nYRDG4iuzGaW45DEY","458":"1GsHW1TlU-qk7QJCeDplpE_yEWY14ryiQ","459":"1bxwBO18byWUtDmCrdQistTAX9wZrFj8_","460":"1GP1YS7kWIrHHBkPDGqf2_wJdO8TTXKae","461":"1kN-8YACJrQXfOHwAtnsc6XPox0kl4PI2","462":"1_WqtQ8dY449n90W1feEX1DV9O9z9cbRC","463":"1HeytOCopJRH8nkwmV3HQMyo_3iQg_tDH","464":"1emRWtApoe3MBoaqUGdRYq12ZUvPBV8s-","465":"1lsCIpqK3rQeWzUY2CambDuKMt0Zj6FS7","466":"1hH08w9GaiqBqynVl8tA3H5Jo5kITidiq","467":"18SPTdjbeN-lCrdqsbnQ131n4rr0yaSvN","468":"1jA-tIQnjCfDMw-0Mbbh6ELVVAWU1gYud","469":"1Lko0GWDxcuue-pfUuHe8KYZENoJOcY2n","470":"1fuhfzGaNpBe-fmO6AIg-SHXUkYsn4534","471":"1sIVjiHMyH4MzFuSZbuzPfilUaruKHHlp","472":"1O4NM2shmgJ7Wbh-wFMsaq8L-kheIHVw5","473":"14vbvOwZjemwXQrb8PL5TS-cQ1PqPsSjR","474":"1e-pSNcJLa8fetRh6jGwPvK8JzJilDofN","475":"1lDCLQhiWARbHSH4Mm4c6qzjV133JKMEo","476":"1xRk2pt45Ii-9QwgTGcIXPSaGhBgMIvef","477":"1e6-vO47XlQsd6EJx2Adqkr5tTd0Kod2V","478":"1UXCfSxAGPRjMSP5uhYlwk1ckxhN83VAM","479":"1g_J93JAQ7eJoUMNWBWu4xWqA7Ci7nxfY","480":"1-crCN5uSV2xHz8Bt6cNs9HD1mC4pLaux","481":"1P86TvauhYkkEhlz9XaVsUUVncewi2b1x","482":"1r987XqFRU5FM9O9VcVZR-di8n-Kuzn_0","483":"17SAyuII6epkvrTGLUyvwOj6e1TpWzXYu","484":"15T07Z187oN4h98O4-se1fN3H5XwY0xRb","485":"16YolYLjAc2XywtVGeUIO2NdgP4m_7-3x","486":"1X9ZyCUT2vuwvT8t-yhpVH6oGhstjX1z0","487":"1gMshqBJhtbMjqf2LKnlteDfNaGGXtjjy","488":"1hghb7XIAYBvZkrTAYFa90cLYe12BqiEI","489":"1wDTSzQPaP2SqQRYfrVFcnFgSODLJC5VM","490":"1HY5HpKO8skPdfSQx4RsEhWas5CvKm-2r","491":"1P6Da-8AZghmBWn3STg3TdZ6lCTFM_MRB","492":"17grg3UN7EDTfHuK-EeDJ4LrcuhTvggbS","493":"1DCyNBN7RF319f0s2NRADHKkpTFkJlSld","494":"1X8KrlUhMYSWZ2lHHsql_2UlsMGJ4gchc","495":"1soDkviCndOabvS74mbzpvdNq5AHcuMLp","496":"1o_a4SJxs7-J9kmVxNLa4ivF65I-mG-o5","497":"1krjhXAbv1RuDjmMvp_AYqfeolUz_zBSB","498":"1e7cJuqWdpMwgR9I3uP8DhUhLMU8ggGH_","499":"1gaFtvug1aelJUUPosgAQgg8y7RV87P1r","500":"1l7Sz3DG14enlSU8SNuFsw5u-0oDFfZw7","501":"16lzRDKCGNlfr__ExL6vSbg1VAH3iK6lh","502":"1qarEZb32-9aR2yJl8Kz7Cz1uIcU18ISC","503":"1nakMFQ-UKplpoDOvVKUDiHMhTssnSntP","504":"18hZ2s4A8ix7ZOjvDsMKpKdgiG-sxRfF2","505":"10ei8yCHQNLsTClHCEBEAy3_UqbvqS9ld","506":"1oFED1vuClrxE6JDKZkmCRLEa61b29wwS","507":"19P72k_FnD-tAVKDQjfTbmJFLnv4_O6ea","508":"1kFYze6TZjyV81NkIQcLYjWsdXhW517Hh","509":"1XIpO3l-ZEqZHBwJzZLyhl1DJ_7TyPQHy","510":"1acX7B9YazopsH9YOerOZdXEgupaOVxVB","511":"1mhXi_5zEcHAQV9DQQ2hfK7wgdzY53n_h","512":"1nTcPU0DcBlvaqnVGgxl0tFIZk0WF3n1T","513":"1Sq7wR3aJXgbjz9NZdSwEmgtp0iz_MRFk","514":"1MsgxgGPWst39gvULmpBHsDbOeqGBEPkG","515":"1zy9715r734WaD3Fmzg521AfXSetepDhg","516":"1lWqT2JdBayz37AMDBGNr8kl2dUFr94K4","517":"1Vry6tZBQGQgeTH4ibOlFy_F650lNc1dC","518":"1R7-D6vh43FAKzKPBIjuCYkEe61ipyFC_","519":"1SkNshhsH2AM7KJM6XygFv5AoazoFey6Y","520":"1Rv2f8IQVu8oZsAd70qVsnEjXHeghpneT","521":"17Rnk3d9uVLBBh6dn4rJi3mQKUG2NLV7t","522":"15pFAOOuYc8C6q8DBtNdjhf0aCLHfjJ1i","523":"1prVJUvdI6xeOpZJbcxCwTk-49HpYexuV","524":"1s89XURJstFUCcWDlazpRgDLvsFKAA271","525":"1XtaE9IrME9eHBqu0Z9BxMT865aXUnfka","526":"1np6SYcnmv4J9B-9Par0QFC6_qId4EnX7","527":"1ir_q57dhyd3S_q5APkJW_e6SH3BHy5e2","528":"1VmH-ITitXenk6-hHX88e-5839fzujV29","529":"1QlrHCjIuFgqCEtggSJd8VKdHHlmsAX4I","530":"1U3wzgOUjplzbfIog-KgWSfjMUgkVAA5D","531":"1PpUyHyyIjC74UcDmWZr-ZJuMJpJcMZ3w","532":"1NtXLoj49KZz73DTOKvvZsbCEvvEMKppq","533":"1B1KfhR-nIc7gK9L9jqCSJNnlxslIJMpl","534":"1crOnselZ8NbrB80VR-EH7Ds5wK3X83zQ","535":"1WmkYpEQrb4NA8_Enbi8_4s6KsqpGiH3p","536":"1tJ5MeODgbdO3OLaw7-z-JWIsQ8EpvpV5","537":"1uZSIZ8fKDEwCTrDzklIGwZDiNCOLRFcG","538":"1TTvva8qw8RM8CSUG7vNBSM9QVlL__HE1","539":"196b33SE3G8vcCg5eOsRFizERgTd_l0CD","540":"1qOt6-0NYv7F0MOr0U5kIIxo3GJM2_LQl","541":"1A1NvaxKFic6ozjNgEPsr_aV8CjfDQFC9","542":"1NpLgXzPtdtAycf94VuGw_x52shxZ7LDl","543":"1KY69wESOKsAc_HgLnRgvIyRNNuUbxpAr","544":"1uMwtExy8MTs1uTJCqpLQAaNjpQTrwe25","545":"1rnlx_eFcnaFv_kye5O4p3UIOGwX3C8tD","546":"18KGZ6gqwjT2DSvn8FXLGolxTR6TDYqIC","547":"1--EZu1GuVO_7oEkccwdH4pecq2UX0HZ-","548":"1vXvnsRoTs_mRjSPfww-r5SWIDDR4RpNl","549":"10aGQBudR5kXhrJuKHFhVXMaMrYk42MY_","550":"1gAaYg3cKNv-BR-ppSPZIEtvUrd1f1qTG","551":"1LBcSyxOxCmPzhhh424nbp3rMF_6vx5Jx","552":"12cUW4XiC4jeKcK0UlTjRXYgJNj9hN7Te","553":"1PKGlEXci6BJ9wa7-RVkrDdg-VDS8cMQH","554":"1D6fO0-GpBgbiabsmi8rUrSMws2oxlqtd","555":"1QBwQOlXcJQ5CfHprjbvNVWH8ZHDiw-yJ","556":"1yXhTuIjUl3M2fu31NUGY1gb1Hi3n2Zg5","557":"1MEPJySWu1TBFVDXMAjkN-0R_2QjCCr8A","558":"1tmYvIxzFZeN8__qaXljvcSNswLujL6zx","559":"10J_IliwSCpgHrgRYs37qjY4hWR87-eA3","560":"1JPazsFNiRBCaPTWEwT1iDYg0-F-gJqNg","561":"1pkHLfXaXAd95mI8NQMwBvV2VrCp4xLvL","562":"1R8NPAgoLQmjcMR02z8siIvHn-t8X5CYm","563":"1IhpriXJBekVtnPgQvYinxs0JhxXvgEKx","564":"1I-T-47fmncuQE5FbxRJ6S78OsrBNzuj4","565":"18gBjqsDiTeh5aSgU7ZJuZzLcklV3WhN2","566":"1VnF-KAFquu9nnwhdhB2UWA_QjxTvPxYv","567":"13X51TwG4CEI9DfceXpMth3EJWlJD3uyp","568":"19nEyfpBcjDdk63mi9b-cl8MB_3rli5_G","569":"1xnlstRHyWheAljwUp2no7TQ-uChJi-Jb","570":"1NNNCztE0KrU9BJh-tkjmLX5kKe-abcuM","571":"1aJxz4lPn2Ol6wgOdWciZW-ug9mXIPH-1","572":"1Xa8-7lfO0bqSRaNg8bF2gbzzW5C8NrEV","573":"1C6hG3xg7YHN0CQ2-hHGjMMoW_tNTB41q","574":"1NqNhO6z_V_2CDHTV7sb8OyQUTsL_yazs","575":"1PR8NqWpKI0_K-FsixxG0bEwjnVhnlPkg","576":"1X4g80VupJPJ-cTiY0cIV3xJEg_4QjYNi","577":"1Mp7ZM2fX3qGaFwZ9ERTwENnrvAShuAjq","578":"1IJC0Czx8O-ZrITj9-xzUqEYOJPqzSxa2","579":"10UlTZS0ePA7cZ4UHMkxGEXMfQ4yKBUAZ","580":"1XZYrjbWtluNKHlrbQ1JKLEoWjcqgkNZF","581":"1P_62pqtmRfqZJirEn2iN5BG2_h2XeEnV","582":"1NRMFL02qm_0QCSalty71KENP7i7tFyEc","583":"17mht5y8xWpWgdtIXjrl706vnBbW6pxnU","584":"1GjI4Tqcp4nsyzhpmEghMhGbfxerVgRb2","585":"1u74n5bpjr24JEJyJEhG5wJQuygicOyFh","586":"1wJvvO0QN8j24qWT-BGe-QNhwM4Iwafwy","587":"1KbgFQm3rcT64_yTl1SArAeXsLb4lX6Lx","588":"12vYqzkW61-uO-96cORI58yWTgT3Jxvo0","589":"1qlWUL5OFMW9S2tGwaXKOyYjyb7OTZ6eX","590":"13zv5NJ4tDBPRZCyW8uCSr-sB1iCtlKj8","591":"19LxEr-He2ZfTYAPqRzsk_A9OUyKAnyz7","592":"15csPMGzZHsI-F0-X0UrPv7q_5FB8bbX3","593":"1oM-nHyDei4S5ql5zOsgzLQ7EUej0cPiA","594":"1qEijXbnlxy4N3PHmKBV9NDxFpCgs8sbz","595":"1Nbl1PYwHXN8gx92T7dwZFIRgS8vrMvcB","596":"1Hdas7lhMJRCQC4zim6LGk_rceMNtd0kb","597":"1JAJ4oc7zLoggCf_G6Y2mSyiIOrWjwAa1","598":"12FU_WqCx4Br80kPmBvSagyisDiK20kcw","599":"1dU--u4S3hYU7gZdWYxKGo6WQMS9k1q4P","600":"1YUy0uhWYlBTr2q43y3KoUTNtI1dmWDef","601":"1e_n07xXeBMEqZkKYoiQ5bdW1Ep6wfG8O","602":"1s_bWOBxGy2sSNA2aaKfFMWYLihj15_GO","603":"1IU_mkrwz990NLs7xW-GbQl3HJUI3cgoz","604":"17U5WPrTvnhtotp5Z18sdA3UjKHLuPkO9","605":"1JFrTruK44pMItOcwqzMXW_HIWM7iDjr3"};                   // {"2468":"드라이브 파일 ID"}
+const SECTS = ["숲속 네트 놀이터 · 함께", "줄무늬 티 · 미키 티 가족", "꼬마 탐험가 가족", "분홍 셔츠 · 흰 그림 티 남매 가족", "하늘색 티 · 흰 티 형제 가족", "주황 티 친구", "안경 쓴 까만 셔츠 친구", "노란 티 · 흰 모자 친구", "분홍 모자 · 줄무늬 친구", "파랑 소매 친구", "남색 모자 친구"];
+const VERSION = "미로숲놀이터_네트플레이";
+const VIDEO_DL = "";   // 영상 파일(드라이브) — 없으면 빈 칸
+const SHORTS = {"줄무늬 티 · 미키 티 가족":[{"label":"줄무늬 티 친구","id":"1cJdRZjNlcvpZZoDKWmqmuwWeQQbwdyt_","poster":"s/F1a.jpg","d":49},{"label":"미키 티 친구","id":"1GBtHxvMwi_6WnMRr_Wx3hItG_QQVRz1p","poster":"s/F1b.jpg","d":49}],"꼬마 탐험가 가족":[{"label":"꼬마 탐험가","id":"1nhKogjAEK7aPD_Vzvd4zZrMk6eJbCKy7","poster":"s/F2a.jpg","d":46}],"분홍 셔츠 · 흰 그림 티 남매 가족":[{"label":"분홍 셔츠 친구","id":"13UlC_1g4azioWQSOptNhGnPfenPs8HAO","poster":"s/F3a.jpg","d":43},{"label":"흰 그림 티 친구","id":"1dydNWRr0yxs_dBr5LXZM2Ffyv9rO8xRI","poster":"s/F3b.jpg","d":43}],"하늘색 티 · 흰 티 형제 가족":[{"label":"하늘색 티 친구","id":"1zBgkIg6Rx8wlnFtku7bihcQ13Qm26J5e","poster":"s/F4a.jpg","d":26},{"label":"흰 티 · 반바지 친구","id":"17Xh7cVxFT4ypC7nD5MAu9a0y_mdIzPXG","poster":"s/F4b.jpg","d":40}],"주황 티 친구":[{"label":"주황 티 친구","id":"1-lsYazCb7p7YvfI00Z8PHGjEEPqqhWM8","poster":"s/K2.jpg","d":43}],"안경 쓴 까만 셔츠 친구":[{"label":"안경 쓴 까만 셔츠 친구","id":"16HdY9M75F_aA20i4ZA7EXXucoPQN4lna","poster":"s/K3.jpg","d":43}],"노란 티 · 흰 모자 친구":[{"label":"노란 티 · 흰 모자 친구","id":"12xjigmSNqbRxR9ZPPW6295bAwTlNF0De","poster":"s/K4.jpg","d":45}],"분홍 모자 · 줄무늬 친구":[{"label":"분홍 모자 · 줄무늬 친구","id":"12Rb0awyw1PR6I7LGlcwOA5mugsc96RpQ","poster":"s/K5.jpg","d":48}],"파랑 소매 친구":[{"label":"파랑 소매 친구","id":"1Jh9WBzwFqIjM2nztc5cTJ4DJupaycT6_","poster":"s/K6.jpg","d":43}],"남색 모자 친구":[{"label":"남색 모자 친구","id":"1iTnd818SaL5TAnhz1y-bW4SW_Y3ZWH6_","poster":"s/K7.jpg","d":15}]};         // {묶음: [{label, id, poster, d}]} 아이별 세로 영상 — 없으면 {}
+
+const $ = s => document.querySelector(s);
+const KEY = "jejugrapher-open-" + SESSION;
+
+/* ── 날짜 잠금 ───────────────────────────────── */
+const normDate = v => { const d = String(v).replace(/\D/g, ""); return d.length === 8 ? d.slice(2) : d; };
+async function sha(s) {
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+}
+function unlock() { $("#gate").hidden = true; $("#photoArea").hidden = false; $("#allDrive").hidden = false;
+  $("#toPhotos").textContent = "사진 고르기"; $("#toPhotos").href = "#photos"; start(); }
+$("#gateForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if ((await sha("byeolbam-pw:" + normDate($("#pw").value))) === PW_HASH) {
+    try { sessionStorage.setItem(KEY, "1"); } catch (err) {}
+    $("#gateErr").textContent = ""; unlock();
+  } else {
+    $("#gateErr").textContent = "비밀번호가 맞지 않아요. 안내받은 여섯 자리를 다시 확인해 주세요.";
+    $("#pw").select();
+  }
+});
+
+/* ── 사진첩 ─────────────────────────────────── */
+// 미리보기(드라이브 업로드 전): IDS 값이 "local:" 로 시작하면 내 컴퓨터의 사진을 바로 보여 줌
+const img = (n, w) => IDS[n].startsWith("local:") ? IDS[n].slice(6) : `https://drive.google.com/thumbnail?id=${IDS[n]}&sz=w${w}`;
+// 원본 파일: lh3 주소는 CORS를 허용해서 파일로 받아 저장·공유·ZIP에 쓸 수 있음 (uc?export=download 는 막힘)
+const full = n => IDS[n].startsWith("local:") ? IDS[n].slice(6) : `https://lh3.googleusercontent.com/d/${IDS[n]}=s0`;
+const fname = n => `${VERSION}_${n}.jpg`;
+const byN = Object.fromEntries(PHOTOS.map(p => [p.n, p]));
+const SEL_KEY = "jejugrapher-sel-" + SESSION;
+const state = { filter: "전체", list: PHOTOS, idx: 0, sel: new Set() };
+try { JSON.parse(localStorage.getItem(SEL_KEY) || "[]").forEach(n => byN[n] && state.sel.add(n)); } catch (e) {}
+
+function initVideo() {
+  $("#countLine").textContent = `사진 ${PHOTOS.length}장`;
+  if (YT) {
+    $("#video").hidden = false;
+    $("#ytThumb").onerror = () => { $("#ytThumb").onerror = null; $("#ytThumb").src = `https://i.ytimg.com/vi/${YT}/hqdefault.jpg`; };
+    $("#ytThumb").src = "cover.jpg";   // 페이지와 함께 올리는 썸네일
+  } else if (VIDEO_DL) {
+    $("#video").hidden = false; $("#player").hidden = true;
+  } else $("#toVideo").hidden = true;
+  if (VIDEO_DL) { $("#vidDl").hidden = false; $("#vidDl").href = VIDEO_DL; }
+}
+initVideo();
+function start() {
+  $("#allDrive").href = DRIVE_FOLDER; $("#dlFolder").href = DRIVE_FOLDER;
+  
+  const cnt = PHOTOS.reduce((m, p) => (m[p.s] = (m[p.s] || 0) + 1, m), {});
+  $("#chips").innerHTML = ["전체", ...SECTS.filter(s => cnt[s])].map(l =>
+    `<button type="button" class="chip" data-l="${l}" aria-pressed="${l === "전체"}">${l}<span class="c">${l === "전체" ? PHOTOS.length : cnt[l]}</span></button>`).join("");
+  render(); syncBar();
+}
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  state.filter = b.dataset.l;
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b));
+  render(); $("#photos").scrollIntoView({ behavior: "smooth" });
+});
+function card(p, i) {
+  const on = state.sel.has(p.n);
+  return `<article class="card${on ? " on" : ""}" data-n="${p.n}">
+    <button class="shot" type="button" data-i="${i}" aria-label="사진 ${p.n} 크게 보기">
+      <img class="${p.v ? "v" : ""}" src="${img(p.n, 480)}" alt="사진 ${p.n}, ${p.s}, ${p.t}" loading="lazy" referrerpolicy="no-referrer">
+      <span class="tag">No. ${p.n}</span>
+    </button>
+    <button class="sel" type="button" data-sel="${p.n}" aria-pressed="${on}" aria-label="사진 ${p.n} 고르기">✓</button>
+    <div class="meta"><span><span class="no">${p.n}</span> · ${p.t}</span><button type="button" data-dl="${p.n}">받기</button></div>
+  </article>`;
+}
+/* 아이별 쇼츠(세로 영상) — 묶음 맨 위에 */
+const vSrc = id => id.startsWith("local:") ? id.slice(6) : `https://drive.google.com/file/d/${id}/preview`;
+const vGet = id => id.startsWith("local:") ? id.slice(6) : `https://drive.google.com/uc?export=download&id=${id}`;
+function shortsRow(s) {
+  const list = SHORTS[s]; if (!list || !list.length) return "";
+  return `<div class="shorts" aria-label="${s} 쇼츠 영상">${list.map(v => `<div class="short">
+    <button class="pv" type="button" data-sv="${v.id}" aria-label="${v.label} 쇼츠 영상 보기"><img src="${v.poster}" alt="" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+    <div class="lb">${v.label} 쇼츠<small>세로 영상 · ${v.d}초</small></div>
+    <a class="get" href="${vGet(v.id)}" target="_blank" rel="noopener" ${v.id.startsWith("local:") ? "download" : ""}>영상 받기</a></div>`).join("")}</div>`;
+}
+const sv = $("#sv");
+function openShort(id) {
+  const st = $("#svStage");
+  if (id.startsWith("local:")) { const v = document.createElement("video"); v.src = vSrc(id); v.controls = true; v.autoplay = true; v.playsInline = true; st.replaceChildren(v); }
+  else { const f = document.createElement("iframe"); f.src = vSrc(id); f.allow = "autoplay; fullscreen"; f.allowFullscreen = true; f.title = "쇼츠 영상"; st.replaceChildren(f); }
+  $("#svGet").href = vGet(id); sv.showModal();
+}
+sv.addEventListener("close", () => $("#svStage").replaceChildren());
+$("#svClose").onclick = () => sv.close();
+sv.addEventListener("click", e => { if (e.target === sv) sv.close(); });
+function render() {
+  state.list = state.filter === "전체" ? PHOTOS : PHOTOS.filter(p => p.s === state.filter);
+  const groups = SECTS.map(s => [s, state.list.map((p, i) => [p, i]).filter(([p]) => p.s === s)]).filter(g => g[1].length);
+  $("#groups").innerHTML = groups.map(([s, ps]) => `
+    <div class="grp"><h3>${s}<small>${ps[0][0].t} – ${ps[ps.length - 1][0].t} · ${ps.length}장</small><button type="button" data-gsel="${s}">이 묶음 고르기</button></h3>
+    ${shortsRow(s)}
+    <div class="grid">${ps.map(([p, i]) => card(p, i)).join("")}</div></div>`).join("");
+  // 카드 위에 고르기 버튼이 겹치도록 위치 지정
+  document.querySelectorAll(".card").forEach(c => c.style.position = "relative");
+}
+function toggle(n, force) {
+  const on = force === undefined ? !state.sel.has(n) : force;
+  on ? state.sel.add(n) : state.sel.delete(n);
+  const c = document.querySelector(`.card[data-n="${n}"]`);
+  if (c) { c.classList.toggle("on", on); c.querySelector(".sel").setAttribute("aria-pressed", on); }
+  syncBar();
+}
+function syncBar() {
+  $("#bar").hidden = state.sel.size === 0; $("#selN").textContent = state.sel.size;
+  try { localStorage.setItem(SEL_KEY, JSON.stringify([...state.sel])); } catch (e) {}
+}
+$("#groups").addEventListener("click", e => {
+  const s = e.target.closest("[data-sel]"); if (s) return toggle(s.dataset.sel);
+  const d = e.target.closest("[data-dl]"); if (d) return saveOne(d.dataset.dl, d);
+  const g = e.target.closest("[data-gsel]"); if (g) { state.list.filter(p => p.s === g.dataset.gsel).forEach(p => toggle(p.n, true)); return; }
+  const vv = e.target.closest("[data-sv]"); if (vv) return openShort(vv.dataset.sv);
+  const sh = e.target.closest(".shot"); if (sh) openViewer(+sh.dataset.i);
+});
+$("#pickAll").onclick = () => state.list.forEach(p => toggle(p.n, true));
+$("#barClear").onclick = () => [...state.sel].forEach(n => toggle(n, false));
+const selList = () => PHOTOS.filter(p => state.sel.has(p.n)).map(p => p.n);
+
+/* 파일 받기 도구 */
+const MOBILE = matchMedia("(pointer:coarse)").matches || /iPhone|iPad|Android/i.test(navigator.userAgent);
+const CAN_SHARE = (() => { try { return !!navigator.canShare && navigator.canShare({ files: [new File(["x"], "t.jpg", { type: "image/jpeg" })] }); } catch (e) { return false; } })();
+const USE_SHARE = MOBILE && CAN_SHARE;   // 휴대폰: 공유 창 → '이미지 저장'으로 사진 앱에 바로
+const cache = new Map();                 // n → Promise<File>
+function getFile(n) {
+  if (!cache.has(n)) cache.set(n, fetch(full(n), { referrerPolicy: "no-referrer" })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+    .then(b => new File([b], fname(n), { type: b.type && b.type.startsWith("image/") ? b.type : "image/jpeg" }))
+    .catch(e => { cache.delete(n); throw e; }));
+  return cache.get(n);
+}
+function saveBlob(blob, name) {
+  const u = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 60000);
+}
+async function shareFiles(files) {
+  try { await navigator.share({ files }); return true; }
+  catch (e) { if (e.name === "AbortError") return false; throw e; }
+}
+const ready = {};                        // 이미 받아 둔 파일 (공유는 누르는 순간 바로 불러야 해서)
+async function saveOne(n, btn) {
+  const old = btn && btn.textContent;
+  try {
+    if (USE_SHARE && ready[n]) { await shareFiles([ready[n]]); return; }
+    if (btn) btn.textContent = "준비 중…";
+    const f = await getFile(n); ready[n] = f;
+    if (USE_SHARE) {
+      try { await shareFiles([f]); }
+      catch (e) { if (btn) { btn.textContent = "저장하기 ↓"; return; } }   // 시간이 지나 막히면 한 번 더 누르면 됨
+    } else saveBlob(f, f.name);
+    if (btn) btn.textContent = old;
+  } catch (e) {
+    if (btn) btn.textContent = old;
+    window.open(full(n), "_blank", "noopener");   // 마지막 방법: 새 창에서 길게 눌러 저장
+  }
+}
+
+/* 크게 보기 */
+const viewer = $("#viewer");
+function openViewer(i) { state.idx = i; showV(); document.documentElement.classList.add("lock"); viewer.showModal(); $("#vwNext").focus({ preventScroll: true }); }
+viewer.addEventListener("close", () => document.documentElement.classList.remove("lock"));
+function showV() {
+  const p = state.list[state.idx], im = $("#vwImg");
+  im.classList.add("ld"); im.onload = () => im.classList.remove("ld");
+  im.src = img(p.n, 2000); im.alt = `사진 ${p.n}`;
+  $("#vwTitle").innerHTML = `<b>${state.idx + 1} / ${state.list.length}</b>No. ${p.n} · ${p.s}`;
+  $("#vwPick").setAttribute("aria-pressed", state.sel.has(p.n));
+  $("#vwPick").textContent = state.sel.has(p.n) ? "고름 ✓" : "고르기";
+  $("#vwDown").textContent = "이 사진 받기";
+  // 앞뒤 사진 미리 불러오기
+  [1, -1].forEach(d => { const q = state.list[(state.idx + d + state.list.length) % state.list.length]; if (q) new Image().src = img(q.n, 2000); });
+  if (USE_SHARE) getFile(p.n).then(f => ready[p.n] = f).catch(() => {});
+}
+const step = d => { state.idx = (state.idx + d + state.list.length) % state.list.length; showV(); };
+$("#vwPrev").onclick = e => { e.stopPropagation(); step(-1); };
+$("#vwNext").onclick = e => { e.stopPropagation(); step(1); };
+$("#vwClose").onclick = () => viewer.close();
+$("#vwPick").onclick = () => { toggle(state.list[state.idx].n); showV(); };
+$("#vwDown").onclick = e => saveOne(state.list[state.idx].n, e.currentTarget);
+$("#vwReq").onclick = () => { const n = state.list[state.idx].n; viewer.close(); openReq([n]); };
+viewer.addEventListener("keydown", e => { if (e.key === "ArrowLeft") step(-1); if (e.key === "ArrowRight") step(1); if (e.key === " ") { e.preventDefault(); $("#vwPick").click(); } });
+// 사진 왼쪽/오른쪽을 누르면 이전/다음 (사진을 눌러도 창이 닫히지 않음)
+$("#vwStage").addEventListener("click", e => {
+  if (e.target.closest(".nav") || moved) return;
+  const r = e.currentTarget.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
+  if (x < .33) step(-1); else if (x > .67) step(1);
+});
+let tx = null, ty = null, moved = false;
+const zoomed = () => window.visualViewport && window.visualViewport.scale > 1.05;
+$("#vwStage").addEventListener("touchstart", e => { moved = false; if (e.touches.length !== 1 || zoomed()) { tx = null; return; } tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+$("#vwStage").addEventListener("touchend", e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
+  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) { moved = true; step(dx < 0 ? 1 : -1); setTimeout(() => moved = false, 400); }
+});
+
+/* 고른 사진 한 번에 받기
+   휴대폰: 사진을 미리 받아 둔 뒤 공유 창 → '이미지 n개 저장' (한 번에 10장씩)
+   컴퓨터: ZIP 파일 하나로 */
+const dlg = $("#dl"); const CHUNK = 10;
+let JSZIP = null;
+const loadZip = () => JSZIP || (JSZIP = new Promise((ok, no) => { const sc = document.createElement("script");
+  sc.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"; sc.onload = () => ok(window.JSZip); sc.onerror = no; document.head.appendChild(sc); }));
+function prog(i, n) { $("#dlProg").hidden = false; $("#dlProg i").style.width = (100 * i / n) + "%"; }
+const say = (t, c = "") => { $("#dlMsg").className = "msg " + c; $("#dlMsg").textContent = t; };
+async function fetchAll(ns) {
+  let done = 0; const out = new Array(ns.length), bad = [];
+  let k = 0;
+  async function worker() { while (k < ns.length) { const i = k++; try { out[i] = await getFile(ns[i]); } catch (e) { bad.push(ns[i]); } prog(++done, ns.length); say(`사진을 준비하는 중… ${done} / ${ns.length}`); } }
+  await Promise.all([1, 2, 3, 4].map(worker));
+  return { files: out.filter(Boolean), bad };
+}
+let dlNs = [];
+$("#barDl").onclick = () => {
+  dlNs = selList();
+  $("#dlSub").textContent = USE_SHARE
+    ? `${dlNs.length}장을 받습니다. ‘한 번에 받기’를 누르면 사진을 준비한 뒤, 저장 버튼이 나타나요. 공유 창에서 ‘이미지 저장’을 누르면 사진 앱에 들어갑니다.`
+    : `${dlNs.length}장을 ZIP 파일 하나로 받습니다.`;
+  $("#dlZip").hidden = !USE_SHARE;
+  $("#dlList").innerHTML = dlNs.map(n => `<button type="button" data-n="${n}"><span>No. ${n} · ${byN[n].s}</span></button>`).join("");
+  $("#dlChunks").innerHTML = ""; $("#dlProg").hidden = true; say(""); $("#dlAll").disabled = false; dlg.showModal();
+};
+$("#dlList").addEventListener("click", async e => { const b = e.target.closest("button"); if (!b) return;
+  try { await saveOne(b.dataset.n); b.classList.add("done"); b.classList.remove("bad"); } catch (err) { b.classList.add("bad"); } });
+async function zipAll() {
+  $("#dlAll").disabled = $("#dlZip").disabled = true;
+  try {
+    const [Z, r] = await Promise.all([loadZip(), fetchAll(dlNs)]);
+    say("ZIP 파일을 만드는 중…");
+    const z = new Z(); r.files.forEach(f => z.file(f.name, f));
+    const blob = await z.generateAsync({ type: "blob", compression: "STORE" });
+    saveBlob(blob, `${VERSION}_사진${r.files.length}장.zip`);
+    say(r.bad.length ? `${r.files.length}장을 받았어요. 받지 못한 사진: ${r.bad.join(", ")} (한 장씩 받기에서 다시 눌러 주세요)` : `${r.files.length}장을 ZIP 파일로 받았어요. 받은 파일 폴더를 확인해 주세요.`, r.bad.length ? "err" : "ok");
+  } catch (e) { say("받지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요. 안 되면 ‘한 장씩 받기’를 이용해 주세요.", "err"); }
+  $("#dlAll").disabled = $("#dlZip").disabled = false;
+}
+$("#dlAll").onclick = async () => {
+  if (!USE_SHARE) return zipAll();
+  $("#dlAll").disabled = true;
+  const r = await fetchAll(dlNs);
+  const groups = []; for (let i = 0; i < r.files.length; i += CHUNK) groups.push(r.files.slice(i, i + CHUNK));
+  $("#dlChunks").innerHTML = groups.map((g, i) => `<button type="button" class="btn sm" data-g="${i}">${groups.length > 1 ? `${i * CHUNK + 1}–${i * CHUNK + g.length}번째 ` : ""}${g.length}장 저장</button>`).join("");
+  $("#dlChunks").onclick = async e => { const b = e.target.closest("[data-g]"); if (!b) return;
+    try { if (await shareFiles(groups[+b.dataset.g])) { b.classList.add("done"); b.textContent = "저장함 ✓ " + b.textContent.replace("저장함 ✓ ", ""); } }
+    catch (err) { say("저장 창을 열지 못했어요. 버튼을 한 번 더 눌러 주세요. 계속 안 되면 ZIP 파일로 받아 주세요.", "err"); } };
+  say((r.bad.length ? `받지 못한 사진: ${r.bad.join(", ")} · ` : "") + (groups.length > 1 ? "준비됐어요. 아래 버튼을 차례로 눌러 저장해 주세요." : "준비됐어요. 아래 버튼을 눌러 저장해 주세요."), "ok");
+  $("#dlAll").disabled = false; $("#dlAll").textContent = "다시 준비하기";
+};
+$("#dlZip").onclick = zipAll;
+$("#dlClose").onclick = () => dlg.close();
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+
+/* 원본 요청 */
+const req = $("#req");
+function openReq(ns) {
+  $("#reqForm").hidden = false; $("#reqDone").hidden = true; $("#rqMsg").textContent = ""; $("#rqMsg").className = "msg";
+  $("#f_nos").value = ns.join(", ");
+  $("#rqThumbs").innerHTML = ns.slice(0, 40).map(n => `<img src="${img(n, 160)}" alt="사진 ${n}" referrerpolicy="no-referrer">`).join("");
+  try { const d = JSON.parse(localStorage.getItem("jejugrapher-who") || "{}"); if (d.name) $("#f_name").value = d.name; if (d.contact) $("#f_contact").value = d.contact; } catch (e) {}
+  req.showModal();
+}
+$("#barReq").onclick = () => openReq(selList());
+$("#rqCancel").onclick = () => req.close(); $("#doneClose").onclick = () => req.close();
+req.addEventListener("click", e => { if (e.target === req) req.close(); });
+$("#form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("#rqMsg");
+  const nos = $("#f_nos").value.split(/[^0-9]+/).filter(n => byN[n]);
+  const data = {
+    session: SESSION, photo: nos.join(","), version: VERSION,
+    kind: (document.querySelector('input[name="kind"]:checked') || {}).value || "",
+    message: `[${nos.length}장] ` + $("#f_msg").value.trim(), name: $("#f_name").value.trim(), contact: $("#f_contact").value.trim(),
+    website: $("#f_web").value
+  };
+  if (!nos.length) { msg.className = "msg err"; msg.textContent = "사진 번호를 하나 이상 넣어 주세요."; $("#f_nos").focus(); return; }
+  if (!data.contact) { msg.className = "msg err"; msg.textContent = "원본을 보내 드릴 연락처를 남겨 주세요."; $("#f_contact").focus(); return; }
+  if (!$("#f_agree").checked) { msg.className = "msg err"; msg.textContent = "연락처를 남기시려면 안내 문구에 동의해 주세요."; return; }
+  try { localStorage.setItem("jejugrapher-who", JSON.stringify({ name: data.name, contact: data.contact })); } catch (err) {}
+  $("#rqSend").disabled = true; msg.className = "msg"; msg.textContent = "보내는 중…";
+  try {
+    await fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
+    $("#form").reset(); $("#reqForm").hidden = true; $("#reqDone").hidden = false;
+  } catch (err) {
+    msg.className = "msg err"; msg.textContent = "보내지 못했어요. 인터넷 연결을 확인한 뒤 다시 눌러 주세요.";
+  } finally { $("#rqSend").disabled = false; }
+});
+
+/* 영상 */
+$("#playBtn").addEventListener("click", () => {
+  const f = document.createElement("iframe");
+  f.src = `https://www.youtube-nocookie.com/embed/${YT}?autoplay=1&rel=0`;
+  f.title = document.title;
+  f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  f.allowFullscreen = true;
+  $("#player").replaceChildren(f);
+});
+
+(function () {
+  let ok = false;
+  try { ok = sessionStorage.getItem(KEY) === "1"; } catch (e) {}
+  if (ok) return unlock();
+})();
+</script>
+</body>
+</html>
