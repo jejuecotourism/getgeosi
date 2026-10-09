@@ -86,6 +86,19 @@ h2{font-family:var(--pen);font-weight:400;font-size:clamp(2.3rem,5.5vw,3.2rem);l
 .grp h3 small{font:400 .8rem var(--mono);color:var(--mute)}
 .grp h3 button{font:400 .82rem var(--serif);background:none;border:1px solid var(--line);color:var(--mute);padding:.1rem .6rem;cursor:pointer}
 .grp h3 button:hover{color:var(--glow);border-color:var(--glow)}
+.shorts{display:flex;gap:.9rem;overflow-x:auto;padding:.9rem 0 .2rem;scroll-snap-type:x mandatory}
+.short{flex:0 0 150px;scroll-snap-align:start;border:1px solid var(--line);background:var(--deep)}
+.short .pv{position:relative;display:block;width:100%;aspect-ratio:9/16;border:0;padding:0;background:#000;cursor:pointer}
+.short .pv img{width:100%;height:100%;object-fit:cover;display:block}
+.short .pv .play{width:48px;height:48px;margin:-24px 0 0 -24px}
+.short .pv .play::after{left:19px;top:14px;border-left-width:14px;border-top-width:10px;border-bottom-width:10px}
+.short .lb{font-size:.82rem;line-height:1.4;padding:.45rem .55rem .2rem;color:var(--cloud)}
+.short .lb small{display:block;color:var(--mute);font:400 .72rem var(--mono)}
+.short a.get{display:block;margin:.35rem .55rem .55rem;text-align:center;font-size:.8rem;padding:.3rem 0;border:1px solid var(--glow);color:var(--glow);text-decoration:none}
+.short a.get:hover{background:var(--glow);color:var(--deep)}
+#sv .sheet{max-width:min(420px,94vw);padding:.8rem}
+#sv .stage{aspect-ratio:9/16;max-height:78vh;margin:0 auto;background:#000}
+#sv .stage iframe,#sv .stage video{width:100%;height:100%;border:0;display:block}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem .9rem;padding-block:1rem .5rem}
 .card{display:grid;gap:.4rem}
 .shot{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--deep);cursor:zoom-in;border:0;padding:0;width:100%}
@@ -182,6 +195,9 @@ label{display:grid;gap:.35rem;font-size:.88rem;color:var(--mute)}
   .bar .row{width:100%}
   .bar .row .btn{flex:1;justify-content:center;min-height:44px}
   .tools .pick{width:100%}
+  .chips{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:.2rem;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;white-space:nowrap}
   .dl-list button{min-height:42px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -304,6 +320,16 @@ label{display:grid;gap:.35rem;font-size:.88rem;color:var(--mute)}
   </div>
 </dialog>
 
+<dialog id="sv" class="dlg" aria-label="쇼츠 영상 보기">
+  <div class="sheet">
+    <div class="stage" id="svStage"></div>
+    <div class="foot" style="justify-content:space-between;margin-top:.6rem">
+      <a class="btn sm" id="svGet" target="_blank" rel="noopener">이 영상 받기</a>
+      <button class="btn ghost sm" type="button" id="svClose">닫기</button>
+    </div>
+  </div>
+</dialog>
+
 <dialog id="dl" class="dlg" aria-label="고른 사진 받기">
   <div class="sheet">
     <h3>고른 사진 받기</h3>
@@ -377,6 +403,7 @@ const IDS = {"7210":"1hPJ3xRThtdT3xZmWfXcvd48m3zrynRHu","7211":"1ko9R2lSellx31ef
 const SECTS = ["모여서 귀 기울이기", "헤드셋을 쓰고", "소리를 따라 걷기", "숲길의 얼굴들", "다시 들어 보기", "초지와 산방산"];
 const VERSION = "사운드워킹";
 const VIDEO_DL = "";   // 영상 파일(드라이브) — 없으면 빈 칸
+const SHORTS = {};         // {묶음: [{label, id, poster, d}]} 아이별 세로 영상 — 없으면 {}
 
 const $ = s => document.querySelector(s);
 const KEY = "jejugrapher-open-" + SESSION;
@@ -448,11 +475,32 @@ function card(p, i) {
     <div class="meta"><span><span class="no">${p.n}</span> · ${p.t}</span><button type="button" data-dl="${p.n}">받기</button></div>
   </article>`;
 }
+/* 아이별 쇼츠(세로 영상) — 묶음 맨 위에 */
+const vSrc = id => id.startsWith("local:") ? id.slice(6) : `https://drive.google.com/file/d/${id}/preview`;
+const vGet = id => id.startsWith("local:") ? id.slice(6) : `https://drive.google.com/uc?export=download&id=${id}`;
+function shortsRow(s) {
+  const list = SHORTS[s]; if (!list || !list.length) return "";
+  return `<div class="shorts" aria-label="${s} 쇼츠 영상">${list.map(v => `<div class="short">
+    <button class="pv" type="button" data-sv="${v.id}" aria-label="${v.label} 쇼츠 영상 보기"><img src="${v.poster}" alt="" loading="lazy"><span class="play" aria-hidden="true"></span></button>
+    <div class="lb">${v.label} 쇼츠<small>세로 영상 · ${v.d}초</small></div>
+    <a class="get" href="${vGet(v.id)}" target="_blank" rel="noopener" ${v.id.startsWith("local:") ? "download" : ""}>영상 받기</a></div>`).join("")}</div>`;
+}
+const sv = $("#sv");
+function openShort(id) {
+  const st = $("#svStage");
+  if (id.startsWith("local:")) { const v = document.createElement("video"); v.src = vSrc(id); v.controls = true; v.autoplay = true; v.playsInline = true; st.replaceChildren(v); }
+  else { const f = document.createElement("iframe"); f.src = vSrc(id); f.allow = "autoplay; fullscreen"; f.allowFullscreen = true; f.title = "쇼츠 영상"; st.replaceChildren(f); }
+  $("#svGet").href = vGet(id); sv.showModal();
+}
+sv.addEventListener("close", () => $("#svStage").replaceChildren());
+$("#svClose").onclick = () => sv.close();
+sv.addEventListener("click", e => { if (e.target === sv) sv.close(); });
 function render() {
   state.list = state.filter === "전체" ? PHOTOS : PHOTOS.filter(p => p.s === state.filter);
   const groups = SECTS.map(s => [s, state.list.map((p, i) => [p, i]).filter(([p]) => p.s === s)]).filter(g => g[1].length);
   $("#groups").innerHTML = groups.map(([s, ps]) => `
     <div class="grp"><h3>${s}<small>${ps[0][0].t} – ${ps[ps.length - 1][0].t} · ${ps.length}장</small><button type="button" data-gsel="${s}">이 묶음 고르기</button></h3>
+    ${shortsRow(s)}
     <div class="grid">${ps.map(([p, i]) => card(p, i)).join("")}</div></div>`).join("");
   // 카드 위에 고르기 버튼이 겹치도록 위치 지정
   document.querySelectorAll(".card").forEach(c => c.style.position = "relative");
@@ -472,6 +520,7 @@ $("#groups").addEventListener("click", e => {
   const s = e.target.closest("[data-sel]"); if (s) return toggle(s.dataset.sel);
   const d = e.target.closest("[data-dl]"); if (d) return saveOne(d.dataset.dl, d);
   const g = e.target.closest("[data-gsel]"); if (g) { state.list.filter(p => p.s === g.dataset.gsel).forEach(p => toggle(p.n, true)); return; }
+  const vv = e.target.closest("[data-sv]"); if (vv) return openShort(vv.dataset.sv);
   const sh = e.target.closest(".shot"); if (sh) openViewer(+sh.dataset.i);
 });
 $("#pickAll").onclick = () => state.list.forEach(p => toggle(p.n, true));
