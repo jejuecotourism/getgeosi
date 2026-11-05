@@ -15,8 +15,8 @@ const EVENTS = [
   { id:"2026-workshop", title:"2026 생태관광 합동워크숍", start:"2026-12-11", end:"2026-12-11", time:"15:00~19:00",
     status:"upcoming", cover:"", url:"", record:"", note:"", draft:true },
 
-  { id:"2026-birding", title:"오고생이탐조대회", start:"2026-11-14", end:"2026-11-14", time:"09:00~15:00",
-    status:"closed", cover:"", url:"events/2026-birding/", record:"", note:"" },
+  { id:"2026-birding", title:"오고 생이 제주로 탐조대회", start:"2026-11-14", end:"2026-11-14", time:"09:00~16:00",
+    status:"closed", cover:"events/2026-birding/cover.jpg", url:"events/2026-birding/", record:"", note:"새를 따라, 습지를 만나다" },
 
   { id:"2026-autumn", title:"2026 가을 생태관광주간", start:"2026-10-03", end:"2026-10-09", time:"",
     status:"done", cover:"assets/img/p13.jpg", url:"events/2026-autumn/", record:"records.html", note:"프로그램 27개" },
