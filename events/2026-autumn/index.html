@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script src="../../shared/gate.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 생태관광주간 제주 | 가을 생태관광 프로그램 27개 (10.03~10.09)</title>
+<meta name="description" content="2026생태관광주간 — 제주, 나만의 계절이 되다. 오름 너머로, 제주 빛에 물들며. 습지·곶자왈·오름·동굴·가로숲·숲길·다크투어·바다를 걷는 가을 생태관광 프로그램 27개.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="2026생태관광주간">
+<meta property="og:title" content="2026생태관광주간 · 오름 너머로, 제주 빛에 물들며">
+<meta property="og:description" content="제주, 나만의 계절이 되다 — 가을 생태관광 프로그램. 습지·곶자왈·오름·동굴·가로숲을 걷다.">
+<meta property="og:url" content="https://jejuecotourism.com/events/2026-autumn/">
+<meta property="og:image" content="https://jejuecotourism.com/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="ko_KR">
+<meta name="keywords" content="생태관광주간, 제주 생태관광, 2026 생태관광주간, 제주생태관광협회, 생태관광지원센터, 곶자왈, 습지, 오름, 동굴, 가로숲, 다크투어, 제주 가을 여행, 제주 체험 프로그램">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="author" content="제주생태관광협회 · 제주특별자치도 생태관광지원센터">
+<link rel="canonical" href="https://jejuecotourism.com/events/2026-autumn/">
+<!-- 네이버 서치어드바이저 소유확인 (2026-09-14 발급) -->
+<meta name="naver-site-verification" content="cee3f789dec453df7934dccc1065d0e18d67172f" />
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Event",
+ "name": "2026 생태관광주간 · 제주",
+ "alternateName": "제주, 나만의 계절이 되다 — 오름 너머로, 제주 빛에 물들며",
+ "description": "2026년 10월 3일부터 9일까지 제주 곳곳의 생태관광마을과 기관이 진행하는 가을 생태관광 프로그램. 습지·곶자왈·오름·동굴·가로숲·숲길·다크투어(7개 코스)·바다 27개 프로그램. 예약은 탐나오 기획전.",
+ "startDate": "2026-10-03",
+ "endDate": "2026-10-09",
+ "eventStatus": "https://schema.org/EventScheduled",
+ "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+ "url": "https://jejuecotourism.com/",
+ "image": [
+  "https://jejuecotourism.com/assets/hero.jpg"
+ ],
+ "location": {
+  "@type": "Place",
+  "name": "제주특별자치도 일원",
+  "address": {
+   "@type": "PostalAddress",
+   "addressRegion": "제주특별자치도",
+   "addressCountry": "KR"
+  }
+ },
+ "organizer": [
+  {
+   "@type": "Organization",
+   "name": "(사)제주생태관광협회",
+   "telephone": "+82-64-782-3253",
+   "url": "https://jejuecotourism.com/"
+  },
+  {
+   "@type": "Organization",
+   "name": "제주특별자치도 생태관광지원센터",
+   "url": "https://jejuecotourism.com/"
+  }
+ ],
+ "inLanguage": "ko",
+ "performer": {
+  "@type": "Organization",
+  "name": "제주 생태관광마을협의체 및 운영기관 (선흘·저지·하례·평대·호근·수산2리 등)"
+ },
+ "offers": {
+  "@type": "AggregateOffer",
+  "url": "https://www.tamnao.com/web/evnt/detailPromotion.do?prmtDiv=PLAN&prmtNum=PM00002412",
+  "priceCurrency": "KRW",
+  "lowPrice": "5000",
+  "highPrice": "50000",
+  "offerCount": "27",
+  "availability": "https://schema.org/InStock",
+  "validFrom": "2026-09-14"
+ }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;500;600;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+:root{
+  --maple:#C0492B; --maple-soft:#D9743F; --persimmon:#E0913C; --gold:#E7B45A;
+  --forest:#2F5E3A; --forest-deep:#1E3F27; --moss:#6B8F5A;
+  --grass:#D8C9A3; --sky:#8FB2C9;
+  --bg:#F7F2E8; --bg-deep:#EFE6D4; --card:#FFFFFF;
+  --ink:#2A2320; --ink-soft:#5E5248; --ink-faint:#8B7E70;
+  --line:#E6DAC4; --line-soft:#F0E7D6;
+  --shadow:0 1px 2px rgba(60,40,20,.04),0 6px 20px rgba(120,70,30,.07);
+  --shadow-lg:0 14px 44px rgba(120,70,30,.14);
+  --r:16px; --r-lg:24px;
+  --maxw:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans KR",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.serif{font-family:"Noto Serif KR",serif}
+.tbd{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.02em;color:#9A6B14;background:#FBEFCF;border:1px solid #EAD59A;border-radius:999px;padding:.12em .6em;vertical-align:middle}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;border-radius:999px;padding:.14em .66em}
+.badge.free{color:#1E6B3A;background:#DFF0E2;border:1px solid #B7DcC0}
+.badge.paid{color:#8A4A1E;background:#F6E6D3;border:1px solid #E7CBA9}
+.badge.new{color:#fff;background:var(--maple)}
+.badge.center{color:#274E6B;background:#DEEAF2;border:1px solid #BAD3E4}
+.badge.demo{color:#5A3A86;background:#ECE3F7;border:1px solid #D3C2ED}
+.badge.closed{color:#fff;background:#8B7E70}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:900;background:rgba(247,242,232,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:"Noto Serif KR",serif;font-weight:700;font-size:1.05rem;color:var(--forest-deep)}
+.nav-logo .mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--maple),var(--persimmon));display:grid;place-items:center;color:#fff;font-size:.9rem}
+.nav-menu{display:flex;gap:26px;font-size:.94rem;font-weight:500;color:var(--ink-soft)}
+.nav-menu a:hover{color:var(--maple)}
+.nav-menu .tbd{margin-left:4px}
+
+
+/* ===== HERO ===== */
+.hero{position:relative;overflow:hidden;color:#fff;min-height:clamp(460px,72vh,680px);display:flex;align-items:flex-end}
+.hero svg.scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.hero-video{opacity:0;transition:opacity 1.2s ease}
+.hero.video-on .hero-video{opacity:1}
+.hero.video-on .hero-leaves{display:none} /* 영상 자체에 낙엽이 있어 이모지 낙엽은 숨김 */
+@media(prefers-reduced-motion:reduce){.hero-video{display:none}}
+.hero-scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(20,20,10,.12) 0%,rgba(20,20,10,.10) 45%,rgba(20,20,10,.52) 100%)}
+.hero-note{position:absolute;top:14px;right:16px;z-index:5;font-size:.72rem;background:rgba(0,0,0,.32);color:#fff;padding:.3em .7em;border-radius:999px;backdrop-filter:blur(4px)}
+.hero-in{position:relative;z-index:4;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 22px 8vh}
+.hero-kicker{font-weight:700;letter-spacing:.14em;font-size:.8rem;color:#FCE6C4;margin-bottom:14px}
+.hero-title{font-family:"Gowun Batang","Noto Serif KR",serif;font-weight:700;line-height:1.12;font-size:clamp(2.1rem,6vw,3.9rem);text-shadow:0 2px 24px rgba(20,20,10,.35)}
+.hero-sub{font-family:"Noto Serif KR",serif;font-weight:500;margin-top:12px;font-size:clamp(1.05rem,2.6vw,1.6rem);color:#FBEAD0;text-shadow:0 2px 16px rgba(20,20,10,.4)}
+.hero-meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px 18px;font-size:.95rem;color:#F3E7D2}
+.hero-meta b{color:#fff}
+.hero-cta{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+.hero-qr{margin-top:20px;display:inline-flex;align-items:center;gap:14px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.45);backdrop-filter:blur(6px);padding:10px 18px 10px 10px;border-radius:18px;color:#fff;text-decoration:none;transition:transform .15s}
+.hero-qr:hover{transform:translateY(-2px)}
+.hero-qr img{width:86px;height:86px;background:#fff;border-radius:12px;padding:6px;display:block}
+.hero-qr .qt{display:flex;flex-direction:column;gap:3px}
+.hero-qr .qt b{font-size:1rem}
+.hero-qr .qt i{font-style:normal;font-size:.82rem;color:#F3E7D2}
+@media(max-width:480px){.hero-qr{padding:8px 14px 8px 8px;gap:10px}.hero-qr img{width:68px;height:68px}.hero-qr .qt b{font-size:.92rem}.hero-qr .qt i{font-size:.76rem}}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.96rem;border-radius:999px;padding:.85em 1.5em;border:0;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn.primary{background:var(--maple);color:#fff;box-shadow:0 8px 24px rgba(192,73,43,.35)}
+.btn.ghost{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(4px)}
+.btn:hover{transform:translateY(-2px)}
+
+/* ===== SECTION ===== */
+section{padding:clamp(56px,8vw,96px) 0}
+.eyebrow{font-weight:700;letter-spacing:.12em;font-size:.8rem;color:var(--maple);text-transform:uppercase}
+.s-title{font-family:"Noto Serif KR",serif;font-weight:700;font-size:clamp(1.6rem,4vw,2.5rem);line-height:1.25;margin:.3em 0 .5em;color:var(--forest-deep)}
+.s-lead{font-size:1.05rem;color:var(--ink-soft);max-width:62ch}
+
+/* ===== INTRO ===== */
+.intro{background:linear-gradient(180deg,#fff 0%,var(--bg) 100%)}
+.intro-slogan{font-family:"Gowun Batang",serif;font-weight:700;font-size:clamp(1.9rem,5vw,3rem);color:var(--maple);line-height:1.25}
+.intro-slogan small{display:block;font-family:"Noto Serif KR",serif;font-weight:500;font-size:clamp(1rem,2.4vw,1.35rem);color:var(--forest);margin-top:.5em}
+.intro-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;margin-top:40px}
+@media(max-width:820px){.intro-grid{grid-template-columns:1fr;gap:26px}}
+.intro-copy p{margin-bottom:1em;color:var(--ink-soft)}
+.leaf-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px}
+.leaf-tags span{font-size:.86rem;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4em .9em;color:var(--forest)}
+
+/* ===== PROGRAMS ===== */
+.prog{background:var(--bg-deep)}
+.filters{display:flex;flex-wrap:wrap;gap:9px;margin:26px 0 8px}
+.chip{font-size:.9rem;font-weight:600;border-radius:999px;padding:.5em 1.05em;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:.15s}
+.chip[aria-pressed="true"]{background:var(--forest);color:#fff;border-color:var(--forest)}
+.chip:hover{border-color:var(--forest)}
+.chip.demo{color:#5A3A86;border-color:#D3C2ED;background:#F5F0FB}
+.chip.demo[aria-pressed="true"]{background:#5A3A86;color:#fff;border-color:#5A3A86}
+.viewtoggle{display:flex;gap:6px;margin:16px 0 22px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px;width:max-content}
+.viewtoggle button{border:0;background:transparent;font-weight:700;font-size:.88rem;color:var(--ink-soft);padding:.5em 1.1em;border-radius:999px;cursor:pointer}
+.viewtoggle button[aria-pressed="true"]{background:var(--maple);color:#fff}
+#map{height:460px;border-radius:var(--r-lg);border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:26px}
+.leaflet-popup-content{font-family:"Noto Sans KR",sans-serif;margin:12px 14px}
+.pin-t{font-weight:700;color:var(--forest-deep)}
+.pin-m{font-size:.85rem;color:var(--ink-soft)}
+.pin-t a:hover{color:var(--maple)}
+.pin-go{display:inline-block;margin-top:8px;font-size:.84rem;font-weight:700;color:var(--maple)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.card-img{aspect-ratio:16/10;background:linear-gradient(135deg,var(--grass),#EFE6D2);position:relative;display:grid;place-items:center;color:#B39A6E;overflow:hidden}
+.card-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card-img .ph{font-size:.82rem;font-weight:600}
+.card-img .cat{position:absolute;top:12px;left:12px;font-size:.74rem;font-weight:700;color:#fff;background:rgba(47,94,58,.9);border-radius:999px;padding:.24em .7em}
+.card-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:9px;flex:1}
+.card-no{font-size:.78rem;font-weight:700;color:var(--maple)}
+.card-title{font-family:"Noto Serif KR",serif;font-weight:700;font-size:1.18rem;line-height:1.35;color:var(--forest-deep)}
+.card-desc{font-size:.86rem;color:var(--ink-soft);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0}
+.card-meta{font-size:.88rem;color:var(--ink-soft);display:flex;flex-direction:column;gap:3px}
+.card-meta .row{display:flex;gap:7px}
+.card-meta .k{color:var(--ink-faint);min-width:44px;font-weight:600}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.card-cta{margin-top:auto;padding-top:12px;display:flex;gap:8px}
+.card-cta .btn{padding:.6em 1.05em;font-size:.86rem}
+.btn.sm-line{background:#fff;border:1px solid var(--line);color:var(--forest)}
+.count{font-size:.9rem;color:var(--ink-faint);margin:6px 0 0}
+
+/* ===== SCHEDULE ===== */
+.sched{background:#fff}
+.sched-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-lg);margin-top:24px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line-soft)}
+thead th{background:var(--bg-deep);color:var(--forest-deep);font-weight:700;position:sticky;top:0}
+tbody tr:hover{background:#FBF7EE}
+.note{font-size:.88rem;color:var(--ink-faint);margin-top:14px}
+/* 달력 */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-top:24px}
+@media(max-width:900px){.cal{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.cal{grid-template-columns:1fr}}
+.cal-day{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:12px;min-height:120px;display:flex;flex-direction:column}
+.cal-day.weekend{background:#FBF3EC;border-color:#EBCDBF}
+.cal-day.weekend .cal-date,.cal-day.weekend .cal-date .dow{color:var(--maple)}
+.cal-date{font-family:"Noto Serif KR",serif;font-weight:700;font-size:1.35rem;line-height:1.1;color:var(--forest-deep);margin-bottom:10px;border-bottom:2px solid var(--line);padding-bottom:8px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.cal-date .dow{font-size:.9rem;color:var(--ink-faint);font-weight:700}
+.cal-date .hol{font-size:.72rem;font-weight:700;color:#fff;background:var(--maple);border-radius:999px;padding:.1em .6em;margin-left:auto}
+.cal-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;font-size:.82rem;color:var(--ink-soft)}
+.cal-legend .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.cal-item{font-size:.82rem;line-height:1.4;color:var(--ink-soft);padding:4px 0;border-bottom:1px dashed var(--line-soft);display:block}
+.cal-item:last-child{border-bottom:0}
+.cal-item:hover{color:var(--maple)}
+.cal-item .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--forest);margin-right:5px;vertical-align:middle}
+.cal-item.demo .dot{background:#8B6BC0}
+.cal-empty{font-size:.8rem;color:var(--ink-faint);opacity:.7}
+
+/* ===== FOOTER ===== */
+footer{background:linear-gradient(180deg,var(--gold) 0%,var(--persimmon) 100%);color:#3A2A14;padding:52px 0 40px;margin-top:0}
+.foot-grid{display:flex;flex-wrap:wrap;gap:30px;justify-content:space-between;align-items:center}
+.foot-logos{display:flex;gap:26px;flex-wrap:wrap;align-items:center}
+/* 로고: 흰 박스 없이 배경 위에 PNG 그대로(회의 09-14) */
+.foot-logo{background:transparent;border:0;padding:0;font-weight:700;color:#4A3418;font-size:.95rem;display:flex;align-items:center}
+.foot-logo img{height:46px;width:auto;display:block}
+@media(max-width:520px){.foot-logo img{height:38px}}
+.foot-info{font-size:.9rem;line-height:1.9}
+.foot-qrs{display:flex;gap:18px;align-items:flex-start}
+.foot-qr{display:flex;flex-direction:column;align-items:center;gap:6px}
+.foot-qr img{width:96px;height:96px;background:#fff;border-radius:12px;padding:6px;box-shadow:0 4px 14px rgba(60,40,20,.18)}
+.foot-qr span{font-size:.78rem;font-weight:600;color:#4A3418}
+.foot-bottom{margin-top:26px;padding-top:18px;border-top:1px solid rgba(60,40,20,.2);font-size:.82rem;color:#5A4522;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+
+/* ===== HERO 모션 (억새 살랑 + 단풍잎 낙하) ===== */
+.hero-leaves{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.hero-leaves i{position:absolute;top:-8%;font-style:normal;font-size:1.5rem;opacity:0;
+  animation:leafFall linear infinite;will-change:transform,opacity}
+.hero-leaves i:nth-child(1){left:16%;font-size:1.4rem;animation-duration:11s;animation-delay:0s}
+.hero-leaves i:nth-child(2){left:44%;font-size:1.8rem;animation-duration:14s;animation-delay:4s}
+.hero-leaves i:nth-child(3){left:72%;font-size:1.2rem;animation-duration:12.5s;animation-delay:8s}
+@keyframes leafFall{
+  0%{transform:translateY(0) translateX(0) rotate(0);opacity:0}
+  8%{opacity:.9}
+  50%{transform:translateY(52vh) translateX(26px) rotate(180deg)}
+  90%{opacity:.9}
+  100%{transform:translateY(108vh) translateX(-18px) rotate(360deg);opacity:0}}
+/* 억새 살랑 — SVG 배경이 보일 때(사진 미로드) 부드럽게 흔들림 */
+.hero svg .grass{transform-box:fill-box;transform-origin:bottom center;animation:sway 6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:skewX(-1.2deg)}50%{transform:skewX(1.2deg)}}
+@media(prefers-reduced-motion:reduce){.hero-leaves i,.hero svg .grass{animation:none}.hero-leaves i{opacity:0}}
+
+/* 휴대폰: 메뉴를 숨기지 않고 둘째 줄에 옆으로 밀어 보는 탭으로 */
+@media(max-width:720px){
+  html{scroll-padding-top:110px}
+  .nav-in{height:auto!important;flex-wrap:wrap;padding-top:10px}
+  .nav-menu{display:flex!important;width:100%;overflow-x:auto;gap:6px!important;padding:6px 0 9px;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;font-size:.9rem}
+  .nav-menu::-webkit-scrollbar{display:none}
+  .nav-menu a{flex:none;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6)}
+}
+</style>
+<style>#heroBook,.hero-qr,.eco-card-book,.eco-card-closed-badge,.films-reservation,a[href*="tamnao.com"],a[href*="docs.google.com/forms"]{display:none!important}</style>
+</head>
+<body>
+<div style="background:#1E3F27;color:#fff;font:500 14px/1.5 'Noto Sans KR',sans-serif;padding:9px 20px;text-align:center;position:relative;z-index:1000">지난 행사 보관 페이지 · 2026 가을 생태관광주간은 10월 9일 종료되었습니다 · <a href="../../schedule.html" style="color:#fff;text-decoration:underline">행사 일정으로 돌아가기</a></div>
+
+<!-- NAV -->
+<nav class="nav"><div class="wrap nav-in">
+  <a class="nav-logo" href="#top"><span class="mark">가</span>2026생태관광주간</a>
+  <div class="nav-menu">
+    <a href="#intro">소개</a>
+    <a href="#programs">프로그램</a>
+    <a href="#schedule">일정</a>
+    <a href="#programs" id="navDemo">시범 프로그램</a>
+    <a href="../../record.html">현장 기록</a>
+    <a href="#map-sec">오시는 길</a>
+  </div>
+</div></nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <svg class="scene" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" role="img" aria-label="가을 제주 오름과 숲길 임시 일러스트">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#F3C98A"/><stop offset=".45" stop-color="#E9A96A"/><stop offset="1" stop-color="#D98450"/>
+      </linearGradient>
+      <linearGradient id="or1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8C6A4E"/><stop offset="1" stop-color="#6E4E38"/></linearGradient>
+      <linearGradient id="or2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B5763E"/><stop offset="1" stop-color="#8A5227"/></linearGradient>
+      <linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3C6B3E"/><stop offset="1" stop-color="#264A2A"/></linearGradient>
+    </defs>
+    <rect width="1440" height="760" fill="url(#sky)"/>
+    <circle cx="1090" cy="230" r="72" fill="#FCE8C6" opacity=".85"/>
+    <!-- 억새 안개 오름 -->
+    <path class="grass" d="M0 470 Q200 360 420 452 T900 450 Q1150 370 1440 460 L1440 760 0 760Z" fill="url(#or1)" opacity=".55"/>
+    <path class="grass" d="M0 540 Q260 430 560 520 T1080 512 Q1300 452 1440 528 L1440 760 0 760Z" fill="url(#or2)" opacity=".9"/>
+    <!-- 숲 지평 -->
+    <path d="M0 610 Q360 560 720 606 T1440 600 L1440 760 0 760Z" fill="url(#fg)"/>
+    <!-- 나무 실루엣 -->
+    <g fill="#22421F" opacity=".9">
+      <path d="M180 612c8-46 8-70 0-110-14 8-30 8-44 0 10 30 18 44 18 110z"/>
+      <path d="M1230 606c9-52 9-78 0-122-16 9-33 9-48 0 11 33 20 48 20 122z"/>
+    </g>
+    <!-- 단풍잎 낙엽 -->
+    <g opacity=".9">
+      <circle cx="330" cy="180" r="9" fill="#D9743F"/><circle cx="520" cy="120" r="7" fill="#C0492B"/>
+      <circle cx="760" cy="200" r="8" fill="#E7B45A"/><circle cx="980" cy="150" r="7" fill="#D9743F"/>
+      <circle cx="1180" cy="120" r="8" fill="#C0492B"/><circle cx="430" cy="250" r="6" fill="#E0913C"/>
+    </g>
+    <!-- 걷는 사람 실루엣 -->
+    <g fill="#1C3A1F" transform="translate(690 588)">
+      <circle cx="0" cy="-56" r="13"/><rect x="-9" y="-44" width="18" height="34" rx="8"/>
+      <rect x="-8" y="-12" width="7" height="26" rx="3" transform="rotate(10 -5 0)"/>
+      <rect x="2" y="-12" width="7" height="26" rx="3" transform="rotate(-14 5 0)"/>
+    </g>
+  </svg>
+  <img class="hero-photo" src="../../assets/hero.jpg" alt="2026생태관광주간 메인 이미지" onload="var n=document.getElementById('heroNote');if(n)n.remove()" onerror="this.remove()">
+  <!-- 히어로 루프 영상(무음·자동재생). 재생 불가/동작 줄임 설정이면 위 정지 이미지 유지 -->
+  <video class="hero-photo hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" poster="../../assets/hero.jpg" aria-hidden="true" tabindex="-1">
+    <source src="../../assets/hero_loop.webm" type="video/webm">
+    <source src="../../assets/hero_loop.mp4" type="video/mp4">
+  </video>
+  <div class="hero-scrim"></div>
+  <div class="hero-leaves" aria-hidden="true"><i>🍁</i><i>🍂</i><i>🍁</i></div>
+  <div class="hero-note" id="heroNote">🎨 메인 이미지 예정 · 임시 배경 <span class="tbd">미정</span></div>
+  <div class="hero-in">
+    <h1 class="hero-kicker">2026 생태관광주간 · 제주 가을 생태관광 프로그램</h1>
+    <p class="hero-title">제주, 나만의 계절이 되다</p>
+    <div class="hero-sub">오름 너머로, 제주 빛에 물들며</div>
+    <div class="hero-meta">
+      <span><b>기간</b> 2026.10.03(토)~10.09(금)</span>
+      <span><b>프로그램</b> 27개 · 제주 생태관광 마을·기관</span>
+      <span><b>주최</b> 제주생태관광협회 · 제주생태관광지원센터</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn primary" id="heroBook" href="#programs">예약하기 (탐나오 기획전)</a>
+      <a class="btn ghost" href="#programs">프로그램 둘러보기</a>
+      <button class="btn ghost" id="heroShare" type="button">공유하기</button>
+    </div>
+    <a class="hero-qr" href="https://www.tamnao.com/web/evnt/detailPromotion.do?prmtDiv=PLAN&prmtNum=PM00002412" target="_blank" rel="noopener">
+      <img src="../../assets/qr_tamnao.png" alt="탐나오 기획전 예약 QR 코드" onerror="this.style.display='none'">
+      <span class="qt"><b>탐나오 기획전 예약</b><i>QR을 찍으면 예약 페이지로 이동합니다</i></span>
+    </a>
+  </div>
+</header>
+
+<!-- INTRO -->
+<section class="intro" id="intro">
+  <div class="wrap">
+    <div class="eyebrow reveal">Introduction</div>
+    <div class="intro-slogan reveal">제주, 나만의 계절이 되다
+      <small>가을 — 오름 너머로, 제주 빛에 물들며</small>
+    </div>
+    <div class="intro-grid">
+      <div class="intro-copy reveal">
+        <p>여름의 바다를 지나, 가을의 제주는 <b>숲과 오름, 습지와 곶자왈, 동굴과 가로숲</b>으로 이어집니다. 걷고, 만지고, 귀 기울이는 동안 제주의 가을빛이 몸에 스밉니다.</p>
+        <p><b>2026생태관광주간</b>은 제주 곳곳의 마을과 사람들이 준비한 생태관광 프로그램을 한자리에 모았습니다. 지도와 카테고리로 원하는 프로그램을 찾고, 각 프로그램 담당처로 문의할 수 있습니다.</p>
+      </div>
+      <div class="reveal">
+        <div class="leaf-tags">
+          <span>🪸 습지</span><span>🌳 곶자왈</span><span>⛰️ 오름</span><span>🕳️ 동굴</span><span>🍂 가로숲</span><span>🌲 숲길</span><span>🕯️ 다크투어</span><span>🐬 바다</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="prog" id="programs">
+  <div class="wrap">
+    <div class="eyebrow reveal">Programs</div>
+    <h2 class="s-title reveal">제주 가을 생태관광 프로그램 27개</h2>
+    <p class="s-lead reveal">카테고리로 좁히거나 지도에서 위치를 확인하세요. 문의는 각 담당처 연락처로 연결됩니다. <b>시범 프로그램</b>은 무료 시범 운영으로 모집이 마감되어 예약할 수 없습니다.</p>
+
+    <div class="filters" id="filters" role="group" aria-label="카테고리 필터"></div>
+    <div class="viewtoggle" role="group" aria-label="보기 방식">
+      <button id="vCard" aria-pressed="true">카드 보기</button>
+      <button id="vMap" aria-pressed="false">지도 보기</button>
+    </div>
+
+    <div id="map-sec">
+      <div id="map" style="display:none"></div>
+    </div>
+    <p class="count" id="count">27개 프로그램 표시 · 전체 27개</p>
+    <div class="grid" id="grid">
+<!-- prerender:start (도구/prerender.py 자동 생성 — 직접 수정 금지) -->
+<article class="card" data-cat="습지">
+    <a class="card-img" href="../../program.html?id=p01"><img src="../../assets/photo/p01.jpg" alt="습지랑 찰방찰방 — 습지 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">습지</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">습지랑 찰방찰방</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">성산읍의 내륙습지를 직접 체험하며 습지와 그 주변의 다양한 생명을 관찰하는 프로그램.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>성산읍 내륙습지 조사팀</span></div>
+        <div class="row"><span class="k">장소</span><span>수산초등학교 정문 · 서귀포시 성산읍 수시로9</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03(토)·10.04(일) · 10:00~12:00 (20분 전 집결)</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p01">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002946" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p01" data-title="습지랑 찰방찰방" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="곶자왈">
+    <a class="card-img" href="../../program.html?id=p02"><img src="../../assets/photo/p02.jpg" alt="동박새가 들려주는 동백동산의 생명 이야기 — 곶자왈 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">곶자왈</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">동박새가 들려주는 동백동산의 생명 이야기</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">동백동산의 숨결을 담아 직접 제작한 나무 교구재로 나무의 특징과 역사, 생태계 속 소중한 역할을 알아보는 환경 프로그램.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>사회적협동조합 선흘곶</span></div>
+        <div class="row"><span class="k">장소</span><span>동백동산습지센터 · 제주시 조천읍 동백로 77</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03~10.09 매일 · 10:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p02">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002947" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p02" data-title="동박새가 들려주는 동백동산의 생명 이야기" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="습지">
+    <a class="card-img" href="../../program.html?id=p03"><img src="../../assets/photo/p03.jpg" alt="동백동산 기후탐사대 — 습지 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">습지</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">동백동산 기후탐사대</h3>
+      <div class="card-tags"><span class="badge demo">시범 프로그램</span> <span class="badge closed">모집 마감</span> </div>
+      <p class="card-desc">곶자왈 숲과 람사르습지가 공존하는 동백동산에서, 참가자가 기후탐사대원이 되어 숲과 습지를 직접 조사·체험하는 시민참여형 환경교육.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>사회적협동조합 선흘곶</span></div>
+        <div class="row"><span class="k">장소</span><span>동백동산습지센터 · 제주시 조천읍 동백로 77</span></div>
+        <div class="row"><span class="k">일정</span><span>10.07(수) · 10:00~12:00 (시범운영)</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p03">자세히 보기</a>
+        <span class="btn sm-line" style="opacity:.6;cursor:default">모집 마감</span>
+        <button class="btn sm-line share" type="button" data-id="p03" data-title="동백동산 기후탐사대" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="습지">
+    <a class="card-img" href="../../program.html?id=p04"><img src="../../assets/photo/p04.jpg" alt="오감찾기 프로젝트 — 습지 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">습지</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">오감찾기 프로젝트</h3>
+      <div class="card-tags"><span class="badge demo">시범 프로그램</span> <span class="badge closed">모집 마감</span> </div>
+      <p class="card-desc">람사르습지 동백동산에서 오감으로 느끼는 숲 체험·관찰로 생물다양성과 생태계 역할을 알아보고 생태감수성을 키우는 가족형 환경교육.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>사회적협동조합 선흘곶</span></div>
+        <div class="row"><span class="k">장소</span><span>동백동산습지센터 · 제주시 조천읍 동백로 77</span></div>
+        <div class="row"><span class="k">일정</span><span>10.07(수) · 10:00~12:00 (시범운영)</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p04">자세히 보기</a>
+        <span class="btn sm-line" style="opacity:.6;cursor:default">모집 마감</span>
+        <button class="btn sm-line share" type="button" data-id="p04" data-title="오감찾기 프로젝트" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="다크투어">
+    <a class="card-img" href="../../program.html?id=p05"><img src="../../assets/photo/p05.jpg" alt="걸어서 북촌리 다크투어 — 다크투어 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">다크투어</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">걸어서 북촌리 다크투어</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">제주4·3의 진실을 알렸던 현기영 작가의 단편소설 『순이삼촌』의 실제 배경이 된 북촌마을 4·3길을 함께 걸어요. 북촌마을은 4·3 동안 최단기간에 가장 많은 학살 피해를 당해 매년 같은 날 마을 전체가 제사를 지내는 역사 현장입니다. 마을 구석구석을 돌며 70여 년 전부터 지금까지 4·3의 진실을 마주해 봅니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>(사)제주다크투어</span></div>
+        <div class="row"><span class="k">장소</span><span>너븐숭이4·3기념관 · 제주시 조천읍 북촌3길 3</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03(토) · 09:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p05">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002948" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p05" data-title="걸어서 북촌리 다크투어" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="다크투어">
+    <a class="card-img" href="../../program.html?id=p06"><img src="../../assets/photo/p06.jpg" alt="걸어서 성산리 다크투어 — 다크투어 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">다크투어</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">걸어서 성산리 다크투어</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">세계자연유산 성산일출봉이 있는 성산리에는 우리가 잘 모르는 제주4·3의 역사가 있습니다. 많은 성산 주민들이 총살당했던 터진목에서 시작해 ‘다이너마이트 사건’으로 집단 총살당했던 우뭇개동산까지 걸으며 둘러보고, 성산지서 문형순 서장의 의로운 결정으로 많은 목숨을 살려낸 이야기를 통해 인권 존중의 의미를 되새겨 봅니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>(사)제주다크투어</span></div>
+        <div class="row"><span class="k">장소</span><span>프릳츠 제주성산점 옆 공영주차장 · 서귀포시 성산읍 성산리 399-123</span></div>
+        <div class="row"><span class="k">일정</span><span>10.04(일) · 09:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p06">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002949" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p06" data-title="걸어서 성산리 다크투어" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="다크투어">
+    <a class="card-img" href="../../program.html?id=p07"><img src="../../assets/photo/p07.jpg" alt="제주시내 원도심 나이트투어 — 다크투어 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">다크투어</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">제주시내 원도심 나이트투어</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">미군정 시기 성조기가 게양되었던 곳, 1947년 3월 1일 제주도민들이 ‘통일독립 전취하자’를 외친 곳. 제주 시내 골목골목을 따라 걷다 보면 그날의 기억이 떠오릅니다. 주변은 현재지만 바람은 과거의 그날인 곳을 함께 걸어봅니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>(사)제주다크투어</span></div>
+        <div class="row"><span class="k">장소</span><span>관덕정 · 제주시 관덕로 19</span></div>
+        <div class="row"><span class="k">일정</span><span>10.05(월) · 18:00~20:00 (야간)</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p07">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002950" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p07" data-title="제주시내 원도심 나이트투어" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="다크투어">
+    <a class="card-img" href="../../program.html?id=p08"><img src="../../assets/photo/p08.jpg" alt="걸어서 삼양리 다크투어 — 다크투어 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">다크투어</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">걸어서 삼양리 다크투어</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">선사시대 유적과 해수욕장으로 알려진 삼양리는 4·3 당시 토벌대와 무장대 양쪽으로부터 많은 피해를 입었습니다. 아직 흔적이 남은 4·3을 비롯한 삼양리 유적지를 둘러봅니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>(사)제주다크투어</span></div>
+        <div class="row"><span class="k">장소</span><span>불탑사 · 제주시 원당로16길 41 (삼양일동 696)</span></div>
+        <div class="row"><span class="k">일정</span><span>10.06(화) · 09:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p08">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002969" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p08" data-title="걸어서 삼양리 다크투어" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="다크투어">
+    <a class="card-img" href="../../program.html?id=p09"><img src="../../assets/photo/p09.jpg" alt="걸어서 서귀리 다크투어 — 다크투어 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">다크투어</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">걸어서 서귀리 다크투어</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">우리나라에서 유일하게 폭포수가 바다로 직접 떨어지는 해안폭포 정방폭포 일대는 제주 산남지역의 주요 학살터였습니다. 산남의 중심지였던 서귀리에는 제주4·3과 관련한 많은 역사 현장이 있고, 세월호 참사의 전신인 남영호 조난자 위령비까지 둘러보며 지금 우리가 꼭 기억해야 할 역사를 알아봅니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>(사)제주다크투어</span></div>
+        <div class="row"><span class="k">장소</span><span>정방폭포 주차장 · 서귀포시 동홍동 277</span></div>
+        <div class="row"><span class="k">일정</span><span>10.07(수) · 09:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p09">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002951" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p09" data-title="걸어서 서귀리 다크투어" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="다크투어">
+    <a class="card-img" href="../../program.html?id=p10"><img src="../../assets/photo/p10.jpg" alt="걸어서 도련리 다크투어 — 다크투어 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">다크투어</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">걸어서 도련리 다크투어</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">도련(道連)은 사면으로 모든 길이 이어져 있다 하여 붙은 이름입니다. 한라산과 가까운 도련1구와 해안마을과 가까웠던 도련2구의 4·3 역사는 매우 다릅니다. 4·3의 연장선에서 발생한 조작간첩 사건 피해자를 위한 공간 ‘수상한 집’을 찾아 강광보 님의 증언을 듣는 시간을 갖습니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>(사)제주다크투어</span></div>
+        <div class="row"><span class="k">장소</span><span>도련1동 4·3희생자 위령비 · 제주시 당주길 9</span></div>
+        <div class="row"><span class="k">일정</span><span>10.08(목) · 09:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p10">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002952" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p10" data-title="걸어서 도련리 다크투어" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="다크투어">
+    <a class="card-img" href="../../program.html?id=p11"><img src="../../assets/photo/p11.jpg" alt="작별하지 않는 다크투어 — 다크투어 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">다크투어</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">작별하지 않는 다크투어</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">노벨문학상을 수상한 한강 작가의 장편소설 『작별하지 않는다』를 주제로 진행하는 투어. 한강 작가는 ‘과거가 현재를 도울 수 있는가’, ‘죽은 자가 산 자를 구할 수 있는가’라는 질문을 던졌습니다. 이 질문에 대한 답을 함께 찾아가 봅니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>(사)제주다크투어</span></div>
+        <div class="row"><span class="k">장소</span><span>제주4·3평화공원 제4주차장 · 제주시 명림로 430</span></div>
+        <div class="row"><span class="k">일정</span><span>10.09(금) · 09:00~12:30</span></div>
+        <div class="row"><span class="k">비고</span><span>소수 정원(7명)</span></div>
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p11">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002970" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p11" data-title="작별하지 않는 다크투어" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="동굴">
+    <a class="card-img" href="../../program.html?id=p12"><img src="../../assets/photo/p12.jpg" alt="박쥐의 거꾸로 세상 — 수산2리 벌라릿굴 탐험 — 동굴 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">동굴</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">박쥐의 거꾸로 세상 — 수산2리 벌라릿굴 탐험</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> <span class="badge new">신규</span></div>
+      <p class="card-desc">수산2리 마을 생태해설사와 소리포집기를 들고 벌라릿굴에서 박쥐 소리를 체험하며 제주 천연동굴만의 자연의 소리를 온전히 느끼는 프로그램.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>서귀포시 수산2리 마을회</span></div>
+        <div class="row"><span class="k">장소</span><span>벌라릿 생태탐방숲 입구 · 서귀포시 성산읍 수산리 4083 (금백조로 배모양 전망대 앞)</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03(토)·10.04(일) · 09:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p12">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002953" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p12" data-title="박쥐의 거꾸로 세상 — 수산2리 벌라릿굴 탐험" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="곶자왈">
+    <a class="card-img" href="../../program.html?id=p13"><img src="../../assets/photo/p13.jpg" alt="저지곶자왈 — 빛이 숲을 떠나는 시간 — 곶자왈 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">곶자왈</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">저지곶자왈 — 빛이 숲을 떠나는 시간</h3>
+      <div class="card-tags"><span class="badge demo">시범 운영 병행</span> <span class="badge paid">유료</span> </div>
+      <p class="card-desc">숲을 설명하는 것을 넘어, 당신이 숲을 새롭게 보게 하는 것. 해가 낮아지는 시간, 곶자왈의 빛이 현무암과 잎 사이를 천천히 옮겨가는 장면을 오래 바라보고 사진과 나만의 한 줄로 기록하는 생태·예술 프로그램.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>저지리생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>저지오름보전관리정보센터 1층 · 제주시 한경면 저지9길 33</span></div>
+        <div class="row"><span class="k">일정</span><span>10.06(화)~10.09(금) · 17:00~19:00 (10.05은 시범운영·평가단)</span></div>
+        <div class="row"><span class="k">비고</span><span>10.05(월) 회차는 시범운영(평가단 전용)으로 일반 신청 불가</span></div>
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p13">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002954" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p13" data-title="저지곶자왈 — 빛이 숲을 떠나는 시간" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="곶자왈">
+    <a class="card-img" href="../../program.html?id=p15"><img src="../../assets/photo/p15.jpg" alt="볏바른궤 품은 원시림, 저지곶자왈 — 곶자왈 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">곶자왈</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">볏바른궤 품은 원시림, 저지곶자왈</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">생태해설사와 함께 제주4·3의 역사를 간직한 용암동굴 볏바른궤를 품은 저지곶자왈을 걸으며 곶자왈과 마을 사람들의 삶의 이야기를 만나는 2시간 탐방.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>저지리생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>제주시 한경면 저지리 주가흘길 84</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03~10.09 매일 · 10:00~12:00 (2시간)</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p15">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002966" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p15" data-title="볏바른궤 품은 원시림, 저지곶자왈" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="곶자왈">
+    <a class="card-img" href="../../program.html?id=p14"><img src="../../assets/photo/p14.jpg" alt="화순곶자왈 사운드워킹 — 곶자왈 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">곶자왈</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">화순곶자왈 사운드워킹</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">눈을 감으면 자연을 느낄 수 있어요. 곶자왈의 소리풍경에 귀 기울이며 걷는 사운드워킹.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>㈜더사운드벙커(슬리핑라이언)</span></div>
+        <div class="row"><span class="k">장소</span><span>화순곶자왈 생태탐방숲길 입구 · 안덕면 화순서동로 151 도로 맞은편</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03~10.07 · 10:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p14">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002956" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p14" data-title="화순곶자왈 사운드워킹" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="오름">
+    <a class="card-img" href="../../program.html?id=p16"><img src="../../assets/photo/p16.jpg" alt="하례리 보물찾기 — 내창(오전) — 오름 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">오름</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">하례리 보물찾기 — 내창(오전)</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">하례 감귤점빵에서 제주 전통 상웨빵과 쉰다리를 맛보고, 효돈천 내창 150m를 보물탐정처럼 탐방한 뒤 마을카페에서 블렌디드 허브티로 마무리하는 하례리 오전 코스.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>하례리생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>하례리생태관광지원센터 · 서귀포시 남원읍 하례로 393-1</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03~10.09 매일 · 10:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p16">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002957" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p16" data-title="하례리 보물찾기 — 내창(오전)" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="오름">
+    <a class="card-img" href="../../program.html?id=p17"><img src="../../assets/photo/p17.jpg" alt="하례리 보물찾기 — 숲길(오후) — 오름 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">오름</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">하례리 보물찾기 — 숲길(오후)</h3>
+      <div class="card-tags"><span class="badge demo">시범 운영 병행</span> <span class="badge paid">유료</span> </div>
+      <p class="card-desc">고살리숲에서 밧줄놀이와 숲 보물찾기 해설, 숲소리 오감 탐험을 하고 해먹에 누워 나만의 시간을 갖는 하례리 오후 코스.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>하례리생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>하례리생태관광지원센터 · 서귀포시 남원읍 하례로 393-1 (진행: 고살리숲, 하례리 산53-4)</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03~10.09 · 13:00~16:00 (10.06은 시범운영·평가단)</span></div>
+        <div class="row"><span class="k">비고</span><span>10.06(화) 회차는 시범운영(평가단 전용)으로 일반 신청 불가</span></div>
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p17">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002958" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p17" data-title="하례리 보물찾기 — 숲길(오후)" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="가로숲">
+    <a class="card-img" href="../../program.html?id=p18"><img src="../../assets/photo/p18.jpg" alt="육계나무, 백년향기를 만지다 — 가로숲 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">가로숲</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">육계나무, 백년향기를 만지다</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">제주에서 가장 오래된 육계나무 아래에서 나무의 역사와 이야기를 듣고 향기를 체험하며 나를 치유하는 프로그램.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>영천동사회적협동조합(자연놀이교실)</span></div>
+        <div class="row"><span class="k">장소</span><span>영천동 자연놀이교실 · 서귀포시 중산간동로 7757</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03·05·07·08·09 · 10:00~12:00 / 13:00~15:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p18">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002971" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p18" data-title="육계나무, 백년향기를 만지다" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="곶자왈">
+    <a class="card-img" href="../../program.html?id=p19"><img src="../../assets/photo/p19.jpg" alt="이성권과 함께하는 제주나무이야기 — 곶자왈 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">곶자왈</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">이성권과 함께하는 제주나무이야기</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">‘이야기로 만나는 제주의 나무’ 저자 이성권 작가와 함께 떠나는 나무 여행. 동백동산 곶자왈과 습지의 나무 이야기를 듣습니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>(주)평화여행자 · 이성권 작가</span></div>
+        <div class="row"><span class="k">장소</span><span>동백동산습지센터 · 제주시 조천읍 동백로 77</span></div>
+        <div class="row"><span class="k">일정</span><span>10.04(일) · 10:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p19">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002960" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p19" data-title="이성권과 함께하는 제주나무이야기" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="가로숲">
+    <a class="card-img" href="../../program.html?id=p20"><img src="../../assets/photo/p20.jpg" alt="탄소먹는 가로숲, 낭그늘 투어 — 가로숲 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">가로숲</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">탄소먹는 가로숲, 낭그늘 투어</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">제주 신화가 담긴 삼성혈에서 문예회관까지 가로수 그늘을 천천히 걸으며 후박나무·구실잣밤나무·왕벚나무·녹나무·멀구슬나무 등 제주 특산 나무의 중요성을 배우는 가로수 투어.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>환경교육강사</span></div>
+        <div class="row"><span class="k">장소</span><span>삼성혈 주차장 · 제주시 삼성로 22</span></div>
+        <div class="row"><span class="k">일정</span><span>10.05·09 · 오전 10:00~12:00 / 오후 14:00~16:00 · 10.06·08 · 오후 14:00~16:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p20">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002972" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p20" data-title="탄소먹는 가로숲, 낭그늘 투어" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="바다">
+    <a class="card-img" href="../../program.html?id=p27"><img src="../../assets/photo/p27.jpg" alt="우리가 돌고래를 만나는 법 — 바다 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">바다</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">우리가 돌고래를 만나는 법</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">대정읍 노을해안로에서 제주 남방큰돌고래를 생태해설사와 함께, 돌고래의 생태적 특성을 존중하는 방식으로 만나며 해양생태감수성을 기르는 프로그램.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>핫핑크돌핀스 · 남방큰돌고래 생태해설사</span></div>
+        <div class="row"><span class="k">장소</span><span>제주돌핀센터 · 서귀포시 대정읍 도원로17번길 5-7</span></div>
+        <div class="row"><span class="k">일정</span><span>10.06(화)~10.08(목) · 09:50 집결 ~ 12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p27">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002962" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p27" data-title="우리가 돌고래를 만나는 법" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="오름">
+    <a class="card-img" href="../../program.html?id=p21"><img src="../../assets/photo/p21.jpg" alt="숨, 평대 「인헤일러」 — 오름 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">오름</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">숨, 평대 「인헤일러」</h3>
+      <div class="card-tags"><span class="badge demo">시범 운영 병행</span> <span class="badge paid">유료</span> </div>
+      <p class="card-desc">평대의 기억을 가져갑니다. 돝오름 비자나무 둘레길을 걷고, 센터에서 평대의 향을 담은 「인헤일러」를 만드는 아로마 테라피 프로그램.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>평대리생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>돝오름 · 제주시 구좌읍 평대리 산16</span></div>
+        <div class="row"><span class="k">일정</span><span>10.06(화) · 10:00~12:00 (10.05은 시범운영·평가단)</span></div>
+        <div class="row"><span class="k">비고</span><span>10.05(월) 회차는 시범운영(평가단 전용)으로 일반 신청 불가</span></div>
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p21">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002973" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p21" data-title="숨, 평대 「인헤일러」" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="바다">
+    <a class="card-img" href="../../program.html?id=p22"><img src="../../assets/photo/p22.jpg" alt="바다를 품은 순비기 향낭 — 바다 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">바다</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">바다를 품은 순비기 향낭</h3>
+      <div class="card-tags"><span class="badge demo">시범 운영 병행</span> <span class="badge paid">유료</span> </div>
+      <p class="card-desc">제주 해안가에서 자라는 순비기나무 열매와 잎을 건조해 만든 향낭. 평대 바닷가의 순비기와 해녀 이야기를 만나고, 자연의 향기를 담은 향낭을 직접 만듭니다.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>평대리생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>평대초등학교 · 제주시 구좌읍 평대리 650</span></div>
+        <div class="row"><span class="k">일정</span><span>10.05(월) · 10:00~12:00 (10.06은 시범운영·평가단)</span></div>
+        <div class="row"><span class="k">비고</span><span>10.06(화) 회차는 시범운영(평가단 전용)으로 일반 신청 불가</span></div>
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p22">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002964" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p22" data-title="바다를 품은 순비기 향낭" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="바다">
+    <a class="card-img" href="../../program.html?id=p23"><img src="../../assets/photo/p23.jpg" alt="밭담 끝에 바다 — 바다 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">바다</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">밭담 끝에 바다</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">평대리 당근을 맛으로 만난 뒤, 바다의 모래와 밭의 돌이 만든 길을 따라 쉰모살까지 걸으며 농업·해녀문화·해안생태가 하나의 생활권으로 이어져 있음을 발견하는 2시간 생활 생태여행.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>평대리생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>평대리사무소 · 제주시 구좌읍 평대리 733</span></div>
+        <div class="row"><span class="k">일정</span><span>10.04(일) · 10:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p23">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002965" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p23" data-title="밭담 끝에 바다" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="숲길">
+    <a class="card-img" href="../../program.html?id=p24"><img src="../../assets/photo/p24.jpg" alt="다시 대나무, 오영희 장인의 호근 — 숲길 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">숲길</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">다시 대나무, 오영희 장인의 호근</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">제주도 무형문화재 전통 죽세공예 오영희 구덕장의 작업 시연을 보고 대나무를 쪼개고 다듬고 엮는 과정을 직접 경험하며, 차롱도시락을 먹고 호근동 주민들의 삶을 듣는 마을투어.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>호근동생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>호근동마을회관 · 서귀포시 호근남로 6 도로 맞은편</span></div>
+        <div class="row"><span class="k">일정</span><span>10.03(토) · 09:00~12:00</span></div>
+        
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p24">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002974" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p24" data-title="다시 대나무, 오영희 장인의 호근" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="숲길">
+    <a class="card-img" href="../../program.html?id=p25"><img src="../../assets/photo/p25.jpg" alt="미로숲길에서 쉬멍, 맛있게 차롱 — 숲길 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">숲길</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">미로숲길에서 쉬멍, 맛있게 차롱</h3>
+      <div class="card-tags"><span class="badge demo">시범 운영 병행</span> <span class="badge paid">유료</span> </div>
+      <p class="card-desc">숲을 보고 설명을 듣는 관광이 아니라, 미로숲길에서 쉼을 갖고 호흡하며 힐링하고, 차롱에 대해 알아보며 차롱도시락을 먹고 잠시 호근동 마을 사람처럼 살아보는 여행.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>호근동생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>미로숲길 입구 · 서귀포시 호근남로 6 도로 맞은편</span></div>
+        <div class="row"><span class="k">일정</span><span>10.04(일) · 09:00~12:00 (10.06은 시범운영·평가단)</span></div>
+        <div class="row"><span class="k">비고</span><span>10.06(화) 회차는 시범운영(평가단 전용)으로 일반 신청 불가</span></div>
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p25">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002968" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p25" data-title="미로숲길에서 쉬멍, 맛있게 차롱" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<article class="card" data-cat="숲길">
+    <a class="card-img" href="../../program.html?id=p26"><img src="../../assets/photo/p26.jpg" alt="미로숲놀이터 체험 — 자연놀이터 네트플레이 — 숲길 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">숲길</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">미로숲놀이터 체험 — 자연놀이터 네트플레이</h3>
+      <div class="card-tags"><span class="badge paid">유료</span> </div>
+      <p class="card-desc">숲속 자연환경을 활용한 미로숲놀이터에서 나무 사이에 설치된 네트 놀이와 숲속 이동·모험을 체험하며 자연과 교감하고 성취감을 느끼는 프로그램.</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>호근동생태관광마을협의체</span></div>
+        <div class="row"><span class="k">장소</span><span>미로숲길 입구 · 서귀포시 호근동 산6 (집결 시간은 예약 후 별도 안내)</span></div>
+        <div class="row"><span class="k">일정</span><span>10.09(금) · 10:00~12:00 (2시간)</span></div>
+        <div class="row"><span class="k">비고</span><span>운영: 호근동생태관광협의체 · 트리아이</span></div>
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=p26">자세히 보기</a>
+        <a class="btn primary" href="https://www.tamnao.com/web/sp/detailPrdt.do?prdtNum=SP00002967" target="_blank" rel="noopener">예약하기</a>
+        <button class="btn sm-line share" type="button" data-id="p26" data-title="미로숲놀이터 체험 — 자연놀이터 네트플레이" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div></article>
+<!-- prerender:end -->
+</div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="sched" id="schedule">
+  <div class="wrap">
+    <div class="eyebrow reveal">Schedule</div>
+    <h2 class="s-title reveal">전체 일정 <span class="tbd">일부 미정</span></h2>
+    <p class="s-lead reveal">2026.10.03(토)~10.09(금), 7일간. 날짜별로 진행되는 프로그램을 확인하고 프로그램을 눌러 안내로 이동하세요. 대부분 오전 10시 또는 오후 1시 시작이며, 정확한 시간은 각 프로그램 안내에서 확인하세요.</p>
+    <div class="cal reveal" id="cal"></div>
+    <div class="cal-legend" id="calLegend"></div>
+    <p class="note">※ <span style="color:var(--maple);font-weight:700">빨간 날짜</span>는 주말·공휴일(10.03 개천절, 10.05 대체공휴일, 10.09 한글날). 일부 프로그램은 세부 일정이 조정될 수 있습니다. 집결장소·요금이 확정 중인 프로그램은 상세 페이지에 표시됩니다.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-logos">
+        <div class="foot-logo"><img src="../../assets/logo_assoc.png" alt="사단법인 제주생태관광협회" onerror="this.replaceWith(document.createTextNode('제주생태관광협회'))"></div>
+        <div class="foot-logo"><img src="../../assets/logo_center.png" alt="제주특별자치도 생태관광지원센터" onerror="this.replaceWith(document.createTextNode('제주생태관광지원센터'))"></div>
+      </div>
+      <div class="foot-qrs">
+        <div class="foot-qr">
+          <img src="../../assets/qr.png" alt="홈페이지 QR" onerror="this.style.display='none'">
+          <span>홈페이지 열기</span>
+        </div>
+        <a class="foot-qr" href="https://www.tamnao.com/web/evnt/detailPromotion.do?prmtDiv=PLAN&prmtNum=PM00002412" target="_blank" rel="noopener">
+          <img src="../../assets/qr_tamnao.png" alt="탐나오 기획전 QR" onerror="this.style.display='none'">
+          <span>탐나오 예약</span>
+        </a>
+      </div>
+    </div>
+    <div class="foot-info" style="margin-top:22px">
+      <b>2026생태관광주간</b> · 주최·주관 : 제주생태관광협회 · 제주생태관광지원센터<br>
+      대표전화 : <a href="tel:0647823253" style="font-weight:700">064-782-3253</a> (사단법인 제주생태관광협회)
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 제주생태관광. 제작 : <a href="https://jejugrapher.com/" target="_blank" rel="noopener" style="font-weight:700;text-decoration:underline;text-underline-offset:3px">제주그래퍼</a></span>
+      <span>오름 너머로, 제주 빛에 물들며</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="../../assets/data.js"></script>
+<script>PROGRAMS.forEach(function(p){var f=function(v){return v&&v.indexOf('assets/')===0?'../../'+v:v;};p.img=f(p.img);if(p.gallery)p.gallery=p.gallery.map(f);if(p.posters)p.posters=p.posters.map(f);});</script>
+<script src="../../assets/share.js"></script>
+<script>
+/* 프로그램 데이터: assets/data.js (PROGRAMS, CATS) */
+const P = PROGRAMS;
+
+const grid=document.getElementById('grid'), filters=document.getElementById('filters'),
+      countEl=document.getElementById('count'), calEl=document.getElementById('cal');
+let activeCat="전체", map=null, markers=[];
+
+// 필터 칩 (카테고리 + 시범 프로그램 모아보기)
+function setFilter(c){activeCat=c;
+  document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x.textContent===c));render();}
+[...CATS, DEMO_FILTER].forEach(c=>{const b=document.createElement('button');b.className='chip'+(c===DEMO_FILTER?' demo':'');b.textContent=c;
+  b.setAttribute('aria-pressed',c===activeCat);b.onclick=()=>setFilter(c);filters.appendChild(b);});
+const navDemo=document.getElementById('navDemo');
+if(navDemo)navDemo.onclick=()=>{setFilter(DEMO_FILTER);};
+function matchFilter(p){return activeCat==="전체"||(activeCat===DEMO_FILTER?p.type==="시범":p.cat===activeCat);}
+
+function feeBadge(p){
+  if(p.closed)return '<span class="badge demo">시범 프로그램</span> <span class="badge closed">모집 마감</span>';
+  const demo=p.type==='시범'?'<span class="badge demo">시범 운영 병행</span> ':'';
+  if((p.fee||'').trim()==='무료')return demo+'<span class="badge free">무료</span>';
+  if(p.fee==='미정')return demo+'<span class="tbd">요금 미정</span>'; return demo+'<span class="badge paid">유료</span>';}
+function extraTags(p){let t='';(p.tags||[]).forEach(x=>{if(x==='new')t+='<span class="badge new">신규</span>';if(x==='center')t+='<span class="badge center">센터 단독</span>';});return t;}
+
+function card(p){
+  const bookBtn = p.closed
+    ? `<span class="btn sm-line" style="opacity:.6;cursor:default">모집 마감</span>`
+    : `<a class="btn primary" href="${p.tamnao||TAMNAO_PLAN||'#programs'}" ${(p.tamnao||TAMNAO_PLAN)?'target="_blank" rel="noopener"':''}>예약하기</a>`;
+  return `<article class="card" data-cat="${p.cat}">
+    <a class="card-img" href="../../program.html?id=${p.id}"><img src="${p.img||('../../assets/il_'+p.id+'.png')}" alt="${p.title} — ${p.cat} 생태관광 프로그램" loading="lazy" onerror="this.remove()"><span class="cat">${p.cat}</span><span class="ph">대표 이미지 준비중 · 미정</span></a>
+    <div class="card-body">
+      <h3 class="card-title">${p.title}${p.tbd?' <span class="tbd">미제출</span>':''}</h3>
+      <div class="card-tags">${feeBadge(p)} ${extraTags(p)}</div>
+      <p class="card-desc">${(p.desc||'').replace(/<[^>]+>/g,'')}</p>
+      <div class="card-meta">
+        <div class="row"><span class="k">운영</span><span>${p.op}</span></div>
+        <div class="row"><span class="k">장소</span><span>${p.place==='미정'?'<span class=\"tbd\">미정</span>':p.place}</span></div>
+        <div class="row"><span class="k">일정</span><span>${p.date==='미정'?'<span class=\"tbd\">미정</span>':p.date}</span></div>
+        ${p.note?`<div class="row"><span class="k">비고</span><span>${p.note}</span></div>`:''}
+      </div>
+      <div class="card-cta">
+        <a class="btn sm-line" href="../../program.html?id=${p.id}">자세히 보기</a>
+        ${bookBtn}
+        <button class="btn sm-line share" type="button" data-id="${p.id}" data-title="${p.title.replace(/"/g,'')}" title="공유하기" aria-label="공유하기">↗ 공유</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function render(){
+  const list=P.filter(matchFilter);
+  grid.innerHTML=list.map(card).join('');
+  countEl.textContent=activeCat===DEMO_FILTER
+    ? `시범 프로그램 ${list.length}개 · ‘모집 마감’은 무료 시범 전용, ‘시범 운영 병행’은 시범 회차 외 일반 신청 가능`
+    : `${list.length}개 프로그램 표시 · 전체 ${P.length}개`;
+  bindShare();
+  if(map)renderMarkers(list);
+}
+
+// 달력 (10.03 토 ~ 10.09 금)
+const DOW=['일','월','화','수','목','금','토'];
+function buildCalendar(){
+  let html='';
+  for(let d=3;d<=9;d++){
+    const dow=new Date(2026,9,d).getDay(); // 2026-10-d
+    const hol=HOLIDAYS[d];
+    const weekend=(dow===0||dow===6||hol)?' weekend':'';
+    const todays=P.filter(p=>(p.days||[]).includes(d));
+    const items=todays.length
+      ? todays.map(p=>`<a class="cal-item${p.closed?' demo':''}" href="../../program.html?id=${p.id}"><span class="dot" style="background:${p.closed?'#8B6BC0':(CAT_COLORS[p.cat]||'var(--forest)')}"></span>${p.title}${p.closed?' (시범)':''}</a>`).join('')
+      : '<span class="cal-empty">— 준비중</span>';
+    html+=`<div class="cal-day${weekend}"><div class="cal-date">10.${String(d).padStart(2,'0')}<span class="dow">${DOW[dow]}</span>${hol?`<span class="hol">${hol}</span>`:''}</div>${items}</div>`;
+  }
+  calEl.innerHTML=html;
+  const lg=document.getElementById('calLegend');
+  if(lg)lg.innerHTML=Object.entries(CAT_COLORS).map(([c,col])=>`<span><i class="dot" style="background:${col}"></i>${c}</span>`).join('')
+    +`<span><i class="dot" style="background:#8B6BC0"></i>시범 프로그램(모집 마감)</span>`;
+}
+buildCalendar();
+
+// 공유하기 (../../assets/share.js 공유 시트) — 공유 링크는 항상 공식 도메인 기준
+function bindShare(){
+  document.querySelectorAll('.share').forEach(b=>b.onclick=()=>{
+    const p=P.find(x=>x.id===b.dataset.id)||{};
+    openShare({url:`${SITE_URL}/program.html?id=${b.dataset.id}`,title:p.title||b.dataset.title,text:p.desc||'',img:p.img?`${SITE_URL}/${p.img}`:''});});
+}
+// 히어로 루프 영상: 재생 시작되면 페이드인, 실패하면 정지 이미지 유지
+(function(){
+  const hv=document.getElementById('heroVideo'), hero=document.getElementById('top');
+  if(!hv||!hero)return;
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){hv.removeAttribute('autoplay');hv.pause();hv.remove();return;}
+  const on=()=>hero.classList.add('video-on');
+  hv.addEventListener('playing',on,{once:true});
+  hv.addEventListener('error',()=>hv.remove(),{once:true});
+  const tryPlay=()=>{if(!hv.isConnected||!hv.paused)return;const p=hv.play();if(p&&p.catch)p.catch(()=>{});};
+  tryPlay();
+  // 탭이 숨김 상태로 열렸거나 자동재생이 막힌 경우: 다시 보일 때 / 첫 조작 시 재시도
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')tryPlay();});
+  ['pointerdown','touchstart','keydown','scroll'].forEach(ev=>window.addEventListener(ev,tryPlay,{once:true,passive:true}));
+})();
+// 히어로: 예약(탐나오)·공유
+const heroBook=document.getElementById('heroBook'), heroShare=document.getElementById('heroShare');
+if(TAMNAO_PLAN){heroBook.href=TAMNAO_PLAN;heroBook.target='_blank';heroBook.rel='noopener';}
+else heroBook.title='탐나오 기획전 링크 준비중';
+heroShare.onclick=()=>openShare({url:(SITE_URL||location.origin)+'/events/2026-autumn/',title:'2026생태관광주간 · '+SLOGAN_MAIN,text:SLOGAN_SUB+' — 2026.10.03~10.09 제주 가을 생태관광 프로그램',img:SITE_URL+'/assets/hero.jpg'});
+
+// 지도
+function initMap(){
+  map=L.map('map',{scrollWheelZoom:false}).setView([33.38,126.55],10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
+  renderMarkers(P.filter(p=>activeCat==="전체"||p.cat===activeCat));
+}
+function renderMarkers(list){
+  markers.forEach(m=>map.removeLayer(m));markers=[];
+  list.filter(p=>p.ll).forEach(p=>{
+    const mk=L.marker(p.ll).addTo(map).bindPopup(
+      `<div class="pin-t"><a href="../../program.html?id=${p.id}">${p.title}</a></div><div class="pin-m">${p.cat} · ${p.op}<br>${p.place&&p.place!=='미정'?p.place:(p.region||'')+' <span style="color:#9A6B14">· 정확한 주소 미정</span>'}</div><a class="pin-go" href="../../program.html?id=${p.id}">자세히 보기 →</a>`);
+    markers.push(mk);});
+}
+
+// 보기 전환
+const vCard=document.getElementById('vCard'), vMap=document.getElementById('vMap'), mapEl=document.getElementById('map');
+vCard.onclick=()=>{vCard.setAttribute('aria-pressed','true');vMap.setAttribute('aria-pressed','false');mapEl.style.display='none';grid.style.display='';};
+vMap.onclick=()=>{vMap.setAttribute('aria-pressed','true');vCard.setAttribute('aria-pressed','false');mapEl.style.display='';grid.style.display='none';
+  if(!map)initMap();setTimeout(()=>map.invalidateSize(),60);};
+
+render();
+
+// reveal
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

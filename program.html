@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script src="shared/gate.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>프로그램 안내 · 2026생태관광주간</title>
@@ -86,18 +87,20 @@ img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
 body.lbx-lock{overflow:hidden}
 footer{background:linear-gradient(180deg,var(--gold),var(--persimmon));color:#3A2A14;padding:34px 0;font-size:.9rem}
 </style>
+<style>#heroBook,.hero-qr,.eco-card-book,.eco-card-closed-badge,.films-reservation,a[href*="tamnao.com"],a[href*="docs.google.com/forms"]{display:none!important}</style>
 </head>
 <body>
+<div style="background:#1E3F27;color:#fff;font:500 14px/1.5 'Noto Sans KR',sans-serif;padding:9px 20px;text-align:center;position:relative;z-index:1000">지난 행사 보관 페이지 · 2026 가을 생태관광주간 · <a href="schedule.html" style="color:#fff;text-decoration:underline">행사 일정으로 돌아가기</a></div>
 <nav class="nav"><div class="nav-in">
-  <a class="nav-logo" href="index.html"><span class="mark">가</span>2026생태관광주간</a>
-  <a class="back" href="index.html#programs" onclick="if(document.referrer&&history.length>1){history.back();return false;}">← 프로그램 목록</a>
+  <a class="nav-logo" href="events/2026-autumn/index.html"><span class="mark">가</span>2026생태관광주간</a>
+  <a class="back" href="events/2026-autumn/index.html#programs" onclick="if(document.referrer&&history.length>1){history.back();return false;}">← 프로그램 목록</a>
 </div></nav>
 
 <div id="app"></div>
 
 <footer><div class="wrap">
   <b>2026생태관광주간</b> · 주최 제주생태관광협회 · 제주생태관광지원센터<br>
-  대표전화 <a href="tel:0647823253" style="font-weight:700">064-782-3253</a> · 예약 <a href="https://www.tamnao.com/web/evnt/detailPromotion.do?prmtDiv=PLAN&prmtNum=PM00002412" target="_blank" rel="noopener" style="font-weight:700">탐나오 기획전 페이지 ↗</a>
+  대표전화 <a href="tel:0647823253" style="font-weight:700">064-782-3253</a>
 <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(58,42,20,.18);font-size:.86rem">© 2026 제주생태관광. 제작 : <a href="https://jejugrapher.com/" target="_blank" rel="noopener" style="font-weight:700;text-decoration:underline;text-underline-offset:3px">제주그래퍼</a></div>
 </div></footer>
 
@@ -119,7 +122,7 @@ const v=x=>(!x||x==='미정')?'<span class="tbd">미정</span>':x;
 
 if(!p){
   app.innerHTML=`<div class="wrap miss"><h1 style="font-family:'Noto Serif KR',serif">프로그램을 찾을 수 없습니다</h1>
-    <p style="margin-top:10px">주소의 id 값을 확인해 주세요. <a class="back" href="index.html#programs">프로그램 목록으로</a></p></div>`;
+    <p style="margin-top:10px">주소의 id 값을 확인해 주세요. <a class="back" href="events/2026-autumn/index.html#programs">프로그램 목록으로</a></p></div>`;
 }else{
   document.title=`${p.title} · 2026생태관광주간`;
   // 검색엔진·공유용 메타 갱신(프로그램별)
