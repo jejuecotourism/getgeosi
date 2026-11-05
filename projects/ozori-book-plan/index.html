@@ -32,6 +32,7 @@ button:disabled{opacity:.65;cursor:wait}
   <input id="pw" type="password" inputmode="numeric" required autofocus>
   <p class="err" id="err" role="alert"></p>
   <button id="go" type="submit">열기</button>
+  <a href="../ozori-review/" style="display:block;margin-top:12px;padding:12px;border:2px solid #C0492B;border-radius:10px;color:#A83A20;font-weight:700;text-align:center;text-decoration:none">채록 검수 페이지로 가기 →</a>
 </form>
 <script>
 (function () {
@@ -52,7 +53,7 @@ button:disabled{opacity:.65;cursor:wait}
     open(input.value).then(function (html) {
       document.open(); document.write(html); document.close();
       document.body.insertAdjacentHTML('afterbegin',
-        '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;padding:10px 20px;background:#1E3F27;font:700 14px/1.5 sans-serif"><a href="../../projects.html" style="color:#fff;text-decoration:none">← 진행 사업</a><a href="../ozori-review/" style="color:#fff;text-decoration:none">채록 검수 보기 →</a></div>');
+        '<div style="position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;padding:10px 20px;background:#1E3F27;font:700 15px/1.5 sans-serif"><a href="../../projects.html" style="color:#fff;text-decoration:none">← 진행 사업</a><a href="../ozori-review/" style="display:inline-block;padding:10px 22px;border-radius:10px;background:#C0492B;color:#fff;font-size:17px;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.25)">채록 검수 보기 →</a></div>');
     }).catch(function () {
       err.textContent = '비밀번호가 맞지 않습니다.'; input.value = ''; input.focus();
       go.disabled = false; go.textContent = '열기';

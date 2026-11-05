@@ -15,7 +15,8 @@
   if (typeof PROJECTS !== 'undefined') {
     var box = document.getElementById('project-list');
     if (box) {
-      var active = PROJECTS.filter(function (p) { return !p.draft; });
+      var onHome = !!box.dataset.limit;
+      var active = PROJECTS.filter(function (p) { return !p.draft && !(onHome && p.notHome); });
       var limit = Number(box.dataset.limit) || active.length;
       box.innerHTML = active.slice(0, limit).map(function (p) {
         var label = p.status === 'done' ? '마무리' : '진행 중';
