@@ -14,7 +14,7 @@ const PROJECTS = [
   { title:"오조리 마을 해설 자료 제작", area:"마을과 주민",
     summary:"오조리 어르신들이 들려주는 옛 바다 이야기를 기록해 마을 해설 자료로 만듭니다.",
     status:"ongoing", url:"projects/ozori-book-plan/",
-    thumb:"assets/projects/ozori_card_thumbnail.jpg", alt:"오조리와 성산 일대를 찍은 1948년 흑백 항공사진", locked:true },
+    thumb:"assets/projects/ozori_pogu_thumbnail.jpg", alt:"오조리 내해에서 떼배에 앉아 있는 사람을 찍은 흑백 옛 사진", locked:true },
 
   { title:"해양생물 모니터링", area:"조사와 연구",
     summary:"제주 바다의 해양생물을 조사하고, 그 결과를 전시로 나눕니다.",
