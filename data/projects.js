@@ -9,18 +9,14 @@
    thumb   : 카드 사진 주소 (없으면 넣지 않음)
    alt     : 카드 사진 설명
    locked  : true면 카드에 '비밀번호 필요'를 표시합니다
-   notHome : true면 메인에는 나오지 않고 '진행 사업' 탭에만 나옵니다
+   links   : 카드 안에 버튼 여러 개를 넣을 때 [{ label:"버튼 글자", url:"주소" }] (이때 url은 "")
    draft   : true면 사이트에 나오지 않습니다 (공개 전 사업) */
 const PROJECTS = [
   { title:"오조리 마을 해설 자료 제작", area:"마을과 주민",
     summary:"오조리 어르신들이 들려주는 옛 바다 이야기를 기록해 마을 해설 자료로 만듭니다.",
-    status:"ongoing", url:"projects/ozori-book-plan/",
+    status:"ongoing", url:"",
+    links:[ { label:"기획안 보기", url:"projects/ozori-book-plan/" }, { label:"채록 검수 보기", url:"projects/ozori-review/" } ],
     thumb:"assets/projects/ozori_pogu_thumbnail.jpg", alt:"오조리 내해에서 떼배에 앉아 있는 사람을 찍은 흑백 옛 사진", locked:true },
-
-  { title:"오조리 채록 검수", area:"마을과 주민",
-    summary:"어르신별 채록 전문을 읽고, 확인할 곳을 체크하고 메모하는 검수 페이지입니다.",
-    status:"ongoing", url:"projects/ozori-review/",
-    thumb:"assets/projects/ozori_pogu_thumbnail.jpg", alt:"오조리 내해에서 떼배에 앉아 있는 사람을 찍은 흑백 옛 사진", locked:true, notHome:true },
 
   { title:"해양생물 모니터링", area:"조사와 연구",
     summary:"제주 바다의 해양생물을 조사하고, 그 결과를 전시로 나눕니다.",

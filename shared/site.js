@@ -15,8 +15,7 @@
   if (typeof PROJECTS !== 'undefined') {
     var box = document.getElementById('project-list');
     if (box) {
-      var onHome = !!box.dataset.limit;
-      var active = PROJECTS.filter(function (p) { return !p.draft && !(onHome && p.notHome); });
+      var active = PROJECTS.filter(function (p) { return !p.draft; });
       var limit = Number(box.dataset.limit) || active.length;
       box.innerHTML = active.slice(0, limit).map(function (p) {
         var label = p.status === 'done' ? '마무리' : '진행 중';
@@ -24,8 +23,11 @@
         var end = p.url ? '</a>' : '</div>';
         var thumb = p.thumb ? '<div class="project-thumb"><img src="' + root + p.thumb + '" alt="' + (p.alt || '') + '" loading="lazy"></div>' : '';
         var lock = p.locked ? '<span class="meta">🔒 비밀번호 필요</span>' : '';
+        var buttons = p.links ? '<div class="btn-row" style="margin-top:auto;padding-top:10px">' + p.links.map(function (l, i) {
+          return '<a class="btn' + (i ? ' line' : '') + '" href="' + root + l.url + '">' + l.label + '</a>';
+        }).join('') + '</div>' : '';
         return open + thumb + '<span class="tag ' + (p.status === 'done' ? 'done' : 'open') + '">' + label + '</span>' +
-          '<span class="meta">' + p.area + '</span><h3>' + p.title + '</h3><p class="meta">' + p.summary + '</p>' + lock + end;
+          '<span class="meta">' + p.area + '</span><h3>' + p.title + '</h3><p class="meta">' + p.summary + '</p>' + lock + buttons + end;
       }).join('');
     }
   }
