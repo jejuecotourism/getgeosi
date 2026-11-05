@@ -65,8 +65,17 @@
   </div>
   <p class="foot-note">이 사이트는 제주생태관광지원센터의 행사 안내와 기록을 위해 운영합니다. 센터의 공식 안내는 공식 홈페이지를 확인해 주세요. · 제작 : <a href="https://jejugrapher.com/" rel="noopener">제주그래퍼</a></p>
 </div></footer>
-<script src="data/events.js"></script>
-<script src="data/projects.js"></script>
-<script src="shared/site.js"></script>
+<script>
+/* 배포한 내용이 바로 보이도록 1분 단위 주소로 데이터와 스크립트를 불러옵니다. */
+(function () {
+  var t = Math.floor(Date.now() / 60000);
+  ['data/events.js', 'data/projects.js', 'shared/site.js'].forEach(function (src) {
+    var s = document.createElement('script');
+    s.src = src + '?t=' + t;
+    s.async = false;
+    document.body.appendChild(s);
+  });
+})();
+</script>
 </body>
 </html>
