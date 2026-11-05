@@ -21,8 +21,10 @@
         var label = p.status === 'done' ? '마무리' : '진행 중';
         var open = p.url ? '<a class="card project" href="' + root + p.url + '">' : '<div class="card project">';
         var end = p.url ? '</a>' : '</div>';
-        return open + '<span class="tag ' + (p.status === 'done' ? 'done' : 'open') + '">' + label + '</span>' +
-          '<span class="meta">' + p.area + '</span><h3>' + p.title + '</h3><p class="meta">' + p.summary + '</p>' + end;
+        var thumb = p.thumb ? '<div class="project-thumb"><img src="' + root + p.thumb + '" alt="' + (p.alt || '') + '" loading="lazy"></div>' : '';
+        var lock = p.locked ? '<span class="meta">🔒 비밀번호 필요</span>' : '';
+        return open + thumb + '<span class="tag ' + (p.status === 'done' ? 'done' : 'open') + '">' + label + '</span>' +
+          '<span class="meta">' + p.area + '</span><h3>' + p.title + '</h3><p class="meta">' + p.summary + '</p>' + lock + end;
       }).join('');
     }
   }
