@@ -1,64 +1,183 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-root="../../">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>비밀번호 입력 | 제주 에코투어리즘</title>
-<meta name="robots" content="noindex">
+<title>오고 생이 제주로 탐조대회 | 제주 에코투어리즘</title>
+<meta name="description" content="새를 따라, 습지를 만나다. 2026년 11월 14일 토요일 제주 오조리 연안습지 일대에서 열리는 오고 생이 제주로 탐조대회 안내입니다.">
+<meta property="og:title" content="오고 생이 제주로 탐조대회">
+<meta property="og:description" content="새를 따라, 습지를 만나다. 2026년 11월 14일 토요일, 제주 오조리 연안습지 일대">
+<meta property="og:image" content="https://jejuecotourism.com/events/2026-birding/cover.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/site.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;display:grid;place-items:center;padding:24px 20px;background:#F7F2E8;color:#2A2320;font-family:"Noto Sans KR",system-ui,sans-serif;word-break:keep-all}
-.panel{width:100%;max-width:420px;background:#fff;border:1px solid #E6DAC4;border-radius:16px;padding:30px 28px}
-.back{font-size:.9rem;font-weight:700;color:#2F5E3A}
-h1{font-family:"Noto Serif KR",serif;font-size:1.55rem;line-height:1.4;color:#1E3F27;margin-top:16px}
-.lead{margin-top:6px;color:#5E5248;font-size:.95rem;line-height:1.7}
-label{display:block;margin-top:20px;font-size:.88rem;font-weight:700}
-input{display:block;width:100%;min-height:48px;margin-top:6px;padding:10px 14px;font:inherit;font-size:16px;border:1px solid #CDBFA6;border-radius:10px;color:inherit}
-input:focus-visible,button:focus-visible{outline:3px solid #C0492B;outline-offset:2px}
-button{width:100%;min-height:48px;margin-top:12px;border:0;border-radius:10px;background:#2F5E3A;color:#fff;font:inherit;font-weight:700;cursor:pointer}
-button:disabled{opacity:.65;cursor:wait}
-.err{min-height:1.5em;margin-top:8px;color:#A83A20;font-size:.88rem;font-weight:500}
+.bd-cover{margin:0;background:var(--bg-deep)}
+.bd-cover img,.bd-poster img,.bd-fig img{height:auto}
+.bd-cover img{width:100%;max-height:520px;object-fit:cover}
+.bd-note{font-size:.82rem;color:var(--ink-faint);margin-top:8px}
+.bd-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:36px;align-items:start}
+.bd-poster{margin:0}
+.bd-poster img{width:100%;border-radius:var(--r);border:1px solid var(--line);box-shadow:var(--shadow)}
+.bd-time.facts{grid-template-columns:118px 1fr}
+.bd-time dd small{display:block;color:var(--ink-soft);font-size:.88rem;margin-top:2px}
+.bd-fig{margin:0}
+.bd-fig img{width:100%;border-radius:var(--r);border:1px solid var(--line)}
+.bd-list{margin:14px 0 0;padding-left:1.2em}
+.bd-list li{margin-top:6px}
+.bd-narrow{max-width:760px;margin-left:auto;margin-right:auto}
+.bd-chat{margin-top:24px;padding:20px 22px;border:2px solid #E9C83A;border-radius:var(--r);background:#FFF8D9}
+.bd-chat h3{margin:0;font-size:1.1rem}
+.bd-chat p{margin:8px 0 0}
+.bd-chat .btn{margin-top:14px;background:#3A1D1D;color:#FFE812}
+.bd-survey{border-color:#2F5E3A;background:#EEF5EC}
+.bd-survey .btn{background:#2F5E3A;color:#fff}
+.bd-survey-img{display:block;margin-top:14px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.bd-survey-img img{display:block;width:100%;height:auto}
+.bd-survey-img:hover img{opacity:.92}
+@media (max-width:760px){
+  .bd-two{grid-template-columns:1fr;gap:24px}
+  .bd-poster{max-width:340px}
+  .bd-time.facts{grid-template-columns:96px 1fr}
+}
 </style>
 </head>
 <body>
-<form class="panel" id="f" autocomplete="off">
-  <a class="back" href="../../schedule.html">← 행사 일정</a>
-  <h1>오고 생이 제주로 탐조대회</h1>
-  <p class="lead">검토용 자료입니다. 안내받은 비밀번호를 입력해 주세요.</p>
-  <label for="pw">비밀번호</label>
-  <input id="pw" type="password" inputmode="numeric" required autofocus>
-  <p class="err" id="err" role="alert"></p>
-  <button id="go" type="submit">열기</button>
-</form>
-<script>
-(function () {
-  var DATA = {"iter":600000,"salt":"11/aNSorr0v/1CxjozWoPw==","iv":"c1/x/Y+/Jg6mKtXv","ct":"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"};
-  function bytes(b64) { return Uint8Array.from(atob(b64), function (c) { return c.charCodeAt(0); }); }
-  function open(pw) {
-    return crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']).then(function (k) {
-      return crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: bytes(DATA.salt), iterations: DATA.iter }, k,
-        { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-    }).then(function (key) {
-      return crypto.subtle.decrypt({ name: 'AES-GCM', iv: bytes(DATA.iv) }, key, bytes(DATA.ct));
-    }).then(function (plain) { return new TextDecoder().decode(plain); });
-  }
-  document.getElementById('f').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var input = document.getElementById('pw'), err = document.getElementById('err'), go = document.getElementById('go');
-    err.textContent = ''; go.disabled = true; go.textContent = '여는 중';
-    open(input.value).then(function (html) {
-      document.open(); document.write(html); document.close();
-      document.body.insertAdjacentHTML('afterbegin',
-        '<a href="../../schedule.html" style="display:block;padding:10px 20px;background:#1E3F27;color:#fff;font:700 14px/1.5 sans-serif;text-decoration:none">← 행사 일정</a>');
-    }).catch(function () {
-      err.textContent = '비밀번호가 맞지 않습니다.'; input.value = ''; input.focus();
-      go.disabled = false; go.textContent = '열기';
-    });
-  });
-})();
-</script>
+<a class="skip" href="#main">본문 바로가기</a>
+<nav class="nav" aria-label="주 메뉴"><div class="wrap nav-in" style="position:relative">
+  <a class="brand" href="../../index.html">제주 에코투어리즘<small>제주생태관광지원센터 행사와 기록</small></a>
+  <button class="menu-btn" aria-expanded="false" aria-label="메뉴 열기">메뉴</button>
+  <div class="menu">
+    <a href="../../about.html">센터 소개</a>
+    <a href="../../ecotourism.html">생태관광이란</a>
+    <div class="has-sub">
+      <a href="../../work/index.html">하는 일</a>
+      <div class="sub">
+        <a href="../../work/index.html#program">생태관광 프로그램</a>
+        <a href="../../work/index.html#village">마을과 주민</a>
+        <a href="../../work/index.html#people">교육과 사람</a>
+        <a href="../../work/index.html#research">조사와 연구</a>
+        <a href="../../work/index.html#network">알림과 협력</a>
+      </div>
+    </div>
+    <a href="../../schedule.html" aria-current="page">행사·사업</a>
+    <a href="../../records.html">기록</a>
+    <a href="../../contact.html">문의</a>
+  </div>
+</div></nav>
+<main id="main">
+
+<div class="page-head"><div class="wrap">
+  <p><a class="more" href="../../schedule.html">← 행사 일정</a></p>
+  <span class="tag closed" style="margin-top:14px">모집 완료</span>
+  <h1 style="margin-top:8px">오고 생이 제주로 탐조대회</h1>
+  <p class="lead">새를 따라, 습지를 만나다</p>
+  <div class="bd-chat">
+      <h3>참가자는 오픈채팅방에 꼭 들어와 주세요</h3>
+      <p>대회 자료와 안내를 「2026오조리탐조대회(오고생이제주로탐조대회)」 오픈채팅방에서 드립니다. <strong>11월 8일 일요일까지</strong> 모두 들어와 주세요.</p>
+      <a class="btn" href="https://open.kakao.com/o/gR6nYNVi" rel="noopener" target="_blank">오픈채팅방 들어가기</a>
+    </div>
+  <div class="bd-chat bd-survey">
+    <h3>탐조대회 만족도 조사</h3>
+    <p>대회에 참가하신 분은 만족도 조사에 참여해 주세요. 다음 행사를 준비하는 데 쓰입니다.</p>
+    <a class="bd-survey-img" href="https://docs.google.com/forms/d/e/1FAIpQLSdA3VgQZSbP74LDKpfksfTDWPa1B33nuPlHCChQdpUMhvZfBg/viewform?usp=publish-editor" rel="noopener" target="_blank"><img src="survey_thumb.jpg" width="1200" height="630" alt="오고 생이 제주로 탐조대회 만족도 조사 참여하기"></a>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSdA3VgQZSbP74LDKpfksfTDWPa1B33nuPlHCChQdpUMhvZfBg/viewform?usp=publish-editor" rel="noopener" target="_blank">만족도 조사 참여하기</a>
+  </div>
+</div></div>
+
+<figure class="bd-cover">
+  <img src="cover.jpg" width="1376" height="768" alt="오조리 연안습지를 그린 색연필풍 그림. 저어새와 가마우지, 백로, 오리들이 물가에 있고 멀리 화산 봉우리가 보입니다.">
+</figure>
+
+<section><div class="wrap">
+  <div class="bd-two">
+    <div>
+      <h2>망원경 너머로 만나는 오조리의 겨울 손님</h2>
+      <p class="lead">제주 오조리 연안습지에서 만나는 멸종위기·희귀 철새와 다양한 겨울 철새를 관찰하며 자연의 소중함을 함께 느끼는 대회입니다. 해양보호구역인 오조리 연안습지를 찾는 철새를 시민이 직접 찾아 기록합니다.</p>
+      <dl class="facts" style="margin-top:20px">
+        <dt>일시</dt><dd>2026년 11월 14일 토요일, 09:00~16:00</dd>
+        <dt>장소</dt><dd>제주특별자치도 서귀포시 성산읍 오조리 연안습지 일대<br>집결 장소는 참가자 안내 문자로 알려 드립니다.</dd>
+        <dt>대상</dt><dd>지역 주민, 도내외 탐조인 (사전 신청, 80명 내외)</dd>
+        <dt>신청</dt><dd>모집이 끝났습니다.</dd>
+        <dt>주최</dt><dd>(사)제주생태관광협회</dd>
+        <dt>사업</dt><dd>2026 해양보호구역 인식증진 교육 및 홍보사업</dd>
+        <dt>참가자 채팅방</dt><dd><a href="https://open.kakao.com/o/gR6nYNVi" rel="noopener" target="_blank">카카오톡 오픈채팅방 들어가기</a><br>11월 8일 일요일까지 들어와 주세요.</dd>
+        <dt>만족도 조사</dt><dd><a href="https://docs.google.com/forms/d/e/1FAIpQLSdA3VgQZSbP74LDKpfksfTDWPa1B33nuPlHCChQdpUMhvZfBg/viewform?usp=publish-editor" rel="noopener" target="_blank">만족도 조사 참여하기</a></dd>
+        <dt>문의</dt><dd><a href="tel:0647823253">064-782-3253</a></dd>
+      </dl>
+    </div>
+    <figure class="bd-poster">
+      <a href="poster.jpg"><img src="poster.jpg" width="989" height="1400" loading="lazy" alt="오고 생이 제주로 탐조대회 포스터. 새를 따라, 습지를 만나다. 2026년 11월 14일 토요일 9시부터 16시까지, 오조리 일대, 주최 (사)제주생태관광협회."></a>
+    </figure>
+  </div>
+</div></section>
+
+<section class="alt"><div class="wrap bd-narrow">
+  <h2>'오고 생이'는 무슨 뜻일까요</h2>
+  <p class="lead">'오고생이'는 '고스란히'라는 뜻의 제주어입니다. 여기에 제주로 오는 새(생이)라는 뜻을 함께 담았습니다.</p>
+</div></section>
+
+<section><div class="wrap bd-narrow">
+  <h2>진행 순서</h2>
+  <dl class="facts bd-time" style="margin-top:16px">
+    <dt>09:00~09:30</dt><dd>현장 접수</dd>
+    <dt>09:30~10:30</dt><dd>개회식<small>운영 규정과 탐조 포인트 안내, 갯벌키퍼스 사용법, 가이드 배정</small></dd>
+    <dt>10:30~14:30</dt><dd>조별 탐조와 식사</dd>
+    <dt>14:30~15:30</dt><dd>강의 또는 탐조 능력 평가 시험</dd>
+    <dt>15:30~16:00</dt><dd>심사와 시상, 소감 발표</dd>
+  </dl>
+</div></section>
+
+<section class="alt"><div class="wrap bd-narrow">
+  <h2>어떻게 탐조하나요</h2>
+  <figure class="bd-fig" style="margin-top:16px">
+    <img src="birding_group.jpg" width="1376" height="768" loading="lazy" alt="가족 네 명이 뒷모습으로 나무 길에 서서 망원경과 쌍안경으로 습지의 새를 바라보는 색연필풍 그림.">
+  </figure>
+  <ul class="bd-list">
+    <li>조를 나눠 탐조 전문가, 마을 가이드와 함께 오조리 연안습지를 관찰합니다.</li>
+    <li>본 새는 갯벌키퍼스 앱과 기록지에 남깁니다.</li>
+    <li>기록과 평가를 바탕으로 심사해 시상합니다.</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap bd-narrow">
+  <h2>준비물</h2>
+  <ul class="bd-list">
+    <li>쌍안경 (대여 안내는 참가자 문자로 드립니다)</li>
+    <li>갯벌키퍼스 앱을 설치한 스마트폰</li>
+    <li>마실 것, 바람을 막아 주는 옷과 안전 장비</li>
+  </ul>
+  <h2 style="margin-top:36px">사진과 영상 촬영 안내</h2>
+  <p class="lead">대회 기록과 홍보를 위해 현장에서 사진과 영상을 촬영합니다. 현장 접수 때 활용 동의를 받으며, 미성년자는 보호자가 서명합니다. 동의하지 않는 분은 접수처에 알려 주세요.</p>
+  <p class="bd-note">이 페이지의 표지와 탐조 그림은 안내를 위해 AI로 만든 그림으로, 실제 장소나 관찰되는 새와 다를 수 있습니다.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+  <h2>행사 기록</h2>
+  <p class="lead">대회가 끝나면 사진과 영상, 결과를 이곳에 남깁니다.</p>
+  <div style="max-width:560px"><a class="bd-survey-img" href="https://docs.google.com/forms/d/e/1FAIpQLSdA3VgQZSbP74LDKpfksfTDWPa1B33nuPlHCChQdpUMhvZfBg/viewform?usp=publish-editor" rel="noopener" target="_blank"><img src="survey_thumb.jpg" width="1200" height="630" alt="오고 생이 제주로 탐조대회 만족도 조사 참여하기"></a></div>
+  <p class="btn-row"><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSdA3VgQZSbP74LDKpfksfTDWPa1B33nuPlHCChQdpUMhvZfBg/viewform?usp=publish-editor" rel="noopener" target="_blank">만족도 조사 참여하기</a></p>
+</div></section>
+
+</main>
+<footer><div class="wrap">
+  <div class="foot">
+    <div>
+      <h3>제주생태관광지원센터</h3>
+      <p>제주특별자치도 조천읍 조함해안로 19, 1층<br>전화 <a href="tel:0647823253">064-782-3253</a> · 팩스 064-782-3263</p>
+    </div>
+    <div>
+      <h3>바로가기</h3>
+      <p><a href="../../schedule.html">행사 일정</a><br><a href="../../projects.html">진행 사업</a><br><a href="../../records.html">기록</a><br><a href="../../contact.html">문의</a></p>
+    </div>
+    <div>
+      <h3>관련 사이트</h3>
+      <p><a href="https://www.jeju.go.kr/ecotour/index.htm" rel="noopener">제주생태관광지원센터 공식 홈페이지</a><br><a href="https://www.jejuecotour.com/" rel="noopener">(사)제주생태관광협회</a></p>
+    </div>
+  </div>
+  <p class="foot-note">이 사이트는 제주생태관광지원센터의 행사 안내와 기록을 위해 운영합니다. 센터의 공식 안내는 공식 홈페이지를 확인해 주세요. · 제작 : <a href="https://jejugrapher.com/" rel="noopener">제주그래퍼</a></p>
+</div></footer>
+<script src="../../shared/site.js"></script>
 </body>
 </html>
