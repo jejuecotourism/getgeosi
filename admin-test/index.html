@@ -1,1 +1,64 @@
-<!doctype html><html lang="ko" data-page-state="private"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>비공개 페이지 | 제주 에코투어리즘</title><style>body{min-height:100vh;display:grid;place-items:center;margin:0;padding:24px;background:#F7F2E8;color:#2A2320;font-family:sans-serif;text-align:center}a{color:#2F5E3A;font-weight:700}</style></head><body><main><h1>비공개 페이지입니다</h1><p>이 페이지는 지금 공개되어 있지 않습니다.</p><p><a href="/">홈으로</a></p></main></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>비밀번호 입력 | 제주 에코투어리즘</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:grid;place-items:center;padding:24px 20px;background:#F7F2E8;color:#2A2320;font-family:"Noto Sans KR",system-ui,sans-serif;word-break:keep-all}
+.panel{width:100%;max-width:420px;background:#fff;border:1px solid #E6DAC4;border-radius:16px;padding:30px 28px}
+.back{font-size:.9rem;font-weight:700;color:#2F5E3A}
+h1{font-family:"Noto Serif KR",serif;font-size:1.55rem;line-height:1.4;color:#1E3F27;margin-top:16px}
+.lead{margin-top:6px;color:#5E5248;font-size:.95rem;line-height:1.7}
+label{display:block;margin-top:20px;font-size:.88rem;font-weight:700}
+input{display:block;width:100%;min-height:48px;margin-top:6px;padding:10px 14px;font:inherit;font-size:16px;border:1px solid #CDBFA6;border-radius:10px;color:inherit}
+input:focus-visible,button:focus-visible{outline:3px solid #C0492B;outline-offset:2px}
+button{width:100%;min-height:48px;margin-top:12px;border:0;border-radius:10px;background:#2F5E3A;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+button:disabled{opacity:.65;cursor:wait}
+.err{min-height:1.5em;margin-top:8px;color:#A83A20;font-size:.88rem;font-weight:500}
+</style>
+</head>
+<body>
+<form class="panel" id="f" autocomplete="off">
+  <a class="back" href="/">← 홈으로</a>
+  <h1>관리자 시험</h1>
+  <p class="lead">검토용 자료입니다. 안내받은 비밀번호를 입력해 주세요.</p>
+  <label for="pw">비밀번호</label>
+  <input id="pw" type="password" inputmode="numeric" required autofocus>
+  <p class="err" id="err" role="alert"></p>
+  <button id="go" type="submit">열기</button>
+</form>
+<script>
+(function () {
+  var DATA = {"iter":600000,"salt":"72n/uRmFcNol5z5CQzk+PA==","iv":"481FjEtE5DJqKnZO","ct":"IU14bMpbeYInal9BWesK9l9qLrNW4EH7CddsI570WCV7N40zjq5KtxcvWTMcozPK6zOp5z7PRYoe6yc34j/AxOXHM8k+pvxWu/MBjIdRWtl9zjQDHWzhZOGwnIlDV2kLDSwk9DBqLT4ewlAoZdvrAeGAm/HD//DoWD4/J6UNBp0bRs9bIj5aRquyI/D9i6Vc7nmT/SUa1G8QW3ge3kg0szoeCmtJx+fCPYu/pekEV2ThaAk="};
+  function bytes(b64) { return Uint8Array.from(atob(b64), function (c) { return c.charCodeAt(0); }); }
+  function open(pw) {
+    return crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']).then(function (k) {
+      return crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: bytes(DATA.salt), iterations: DATA.iter }, k,
+        { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    }).then(function (key) {
+      return crypto.subtle.decrypt({ name: 'AES-GCM', iv: bytes(DATA.iv) }, key, bytes(DATA.ct));
+    }).then(function (plain) { return new TextDecoder().decode(plain); });
+  }
+  document.getElementById('f').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = document.getElementById('pw'), err = document.getElementById('err'), go = document.getElementById('go');
+    err.textContent = ''; go.disabled = true; go.textContent = '여는 중';
+    open(input.value).then(function (html) {
+      document.open(); document.write(html); document.close();
+      document.body.insertAdjacentHTML('afterbegin',
+        '<a href="/" style="display:block;padding:10px 20px;background:#1E3F27;color:#fff;font:700 14px/1.5 sans-serif;text-decoration:none">← 홈으로</a>');
+    }).catch(function () {
+      err.textContent = '비밀번호가 맞지 않습니다.'; input.value = ''; input.focus();
+      go.disabled = false; go.textContent = '열기';
+    });
+  });
+})();
+</script>
+</body>
+</html>
