@@ -61,8 +61,9 @@
   <p>(사)제주생태관광협회 · <span class="req">*</span> 표시는 필수 질문입니다.</p>
 </div></div>
 <section><div class="wrap sv">
+<div id="wait" class="done"><h2>11월 14일 오전 10시에 열립니다</h2><p>만족도 조사는 탐조대회 당일인 2026년 11월 14일 토요일 오전 10시부터 참여할 수 있습니다.</p><p style="margin-top:14px"><a class="btn" href="../">탐조대회 안내로 돌아가기</a></p></div>
 <div id="done" class="done" hidden><h2>제출되었습니다</h2><p>참여해 주셔서 감사합니다.</p><p style="margin-top:14px"><a class="btn" href="../">탐조대회 안내로 돌아가기</a></p></div>
-<form id="f" novalidate>
+<form id="f" novalidate hidden>
   <fieldset><legend>연령대는 어떻게 되십니까? <span class="req">*</span></legend><label class="o"><input type="radio" name="age" value="18세 이하" required> 18세 이하</label><label class="o"><input type="radio" name="age" value="18~29세" required> 18~29세</label><label class="o"><input type="radio" name="age" value="30~39세" required> 30~39세</label><label class="o"><input type="radio" name="age" value="40~49세" required> 40~49세</label><label class="o"><input type="radio" name="age" value="50~59세" required> 50~59세</label><label class="o"><input type="radio" name="age" value="60세 이상" required> 60세 이상</label></fieldset>
   <fieldset><legend>누구와 함께 참여하시게 되었나요? <span class="req">*</span></legend><label class="o"><input type="radio" name="with" value="가족" required> 가족</label><label class="o"><input type="radio" name="with" value="단체" required> 단체</label><label class="o"><input type="radio" name="with" value="친구" required> 친구</label><label class="o"><input type="radio" name="with" value="개인" required> 개인</label><label class="o"><input type="radio" name="with" value="기타" required> 기타 <input type="text" data-other="with" aria-label="기타 내용" style="flex:1"></label></fieldset>
   <fieldset><legend>어디에 살고 계신가요? <span class="req">*</span></legend><label class="o"><input type="radio" name="home" value="제주도 내" required> 제주도 내</label><label class="o"><input type="radio" name="home" value="제주도 외" required> 제주도 외</label></fieldset>
@@ -87,7 +88,10 @@
 <script>
 (function(){
   var URL_='https://script.google.com/macros/s/AKfycbyPl0F24k3x3vnggSwOdDilt4vDr3XAFvt7RdrLKK6C65nos_D_kxstgmWcdbJAdYD3yA/exec', KEY='birding2026-survey-done', f=document.getElementById('f'), msg=document.getElementById('msg'), go=document.getElementById('go');
-  function done(){ f.hidden=true; document.getElementById('done').hidden=false; window.scrollTo(0,0); }
+  var OPEN=new Date('2026-11-14T10:00:00+09:00'), W=document.getElementById('wait');
+  function opened(){ if(new Date()>=OPEN){ W.hidden=true; f.hidden=false; return true; } return false; }
+  if(!opened()){ var iv=setInterval(function(){ if(opened()) clearInterval(iv); },30000); }
+  function done(){ W.hidden=true;  f.hidden=true; document.getElementById('done').hidden=false; window.scrollTo(0,0); }
   try{ if(localStorage.getItem(KEY)) done(); }catch(e){}
   f.querySelectorAll('[data-other]').forEach(function(t){ t.addEventListener('input',function(){ var r=f.querySelector('input[name="'+t.dataset.other+'"][value="기타"]'); if(r) r.checked=true; }); });
   f.addEventListener('submit',function(e){
@@ -99,7 +103,7 @@
     if(miss.length){ msg.className='msg bad'; msg.textContent='필수 질문에 모두 답해 주세요.'; var el=f.querySelector('[name="'+miss[0]+'"]'); if(el) el.closest('fieldset').scrollIntoView({block:'center'}); return; }
     var hp=a.hp; delete a.hp; go.disabled=true; go.textContent='보내는 중…';
     fetch(URL_,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({form:'birding2026-survey',hp:hp,answers:a})}).then(function(r){return r.json();}).then(function(j){
-      if(!j.ok) throw 0; try{localStorage.setItem(KEY,'1');}catch(e){} done();
+      if(j.notOpen){ f.hidden=true; W.hidden=false; go.disabled=false; go.textContent='제출하기'; window.scrollTo(0,0); return; } if(!j.ok) throw 0; try{localStorage.setItem(KEY,'1');}catch(e){} done();
     }).catch(function(){ msg.className='msg bad'; msg.textContent='보내지 못했습니다. 잠시 뒤 다시 눌러 주세요.'; go.disabled=false; go.textContent='제출하기'; });
   });
 })();
