@@ -70,15 +70,15 @@ function api(o){o.session=S;return fetch(API,{method:'POST',headers:{'Content-Ty
   if(!j.ok)throw new Error(j.error||'처리하지 못했습니다.');return j})}
 function out(){S=null;try{sessionStorage.removeItem('adm')}catch(e){}$('#app').hidden=true;$('#who').hidden=true;$('#login').hidden=false}
 function start(){$('#login').hidden=true;$('#app').hidden=false;$('#who').hidden=false;
-  api({action:'status'}).then(function(j){status=j;tab(location.hash.slice(1)||'pages')}).catch(function(e){toast(e.message)})}
+  api({action:'status'}).then(function(j){status=j;var h=location.hash.slice(1).split('/');tab(h[0]||'pages',h[1])}).catch(function(e){toast(e.message)})}
 $('#login').addEventListener('submit',function(e){e.preventDefault();$('#lg').disabled=true;$('#lm').textContent='';
   fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'login',pw:$('#lp').value})}).then(function(r){return r.json()}).then(function(j){
     if(!j.ok)throw new Error(j.error);S=j.session;try{sessionStorage.setItem('adm',S)}catch(e){}$('#lp').value='';start()}).catch(function(x){$('#lm').textContent=x.message||'로그인하지 못했습니다.'}).finally(function(){$('#lg').disabled=false})});
 $('#logout').onclick=function(){api({action:'logout'}).catch(function(){}).finally(out)};
-function tab(n){if(!TABS.some(function(t){return t[0]===n}))n='pages';location.hash=n;
+function tab(n,sub){if(!TABS.some(function(t){return t[0]===n}))n='pages';location.hash=n+(sub?'/'+sub:'');
   $('#tabs').innerHTML=TABS.map(function(t){return '<button role="tab" aria-selected="'+(t[0]===n)+'" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('');
   $('#tabs').querySelectorAll('button').forEach(function(b){b.onclick=function(){tab(b.dataset.t)}});
-  ({pages:vPages,cards:vCards,survey:function(){vList('birding2026-survey','탐조대회 만족도 조사')},contact:function(){vList('contact','문의')},report:function(){vList('birding2026-bird-report','새 정보 수정 의견')},settings:vSettings})[n]()}
+  ({pages:vPages,cards:vCards,survey:function(){vSurveys(sub)},contact:function(){vList('contact','문의')},report:function(){vList('birding2026-bird-report','새 정보 수정 의견')},settings:vSettings})[n]()}
 /* 페이지 */
 function live(p){return fetch('/'+p.replace(/index\.html$/,'')+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})}
 function stateOf(t){if(t.indexOf('data-page-state="private"')>=0)return'private';if(t.indexOf('crypto.subtle')>=0)return'password';return'public'}
@@ -126,15 +126,32 @@ function vCards(){$('#view').innerHTML='<h2>카드 공개</h2><p class="note">�
     $('#cl').innerHTML='<h3>행사</h3><table><thead><tr><th>카드</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+ev.map(function(e){return row('data/events.js','id:"'+e.id+'"',e.title,e.start,e)}).join('')+'</tbody></table><h3>진행 사업</h3><table><thead><tr><th>카드</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+pr.map(function(p){return row('data/projects.js','title:"'+p.title+'"',p.title,p.area,p)}).join('')+'</tbody></table>';
     $('#cl').querySelectorAll('[data-f]').forEach(function(b){b.onclick=function(){if(needGH())return;b.disabled=true;toast('저장하는 중…',60000);api({action:'cardSet',file:b.dataset.f,key:b.dataset.k,field:b.dataset.field,on:!!b.dataset.on}).then(function(){toast('저장했습니다. 1~2분 뒤 반영됩니다.',7000);setTimeout(vCards,2500)}).catch(function(e){toast(e.message,8000);b.disabled=false})}})
   }).catch(function(e){$('#cl').textContent='불러오지 못했습니다: '+e.message})}
+/* 만족도 조사: 행사 목록에서 행사를 눌러 봅니다. 행사와 양식은 data/events.js 의 survey 값으로 잇습니다 */
+var SURVEY_STATS={'birding2026-survey':{counts:[11,12]}};
+function vSurveys(id){$('#view').innerHTML='<h2>만족도 조사</h2><p class="note">행사 이름을 누르면 그 행사의 응답을 봅니다.</p><div id="sl">불러오는 중…</div>';
+  fetch('/data/events.js?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){
+    var ev=new Function(t+';return EVENTS')().sort(function(a,b){return a.start<b.start?1:-1});
+    var pick=ev.filter(function(e){return e.id===id&&e.survey})[0];
+    if(pick)return openSurvey(pick);
+    if(id)location.hash='survey';
+    $('#sl').innerHTML='<table><thead><tr><th>행사</th><th>날짜</th><th>조사</th><th>응답</th></tr></thead><tbody>'+ev.map(function(e,i){
+      return '<tr><td>'+(e.survey?'<button class="btn" data-ev="'+i+'">'+esc(e.title)+'</button>':esc(e.title))+(e.draft?' <span class="chip private">비공개</span>':'')+'</td><td>'+esc(e.start)+'</td><td>'+(e.survey?'있음':'<span class="note">없음</span>')+'</td><td id="sc'+i+'">'+(e.survey?'확인 중':'-')+'</td></tr>'}).join('')+'</tbody></table>';
+    ev.forEach(function(e,i){if(!e.survey)return;api({action:'list',form:e.survey}).then(function(j){var c=$('#sc'+i);if(c)c.textContent=j.rows.length+'건'}).catch(function(x){var c=$('#sc'+i);if(c)c.textContent=x.message})});
+    $('#sl').querySelectorAll('[data-ev]').forEach(function(b){b.onclick=function(){openSurvey(ev[+b.dataset.ev])}})
+  }).catch(function(e){$('#sl').textContent='불러오지 못했습니다: '+e.message})}
+function openSurvey(e){location.hash='survey/'+e.id;vList(e.survey,e.title+' 만족도 조사',function(){location.hash='survey';vSurveys()},true)}
+function surveyStats(form,h,r){if(!r.length)return '';var cfg=SURVEY_STATS[form]||{},nums=[];
+  h.forEach(function(k,c){if(!c)return;var v=r.map(function(x){return x[c]}).filter(function(x){return String(x).trim()!==''});if(v.length&&v.every(function(x){return !isNaN(Number(x))}))nums.push(c)});
+  var html=nums.length?'<div class="stats">'+nums.map(function(c){var s=0,n=0;r.forEach(function(x){if(String(x[c]).trim()!==''){s+=Number(x[c]);n++}});return '<div class="stat"><b>'+(s/n).toFixed(2)+'</b>'+esc(h[c])+'</div>'}).join('')+'</div>':'';
+  var cnt=function(c){var m={};r.forEach(function(x){m[x[c]]=(m[x[c]]||0)+1});return esc(h[c])+': '+esc(Object.keys(m).map(function(k){return k+' '+m[k]}).join(' · '))};
+  if(cfg.counts)html+='<p class="note">'+cfg.counts.map(cnt).join('<br>')+'</p>';return html}
 /* 응답 */
-function vList(form,title){$('#view').innerHTML='<h2>'+esc(title)+'</h2><div id="ls">불러오는 중…</div>';
+function vList(form,title,back,isSurvey){$('#view').innerHTML=(back?'<p><button class="btn" id="bk">← 행사 목록</button></p>':'')+'<h2>'+esc(title)+'</h2><div id="ls">불러오는 중…</div>';if(back)$('#bk').onclick=back;
   api({action:'list',form:form}).then(function(j){var h=j.heads,r=j.rows.slice().reverse(),html='<p><b>'+r.length+'건</b> <button class="btn" id="csv">엑셀용 CSV 내려받기</button> <button class="btn" id="re">새로고침</button>'+(status.sheet?' <a class="btn" style="display:inline-block;text-decoration:none" href="'+status.sheet+'" target="_blank">구글 시트 열기</a>':'')+(j.folder?' <a class="btn" style="display:inline-block;text-decoration:none" href="'+j.folder+'" target="_blank">드라이브 폴더 열기</a> <button class="btn" id="sd">드라이브에 빠진 응답 저장</button>':'')+'</p>';
     if(j.opens)html+='<p class="note">조사 오픈: '+esc(j.opens.replace('T',' ').replace(':00+09:00',''))+'</p>';
-    if(form==='birding2026-survey'&&r.length){var nums=[5,6,7,8].map(function(c){var s=0;r.forEach(function(x){s+=Number(x[c])||0});return '<div class="stat"><b>'+(s/r.length).toFixed(2)+'</b>'+esc(h[c])+'</div>'}).join('');
-      var cnt=function(c){var m={};r.forEach(function(x){m[x[c]]=(m[x[c]]||0)+1});return Object.keys(m).map(function(k){return k+' '+m[k]}).join(' · ')};
-      html+='<div class="stats">'+nums+'</div><p class="note">추천 의향: '+esc(cnt(11))+'<br>재신청 의사: '+esc(cnt(12))+'</p>'}
+    if(isSurvey)html+=surveyStats(form,h,r);
     html+=r.length?'<table><thead><tr><th>내려받기</th>'+h.map(function(x){return '<th>'+esc(x)+'</th>'}).join('')+'</tr></thead><tbody>'+r.map(function(x,ri){return '<tr><td><button class="btn" data-dl="'+ri+'">받기</button></td>'+x.map(function(v){return '<td>'+esc(v)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>':'<p class="note">아직 들어온 내용이 없습니다.</p>';
-    $('#ls').innerHTML=html;$('#re').onclick=function(){vList(form,title)};
+    $('#ls').innerHTML=html;$('#re').onclick=function(){vList(form,title,back,isSurvey)};
     if($('#sd'))$('#sd').onclick=function(){toast('저장하는 중…',60000);api({action:'syncDrive',form:form}).then(function(x){toast('새로 저장 '+x.made+'건, 전체 '+x.total+'건입니다.',7000)}).catch(function(e){toast(e.message,8000)})};
     var save=function(name,type,c){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:type}));a.download=name;a.click()};
     $('#ls').querySelectorAll('[data-dl]').forEach(function(b){b.onclick=function(){var x=r[+b.dataset.dl];save(form+'_'+String(x[0]).replace(/[^0-9]/g,'')+'.txt','text/plain;charset=utf-8','\ufeff'+h.map(function(k,i){return k+': '+x[i]}).join('\r\n')+'\r\n')}});
