@@ -6,7 +6,7 @@
    summary : 한두 문장 소개
    status  : ongoing 진행 중 | done 마무리
    url     : 더 볼 페이지 주소 (없으면 "")
-   thumb   : 카드 사진 주소 (없으면 넣지 않음)
+   thumb   : 카드 사진 주소. 새 카드에는 반드시 넣습니다
    alt     : 카드 사진 설명
    locked  : true면 카드에 '비밀번호 필요'를 표시합니다
    links   : 카드 안에 버튼 여러 개를 넣을 때 [{ label:"버튼 글자", url:"주소" }] (이때 url은 "")
@@ -24,11 +24,13 @@ const PROJECTS = [
 
   { title:"곶자왈·오름 특화사업", area:"생태관광 프로그램",
     summary:"곶자왈과 오름을 중심으로 생태관광을 키우는 사업입니다.",
-    status:"ongoing", url:"" },
+    status:"ongoing", url:"",
+    thumb:"assets/img/p13.jpg", alt:"저지곶자왈 숲 사이로 빛이 드는 모습" },
 
   { title:"가로수길 지도 제작", area:"알림과 협력",
     summary:"가로수길 지도를 앞뒤 2면으로 만들고 있습니다. 지금은 인쇄 전 시안을 검토하는 단계입니다.",
-    status:"ongoing", url:"projects/garosugil-map/", locked:true },
+    status:"ongoing", url:"projects/garosugil-map/",
+    thumb:"assets/projects/garosugil_thumbnail.jpg", alt:"2022년 가로수길 지도 표지의 나무 그림", locked:true },
 
   { title:"생태관광 자문단 운영", area:"알림과 협력",
     summary:"전문가와 함께 제주 생태관광의 방향을 논의합니다.",
