@@ -63,6 +63,11 @@ var TABS=[['pages','페이지 공개·비밀번호'],['cards','카드 공개'],[
 var $=function(s){return document.querySelector(s)};
 var S=null; try{S=sessionStorage.getItem('adm')}catch(e){}
 var status={};
+var OWNS={'협회':['#e3efe4','#1e3f27'],'센터':['#dcecf0','#0f5c6e'],'공동':['#ece6f4','#4a3573'],'외주':['#f6e3dc','#8a3a1c'],'미정':['#fbeed5','#7a4a00']};
+function own(c){var o=(c&&c.owner)||'미정',k=OWNS[o]||OWNS['미정'];return '<span style="display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;background:'+k[0]+';color:'+k[1]+'">'+esc(o)+'</span>'}
+function ownNote(c){return c&&c.ownerNote?'<br><span class="note">'+esc(c.ownerNote)+'</span>':''}
+function loadCards(){return Promise.all(['events','projects'].map(function(n){return fetch('/data/'+n+'.js?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})})).then(function(a){return {ev:new Function(a[0]+';return EVENTS')(),pr:new Function(a[1]+';return PROJECTS')()}})}
+function pageCard(path,d){var m=path.match(/^events\/([^/]+)\//);if(m)return d.ev.filter(function(e){return e.id===m[1]})[0];var dir=path.replace(/index\.html$/,'');return d.pr.filter(function(p){return p.url&&dir.indexOf(p.url)===0||(p.links||[]).some(function(l){return dir.indexOf(l.url)===0})})[0]}
 function esc(s){var d=document.createElement('div');d.textContent=s==null?'':s;return d.innerHTML}
 function toast(m,ms){var t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(function(){t.style.display='none'},ms||5000)}
 function api(o){o.session=S;return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(o)}).then(function(r){return r.json()}).then(function(j){
@@ -86,10 +91,11 @@ var LBL={public:'공개',private:'비공개',password:'비밀번호',checking:'�
 function needGH(){if(!status.github){toast('먼저 설정 탭에서 GitHub를 연결해 주세요.',7000);tab('settings');return true}return false}
 function vPages(){
   $('#view').innerHTML='<h2>사이트 전체</h2><p class="note">전체 비공개는 "준비 중" 화면을 씌웁니다. 내용을 암호화하는 것은 아니며, 비밀번호 페이지는 그대로 비밀번호로 보호됩니다.</p><p><b>현재: <span id="sc">확인 중</span></b> <button class="btn" id="sOpen">전체 공개</button><button class="btn warn" id="sClose">전체 비공개</button></p>'+
-  '<h2 style="margin-top:24px">페이지별</h2><p class="note">바꾼 내용은 1~2분 뒤 사이트에 반영됩니다. 비밀번호 페이지는 내용을 암호화합니다. 저장소가 공개라 이전에 공개했던 내용은 GitHub 기록에 남습니다.</p><table><thead><tr><th>페이지</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+
-  PAGES.map(function(p,i){return '<tr><td><a href="/'+p[0].replace(/index\.html$/,'')+'" target="_blank">'+esc(p[1])+'</a></td><td><span class="chip checking" id="st'+i+'">확인 중</span></td><td><button class="btn" data-a="public" data-i="'+i+'">공개</button><button class="btn" data-a="password" data-i="'+i+'">비밀번호 설정·변경</button><button class="btn warn" data-a="private" data-i="'+i+'">비공개</button></td></tr>'}).join('')+'</tbody></table>';
+  '<h2 style="margin-top:24px">페이지별</h2><p class="note">바꾼 내용은 1~2분 뒤 사이트에 반영됩니다. 비밀번호 페이지는 내용을 암호화합니다. 저장소가 공개라 이전에 공개했던 내용은 GitHub 기록에 남습니다.</p><table><thead><tr><th>페이지</th><th>주최</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+
+  PAGES.map(function(p,i){return '<tr><td><a href="/'+p[0].replace(/index\.html$/,'')+'" target="_blank">'+esc(p[1])+'</a></td><td id="ow'+i+'">-</td><td><span class="chip checking" id="st'+i+'">확인 중</span></td><td><button class="btn" data-a="public" data-i="'+i+'">공개</button><button class="btn" data-a="password" data-i="'+i+'">비밀번호 설정·변경</button><button class="btn warn" data-a="private" data-i="'+i+'">비공개</button></td></tr>'}).join('')+'</tbody></table>';
   fetch('/data/site.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){$('#sc').textContent=j.closed?'전체 비공개':'전체 공개'}).catch(function(){$('#sc').textContent='전체 공개'});
   $('#sOpen').onclick=function(){siteSet(false)};$('#sClose').onclick=function(){siteSet(true)};
+  loadCards().then(function(d){PAGES.forEach(function(p,i){var c=pageCard(p[0],d),x=$('#ow'+i);if(c&&x)x.innerHTML=own(c)})}).catch(function(){});
   PAGES.forEach(function(p,i){live(p[0]).then(function(t){setChip(i,stateOf(t))}).catch(function(){})});
   $('#view').querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){act(+b.dataset.i,b.dataset.a)}})}
 function setChip(i,s){var c=$('#st'+i);if(c){c.className='chip '+s;c.textContent=LBL[s];c.dataset.s=s}}
@@ -122,8 +128,8 @@ function act(i,a){if(needGH())return;var p=PAGES[i],cur=($('#st'+i)||{}).dataset
 function vCards(){$('#view').innerHTML='<h2>카드 공개</h2><p class="note">비공개한 카드는 일정·사업 목록에서 빠집니다. 카드를 숨겨도 페이지 주소로는 열리므로, 페이지 자체는 "페이지" 탭에서 정합니다.</p><div id="cl">불러오는 중…</div>';
   Promise.all(['events','projects'].map(function(n){return fetch('/data/'+n+'.js?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})})).then(function(a){
     var ev=new Function(a[0]+';return EVENTS')(),pr=new Function(a[1]+';return PROJECTS')();
-    var row=function(file,k,t,sub,c){return '<tr><td>'+esc(t)+'<br><span class="note">'+esc(sub)+'</span></td><td><span class="chip '+(c.draft?'private':'')+'">'+(c.draft?'비공개':'공개')+'</span></td><td><button class="btn" data-f="'+file+'" data-k="'+esc(k)+'" data-field="draft" data-on="'+(c.draft?'':'1')+'">'+(c.draft?'공개로':'비공개로')+'</button>'+(file==='data/projects.js'?'<button class="btn" data-f="'+file+'" data-k="'+esc(k)+'" data-field="locked" data-on="'+(c.locked?'':'1')+'">'+(c.locked?'비밀번호 표시 끄기':'비밀번호 표시 켜기')+'</button>':'')+'</td></tr>'};
-    $('#cl').innerHTML='<h3>행사</h3><table><thead><tr><th>카드</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+ev.map(function(e){return row('data/events.js','id:"'+e.id+'"',e.title,e.start,e)}).join('')+'</tbody></table><h3>진행 사업</h3><table><thead><tr><th>카드</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+pr.map(function(p){return row('data/projects.js','title:"'+p.title+'"',p.title,p.area,p)}).join('')+'</tbody></table>';
+    var row=function(file,k,t,sub,c){return '<tr><td>'+esc(t)+'<br><span class="note">'+esc(sub)+'</span></td><td>'+own(c)+ownNote(c)+'</td><td><span class="chip '+(c.draft?'private':'')+'">'+(c.draft?'비공개':'공개')+'</span></td><td><button class="btn" data-f="'+file+'" data-k="'+esc(k)+'" data-field="draft" data-on="'+(c.draft?'':'1')+'">'+(c.draft?'공개로':'비공개로')+'</button>'+(file==='data/projects.js'?'<button class="btn" data-f="'+file+'" data-k="'+esc(k)+'" data-field="locked" data-on="'+(c.locked?'':'1')+'">'+(c.locked?'비밀번호 표시 끄기':'비밀번호 표시 켜기')+'</button>':'')+'</td></tr>'};
+    $('#cl').innerHTML='<h3>행사</h3><table><thead><tr><th>카드</th><th>주최</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+ev.map(function(e){return row('data/events.js','id:"'+e.id+'"',e.title,e.start,e)}).join('')+'</tbody></table><h3>진행 사업</h3><table><thead><tr><th>카드</th><th>주최</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+pr.map(function(p){return row('data/projects.js','title:"'+p.title+'"',p.title,p.area,p)}).join('')+'</tbody></table>';
     $('#cl').querySelectorAll('[data-f]').forEach(function(b){b.onclick=function(){if(needGH())return;b.disabled=true;toast('저장하는 중…',60000);api({action:'cardSet',file:b.dataset.f,key:b.dataset.k,field:b.dataset.field,on:!!b.dataset.on}).then(function(){toast('저장했습니다. 1~2분 뒤 반영됩니다.',7000);setTimeout(vCards,2500)}).catch(function(e){toast(e.message,8000);b.disabled=false})}})
   }).catch(function(e){$('#cl').textContent='불러오지 못했습니다: '+e.message})}
 /* 만족도 조사: 행사 목록에서 행사를 눌러 봅니다. 행사와 양식은 data/events.js 의 survey 값으로 잇습니다 */
@@ -134,24 +140,24 @@ function vSurveys(id){$('#view').innerHTML='<h2>만족도 조사</h2><p class="n
     var pick=ev.filter(function(e){return e.id===id&&e.survey})[0];
     if(pick)return openSurvey(pick);
     if(id)location.hash='survey';
-    $('#sl').innerHTML='<table><thead><tr><th>행사</th><th>날짜</th><th>조사</th><th>응답</th></tr></thead><tbody>'+ev.map(function(e,i){
-      return '<tr><td>'+(e.survey?'<button class="btn" data-ev="'+i+'">'+esc(e.title)+'</button>':esc(e.title))+(e.draft?' <span class="chip private">비공개</span>':'')+'</td><td>'+esc(e.start)+'</td><td>'+(e.survey?'있음':'<span class="note">없음</span>')+'</td><td id="sc'+i+'">'+(e.survey?'확인 중':'-')+'</td></tr>'}).join('')+'</tbody></table>';
+    $('#sl').innerHTML='<table><thead><tr><th>행사</th><th>주최</th><th>날짜</th><th>조사</th><th>응답</th></tr></thead><tbody>'+ev.map(function(e,i){
+      return '<tr><td>'+(e.survey?'<button class="btn" data-ev="'+i+'">'+esc(e.title)+'</button>':esc(e.title))+(e.draft?' <span class="chip private">비공개</span>':'')+'</td><td>'+own(e)+'</td><td>'+esc(e.start)+'</td><td>'+(e.survey?'있음':'<span class="note">없음</span>')+'</td><td id="sc'+i+'">'+(e.survey?'확인 중':'-')+'</td></tr>'}).join('')+'</tbody></table>';
     ev.forEach(function(e,i){if(!e.survey)return;api({action:'list',form:e.survey}).then(function(j){var c=$('#sc'+i);if(c)c.textContent=j.rows.length+'건'}).catch(function(x){var c=$('#sc'+i);if(c)c.textContent=x.message})});
     $('#sl').querySelectorAll('[data-ev]').forEach(function(b){b.onclick=function(){openSurvey(ev[+b.dataset.ev])}})
   }).catch(function(e){$('#sl').textContent='불러오지 못했습니다: '+e.message})}
-function openSurvey(e){location.hash='survey/'+e.id;vList(e.survey,e.title+' 만족도 조사',function(){location.hash='survey';vSurveys()},true)}
+function openSurvey(e){location.hash='survey/'+e.id;vList(e.survey,e.title+' 만족도 조사',function(){location.hash='survey';vSurveys()},true,e)}
 function surveyStats(form,h,r){if(!r.length)return '';var cfg=SURVEY_STATS[form]||{},nums=[];
   h.forEach(function(k,c){if(!c)return;var v=r.map(function(x){return x[c]}).filter(function(x){return String(x).trim()!==''});if(v.length&&v.every(function(x){return !isNaN(Number(x))}))nums.push(c)});
   var html=nums.length?'<div class="stats">'+nums.map(function(c){var s=0,n=0;r.forEach(function(x){if(String(x[c]).trim()!==''){s+=Number(x[c]);n++}});return '<div class="stat"><b>'+(s/n).toFixed(2)+'</b>'+esc(h[c])+'</div>'}).join('')+'</div>':'';
   var cnt=function(c){var m={};r.forEach(function(x){m[x[c]]=(m[x[c]]||0)+1});return esc(h[c])+': '+esc(Object.keys(m).map(function(k){return k+' '+m[k]}).join(' · '))};
   if(cfg.counts)html+='<p class="note">'+cfg.counts.map(cnt).join('<br>')+'</p>';return html}
 /* 응답 */
-function vList(form,title,back,isSurvey){$('#view').innerHTML=(back?'<p><button class="btn" id="bk">← 행사 목록</button></p>':'')+'<h2>'+esc(title)+'</h2><div id="ls">불러오는 중…</div>';if(back)$('#bk').onclick=back;
+function vList(form,title,back,isSurvey,ev){$('#view').innerHTML=(back?'<p><button class="btn" id="bk">← 행사 목록</button></p>':'')+'<h2>'+esc(title)+'</h2>'+(ev?'<p>주최 '+own(ev)+ownNote(ev)+'</p>':'')+'<div id="ls">불러오는 중…</div>';if(back)$('#bk').onclick=back;
   api({action:'list',form:form}).then(function(j){var h=j.heads,r=j.rows.slice().reverse(),html='<p><b>'+r.length+'건</b> <button class="btn" id="csv">엑셀용 CSV 내려받기</button> <button class="btn" id="re">새로고침</button>'+(status.sheet?' <a class="btn" style="display:inline-block;text-decoration:none" href="'+status.sheet+'" target="_blank">구글 시트 열기</a>':'')+(j.folder?' <a class="btn" style="display:inline-block;text-decoration:none" href="'+j.folder+'" target="_blank">드라이브 폴더 열기</a> <button class="btn" id="sd">드라이브에 빠진 응답 저장</button>':'')+'</p>';
     if(j.opens)html+='<p class="note">조사 오픈: '+esc(j.opens.replace('T',' ').replace(':00+09:00',''))+'</p>';
     if(isSurvey)html+=surveyStats(form,h,r);
     html+=r.length?'<table><thead><tr><th>내려받기</th>'+h.map(function(x){return '<th>'+esc(x)+'</th>'}).join('')+'</tr></thead><tbody>'+r.map(function(x,ri){return '<tr><td><button class="btn" data-dl="'+ri+'">받기</button></td>'+x.map(function(v){return '<td>'+esc(v)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>':'<p class="note">아직 들어온 내용이 없습니다.</p>';
-    $('#ls').innerHTML=html;$('#re').onclick=function(){vList(form,title,back,isSurvey)};
+    $('#ls').innerHTML=html;$('#re').onclick=function(){vList(form,title,back,isSurvey,ev)};
     if($('#sd'))$('#sd').onclick=function(){toast('저장하는 중…',60000);api({action:'syncDrive',form:form}).then(function(x){toast('새로 저장 '+x.made+'건, 전체 '+x.total+'건입니다.',7000)}).catch(function(e){toast(e.message,8000)})};
     var save=function(name,type,c){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:type}));a.download=name;a.click()};
     $('#ls').querySelectorAll('[data-dl]').forEach(function(b){b.onclick=function(){var x=r[+b.dataset.dl];save(form+'_'+String(x[0]).replace(/[^0-9]/g,'')+'.txt','text/plain;charset=utf-8','\ufeff'+h.map(function(k,i){return k+': '+x[i]}).join('\r\n')+'\r\n')}});
