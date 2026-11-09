@@ -28,5 +28,5 @@ const PROJECTS = [
 
   { title:"생태관광 자문단 운영", area:"알림과 협력",
     summary:"전문가와 함께 제주 생태관광의 방향을 논의합니다.",
-    status:"ongoing", url:"" }
+    status:"ongoing", url:"", draft:true }
 ];
