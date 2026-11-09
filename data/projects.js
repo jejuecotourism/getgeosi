@@ -26,6 +26,10 @@ const PROJECTS = [
     summary:"곶자왈과 오름을 중심으로 생태관광을 키우는 사업입니다.",
     status:"ongoing", url:"" },
 
+  { title:"가로수길 지도 제작", area:"알림과 협력",
+    summary:"가로수길 지도를 앞뒤 2면으로 만들고 있습니다. 지금은 인쇄 전 시안을 검토하는 단계입니다.",
+    status:"ongoing", url:"projects/garosugil-map/", locked:true },
+
   { title:"생태관광 자문단 운영", area:"알림과 협력",
     summary:"전문가와 함께 제주 생태관광의 방향을 논의합니다.",
     status:"ongoing", url:"" }

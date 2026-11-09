@@ -52,7 +52,7 @@ button:disabled{opacity:.65;cursor:wait}
     open(input.value).then(function (html) {
       document.open(); document.write(html); document.close();
       document.body.insertAdjacentHTML('afterbegin',
-        '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;padding:10px 20px;background:#1E3F27;font:700 14px/1.5 sans-serif"><a href="../../projects.html" style="color:#fff;text-decoration:none">← 진행 사업</a><a href="../ozori-book-plan/" style="color:#fff;text-decoration:none">기획안 보기 →</a></div>');
+        '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;padding:10px 20px;background:#1E3F27;font:700 14px/1.5 sans-serif"><a href="../../projects.html" style="color:#fff;text-decoration:none">← 진행 사업</a><span style="display:flex;flex-wrap:wrap;gap:6px 18px"><a href="audio-check/" style="color:#FFE812;text-decoration:none">원음 확인 37곳 →</a><a href="../ozori-book-plan/" style="color:#fff;text-decoration:none">기획안 보기 →</a></span></div>');
     }).catch(function () {
       err.textContent = '비밀번호가 맞지 않습니다.'; input.value = ''; input.focus();
       go.disabled = false; go.textContent = '열기';
