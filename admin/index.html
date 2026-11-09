@@ -128,13 +128,16 @@ function vCards(){$('#view').innerHTML='<h2>카드 공개</h2><p class="note">�
   }).catch(function(e){$('#cl').textContent='불러오지 못했습니다: '+e.message})}
 /* 응답 */
 function vList(form,title){$('#view').innerHTML='<h2>'+esc(title)+'</h2><div id="ls">불러오는 중…</div>';
-  api({action:'list',form:form}).then(function(j){var h=j.heads,r=j.rows.slice().reverse(),html='<p><b>'+r.length+'건</b> <button class="btn" id="csv">엑셀용 CSV 내려받기</button> <button class="btn" id="re">새로고침</button>'+(status.sheet?' <a class="btn" style="display:inline-block;text-decoration:none" href="'+status.sheet+'" target="_blank">구글 시트 열기</a>':'')+'</p>';
+  api({action:'list',form:form}).then(function(j){var h=j.heads,r=j.rows.slice().reverse(),html='<p><b>'+r.length+'건</b> <button class="btn" id="csv">엑셀용 CSV 내려받기</button> <button class="btn" id="re">새로고침</button>'+(status.sheet?' <a class="btn" style="display:inline-block;text-decoration:none" href="'+status.sheet+'" target="_blank">구글 시트 열기</a>':'')+(j.folder?' <a class="btn" style="display:inline-block;text-decoration:none" href="'+j.folder+'" target="_blank">드라이브 폴더 열기</a> <button class="btn" id="sd">드라이브에 빠진 응답 저장</button>':'')+'</p>';
     if(j.opens)html+='<p class="note">조사 오픈: '+esc(j.opens.replace('T',' ').replace(':00+09:00',''))+'</p>';
     if(form==='birding2026-survey'&&r.length){var nums=[5,6,7,8].map(function(c){var s=0;r.forEach(function(x){s+=Number(x[c])||0});return '<div class="stat"><b>'+(s/r.length).toFixed(2)+'</b>'+esc(h[c])+'</div>'}).join('');
       var cnt=function(c){var m={};r.forEach(function(x){m[x[c]]=(m[x[c]]||0)+1});return Object.keys(m).map(function(k){return k+' '+m[k]}).join(' · ')};
       html+='<div class="stats">'+nums+'</div><p class="note">추천 의향: '+esc(cnt(11))+'<br>재신청 의사: '+esc(cnt(12))+'</p>'}
-    html+=r.length?'<table><thead><tr>'+h.map(function(x){return '<th>'+esc(x)+'</th>'}).join('')+'</tr></thead><tbody>'+r.map(function(x){return '<tr>'+x.map(function(v){return '<td>'+esc(v)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>':'<p class="note">아직 들어온 내용이 없습니다.</p>';
+    html+=r.length?'<table><thead><tr><th>내려받기</th>'+h.map(function(x){return '<th>'+esc(x)+'</th>'}).join('')+'</tr></thead><tbody>'+r.map(function(x,ri){return '<tr><td><button class="btn" data-dl="'+ri+'">받기</button></td>'+x.map(function(v){return '<td>'+esc(v)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>':'<p class="note">아직 들어온 내용이 없습니다.</p>';
     $('#ls').innerHTML=html;$('#re').onclick=function(){vList(form,title)};
+    if($('#sd'))$('#sd').onclick=function(){toast('저장하는 중…',60000);api({action:'syncDrive',form:form}).then(function(x){toast('새로 저장 '+x.made+'건, 전체 '+x.total+'건입니다.',7000)}).catch(function(e){toast(e.message,8000)})};
+    var save=function(name,type,c){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:type}));a.download=name;a.click()};
+    $('#ls').querySelectorAll('[data-dl]').forEach(function(b){b.onclick=function(){var x=r[+b.dataset.dl];save(form+'_'+String(x[0]).replace(/[^0-9]/g,'')+'.txt','text/plain;charset=utf-8','\ufeff'+h.map(function(k,i){return k+': '+x[i]}).join('\r\n')+'\r\n')}});
     $('#csv').onclick=function(){var q=function(v){return '"'+String(v).replace(/"/g,'""')+'"'};var c='﻿'+[h].concat(j.rows).map(function(x){return x.map(q).join(',')}).join('\r\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv;charset=utf-8'}));a.download=form+'.csv';a.click()}
   }).catch(function(e){$('#ls').textContent=e.message})}
 /* 설정 */
