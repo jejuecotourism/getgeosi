@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>관리자 | 제주 에코투어리즘</title>
+<style>
+:root{--bg:#F7F2E8;--card:#fff;--ink:#2A2320;--soft:#5E5248;--line:#E6DAC4;--forest:#2F5E3A;--deep:#1E3F27;--red:#A83A20}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+header{background:var(--deep);color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header b{font-size:1.05rem}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 20px 0;max-width:1100px;margin:0 auto}
+nav button{border:1px solid var(--line);background:#fff;border-radius:10px 10px 0 0;padding:9px 14px;font:inherit;cursor:pointer}
+nav button[aria-selected=true]{background:var(--forest);border-color:var(--forest);color:#fff;font-weight:700}
+main{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:0 12px 12px 12px;padding:20px;overflow-x:auto}
+h2{margin:0 0 10px;font-size:1.2rem}
+h3{margin:22px 0 8px;font-size:1.02rem}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle}
+th{background:#F2EAD9;white-space:nowrap}
+.btn{min-height:38px;padding:6px 12px;border:1px solid var(--forest);border-radius:9px;background:#fff;color:var(--forest);font:inherit;font-size:.9rem;font-weight:700;cursor:pointer;margin:2px}
+.btn.on{background:var(--forest);color:#fff}
+.btn.warn{border-color:var(--red);color:var(--red)}
+.btn:disabled{opacity:.5;cursor:wait}
+.chip{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.82rem;font-weight:700;background:#E7F1E4;color:#23552F;white-space:nowrap}
+.chip.private{background:#EEE;color:#555}.chip.password{background:#FFF2C9;color:#7A5A00}.chip.checking{background:#F2EAD9;color:#776}
+input[type=password],input[type=text],textarea{width:100%;max-width:420px;font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff}
+label{display:block;font-weight:700;margin-top:12px}
+.note{color:var(--soft);font-size:.9rem}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:10px;max-width:92vw;display:none;z-index:9}
+#login{max-width:400px;margin:60px auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}
+dialog{border:1px solid var(--line);border-radius:14px;padding:22px;max-width:440px;width:92vw}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.stat{border:1px solid var(--line);border-radius:10px;padding:8px 14px;background:#FBF8F1}
+.stat b{display:block;font-size:1.2rem}
+</style>
+</head>
+<body>
+<header><b>제주 에코투어리즘 관리자</b><span id="who" hidden><a href="/" target="_blank" style="color:#fff;margin-right:12px">사이트 열기</a><button class="btn" id="logout" style="background:#fff">로그아웃</button></span></header>
+<form id="login">
+  <h2>관리자 로그인</h2>
+  <label for="lp">비밀번호</label><input id="lp" type="password" autocomplete="current-password" required>
+  <p id="lm" class="note" role="alert" style="color:var(--red);min-height:1.4em"></p>
+  <button class="btn on" id="lg" style="width:100%">로그인</button>
+</form>
+<div id="app" hidden>
+  <nav id="tabs" role="tablist"></nav>
+  <main><div class="panel" id="view"></div></main>
+</div>
+<dialog id="dlg"><form method="dialog" id="dlgf"></form></dialog>
+<div id="toast" role="status"></div>
+<script>
+(function(){
+var API='https://script.google.com/macros/s/AKfycbyPl0F24k3x3vnggSwOdDilt4vDr3XAFvt7RdrLKK6C65nos_D_kxstgmWcdbJAdYD3yA/exec';
+var PAGES=[['index.html','홈'],['about.html','센터 소개'],['ecotourism.html','생태관광이란'],['work/index.html','하는 일'],['schedule.html','행사 일정'],['projects.html','진행 사업'],['records.html','기록'],['contact.html','문의'],
+['events/2026-birding/index.html','탐조대회 안내'],['events/2026-birding/birds/index.html','탐조대회 새 정보'],['events/2026-birding/birds/changes/index.html','미니도감과 달라진 내용'],['events/2026-birding/survey/index.html','탐조대회 만족도 조사'],
+['events/2026-autumn/index.html','2026 가을 생태관광주간'],['events/2026-summer/index.html','2026 여름 갯것이영화제'],['projects/ozori-book-plan/index.html','오조리 기획안'],['projects/ozori-review/index.html','오조리 채록 검수']];
+var TABS=[['pages','페이지 공개·비밀번호'],['cards','카드 공개'],['survey','만족도 조사'],['contact','문의'],['report','새 정보 의견'],['settings','설정']];
+var $=function(s){return document.querySelector(s)};
+var S=null; try{S=sessionStorage.getItem('adm')}catch(e){}
+var status={};
+function esc(s){var d=document.createElement('div');d.textContent=s==null?'':s;return d.innerHTML}
+function toast(m,ms){var t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(function(){t.style.display='none'},ms||5000)}
+function api(o){o.session=S;return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(o)}).then(function(r){return r.json()}).then(function(j){
+  if(j.auth===false){out();throw new Error('다시 로그인해 주세요.')}
+  if(!j.ok)throw new Error(j.error||'처리하지 못했습니다.');return j})}
+function out(){S=null;try{sessionStorage.removeItem('adm')}catch(e){}$('#app').hidden=true;$('#who').hidden=true;$('#login').hidden=false}
+function start(){$('#login').hidden=true;$('#app').hidden=false;$('#who').hidden=false;
+  api({action:'status'}).then(function(j){status=j;tab(location.hash.slice(1)||'pages')}).catch(function(e){toast(e.message)})}
+$('#login').addEventListener('submit',function(e){e.preventDefault();$('#lg').disabled=true;$('#lm').textContent='';
+  fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'login',pw:$('#lp').value})}).then(function(r){return r.json()}).then(function(j){
+    if(!j.ok)throw new Error(j.error);S=j.session;try{sessionStorage.setItem('adm',S)}catch(e){}$('#lp').value='';start()}).catch(function(x){$('#lm').textContent=x.message||'로그인하지 못했습니다.'}).finally(function(){$('#lg').disabled=false})});
+$('#logout').onclick=function(){api({action:'logout'}).catch(function(){}).finally(out)};
+function tab(n){if(!TABS.some(function(t){return t[0]===n}))n='pages';location.hash=n;
+  $('#tabs').innerHTML=TABS.map(function(t){return '<button role="tab" aria-selected="'+(t[0]===n)+'" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('');
+  $('#tabs').querySelectorAll('button').forEach(function(b){b.onclick=function(){tab(b.dataset.t)}});
+  ({pages:vPages,cards:vCards,survey:function(){vList('birding2026-survey','탐조대회 만족도 조사')},contact:function(){vList('contact','문의')},report:function(){vList('birding2026-bird-report','새 정보 수정 의견')},settings:vSettings})[n]()}
+/* 페이지 */
+function live(p){return fetch('/'+p.replace(/index\.html$/,'')+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})}
+function stateOf(t){if(t.indexOf('data-page-state="private"')>=0)return'private';if(t.indexOf('crypto.subtle')>=0)return'password';return'public'}
+var LBL={public:'공개',private:'비공개',password:'비밀번호',checking:'확인 중'};
+function needGH(){if(!status.github){toast('먼저 설정 탭에서 GitHub를 연결해 주세요.',7000);tab('settings');return true}return false}
+function vPages(){
+  $('#view').innerHTML='<h2>사이트 전체</h2><p class="note">전체 비공개는 "준비 중" 화면을 씌웁니다. 내용을 암호화하는 것은 아니며, 비밀번호 페이지는 그대로 비밀번호로 보호됩니다.</p><p><b>현재: <span id="sc">확인 중</span></b> <button class="btn" id="sOpen">전체 공개</button><button class="btn warn" id="sClose">전체 비공개</button></p>'+
+  '<h2 style="margin-top:24px">페이지별</h2><p class="note">바꾼 내용은 1~2분 뒤 사이트에 반영됩니다. 비밀번호 페이지는 내용을 암호화합니다. 저장소가 공개라 이전에 공개했던 내용은 GitHub 기록에 남습니다.</p><table><thead><tr><th>페이지</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+
+  PAGES.map(function(p,i){return '<tr><td><a href="/'+p[0].replace(/index\.html$/,'')+'" target="_blank">'+esc(p[1])+'</a></td><td><span class="chip checking" id="st'+i+'">확인 중</span></td><td><button class="btn" data-a="public" data-i="'+i+'">공개</button><button class="btn" data-a="password" data-i="'+i+'">비밀번호 설정·변경</button><button class="btn warn" data-a="private" data-i="'+i+'">비공개</button></td></tr>'}).join('')+'</tbody></table>';
+  fetch('/data/site.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){$('#sc').textContent=j.closed?'전체 비공개':'전체 공개'}).catch(function(){$('#sc').textContent='전체 공개'});
+  $('#sOpen').onclick=function(){siteSet(false)};$('#sClose').onclick=function(){siteSet(true)};
+  PAGES.forEach(function(p,i){live(p[0]).then(function(t){setChip(i,stateOf(t))}).catch(function(){})});
+  $('#view').querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){act(+b.dataset.i,b.dataset.a)}})}
+function setChip(i,s){var c=$('#st'+i);if(c){c.className='chip '+s;c.textContent=LBL[s];c.dataset.s=s}}
+function siteSet(c){if(needGH())return;if(!confirm(c?'사이트 전체를 준비 중 화면으로 바꿀까요?':'사이트 전체를 공개할까요?'))return;toast('처리 중…');api({action:'siteSet',closed:c}).then(function(){toast('저장했습니다. 1~2분 뒤 반영됩니다.');$('#sc').textContent=c?'전체 비공개':'전체 공개'}).catch(function(e){toast(e.message,8000)})}
+function ask(title,fields){return new Promise(function(res){var d=$('#dlg'),f=$('#dlgf');
+  f.innerHTML='<h2>'+esc(title)+'</h2>'+fields.map(function(x){return '<label>'+esc(x[1])+'</label><input type="'+(x[2]||'password')+'" name="'+x[0]+'" required autocomplete="new-password">'}).join('')+'<p style="margin-top:16px"><button class="btn on" value="ok">확인</button><button class="btn" value="no" formnovalidate>취소</button></p>';
+  d.onclose=function(){if(d.returnValue!=='ok')return res(null);var o={};fields.forEach(function(x){o[x[0]]=f.elements[x[0]].value});res(o)};d.returnValue='';d.showModal()})}
+function u8b64(u){var s='';for(var i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)}
+function b64u8(b){return Uint8Array.from(atob(b),function(c){return c.charCodeAt(0)})}
+function dec(b){return new TextDecoder().decode(b64u8(b))}
+function enc(s){return u8b64(new TextEncoder().encode(s))}
+function key(pw,salt,iter){return crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']).then(function(k){return crypto.subtle.deriveKey({name:'PBKDF2',hash:'SHA-256',salt:salt,iterations:iter},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])})}
+function dataOf(t){var m=t.match(/var DATA = (\{[^;]*?\});/);if(!m)throw new Error('암호화 정보를 찾지 못했습니다.');return JSON.parse(m[1])}
+function decrypt(t,pw){var D=dataOf(t);return key(pw,b64u8(D.salt),D.iter).then(function(k){return crypto.subtle.decrypt({name:'AES-GCM',iv:b64u8(D.iv)},k,b64u8(D.ct))}).then(function(b){return new TextDecoder().decode(b)}).catch(function(e){if(/암호화/.test(e.message||''))throw e;throw new Error('현재 비밀번호가 맞지 않습니다.')})}
+function encrypt(plain,pw){var salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),it=600000;return key(pw,salt,it).then(function(k){return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},k,new TextEncoder().encode(plain))}).then(function(c){return JSON.stringify({iter:it,salt:u8b64(salt),iv:u8b64(iv),ct:u8b64(new Uint8Array(c))})})}
+function act(i,a){if(needGH())return;var p=PAGES[i],cur=($('#st'+i)||{}).dataset.s;
+  var finish=function(o){toast('저장하는 중…',60000);return api(Object.assign({action:'pageSet',path:p[0],state:a},o||{})).then(function(){setChip(i,a);toast('저장했습니다. 1~2분 뒤 반영됩니다.',7000)})};
+  var fail=function(e){toast(e.message||'처리하지 못했습니다.',9000)};
+  if(a==='private'){if(cur==='private')return toast('이미 비공개입니다.');if(!confirm('"'+p[1]+'" 페이지를 비공개로 바꿀까요?'))return;return finish().catch(fail)}
+  if(a==='public'){if(cur==='public')return toast('이미 공개입니다.');
+    if(cur==='password')return ask('비밀번호 없이 공개',[['cur','현재 비밀번호']]).then(function(o){if(!o)return;toast('처리 중…',60000);return api({action:'pageFile',path:p[0]}).then(function(f){return decrypt(dec(f.b64),o.cur)}).then(function(h){if(!confirm('"'+p[1]+'" 내용이 누구나 볼 수 있게 공개됩니다. 계속할까요?'))return;return finish({b64:enc(h)})})}).catch(fail);
+    if(!confirm('"'+p[1]+'" 페이지를 공개할까요?'))return;return finish().catch(fail)}
+  var fs=(cur==='password'?[['cur','현재 비밀번호']]:[]).concat([['pw','새 비밀번호']]);
+  ask(cur==='password'?'비밀번호 변경':'비밀번호 설정',fs).then(function(o){if(!o)return;toast('암호화하는 중…',60000);
+    return api(cur==='private'?{action:'pageFile',path:p[0],orig:true}:{action:'pageFile',path:p[0]}).then(function(f){var t=dec(f.b64);
+      if(cur==='password')return decrypt(t,o.cur).then(function(h){return encrypt(h,o.pw)}).then(function(D){return t.replace(/var DATA = \{[^;]*?\};/,function(){return 'var DATA = '+D+';'})});
+      return encrypt(t,o.pw).then(function(D){return fetch('wrapper.txt?t='+Date.now()).then(function(r){return r.text()}).then(function(w){var m=t.match(/<title>(.*?)(?: \|.*)?<\/title>/);return w.replace('@@TITLE@@',m?m[1]:p[1]).replace('@@DATA@@',function(){return D})})})
+    }).then(function(html){return finish({b64:enc(html)})})}).catch(fail)}
+/* 카드 */
+function vCards(){$('#view').innerHTML='<h2>카드 공개</h2><p class="note">비공개한 카드는 일정·사업 목록에서 빠집니다. 카드를 숨겨도 페이지 주소로는 열리므로, 페이지 자체는 "페이지" 탭에서 정합니다.</p><div id="cl">불러오는 중…</div>';
+  Promise.all(['events','projects'].map(function(n){return fetch('/data/'+n+'.js?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})})).then(function(a){
+    var ev=new Function(a[0]+';return EVENTS')(),pr=new Function(a[1]+';return PROJECTS')();
+    var row=function(file,k,t,sub,c){return '<tr><td>'+esc(t)+'<br><span class="note">'+esc(sub)+'</span></td><td><span class="chip '+(c.draft?'private':'')+'">'+(c.draft?'비공개':'공개')+'</span></td><td><button class="btn" data-f="'+file+'" data-k="'+esc(k)+'" data-field="draft" data-on="'+(c.draft?'':'1')+'">'+(c.draft?'공개로':'비공개로')+'</button>'+(file==='data/projects.js'?'<button class="btn" data-f="'+file+'" data-k="'+esc(k)+'" data-field="locked" data-on="'+(c.locked?'':'1')+'">'+(c.locked?'비밀번호 표시 끄기':'비밀번호 표시 켜기')+'</button>':'')+'</td></tr>'};
+    $('#cl').innerHTML='<h3>행사</h3><table><thead><tr><th>카드</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+ev.map(function(e){return row('data/events.js','id:"'+e.id+'"',e.title,e.start,e)}).join('')+'</tbody></table><h3>진행 사업</h3><table><thead><tr><th>카드</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+pr.map(function(p){return row('data/projects.js','title:"'+p.title+'"',p.title,p.area,p)}).join('')+'</tbody></table>';
+    $('#cl').querySelectorAll('[data-f]').forEach(function(b){b.onclick=function(){if(needGH())return;b.disabled=true;toast('저장하는 중…',60000);api({action:'cardSet',file:b.dataset.f,key:b.dataset.k,field:b.dataset.field,on:!!b.dataset.on}).then(function(){toast('저장했습니다. 1~2분 뒤 반영됩니다.',7000);setTimeout(vCards,2500)}).catch(function(e){toast(e.message,8000);b.disabled=false})}})
+  }).catch(function(e){$('#cl').textContent='불러오지 못했습니다: '+e.message})}
+/* 응답 */
+function vList(form,title){$('#view').innerHTML='<h2>'+esc(title)+'</h2><div id="ls">불러오는 중…</div>';
+  api({action:'list',form:form}).then(function(j){var h=j.heads,r=j.rows.slice().reverse(),html='<p><b>'+r.length+'건</b> <button class="btn" id="csv">엑셀용 CSV 내려받기</button> <button class="btn" id="re">새로고침</button>'+(status.sheet?' <a class="btn" style="display:inline-block;text-decoration:none" href="'+status.sheet+'" target="_blank">구글 시트 열기</a>':'')+'</p>';
+    if(j.opens)html+='<p class="note">조사 오픈: '+esc(j.opens.replace('T',' ').replace(':00+09:00',''))+'</p>';
+    if(form==='birding2026-survey'&&r.length){var nums=[5,6,7,8].map(function(c){var s=0;r.forEach(function(x){s+=Number(x[c])||0});return '<div class="stat"><b>'+(s/r.length).toFixed(2)+'</b>'+esc(h[c])+'</div>'}).join('');
+      var cnt=function(c){var m={};r.forEach(function(x){m[x[c]]=(m[x[c]]||0)+1});return Object.keys(m).map(function(k){return k+' '+m[k]}).join(' · ')};
+      html+='<div class="stats">'+nums+'</div><p class="note">추천 의향: '+esc(cnt(11))+'<br>재신청 의사: '+esc(cnt(12))+'</p>'}
+    html+=r.length?'<table><thead><tr>'+h.map(function(x){return '<th>'+esc(x)+'</th>'}).join('')+'</tr></thead><tbody>'+r.map(function(x){return '<tr>'+x.map(function(v){return '<td>'+esc(v)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>':'<p class="note">아직 들어온 내용이 없습니다.</p>';
+    $('#ls').innerHTML=html;$('#re').onclick=function(){vList(form,title)};
+    $('#csv').onclick=function(){var q=function(v){return '"'+String(v).replace(/"/g,'""')+'"'};var c='﻿'+[h].concat(j.rows).map(function(x){return x.map(q).join(',')}).join('\r\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv;charset=utf-8'}));a.download=form+'.csv';a.click()}
+  }).catch(function(e){$('#ls').textContent=e.message})}
+/* 설정 */
+function vSettings(){$('#view').innerHTML='<h2>GitHub 연결</h2><p>상태: <b>'+(status.github?'연결됨':'연결 안 됨')+'</b></p><p class="note">페이지 공개·비밀번호와 카드 공개를 바꾸려면 필요합니다. 토큰은 서버에만 저장되고 화면에 다시 나오지 않습니다.</p><form id="gf"><label for="gt">GitHub 토큰</label><input id="gt" type="password" autocomplete="off"><p><button class="btn on">연결</button></p></form>'+
+  '<h2 style="margin-top:26px">관리자 비밀번호 변경</h2><form id="pf"><label for="po">현재 비밀번호</label><input id="po" type="password" required autocomplete="current-password"><label for="pn">새 비밀번호 (8자 이상)</label><input id="pn" type="password" required autocomplete="new-password"><p><button class="btn on">변경</button></p></form>'+
+  '<h2 style="margin-top:26px">저장 위치</h2><p><a href="'+(status.sheet||'#')+'" target="_blank">구글 시트 열기</a></p>';
+  $('#gf').onsubmit=function(e){e.preventDefault();toast('확인하는 중…',30000);api({action:'ghSet',token:$('#gt').value}).then(function(j){status.github=j.github;toast('연결했습니다.');vSettings()}).catch(function(x){toast(x.message,9000)})};
+  $('#pf').onsubmit=function(e){e.preventDefault();api({action:'changePw',old:$('#po').value,pw:$('#pn').value}).then(function(){toast('비밀번호를 바꿨습니다.');$('#po').value='';$('#pn').value=''}).catch(function(x){toast(x.message,8000)})}}
+if(S)start();
+})();
+</script>
+</body>
+</html>

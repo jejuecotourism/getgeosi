@@ -1,5 +1,10 @@
 /* 모바일 메뉴와 일정 카드를 그립니다. 내용은 data/events.js에서 고칩니다. */
 (function () {
+  /* 관리자에서 사이트 전체를 비공개로 하면 준비 중 화면을 보여 줍니다 */
+  fetch((document.documentElement.dataset.root || '') + 'data/site.json?t=' + Math.floor(Date.now() / 60000)).then(function (r) { return r.ok ? r.json() : {}; }).then(function (s) {
+    if (s.closed) document.body.innerHTML = '<main style="min-height:80vh;display:grid;place-items:center;text-align:center;padding:24px"><div><h1>페이지 준비 중입니다</h1><p>' + (s.message || '조금 뒤에 다시 찾아 주세요.') + '</p></div></main>';
+  }).catch(function () {});
+
   var btn = document.querySelector('.menu-btn');
   var menu = document.querySelector('.menu');
   if (btn && menu) {

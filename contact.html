@@ -38,7 +38,7 @@
 <div class="page-head"><div class="wrap">
   <p class="eyebrow">Contact</p>
   <h1>문의</h1>
-  <p class="lead">행사와 프로그램, 사진 삭제 요청은 전화로 문의해 주세요.</p>
+  <p class="lead">행사와 프로그램, 사진 삭제 요청은 전화나 아래 양식으로 문의해 주세요.</p>
 </div></div>
 <section><div class="wrap">
   <dl class="facts" style="max-width:640px">
@@ -47,6 +47,27 @@
     <dt>주소</dt><dd>제주특별자치도 조천읍 조함해안로 19, 1층</dd>
   </dl>
 </div></section>
+
+<section class="alt"><div class="wrap" style="max-width:720px;margin-left:auto;margin-right:auto">
+  <h2>문의 남기기</h2>
+  <form id="cf" style="margin-top:12px">
+    <label for="cn" style="display:block;font-weight:700">이름 <span style="color:#A83A20">*</span></label><input id="cn" name="name" class="ci" required maxlength="100">
+    <label for="cc" style="display:block;font-weight:700;margin-top:12px">연락처 <span style="color:#A83A20">*</span></label><input id="cc" name="contact" class="ci" required maxlength="100" placeholder="전화번호 또는 이메일">
+    <label for="cm" style="display:block;font-weight:700;margin-top:12px">문의 내용 <span style="color:#A83A20">*</span></label><textarea id="cm" name="message" class="ci" style="min-height:130px" required maxlength="2000"></textarea>
+    <label style="display:flex;gap:10px;align-items:flex-start;margin-top:12px"><input type="checkbox" name="consent" value="동의함" required style="width:20px;height:20px;flex:none;margin-top:3px"><span>문의 답변을 위해 이름과 연락처를 수집·이용하는 데 동의합니다.</span></label>
+    <input type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+    <p id="cmsg" role="alert" style="min-height:1.5em;margin:10px 0;font-weight:500"></p>
+    <button id="cgo" class="btn" type="submit" style="border:0;cursor:pointer">보내기</button>
+  </form>
+</div></section>
+<style>.ci{display:block;width:100%;margin-top:6px;padding:10px 12px;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:10px;background:#fff}</style>
+<script>
+(function(){var f=document.getElementById('cf'),m=document.getElementById('cmsg'),g=document.getElementById('cgo');
+f.addEventListener('submit',function(e){e.preventDefault();var a={name:f.name.value.trim(),contact:f.contact.value.trim(),message:f.message.value.trim(),where:'문의 페이지',consent:f.consent.checked?'동의함':''};
+if(!a.name||!a.contact||!a.message||!a.consent){m.style.color='#A83A20';m.textContent='필수 항목을 모두 적어 주세요.';return;}
+g.disabled=true;g.textContent='보내는 중…';m.textContent='';
+fetch('https://script.google.com/macros/s/AKfycbyPl0F24k3x3vnggSwOdDilt4vDr3XAFvt7RdrLKK6C65nos_D_kxstgmWcdbJAdYD3yA/exec',{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({form:'contact',hp:f.hp.value,answers:a})}).then(function(r){return r.json();}).then(function(j){if(!j.ok)throw 0;f.reset();m.style.color='var(--forest)';m.textContent='문의를 받았습니다. 확인 후 연락드리겠습니다.';}).catch(function(){m.style.color='#A83A20';m.textContent='보내지 못했습니다. 전화로 문의해 주세요.';}).finally(function(){g.disabled=false;g.textContent='보내기';});});})();
+</script>
 
 </main>
 <footer><div class="wrap">
