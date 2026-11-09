@@ -88,7 +88,7 @@
 <script>
 (function(){
   var URL_='https://script.google.com/macros/s/AKfycbyPl0F24k3x3vnggSwOdDilt4vDr3XAFvt7RdrLKK6C65nos_D_kxstgmWcdbJAdYD3yA/exec', KEY='birding2026-survey-done', f=document.getElementById('f'), msg=document.getElementById('msg'), go=document.getElementById('go');
-  var OPEN=new Date('2026-11-14T10:00:00+09:00'), W=document.getElementById('wait');
+  var OPEN=new Date('2026-11-09T00:00:00+09:00'), W=document.getElementById('wait');
   function opened(){ if(new Date()>=OPEN){ W.hidden=true; f.hidden=false; return true; } return false; }
   if(!opened()){ var iv=setInterval(function(){ if(opened()) clearInterval(iv); },30000); }
   function done(){ W.hidden=true;  f.hidden=true; document.getElementById('done').hidden=false; window.scrollTo(0,0); }
