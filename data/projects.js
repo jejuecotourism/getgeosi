@@ -14,6 +14,11 @@
    owner   : 주최. 협회 | 센터 | 공동 | 외주 | 미정 (관리자 페이지에만 표시)
    ownerNote : 주최 근거를 짧게 */
 const PROJECTS = [
+  { title:"수산2리 생태관광 대표 캐릭터 기획안", area:"마을과 주민",
+    summary:"수산2리 벌라릿굴에서 겨울을 나는 긴가락박쥐와 관박쥐를 한 쌍의 캐릭터 '라리'와 '울렝이'로 만드는 기획입니다. 제주자연생태공원과 수산2리 마을의 요청으로 준비하고 있습니다.",
+    status:"ongoing", url:"projects/susan2-bat-character/",
+    thumb:"assets/projects/susan2_bat_character_thumbnail.jpg", alt:"벌라릿굴 동굴 입구 앞에 마주 선 박쥐 캐릭터 두 마리(기획 단계 AI 시안)", locked:true, owner:"미정", ownerNote:"제주자연생태공원과 수산2리 마을 요청. 사업 명의 확인 필요" },
+
   { title:"오조리 마을 해설 자료 제작", area:"마을과 주민",
     summary:"오조리 어르신들이 들려주는 옛 바다 이야기를 기록해 마을 해설 자료로 만듭니다.",
     status:"ongoing", url:"",
