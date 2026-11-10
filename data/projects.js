@@ -26,8 +26,8 @@ const PROJECTS = [
 
   { title:"곶자왈·오름 특화사업", area:"생태관광 프로그램",
     summary:"곶자왈과 오름을 중심으로 생태관광을 키우는 사업입니다.",
-    status:"ongoing", url:"",
-    thumb:"assets/img/p13.jpg", alt:"저지곶자왈 숲 사이로 빛이 드는 모습", owner:"협회", ownerNote:"공모 사업, 협회 명의" },
+    status:"ongoing", url:"projects/gotjawal-oreum-report/",
+    thumb:"assets/img/p13.jpg", alt:"저지곶자왈 숲 사이로 빛이 드는 모습", locked:true, owner:"협회", ownerNote:"공모 사업, 협회 명의" },
 
   { title:"가로수길 지도 제작", area:"알림과 협력",
     summary:"가로수길 지도를 앞뒤 2면으로 만들고 있습니다. 지금은 인쇄 전 시안을 검토하는 단계입니다.",
