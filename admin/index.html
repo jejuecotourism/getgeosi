@@ -53,6 +53,7 @@ dialog::backdrop{background:rgba(0,0,0,.4)}
 </div>
 <dialog id="dlg"><form method="dialog" id="dlgf"></form></dialog>
 <div id="toast" role="status"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 (function(){
 var API='https://script.google.com/macros/s/AKfycbyPl0F24k3x3vnggSwOdDilt4vDr3XAFvt7RdrLKK6C65nos_D_kxstgmWcdbJAdYD3yA/exec';
@@ -91,13 +92,53 @@ var LBL={public:'공개',private:'비공개',password:'비밀번호',checking:'�
 function needGH(){if(!status.github){toast('먼저 설정 탭에서 GitHub를 연결해 주세요.',7000);tab('settings');return true}return false}
 function vPages(){
   $('#view').innerHTML='<h2>사이트 전체</h2><p class="note">전체 비공개는 "준비 중" 화면을 씌웁니다. 내용을 암호화하는 것은 아니며, 비밀번호 페이지는 그대로 비밀번호로 보호됩니다.</p><p><b>현재: <span id="sc">확인 중</span></b> <button class="btn" id="sOpen">전체 공개</button><button class="btn warn" id="sClose">전체 비공개</button></p>'+
-  '<h2 style="margin-top:24px">페이지별</h2><p class="note">바꾼 내용은 1~2분 뒤 사이트에 반영됩니다. 비밀번호 페이지는 내용을 암호화합니다. 저장소가 공개라 이전에 공개했던 내용은 GitHub 기록에 남습니다.</p><table><thead><tr><th>페이지</th><th>주최</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+
-  PAGES.map(function(p,i){return '<tr><td><a href="/'+p[0].replace(/index\.html$/,'')+'" target="_blank">'+esc(p[1])+'</a></td><td id="ow'+i+'">-</td><td><span class="chip checking" id="st'+i+'">확인 중</span></td><td><button class="btn" data-a="public" data-i="'+i+'">공개</button><button class="btn" data-a="password" data-i="'+i+'">비밀번호 설정·변경</button><button class="btn warn" data-a="private" data-i="'+i+'">비공개</button></td></tr>'}).join('')+'</tbody></table>';
+  '<h2 style="margin-top:24px">페이지별</h2><p class="note">바꾼 내용은 1~2분 뒤 사이트에 반영됩니다. 비밀번호 페이지는 내용을 암호화합니다. 저장소가 공개라 이전에 공개했던 내용은 GitHub 기록에 남습니다.<br>받기: HTML은 그 페이지와 하위 페이지, 그림, 자료를 압축 파일 하나로 받습니다. 풀어서 페이지의 index.html(또는 해당 html)을 열면 하위 페이지까지 이어서 볼 수 있습니다. PDF는 새 창에서 인쇄 창을 열어 줍니다. 대상에서 “PDF로 저장”을 고르세요.</p><table><thead><tr><th>페이지</th><th>주최</th><th>상태</th><th>바꾸기</th><th>받기</th></tr></thead><tbody>'+
+  PAGES.map(function(p,i){return '<tr><td><a href="/'+p[0].replace(/index\.html$/,'')+'" target="_blank">'+esc(p[1])+'</a></td><td id="ow'+i+'">-</td><td><span class="chip checking" id="st'+i+'">확인 중</span></td><td><button class="btn" data-a="public" data-i="'+i+'">공개</button><button class="btn" data-a="password" data-i="'+i+'">비밀번호 설정·변경</button><button class="btn warn" data-a="private" data-i="'+i+'">비공개</button></td><td style="white-space:nowrap"><button class="btn" data-dl="html" data-i="'+i+'">HTML</button><button class="btn" data-dl="pdf" data-i="'+i+'">PDF</button></td></tr>'}).join('')+'</tbody></table>';
   fetch('/data/site.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){$('#sc').textContent=j.closed?'전체 비공개':'전체 공개'}).catch(function(){$('#sc').textContent='전체 공개'});
   $('#sOpen').onclick=function(){siteSet(false)};$('#sClose').onclick=function(){siteSet(true)};
   loadCards().then(function(d){PAGES.forEach(function(p,i){var c=pageCard(p[0],d),x=$('#ow'+i);if(c&&x)x.innerHTML=own(c)})}).catch(function(){});
   PAGES.forEach(function(p,i){live(p[0]).then(function(t){setChip(i,stateOf(t))}).catch(function(){})});
-  $('#view').querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){act(+b.dataset.i,b.dataset.a)}})}
+  $('#view').querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){act(+b.dataset.i,b.dataset.a)}});
+  $('#view').querySelectorAll('[data-dl]').forEach(function(b){b.onclick=function(){if(b.dataset.dl==='html')bundle(+b.dataset.i,b);else printPage(+b.dataset.i)}})}
+/* 받기: HTML 묶음(하위 페이지 포함)과 PDF(인쇄) */
+var TREE=null;
+function tree(){return TREE?Promise.resolve(TREE):fetch('https://api.github.com/repos/jejuecotourism/getgeosi/git/trees/main?recursive=1').then(function(r){return r.json()}).then(function(j){TREE=(j.tree||[]).filter(function(t){return t.type==='blob'}).map(function(t){return t.path});return TREE}).catch(function(){return []})}
+function isEnc(t){return t.indexOf('crypto.subtle')>=0&&/var DATA = \{/.test(t)}
+var TEXT=/\.(html?|css|js|json|txt|svg|xml|md|csv)$/i;
+function refs(t,from){var out=[],re=/(?:src|href|data-src|poster)\s*=\s*["']([^"'<>]+)["']|url\(\s*["']?([^"')]+)["']?\s*\)|["']([\w%.\/-]+\.(?:js|css|json|jpe?g|png|gif|webp|svg|pdf|mp3|m4a|wav|mp4|webm|html))(?:\?[^"']*)?["']/gi,m;
+  while((m=re.exec(t))){var r=m[1]||m[2]||m[3];if(!r||/^(data:|blob:|mailto:|tel:|javascript:|#)/i.test(r)||/[\s${}()+]/.test(r))continue;
+    try{var u=new URL(r,location.origin+'/'+from)}catch(e){continue}
+    if(u.origin!==location.origin)continue;var q=decodeURIComponent(u.pathname.slice(1));if(!q||/\/$/.test(q))q+='index.html';if(/^admin\//.test(q)||!/\.[a-z0-9]{2,5}$/i.test(q))continue;out.push(q)}
+  return out}
+function fixLinks(t){return t.replace(/((?:href|src)\s*=\s*["'])(?![a-z]+:|\/\/|#|\/)([^"'#?]*\/)([#?][^"']*)?(["'])/gi,function(_,a,b,c,d){return a+b+'index.html'+(c||'')+d}).replace(/((?:href)\s*=\s*["'])(\.\.?)(["'#])/g,function(_,a,b,c){return a+b+'/index.html'+c})}
+function bundle(i,btn){if(typeof JSZip==='undefined')return toast('압축 도구를 불러오지 못했습니다. 새로고침해 주세요.',8000);
+  var p=PAGES[i],dir=p[0].replace(/[^\/]*$/,''),seen={},files={},queue=[p[0]],missing=[],pw=null,asked=null,plain=0;btn.disabled=true;
+  var inTree=function(q){return dir&&q.indexOf(dir)===0};
+  var askPw=function(){if(!asked)asked=ask('비밀번호 페이지 풀기',[['pw','이 묶음의 페이지 비밀번호 (취소하면 잠긴 채로 담습니다)']]).then(function(o){pw=o?o.pw:'';return pw});return asked};
+  var one=function(q){if(seen[q])return Promise.resolve();seen[q]=1;toast('모으는 중… '+Object.keys(files).length+'개',600000);
+    return fetch('/'+q+'?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return TEXT.test(q)?r.text():r.arrayBuffer()}).then(function(c){
+      var next=function(c){files[q]=c;if(typeof c!=='string')return;
+        refs(c,/\.js(on)?$/i.test(q)?'index.html':q).forEach(function(x){if(seen[x])return;if(/\.html?$/i.test(x)){if(inTree(x))queue.push(x)}else queue.push(x)})};
+      if(typeof c==='string'&&/\.html?$/i.test(q)&&isEnc(c))return askPw().then(function(k){if(!k)return next(c);return decrypt(c,k).then(function(h){plain++;next(h)}).catch(function(){next(c)})});
+      next(c)}).catch(function(){missing.push(q)})};
+  var run=function(){if(!queue.length)return Promise.resolve();var batch=queue.splice(0,6);return Promise.all(batch.map(one)).then(run)};
+  (dir?tree():Promise.resolve([])).then(function(all){all.forEach(function(f){if(inTree(f)&&!/(^|\/)\._/.test(f))queue.push(f)});return run()}).then(function(){
+    var z=new JSZip(),n=0;Object.keys(files).forEach(function(q){var c=files[q];if(typeof c==='string'&&/\.html?$/i.test(q))c=fixLinks(c);z.file(q,c);n++});
+    z.file('읽어 주세요.txt','제주 에코투어리즘 "'+p[1]+'" 페이지 묶음 ('+new Date().toLocaleString('ko-KR')+')\r\n\r\n'+p[0]+' 파일을 브라우저로 열면 됩니다. 하위 페이지와 그림, 자료가 같은 폴더 구조로 들어 있습니다.\r\n'+(missing.length?'\r\n받지 못한 파일:\r\n'+missing.join('\r\n')+'\r\n':''));
+    toast('압축하는 중… '+n+'개',600000);
+    return z.generateAsync({type:'blob'}).then(function(b){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=p[1].replace(/[\\/:*?"<>|]/g,'_')+'_'+new Date().toISOString().slice(0,10)+'.zip';a.click();
+      window.__lastBundle={name:a.download,n:n,size:b.size,plain:plain,missing:missing.slice(),files:Object.keys(files)};
+      toast('받았습니다: 파일 '+n+'개, '+(b.size/1048576).toFixed(1)+'MB'+(plain?', 비밀번호 페이지 '+plain+'개는 풀어서 담음':'')+(missing.length?', 받지 못한 파일 '+missing.length+'개(읽어 주세요.txt)':''),12000)})
+  }).catch(function(e){toast('받지 못했습니다: '+(e&&e.message||e),9000)}).finally(function(){btn.disabled=false})}
+function printPage(i){var p=PAGES[i],w=window.open('/'+p[0].replace(/index\.html$/,'')+'?print='+Date.now(),'_blank');if(!w)return toast('팝업이 막혔습니다. 이 사이트의 팝업을 허용해 주세요.',9000);
+  var ready=function(){return new Promise(function(res){var k=0,t=setInterval(function(){k++;try{if(w.document.readyState==='complete'&&w.location.pathname.length>1){clearInterval(t);res()}}catch(e){}if(k>150){clearInterval(t);res()}},200)})};
+  var go=function(){var d=w.document,im=[].slice.call(d.images);im.forEach(function(x){x.loading='eager'});
+    return new Promise(function(res){var k=0,t=setInterval(function(){k++;if(im.every(function(x){return x.complete})||k>60){clearInterval(t);res()}},200)}).then(function(){w.focus();w.print()})};
+  fetch('/'+p[0]+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){
+    if(!isEnc(t))return ready().then(go);
+    return ask('비밀번호 페이지 PDF',[['pw','"'+p[1]+'" 비밀번호']]).then(function(o){if(!o){w.close();return}
+      return decrypt(t,o.pw).then(function(h){return ready().then(function(){w.document.open();w.document.write(h);w.document.close();return new Promise(function(r){setTimeout(r,800)})}).then(go)})})
+  }).catch(function(e){toast(e.message||'PDF를 만들지 못했습니다.',9000)})}
 function setChip(i,s){var c=$('#st'+i);if(c){c.className='chip '+s;c.textContent=LBL[s];c.dataset.s=s}}
 function siteSet(c){if(needGH())return;if(!confirm(c?'사이트 전체를 준비 중 화면으로 바꿀까요?':'사이트 전체를 공개할까요?'))return;toast('처리 중…');api({action:'siteSet',closed:c}).then(function(){toast('저장했습니다. 1~2분 뒤 반영됩니다.');$('#sc').textContent=c?'전체 비공개':'전체 공개'}).catch(function(e){toast(e.message,8000)})}
 function ask(title,fields){return new Promise(function(res){var d=$('#dlg'),f=$('#dlgf');
