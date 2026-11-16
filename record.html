@@ -57,6 +57,8 @@ footer{background:linear-gradient(180deg,var(--gold) 0%,var(--persimmon) 100%);c
 .foot-logos{display:flex;gap:26px;flex-wrap:wrap;align-items:center}
 .foot-logo{background:transparent;border:0;padding:0;font-weight:700;color:#4A3418;font-size:.95rem;display:flex;align-items:center}
 .foot-logo img{height:46px;width:auto;display:block}
+.foot-logo img[src*="logo_center"]{height:30px;max-width:100%;object-fit:contain}
+@media(max-width:520px){.foot-logo img[src*="logo_center"]{height:19px}}
 .foot-info{font-size:.9rem;line-height:1.9}
 .foot-qrs{display:flex;gap:18px;align-items:flex-start}
 .foot-qr{display:flex;flex-direction:column;align-items:center;gap:6px}
