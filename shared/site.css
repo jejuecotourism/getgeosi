@@ -128,6 +128,10 @@ footer{background:var(--forest-deep);color:#E8E3D4;padding:42px 0 30px;font-size
 .foot{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:28px}
 footer h3{color:#fff;font-size:.95rem;margin-bottom:6px}
 footer a{color:#fff}
+.foot-logos{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:18px 34px;background:#fff;border-radius:10px;padding:14px 24px;width:fit-content;max-width:100%}
+.foot-logos img{display:block;width:auto;max-width:100%}
+.foot-logos .lg-center{height:30px}
+.foot-logos .lg-assoc{height:48px}
 .foot-note{margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2);font-size:.8rem;color:#C9C4B4}
 
 @media (max-width:760px){
