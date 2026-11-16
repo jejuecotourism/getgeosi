@@ -11,7 +11,7 @@
    record : 일정 기록 페이지 주소 (없으면 "")
    note   : 카드에 나오는 짧은 설명
    draft  : true면 사이트에 나오지 않습니다 (공개 전 일정)
-   owner  : 주최. 협회 | 센터 | 공동 | 외주 | 미정 (관리자 페이지에만 표시)
+   owner  : 주최. 협회 | 센터 | 외주 | 미정, 주최가 여럿이면 ["협회","센터"]처럼 모두 적습니다 (관리자 페이지에만 표시)
    ownerNote : 주최 근거를 짧게
    survey : 만족도 조사 양식 이름. 넣으면 관리자 만족도 조사 탭에서 이 행사를 눌러 응답을 봅니다 (없으면 생략) */
 const EVENTS = [
@@ -22,7 +22,7 @@ const EVENTS = [
     status:"closed", cover:"events/2026-birding/cover.jpg", url:"events/2026-birding/", record:"", note:"새를 따라, 습지를 만나다", survey:"birding2026-survey", owner:"협회", ownerNote:"행사 페이지 주최" },
 
   { id:"2026-autumn", title:"2026 가을 생태관광주간", start:"2026-10-03", end:"2026-10-09", time:"",
-    status:"done", cover:"assets/img/p13.jpg", url:"events/2026-autumn/", record:"records.html", note:"프로그램 27개", owner:"공동", ownerNote:"행사 페이지 주최: 협회·센터" },
+    status:"done", cover:"assets/img/p13.jpg", url:"events/2026-autumn/", record:"records.html", note:"프로그램 27개", owner:["협회","센터"], ownerNote:"행사 페이지 주최: 협회·센터" },
 
   { id:"2026-summer", title:"제3회 갯것이영화제 × 2026 생태관광주간", start:"2026-08-08", end:"2026-08-15", time:"",
     status:"done", cover:"assets/img/eco_05_dolphin.jpg", url:"events/2026-summer/", record:"", note:"바다를 보고 느끼는 8일", owner:"센터", ownerNote:"주최 센터, 주관 협회" }

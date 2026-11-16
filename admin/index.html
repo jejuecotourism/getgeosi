@@ -64,8 +64,8 @@ var TABS=[['pages','페이지 공개·비밀번호'],['cards','카드 공개'],[
 var $=function(s){return document.querySelector(s)};
 var S=null; try{S=sessionStorage.getItem('adm')}catch(e){}
 var status={};
-var OWNS={'협회':['#e3efe4','#1e3f27'],'센터':['#dcecf0','#0f5c6e'],'공동':['#ece6f4','#4a3573'],'외주':['#f6e3dc','#8a3a1c'],'미정':['#fbeed5','#7a4a00']};
-function own(c){var o=(c&&c.owner)||'미정',k=OWNS[o]||OWNS['미정'];return '<span style="display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;background:'+k[0]+';color:'+k[1]+'">'+esc(o)+'</span>'}
+var OWNS={'협회':['#e3efe4','#1e3f27'],'센터':['#dcecf0','#0f5c6e'],'외주':['#f6e3dc','#8a3a1c'],'미정':['#fbeed5','#7a4a00']};
+function own(c){var o=(c&&c.owner)||'미정',list=Array.isArray(o)?o:[o];return list.map(function(x){var k=OWNS[x]||['#eee','#444'];return '<span style="display:inline-block;padding:2px 8px;margin:1px 2px 1px 0;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;background:'+k[0]+';color:'+k[1]+'">'+esc(x)+'</span>'}).join('')}
 function ownNote(c){return c&&c.ownerNote?'<br><span class="note">'+esc(c.ownerNote)+'</span>':''}
 function loadCards(){return Promise.all(['events','projects'].map(function(n){return fetch('/data/'+n+'.js?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})})).then(function(a){return {ev:new Function(a[0]+';return EVENTS')(),pr:new Function(a[1]+';return PROJECTS')()}})}
 function pageCard(path,d){var m=path.match(/^events\/([^/]+)\//);if(m)return d.ev.filter(function(e){return e.id===m[1]})[0];var dir=path.replace(/index\.html$/,'');return d.pr.filter(function(p){return p.url&&dir.indexOf(p.url)===0||(p.links||[]).some(function(l){return dir.indexOf(l.url)===0})})[0]}
