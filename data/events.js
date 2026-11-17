@@ -19,7 +19,7 @@ const EVENTS = [
     status:"upcoming", cover:"", url:"", record:"", note:"", draft:true, owner:"센터", ownerNote:"센터 사업" },
 
   { id:"2026-birding", title:"오고 생이 제주로 탐조대회", start:"2026-11-14", end:"2026-11-14", time:"09:00~16:00",
-    status:"closed", cover:"events/2026-birding/cover.jpg", url:"events/2026-birding/", record:"", note:"새를 따라, 습지를 만나다", survey:"birding2026-survey", owner:"협회", ownerNote:"행사 페이지 주최" },
+    status:"done", cover:"events/2026-birding/cover.jpg", url:"events/2026-birding/", record:"events/2026-birding/record/", note:"새를 따라, 습지를 만나다", survey:"birding2026-survey", owner:"협회", ownerNote:"행사 페이지 주최" },
 
   { id:"2026-autumn", title:"2026 가을 생태관광주간", start:"2026-10-03", end:"2026-10-09", time:"",
     status:"done", cover:"assets/img/p13.jpg", url:"events/2026-autumn/", record:"records.html", note:"프로그램 27개", owner:["협회","센터"], ownerNote:"행사 페이지 주최: 협회·센터" },
