@@ -27,7 +27,7 @@ const PROJECTS = [
 
   { title:"해양생물 모니터링", area:"조사와 연구",
     summary:"성산고등학교 학생들이 전문가와 함께 오조리 연안습지보호지역의 해양생물을 조사해 141종을 기록하고, 그 결과를 전시 「오조리의 해양생물」로 나누었습니다.",
-    status:"ongoing", url:"projects/marine-monitoring/",
+    status:"done", url:"projects/marine-monitoring/",
     thumb:"projects/marine-monitoring/thumb.jpg", alt:"현수막 「오조리의 해양생물」 — 오조리 연안습지 지도 위에 141종을 소개한 그림",
     owner:"협회", ownerNote:"2026 해양보호구역 인식증진 교육 및 홍보사업, (사)제주생태관광협회 보조사업(교부신청 2026-06-19)" },
 
