@@ -24,6 +24,7 @@
 .rv-photos{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));margin-top:14px}
 .rv-photos figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .rv-photos img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.rv-photos img.wide{aspect-ratio:auto;object-fit:contain}
 .rv-photos figcaption{padding:10px 12px;font-size:.92rem;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .rv-photos figcaption a{white-space:nowrap;font-size:.86rem}
 .rv-photos h3{grid-column:1/-1;margin:14px 0 0;font-size:1.02rem}
@@ -235,32 +236,29 @@
 
 <section><div class="wrap">
   <h2>사진</h2>
-  <p class="rv-cap">사진을 누르면 크게 보이고, '원본'을 누르면 내려받습니다. 공개를 원하지 않는 사진은 <a href="../../../contact.html">문의</a>로 알려 주세요.</p>
+  <p class="rv-cap">사진을 누르면 크게 볼 수 있습니다.</p>
   <div class="rv-photos">
     <h3>포럼 현장과 설문대할망전시관</h3>
-    <figure><a href="photos/01_arrival.jpg" target="_blank" rel="noopener"><img src="web/01_arrival.jpg" alt="제주돌문화공원 설문대할망전시관 가는 길" loading="lazy"></a><figcaption><span>설문대할망전시관 가는 길</span><a href="photos/01_arrival.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/02_lobby.jpg" target="_blank" rel="noopener"><img src="web/02_lobby.jpg" alt="전시관 로비의 포럼 접수처" loading="lazy"></a><figcaption><span>전시관 로비의 포럼 접수처</span><a href="photos/02_lobby.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/03_forum_stage.jpg" target="_blank" rel="noopener"><img src="web/03_forum_stage.jpg" alt="2026 제주국제생태포럼 현수막이 걸린 회의장" loading="lazy"></a><figcaption><span>2026 제주국제생태포럼 회의장</span><a href="photos/03_forum_stage.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/04_exhibition_altar.jpg" target="_blank" rel="noopener"><img src="web/04_exhibition_altar.jpg" alt="설문대할망전시관 상설 전시" loading="lazy"></a><figcaption><span>설문대할망전시관 전시</span><a href="photos/04_exhibition_altar.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/05_exhibition_samseung.jpg" target="_blank" rel="noopener"><img src="web/05_exhibition_samseung.jpg" alt="삼승할망 본풀이 전시 벽면" loading="lazy"></a><figcaption><span>삼승할망 본풀이 전시</span><a href="photos/05_exhibition_samseung.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/06_lecture_performance.jpg" target="_blank" rel="noopener"><img src="web/06_lecture_performance.jpg" alt="미래 세대 렉처 퍼포먼스 「바다 위 땅」" loading="lazy"></a><figcaption><span>렉처 퍼포먼스 「바다 위 땅」</span><a href="photos/06_lecture_performance.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/07_choir.jpg" target="_blank" rel="noopener"><img src="web/07_choir.jpg" alt="포럼 무대의 합창 공연" loading="lazy"></a><figcaption><span>포럼 무대의 합창 공연</span><a href="photos/07_choir.jpg" download>원본</a></figcaption></figure>
-
-    <h3>제주 전문가 네트워크 발표</h3>
-    <figure><a href="photos/08_lee_youngung.jpg" target="_blank" rel="noopener"><img src="web/08_lee_youngung.jpg" alt="발표하는 이영웅 제주환경운동연합 사무처장" loading="lazy"></a><figcaption><span>이영웅 제주환경운동연합 사무처장</span><a href="photos/08_lee_youngung.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/09_yang_sunam.jpg" target="_blank" rel="noopener"><img src="web/09_yang_sunam.jpg" alt="발표하는 양수남 (사)제주자연의벗 사무처장" loading="lazy"></a><figcaption><span>양수남 (사)제주자연의벗 사무처장</span><a href="photos/09_yang_sunam.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/10_an_seonggwan.jpg" target="_blank" rel="noopener"><img src="web/10_an_seonggwan.jpg" alt="발표하는 안성관 다시바다 대표" loading="lazy"></a><figcaption><span>안성관 다시바다 대표</span><a href="photos/10_an_seonggwan.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/11_ko_title.jpg" target="_blank" rel="noopener"><img src="web/11_ko_title.jpg" alt="발표하는 고제량 (사)제주생태관광협회 협회장" loading="lazy"></a><figcaption><span>고제량 협회장 발표</span><a href="photos/11_ko_title.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/12_ko_podium.jpg" target="_blank" rel="noopener"><img src="web/12_ko_podium.jpg" alt="단상에서 이야기하는 고제량 협회장" loading="lazy"></a><figcaption><span>단상의 고제량 협회장</span><a href="photos/12_ko_podium.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/13_ko_slide_intro.jpg" target="_blank" rel="noopener"><img src="web/13_ko_slide_intro.jpg" alt="고제량 협회장 발표 화면 — 만나서 반갑습니다" loading="lazy"></a><figcaption><span>발표 화면 — 자기소개</span><a href="photos/13_ko_slide_intro.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/14_ko_slide_association.jpg" target="_blank" rel="noopener"><img src="web/14_ko_slide_association.jpg" alt="고제량 협회장 발표 화면 — (사)제주생태관광협회 소개" loading="lazy"></a><figcaption><span>발표 화면 — (사)제주생태관광협회</span><a href="photos/14_ko_slide_association.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/15_ko_slide_map40.jpg" target="_blank" rel="noopener"><img src="web/15_ko_slide_map40.jpg" alt="발표 화면 — 한국의 생태관광지 지도" loading="lazy"></a><figcaption><span>발표 화면 — 한국의 생태관광지</span><a href="photos/15_ko_slide_map40.jpg" download>원본</a></figcaption></figure>
-
-    <h3>토론과 소감</h3>
-    <figure><a href="photos/16_panel_ko.jpg" target="_blank" rel="noopener"><img src="web/16_panel_ko.jpg" alt="토론에서 가장 먼저 의견을 말하는 고제량 협회장" loading="lazy"></a><figcaption><span>토론에서 의견을 말하는 고제량 협회장</span><a href="photos/16_panel_ko.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/17_panel_wide.jpg" target="_blank" rel="noopener"><img src="web/17_panel_wide.jpg" alt="발표자 토론 — 네 명의 발표자가 함께 앉은 무대" loading="lazy"></a><figcaption><span>발표자 토론</span><a href="photos/17_panel_wide.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/18_panel_three.jpg" target="_blank" rel="noopener"><img src="web/18_panel_three.jpg" alt="토론에서 의견을 나누는 발표자들" loading="lazy"></a><figcaption><span>의견을 나누는 발표자들</span><a href="photos/18_panel_three.jpg" download>원본</a></figcaption></figure>
-    <figure><a href="photos/19_audience.jpg" target="_blank" rel="noopener"><img src="web/19_audience.jpg" alt="세션을 마치며 소감을 말하는 참석자" loading="lazy"></a><figcaption><span>소감을 말하는 참석자</span><a href="photos/19_audience.jpg" download>원본</a></figcaption></figure>
+    <figure><a href="web/01_arrival.jpg" target="_blank" rel="noopener"><img src="thumb/01_arrival.jpg" alt="제주돌문화공원 설문대할망전시관 가는 길" loading="lazy"></a><figcaption><span>설문대할망전시관 가는 길</span></figcaption></figure>
+    <figure><a href="web/02_lobby.jpg" target="_blank" rel="noopener"><img src="thumb/02_lobby.jpg" alt="전시관 로비의 포럼 접수처" loading="lazy"></a><figcaption><span>전시관 로비의 포럼 접수처</span></figcaption></figure>
+    <figure><a href="web/03_forum_stage.jpg" target="_blank" rel="noopener"><img src="thumb/03_forum_stage.jpg" alt="2026 제주국제생태포럼 현수막이 걸린 회의장" loading="lazy"></a><figcaption><span>2026 제주국제생태포럼 회의장</span></figcaption></figure>
+    <figure><a href="web/04_exhibition_altar.jpg" target="_blank" rel="noopener"><img src="thumb/04_exhibition_altar.jpg" alt="설문대할망전시관 상설 전시" loading="lazy"></a><figcaption><span>설문대할망전시관 전시</span></figcaption></figure>
+    <figure><a href="web/05_exhibition_samseung.jpg" target="_blank" rel="noopener"><img src="thumb/05_exhibition_samseung.jpg" alt="삼승할망 본풀이 전시 벽면" loading="lazy"></a><figcaption><span>삼승할망 본풀이 전시</span></figcaption></figure>
+    <figure><a href="web/06_lecture_performance.jpg" target="_blank" rel="noopener"><img src="thumb/06_lecture_performance.jpg" alt="미래 세대 렉처 퍼포먼스 「바다 위 땅」" loading="lazy"></a><figcaption><span>렉처 퍼포먼스 「바다 위 땅」</span></figcaption></figure>
+    <figure><a href="web/07_choir.jpg" target="_blank" rel="noopener"><img src="thumb/07_choir.jpg" alt="포럼 무대의 합창 공연" loading="lazy"></a><figcaption><span>포럼 무대의 합창 공연</span></figcaption></figure>
+    <h3>제주 전문가 네트워크 발표와 토론</h3>
+    <figure><a href="web/08_lee_youngung.jpg" target="_blank" rel="noopener"><img src="thumb/08_lee_youngung.jpg" alt="발표하는 이영웅 제주환경운동연합 사무처장" loading="lazy"></a><figcaption><span>이영웅 제주환경운동연합 사무처장</span></figcaption></figure>
+    <figure><a href="web/09_yang_sunam.jpg" target="_blank" rel="noopener"><img src="thumb/09_yang_sunam.jpg" alt="토론에서 의견을 말하는 양수남 (사)제주자연의벗 사무처장" loading="lazy"></a><figcaption><span>양수남 (사)제주자연의벗 사무처장</span></figcaption></figure>
+    <figure><a href="web/10_an_seonggwan.jpg" target="_blank" rel="noopener"><img src="thumb/10_an_seonggwan.jpg" alt="발표하는 안성관 다시바다 대표" loading="lazy"></a><figcaption><span>안성관 다시바다 대표</span></figcaption></figure>
+    <figure><a href="web/11_ko_speaking.jpg" target="_blank" rel="noopener"><img src="thumb/11_ko_speaking.jpg" alt="발표하는 고제량 (사)제주생태관광협회 협회장" loading="lazy"></a><figcaption><span>발표하는 고제량 협회장</span></figcaption></figure>
+    <figure><a href="web/12_ko_podium.jpg" target="_blank" rel="noopener"><img src="thumb/12_ko_podium.jpg" alt="단상에서 이야기하는 고제량 협회장" loading="lazy"></a><figcaption><span>단상의 고제량 협회장</span></figcaption></figure>
+    <figure><a href="web/13_ko_slide_intro.jpg" target="_blank" rel="noopener"><img src="thumb/13_ko_slide_intro.jpg" alt="고제량 협회장 발표 화면 — 만나서 반갑습니다" loading="lazy"></a><figcaption><span>발표 화면 — 자기소개</span></figcaption></figure>
+    <figure><a href="web/14_ko_slide_association.jpg" target="_blank" rel="noopener"><img src="thumb/14_ko_slide_association.jpg" alt="고제량 협회장 발표 화면 — (사)제주생태관광협회 소개" loading="lazy"></a><figcaption><span>발표 화면 — (사)제주생태관광협회</span></figcaption></figure>
+    <figure><a href="web/15_ko_slide_map40.jpg" target="_blank" rel="noopener"><img src="thumb/15_ko_slide_map40.jpg" alt="발표 화면 — 한국의 생태관광지 지도" loading="lazy"></a><figcaption><span>발표 화면 — 한국의 생태관광지</span></figcaption></figure>
+    <figure><a href="web/16_panel_ko.jpg" target="_blank" rel="noopener"><img src="thumb/16_panel_ko.jpg" alt="토론에서 가장 먼저 의견을 말하는 고제량 협회장" loading="lazy"></a><figcaption><span>토론에서 의견을 말하는 고제량 협회장</span></figcaption></figure>
+    <figure><a href="web/17_panel_wide.jpg" target="_blank" rel="noopener"><img class="wide" src="thumb/17_panel_wide.jpg" alt="발표자 토론 — 네 명의 발표자가 함께 앉은 무대" loading="lazy"></a><figcaption><span>발표자 토론</span></figcaption></figure>
+    <figure><a href="web/18_panel_three.jpg" target="_blank" rel="noopener"><img src="thumb/18_panel_three.jpg" alt="토론에서 의견을 나누는 발표자들" loading="lazy"></a><figcaption><span>의견을 나누는 발표자들</span></figcaption></figure>
+    <figure><a href="web/19_audience.jpg" target="_blank" rel="noopener"><img src="thumb/19_audience.jpg" alt="세션을 마치며 소감을 말하는 참석자" loading="lazy"></a><figcaption><span>소감을 말하는 참석자</span></figcaption></figure>
   </div>
 </div></section>
 
@@ -280,7 +278,7 @@
 <section><div class="wrap">
   <h2>출처</h2>
   <ul class="rv-src">
-    <li>사진: 현장 촬영 (발표 화면 사진은 현장 영상에서 뽑은 장면)</li>
+    <li>사진: 현장 촬영 (일부는 현장 영상에서 뽑은 장면)</li>
     <li>내용: 세션 현장 기록(발표·토론), 2026 제주국제생태포럼 공식 누리집 세션 안내·일정, 위 관련 기사</li>
   </ul>
 </div></section>
