@@ -93,13 +93,14 @@ var LBL={public:'공개',private:'비공개',password:'비밀번호',checking:'�
 function needGH(){if(!status.github){toast('먼저 설정 탭에서 GitHub를 연결해 주세요.',7000);tab('settings');return true}return false}
 function vPages(){
   $('#view').innerHTML='<h2>사이트 전체</h2><p class="note">전체 비공개는 "준비 중" 화면을 씌웁니다. 내용을 암호화하는 것은 아니며, 비밀번호 페이지는 그대로 비밀번호로 보호됩니다.</p><p><b>현재: <span id="sc">확인 중</span></b> <button class="btn" id="sOpen">전체 공개</button><button class="btn warn" id="sClose">전체 비공개</button></p>'+
-  '<h2 style="margin-top:24px">페이지별</h2><p class="note">바꾼 내용은 1~2분 뒤 사이트에 반영됩니다. 비밀번호 페이지는 내용을 암호화합니다. 저장소가 공개라 이전에 공개했던 내용은 GitHub 기록에 남습니다.<br>받기: HTML은 그 페이지와 하위 페이지, 그림, 자료를 압축 파일 하나로 받습니다. 풀어서 페이지의 index.html(또는 해당 html)을 열면 하위 페이지까지 이어서 볼 수 있습니다. PDF는 새 창에서 인쇄 창을 열어 줍니다. 대상에서 “PDF로 저장”을 고르세요.</p><table><thead><tr><th>페이지</th><th>주최</th><th>상태</th><th>바꾸기</th><th>받기</th></tr></thead><tbody>'+
-  PAGES.map(function(p,i){return '<tr><td><a href="/'+p[0].replace(/index\.html$/,'')+'" target="_blank">'+esc(p[1])+'</a></td><td id="ow'+i+'">-</td><td><span class="chip checking" id="st'+i+'">확인 중</span></td><td><button class="btn" data-a="public" data-i="'+i+'">공개</button><button class="btn" data-a="password" data-i="'+i+'">비밀번호 설정·변경</button><button class="btn warn" data-a="private" data-i="'+i+'">비공개</button></td><td style="white-space:nowrap"><button class="btn" data-dl="html" data-i="'+i+'">HTML</button><button class="btn" data-dl="pdf" data-i="'+i+'">PDF</button></td></tr>'}).join('')+'</tbody></table>';
+  '<h2 style="margin-top:24px">페이지별</h2><p class="note">바꾼 내용은 1~2분 뒤 사이트에 반영됩니다. 비밀번호 페이지는 내용을 암호화합니다. 저장소가 공개라 이전에 공개했던 내용은 GitHub 기록에 남습니다.<br>받기: HTML은 그 페이지와 하위 페이지, 그림, 자료를 압축 파일 하나로 받습니다. 풀어서 페이지의 index.html(또는 해당 html)을 열면 하위 페이지까지 이어서 볼 수 있습니다. PDF는 새 창에서 인쇄 창을 열어 줍니다. 대상에서 “PDF로 저장”을 고르세요.</p><table><thead><tr><th>페이지</th><th>주최</th><th>상태</th><th>바꾸기</th><th>관리자 보기</th><th>받기</th></tr></thead><tbody>'+
+  PAGES.map(function(p,i){return '<tr><td><a href="/'+p[0].replace(/index\.html$/,'')+'" target="_blank">'+esc(p[1])+'</a></td><td id="ow'+i+'">-</td><td><span class="chip checking" id="st'+i+'">확인 중</span></td><td><button class="btn" data-a="public" data-i="'+i+'">공개</button><button class="btn" data-a="password" data-i="'+i+'">비밀번호 설정·변경</button><button class="btn warn" data-a="private" data-i="'+i+'">비공개</button></td><td style="white-space:nowrap"><button class="btn" data-open="'+attr(p[0])+'" data-title="'+attr(p[1])+'">바로 열기</button><button class="btn" data-pw="'+attr(p[0])+'" data-title="'+attr(p[1])+'" id="pw'+i+'" hidden>비밀번호 보기</button></td><td style="white-space:nowrap"><button class="btn" data-dl="html" data-i="'+i+'">HTML</button><button class="btn" data-dl="pdf" data-i="'+i+'">PDF</button></td></tr>'}).join('')+'</tbody></table>';
   fetch('/data/site.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){$('#sc').textContent=j.closed?'전체 비공개':'전체 공개'}).catch(function(){$('#sc').textContent='전체 공개'});
   $('#sOpen').onclick=function(){siteSet(false)};$('#sClose').onclick=function(){siteSet(true)};
   loadCards().then(function(d){PAGES.forEach(function(p,i){var c=pageCard(p[0],d),x=$('#ow'+i);if(c&&x)x.innerHTML=own(c)})}).catch(function(){});
   PAGES.forEach(function(p,i){live(p[0]).then(function(t){setChip(i,stateOf(t))}).catch(function(){})});
   $('#view').querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){act(+b.dataset.i,b.dataset.a)}});
+  wireView($('#view'));
   $('#view').querySelectorAll('[data-dl]').forEach(function(b){b.onclick=function(){if(b.dataset.dl==='html')bundle(+b.dataset.i,b);else printPage(+b.dataset.i)}})}
 /* 받기: HTML 묶음(하위 페이지 포함)과 PDF(인쇄) */
 var TREE=null;
@@ -140,7 +141,7 @@ function printPage(i){var p=PAGES[i],w=window.open('/'+p[0].replace(/index\.html
     return ask('비밀번호 페이지 PDF',[['pw','"'+p[1]+'" 비밀번호']]).then(function(o){if(!o){w.close();return}
       return decrypt(t,o.pw).then(function(h){return ready().then(function(){w.document.open();w.document.write(h);w.document.close();return new Promise(function(r){setTimeout(r,800)})}).then(go)})})
   }).catch(function(e){toast(e.message||'PDF를 만들지 못했습니다.',9000)})}
-function setChip(i,s){var c=$('#st'+i);if(c){c.className='chip '+s;c.textContent=LBL[s];c.dataset.s=s}}
+function setChip(i,s){var c=$('#st'+i);if(c){c.className='chip '+s;c.textContent=LBL[s];c.dataset.s=s}var b=$('#pw'+i);if(b)b.hidden=s!=='password'}
 function siteSet(c){if(needGH())return;if(!confirm(c?'사이트 전체를 준비 중 화면으로 바꿀까요?':'사이트 전체를 공개할까요?'))return;toast('처리 중…');api({action:'siteSet',closed:c}).then(function(){toast('저장했습니다. 1~2분 뒤 반영됩니다.');$('#sc').textContent=c?'전체 비공개':'전체 공개'}).catch(function(e){toast(e.message,8000)})}
 function ask(title,fields){return new Promise(function(res){var d=$('#dlg'),f=$('#dlgf');
   f.innerHTML='<h2>'+esc(title)+'</h2>'+fields.map(function(x){return '<label>'+esc(x[1])+'</label><input type="'+(x[2]||'password')+'" name="'+x[0]+'" required autocomplete="new-password">'}).join('')+'<p style="margin-top:16px"><button class="btn on" value="ok">확인</button><button class="btn" value="no" formnovalidate>취소</button></p>';
@@ -154,7 +155,7 @@ function dataOf(t){var m=t.match(/var DATA = (\{[^;]*?\});/);if(!m)throw new Err
 function decrypt(t,pw){var D=dataOf(t);return key(pw,b64u8(D.salt),D.iter).then(function(k){return crypto.subtle.decrypt({name:'AES-GCM',iv:b64u8(D.iv)},k,b64u8(D.ct))}).then(function(b){return new TextDecoder().decode(b)}).catch(function(e){if(/암호화/.test(e.message||''))throw e;throw new Error('현재 비밀번호가 맞지 않습니다.')})}
 function encrypt(plain,pw){var salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),it=600000;return key(pw,salt,it).then(function(k){return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},k,new TextEncoder().encode(plain))}).then(function(c){return JSON.stringify({iter:it,salt:u8b64(salt),iv:u8b64(iv),ct:u8b64(new Uint8Array(c))})})}
 function act(i,a){if(needGH())return;var p=PAGES[i],cur=($('#st'+i)||{}).dataset.s;
-  var finish=function(o){toast('저장하는 중…',60000);return api(Object.assign({action:'pageSet',path:p[0],state:a},o||{})).then(function(){setChip(i,a);toast('저장했습니다. 1~2분 뒤 반영됩니다.',7000)})};
+  var finish=function(o,pw){toast('저장하는 중…',60000);return api(Object.assign({action:'pageSet',path:p[0],state:a},o||{})).then(function(){setChip(i,a);return savePw(p[0],a==='password'?pw:'')}).then(function(ok){toast('저장했습니다. 1~2분 뒤 반영됩니다.'+(a==='password'&&!ok?' (서버 업데이트 전이라 비밀번호는 관리자 서버에 기록되지 않았습니다)':''),8000)})};
   var fail=function(e){toast(e.message||'처리하지 못했습니다.',9000)};
   if(a==='private'){if(cur==='private')return toast('이미 비공개입니다.');if(!confirm('"'+p[1]+'" 페이지를 비공개로 바꿀까요?'))return;return finish().catch(fail)}
   if(a==='public'){if(cur==='public')return toast('이미 공개입니다.');
@@ -165,15 +166,50 @@ function act(i,a){if(needGH())return;var p=PAGES[i],cur=($('#st'+i)||{}).dataset
     return api(cur==='private'?{action:'pageFile',path:p[0],orig:true}:{action:'pageFile',path:p[0]}).then(function(f){var t=dec(f.b64);
       if(cur==='password')return decrypt(t,o.cur).then(function(h){return encrypt(h,o.pw)}).then(function(D){return t.replace(/var DATA = \{[^;]*?\};/,function(){return 'var DATA = '+D+';'})});
       return encrypt(t,o.pw).then(function(D){return fetch('wrapper.txt?t='+Date.now()).then(function(r){return r.text()}).then(function(w){var m=t.match(/<title>(.*?)(?: \|.*)?<\/title>/);return w.replace('@@TITLE@@',m?m[1]:p[1]).replace('@@DATA@@',function(){return D})})})
-    }).then(function(html){return finish({b64:enc(html)})})}).catch(fail)}
+    }).then(function(html){return finish({b64:enc(html)},o.pw)})}).catch(fail)}
 /* 카드 */
+/* 관리자 바로 보기: 비공개·비밀번호 페이지를 관리자 로그인 상태에서 바로 엽니다.
+   비밀번호 원문은 공개 저장소에 두지 않고 관리자 서버(Apps Script 스크립트 속성)에만 둡니다. */
+var SRV_OLD=false;
+function pagePath(u){u=String(u||'').replace(/^\//,'').replace(/[?#].*$/,'');return /\.html?$/i.test(u)?u:u.replace(/\/?$/,'/')+'index.html'}
+function stateNow(path){return fetch('/'+path.replace(/index\.html$/,'')+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){return {s:stateOf(t),t:t}})}
+function oldSrv(e){if(/알 수 없는 요청/.test(e&&e.message||'')){SRV_OLD=true;return true}throw e}
+function getPw(path){return api({action:'pagePw',path:path}).then(function(j){return j.pw||''},function(e){oldSrv(e);return ''})}
+function savePw(path,pw){return api({action:'pagePwSave',path:path,pw:pw||''}).then(function(){return true},function(e){oldSrv(e);return false})}
+function learnPw(path,t,title){return ask('비밀번호 확인',[['pw','"'+title+'" 비밀번호 — 관리자 서버에 저장된 값이 없습니다. 한 번 넣으면 맞는지 확인한 뒤 서버에 기록해 다음부터 바로 보입니다.']]).then(function(o){if(!o)return null;
+  return decrypt(t,o.pw).then(function(h){return savePw(path,o.pw).then(function(ok){toast(ok?'비밀번호를 관리자 서버에 기록했습니다.':'서버(Apps Script) 업데이트 전이라 비밀번호를 기록하지 못했습니다. 이번만 열어 둡니다.',8000);return {pw:o.pw,html:h}})})})}
+function openPage(path,title){var w=window.open('/'+path.replace(/index\.html$/,'')+'?admin='+Date.now(),'_blank');if(!w)return toast('팝업이 막혔습니다. 이 사이트의 팝업을 허용해 주세요.',9000);
+  var put=function(h){var k=0,t=setInterval(function(){k++;var ok=false;try{ok=w.document.readyState==='complete'&&w.location.pathname.length>1}catch(e){}if(ok||k>100){clearInterval(t);w.document.open();w.document.write(h);w.document.close()}},150)};
+  stateNow(path).then(function(x){if(x.s==='public')return;
+    if(x.s==='private')return api({action:'pageFile',path:path,orig:true}).then(function(f){put(dec(f.b64))});
+    return getPw(path).then(function(pw){if(pw)return decrypt(x.t,pw).then(put).catch(function(){return learnPw(path,x.t,title).then(function(r){if(r)put(r.html)})});return learnPw(path,x.t,title).then(function(r){if(r)put(r.html);else w.close()})})
+  }).catch(function(e){toast(e.message||'열지 못했습니다.',9000)})}
+function pwBox(title,pw){var d=$('#dlg'),f=$('#dlgf');d.onclose=null;
+  f.innerHTML='<h2>'+esc(title)+'</h2><label for="pwv">설정된 비밀번호</label><input id="pwv" type="password" readonly value="'+attr(pw)+'"><p style="margin-top:16px"><button type="button" class="btn" id="pwS">보기</button><button type="button" class="btn" id="pwC">복사</button><button class="btn on" value="ok">닫기</button></p>';
+  $('#pwS').onclick=function(){var i=$('#pwv');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'보기':'가리기'};
+  $('#pwC').onclick=function(){var i=$('#pwv');(navigator.clipboard?navigator.clipboard.writeText(pw):Promise.reject()).then(function(){toast('복사했습니다.')},function(){i.type='text';i.select();document.execCommand('copy');toast('복사했습니다.')})};
+  d.returnValue='';d.showModal()}
+function showPw(path,title){stateNow(path).then(function(x){if(x.s!=='password')return toast('지금 비밀번호가 걸린 페이지가 아닙니다.');
+  return getPw(path).then(function(pw){if(pw)return pwBox(title,pw);return learnPw(path,x.t,title).then(function(r){if(r)pwBox(title,r.pw)})})}).catch(function(e){toast(e.message||'비밀번호를 가져오지 못했습니다.',9000)})}
+/* 연결 페이지 칸: 상태와 바로 열기·비밀번호 보기 */
+var VIEWN=0;
+function viewCell(list){return list.map(function(x){var id='vw'+(VIEWN++);return '<div style="margin:2px 0;white-space:nowrap"><span class="chip checking" id="'+id+'" data-vp="'+attr(x[0])+'" data-vt="'+attr(x[1])+'">확인 중</span> <button class="btn" data-open="'+attr(x[0])+'" data-title="'+attr(x[1])+'">'+esc(x[2]||'바로 열기')+'</button><button class="btn" data-pw="'+attr(x[0])+'" data-title="'+attr(x[1])+'" hidden>비밀번호 보기</button></div>'}).join('')||'<span class="note">-</span>'}
+function wireView(box){box.querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){openPage(b.dataset.open,b.dataset.title)}});
+  box.querySelectorAll('[data-pw]').forEach(function(b){b.onclick=function(){showPw(b.dataset.pw,b.dataset.title)}});
+  box.querySelectorAll('[data-vp]').forEach(function(c){stateNow(c.dataset.vp).then(function(x){c.className='chip '+x.s;c.textContent=LBL[x.s];var pb=c.parentNode.querySelector('[data-pw]');if(pb)pb.hidden=x.s!=='password'}).catch(function(){c.textContent='열 수 없음'})})}
+function internal(u){return u&&!/^[a-z]+:/i.test(u)&&!/\.(pdf|jpe?g|png|mp4|zip)$/i.test(u)}
 function recPages(r){return [r.url].concat((r.links||[]).map(function(l){return l.url})).filter(function(u){return u&&!/^[a-z]+:/i.test(u)&&/\/$/.test(u)})}
-function vCards(){$('#view').innerHTML='<h2>카드 공개</h2><p class="note">비공개한 카드는 일정·사업·기록 목록에서 빠집니다. 카드를 숨겨도 페이지 주소로는 열리므로, 페이지 자체의 공개·비밀번호는 "페이지 공개·비밀번호" 탭에서 정합니다. 기록 카드의 "연결 페이지"는 그 탭의 현재 상태를 그대로 보여 줍니다. 바꾼 내용은 1~2분 뒤(브라우저 기억 때문에 길게는 10분) 사이트에 반영됩니다.</p><div id="cl">불러오는 중…</div>';
+function vCards(){$('#view').innerHTML='<h2>카드 공개</h2><p class="note">비공개한 카드는 일정·사업·기록 목록에서 빠집니다. 카드를 숨겨도 페이지 주소로는 열리므로, 페이지 자체의 공개·비밀번호는 "페이지 공개·비밀번호" 탭에서 정합니다. "연결 페이지"는 그 탭의 현재 상태를 보여 주고, 비공개·비밀번호 페이지도 관리자는 "바로 열기"로 비밀번호 없이 봅니다. 바꾼 내용은 1~2분 뒤(브라우저 기억 때문에 길게는 10분) 사이트에 반영됩니다.</p><div id="cl">불러오는 중…</div>';
   Promise.all(['events','projects'].map(function(n){return fetch('/data/'+n+'.js?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})})).then(function(a){
     var ev=new Function(a[0]+';return EVENTS')(),pr=new Function(a[1]+';return PROJECTS')(),rc=new Function(a[0]+';return typeof RECORDS==="undefined"?[]:RECORDS')();
-    var row=function(file,k,t,sub,c){return '<tr><td>'+esc(t)+'<br><span class="note">'+esc(sub)+'</span></td><td>'+own(c)+ownNote(c)+'</td><td><span class="chip '+(c.draft?'private':'')+'">'+(c.draft?'비공개':'공개')+'</span></td><td><button class="btn" data-f="'+file+'" data-k="'+attr(k)+'" data-field="draft" data-on="'+(c.draft?'':'1')+'">'+(c.draft?'공개로':'비공개로')+'</button>'+(file==='data/projects.js'||/^rec:/.test(k)?'<button class="btn" data-f="'+file+'" data-k="'+attr(k)+'" data-field="locked" data-on="'+(c.locked?'':'1')+'">'+(c.locked?'비밀번호 표시 끄기':'비밀번호 표시 켜기')+'</button>':'')+'</td></tr>'};
-    $('#cl').innerHTML='<h3>행사</h3><table><thead><tr><th>카드</th><th>주최</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+ev.map(function(e){return row('data/events.js','id:"'+e.id+'"',e.title,e.start,e)}).join('')+'</tbody></table><h3>진행 사업</h3><table><thead><tr><th>카드</th><th>주최</th><th>상태</th><th>바꾸기</th></tr></thead><tbody>'+pr.map(function(p){return row('data/projects.js','title:"'+p.title+'"',p.title,p.area,p)}).join('')+'</tbody></table><h3>기록</h3><table><thead><tr><th>카드</th><th>주최</th><th>상태</th><th>바꾸기</th><th>연결 페이지</th></tr></thead><tbody>'+rc.map(function(r,i){return row('data/events.js','rec:"'+r.rec+'"',r.title,r.group,r).replace(/<\/tr>$/,'<td id="rp'+i+'">'+recPages(r).map(function(u,j){return '<a href="/'+esc(u)+'" target="_blank">'+esc(u)+'</a> <span class="chip checking" id="rp'+i+'_'+j+'">확인 중</span>'}).join('<br>')+'</td></tr>')}).join('')+'</tbody></table>';
-    rc.forEach(function(r,i){recPages(r).forEach(function(u,j){live(u+'index.html').then(function(t){var c=$('#rp'+i+'_'+j),st=stateOf(t);if(c){c.className='chip '+st;c.textContent=LBL[st]}}).catch(function(){})})});
+    var row=function(file,k,t,sub,c,pages){return '<tr><td>'+esc(t)+'<br><span class="note">'+esc(sub)+'</span></td><td>'+own(c)+ownNote(c)+'</td><td><span class="chip '+(c.draft?'private':'')+'">'+(c.draft?'비공개':'공개')+'</span></td><td><button class="btn" data-f="'+file+'" data-k="'+attr(k)+'" data-field="draft" data-on="'+(c.draft?'':'1')+'">'+(c.draft?'공개로':'비공개로')+'</button>'+(file==='data/projects.js'||/^rec:/.test(k)?'<button class="btn" data-f="'+file+'" data-k="'+attr(k)+'" data-field="locked" data-on="'+(c.locked?'':'1')+'">'+(c.locked?'비밀번호 표시 끄기':'비밀번호 표시 켜기')+'</button>':'')+'</td><td>'+viewCell(pages)+'</td></tr>'};
+    var head='<table><thead><tr><th>카드</th><th>주최</th><th>상태</th><th>바꾸기</th><th>연결 페이지 (관리자 바로 보기)</th></tr></thead><tbody>';
+    var evPages=function(e){var l=[];if(internal(e.url))l.push([pagePath(e.url),e.title+' 안내','안내 열기']);if(internal(e.record)&&e.record!=='records.html')l.push([pagePath(e.record),e.title+' 기록','기록 열기']);return l};
+    var prPages=function(p){var l=[];if(internal(p.url))l.push([pagePath(p.url),p.title,'바로 열기']);(p.links||[]).forEach(function(x){if(internal(x.url))l.push([pagePath(x.url),p.title+' · '+x.label,x.label])});return l};
+    var rcPages=function(r){return recPages(r).map(function(u){var l=(r.links||[]).filter(function(x){return x.url===u})[0];return [pagePath(u),r.title+(l?' · '+l.label:''),l?l.label:'바로 열기']})};
+    VIEWN=0;
+    $('#cl').innerHTML='<h3>행사</h3>'+head+ev.map(function(e){return row('data/events.js','id:"'+e.id+'"',e.title,e.start,e,evPages(e))}).join('')+'</tbody></table><h3>진행 사업</h3>'+head+pr.map(function(p){return row('data/projects.js','title:"'+p.title+'"',p.title,p.area,p,prPages(p))}).join('')+'</tbody></table><h3>기록</h3>'+head+rc.map(function(r){return row('data/events.js','rec:"'+r.rec+'"',r.title,r.group,r,rcPages(r))}).join('')+'</tbody></table>';
+    wireView($('#cl'));
     $('#cl').querySelectorAll('[data-f]').forEach(function(b){b.onclick=function(){if(needGH())return;b.disabled=true;toast('저장하는 중…',60000);api({action:'cardSet',file:b.dataset.f,key:b.dataset.k,field:b.dataset.field,on:!!b.dataset.on}).then(function(){toast('저장했습니다. 1~2분 뒤 반영됩니다.',7000);setTimeout(vCards,2500)}).catch(function(e){toast(e.message,8000);b.disabled=false})}})
   }).catch(function(e){$('#cl').textContent='불러오지 못했습니다: '+e.message})}
 /* 만족도 조사: 행사 목록에서 행사를 눌러 봅니다. 행사와 양식은 data/events.js 의 survey 값으로 잇습니다 */
