@@ -37,6 +37,29 @@
     }
   }
 
+  /* 기록: data/events.js의 RECORDS를 묶음별로 그립니다 */
+  var recBox = document.getElementById('record-list');
+  if (recBox && typeof RECORDS !== 'undefined') {
+    var groups = [], byGroup = {};
+    RECORDS.filter(function (r) { return !r.draft; }).forEach(function (r) {
+      if (!byGroup[r.group]) { byGroup[r.group] = []; groups.push(r.group); }
+      byGroup[r.group].push(r);
+    });
+    var href = function (u) { return /^[a-z]+:/i.test(u) ? esc(u) + '" rel="noopener' : root + esc(u); };
+    var recCard = function (r) {
+      var inner = '<div class="thumb"><img src="' + root + esc(r.thumb) + '" alt="' + esc(r.alt || '') + '" loading="lazy"></div><div class="body"><span class="tag">' + esc(r.tag) + '</span><h3>' + esc(r.title) + '</h3>' +
+        (r.meta || []).map(function (m) { return '<span class="meta">' + esc(m) + '</span>'; }).join('') +
+        (r.locked ? '<span class="meta">🔒 비밀번호 필요</span>' : '') +
+        '<div class="btn-row" style="margin-top:6px;gap:14px">' +
+        (r.url ? '<span class="more">' + esc(r.more || '기록 보기') + '</span>' : (r.links || []).map(function (l) { return '<a class="more" href="' + href(l.url) + '">' + esc(l.label) + '</a>'; }).join('')) +
+        '</div></div>';
+      return r.url ? '<a class="card" href="' + href(r.url) + '">' + inner + '</a>' : '<div class="card">' + inner + '</div>';
+    };
+    recBox.outerHTML = groups.map(function (g) {
+      return '<section><div class="wrap">\n  <h2>' + esc(g) + '</h2>\n  <div class="grid" style="margin-top:20px">' + byGroup[g].map(recCard).join('') + '</div>\n</div></section>';
+    }).join('\n');
+  }
+
   if (typeof EVENTS === 'undefined') return;
 
   var DAYS = ['일', '월', '화', '수', '목', '금', '토'];

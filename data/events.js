@@ -29,3 +29,40 @@ const EVENTS = [
 ];
 
 const STATUS_LABEL = { upcoming:"예정", open:"모집 중", closed:"모집 완료", done:"종료" };
+
+/* 기록 카드 목록. '기록' 페이지(records.html)가 이 목록을 그리고, 관리자 '카드 공개' 탭이 이 목록을 읽습니다.
+   새 기록은 같은 묶음(group)의 맨 위, 새 묶음이면 목록 맨 위에 넣습니다. 화면 순서 = 이 목록 순서입니다.
+
+   rec    : 영문 이름. "rec-"로 시작하고 한 번 정하면 바꾸지 않습니다 (관리자가 카드를 찾는 열쇠)
+   group  : 기록 페이지의 묶음 제목
+   url    : 카드 전체를 눌렀을 때 열 페이지 (버튼 여러 개를 쓰면 "")
+   more   : url이 있을 때 카드 아래 글자
+   links  : 버튼 여러 개 [{ label:"버튼 글자", url:"주소" }]
+   thumb, alt : 카드 사진과 설명
+   tag, title, meta : 분류, 제목, 설명 줄들
+   locked : true면 카드에 '비밀번호 필요'를 표시합니다 (페이지 잠금 자체는 관리자 '페이지 공개·비밀번호' 탭에서)
+   draft  : true면 기록 페이지에 나오지 않습니다
+   owner, ownerNote : 주최 (관리자 페이지에만 표시) */
+const RECORDS = [
+  { rec:"rec-2026-gangwon-visit", group:"2026 기관 방문·교류", url:"events/2026-11-gangwon-visit/record/", thumb:"events/2026-11-gangwon-visit/record/cover.jpg", alt:"강원도생태관광협의회 제주 방문 간담회 단체 사진", tag:"교류 · 협력", title:"강원과 제주, 생태관광을 나누다 — 강원도생태관광협의회 제주 방문 간담회", meta:["2026. 11. 17.", "강원 생태관광지역 협의회 관계자들과 제주 생태관광 정책·센터 운영을 나눈 간담회 기록"], more:"▶ 기록과 사진 보기" },
+
+  { rec:"rec-2026-birding", group:"2026 오조리 탐조대회", url:"events/2026-birding/record/", thumb:"events/2026-birding/record/cover.jpg", alt:"빗속에서 새를 만나다 — 2026 오조리 탐조대회", tag:"습지 · 탐조", title:"빗속에서 새를 만나다 — 2026 오조리 탐조대회 「오고 생이 제주로」", meta:["2026. 11. 14.", "하루 종일 비가 내린 11월 14일, 35개 팀 79명이 신청한 가족 탐조대회의 기록"], more:"▶ 영상과 기록 보기", owner:"협회", ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-9a0a9d467758", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/9a0a9d467758/cover.jpg", alt:"", tag:"오름 · 바다", title:"숨, 평대", meta:["바다를 품은 순비기 향낭 · 평대의 향을 담은 AROMATIC THERAPY INHALER", "평대 돝오름 ~ 평대리생태체험장 · 구좌읍 평대리"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=xWmK9Opii3w" }, { label:"사진첩 열기", url:"record/g/9a0a9d467758/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-409184708a11", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/409184708a11/cover.jpg", alt:"", tag:"곶자왈", title:"빛이 숲을 떠나는 시간", meta:["해 질 녘 저지곶자왈", "저지곶자왈 · 한경면 저지리"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=Na_Yx3Be0CY" }, { label:"사진첩 열기", url:"record/g/409184708a11/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-c211db604c81", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/c211db604c81/cover.jpg", alt:"", tag:"숲길", title:"다시, 대나무 · 미로숲길에서 쉬멍, 맛있게 차롱", meta:["오영희 장인의 호근", "호근동 마을회관 · 하논 · 서귀포 치유의숲"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=gg6-9TWov0g" }, { label:"사진첩 열기", url:"record/g/c211db604c81/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-4fee7759275a", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/4fee7759275a/cover.jpg", alt:"", tag:"오름", title:"하례리 보물찾기", meta:["고살리숲 — 밧줄놀이 · 숲속 보물찾기", "고살리숲 · 남원읍 하례리"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=RWKi5WYQKMY" }, { label:"사진첩 열기", url:"record/g/4fee7759275a/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-204c499ab3c1", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/204c499ab3c1/cover.jpg", alt:"", tag:"습지", title:"동백동산 오감찾기 프로젝트", meta:["손으로 · 코로 · 귀로 · 눈으로 만나는 람사르습지 곶자왈", "동백동산 · 조천읍 선흘리"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=av0_Fx_sPo8" }, { label:"사진첩 열기", url:"record/g/204c499ab3c1/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-fbc0f4da890a", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/fbc0f4da890a/cover.jpg", alt:"", tag:"습지", title:"동백동산 기후탐사대", meta:["탄소 보물 3개를 찾아서 — 흙 · 나무 · 습지", "동백동산 · 조천읍 선흘리"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=tAy1ASz-xGc" }, { label:"사진첩 열기", url:"record/g/fbc0f4da890a/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-8a4215c03b89", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/8a4215c03b89/cover.jpg", alt:"", tag:"곶자왈", title:"화순곶자왈 사운드워킹", meta:["헤드셋을 쓰고, 숲의 소리를 따라 걷기 · ㈜더사운드벙커", "화순곶자왈 생태탐방숲길 · 안덕면 화순리"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=Gi_NvWsjuMM" }, { label:"사진첩 열기", url:"record/g/8a4215c03b89/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-e24c4735beb9", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/e24c4735beb9/cover.jpg", alt:"", tag:"곶자왈", title:"이성권과 함께하는 제주나무이야기", meta:["동백동산 곶자왈과 습지의 나무 이야기 · (주)평화여행자", "동백동산습지센터 · 조천읍 선흘리"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=I6uVG54iCM8" }, { label:"사진첩 열기", url:"record/g/e24c4735beb9/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
+
+  { rec:"rec-99c67bbf7af8", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/99c67bbf7af8/cover.jpg", alt:"", tag:"숲길", title:"미로숲놀이터 자연놀이 네트플레이", meta:["나무 사이 오색 그물에서 놀다 · 호근동생태관광마을협의체 · 트리아이", "미로숲길 미로숲놀이터 · 서귀포 호근동"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=07dIm0ToziQ" }, { label:"사진첩 열기", url:"record/g/99c67bbf7af8/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" }
+];
