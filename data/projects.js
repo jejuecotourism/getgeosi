@@ -26,8 +26,10 @@ const PROJECTS = [
     thumb:"assets/projects/ozori_pogu_thumbnail.jpg", alt:"오조리 내해에서 떼배에 앉아 있는 사람을 찍은 흑백 옛 사진", locked:true, owner:"협회", ownerNote:"해양보호구역 사업, 협회 명의" },
 
   { title:"해양생물 모니터링", area:"조사와 연구",
-    summary:"제주 바다의 해양생물을 조사하고, 그 결과를 전시로 나눕니다.",
-    status:"ongoing", url:"", owner:"협회", ownerNote:"해양보호구역 사업으로 판단, 확인 필요" },
+    summary:"성산고등학교 학생들이 전문가와 함께 오조리 연안습지보호지역의 해양생물을 조사해 141종을 기록하고, 그 결과를 전시 「오조리의 해양생물」로 나누었습니다.",
+    status:"ongoing", url:"projects/marine-monitoring/",
+    thumb:"projects/marine-monitoring/thumb.jpg", alt:"현수막 「오조리의 해양생물」 — 오조리 연안습지 지도 위에 141종을 소개한 그림",
+    owner:"협회", ownerNote:"2026 해양보호구역 인식증진 교육 및 홍보사업, (사)제주생태관광협회 보조사업(교부신청 2026-06-19)" },
 
   { title:"곶자왈·오름 특화사업", area:"생태관광 프로그램",
     summary:"곶자왈과 오름을 중심으로 생태관광을 키우는 사업입니다.",
