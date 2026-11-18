@@ -146,3 +146,9 @@ footer a{color:#fff}
   .grid{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* 기록 카드: 카드 전체는 상세 페이지로, 아래 버튼(영상·사진첩)은 각자 주소로 */
+.card.rec-go{position:relative}
+.card.rec-go:hover{border-color:var(--moss)}
+.card .stretch{color:inherit;text-decoration:none}
+.card .stretch::after{content:"";position:absolute;inset:0;z-index:1}
+.card.rec-go .btn-row a{position:relative;z-index:2}

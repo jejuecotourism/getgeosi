@@ -73,6 +73,7 @@ img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
 .btn.primary{background:var(--maple);color:#fff}
 .btn.line{background:#fff;border:1px solid var(--line);color:var(--forest)}
 #mini{height:200px;border-radius:14px;border:1px solid var(--line);margin-top:14px}
+.recbtns{display:flex;flex-wrap:wrap;gap:9px}.recbox+.recbox{margin-top:12px}
 .miss{padding:80px 0;text-align:center;color:var(--ink-soft)}
 /* 라이트박스: 사진·포스터를 페이지 안에서 크게 보기(새 탭 이동 없음) */
 .lbx{position:fixed;inset:0;z-index:2000;background:rgba(20,16,12,.92);display:none;align-items:center;justify-content:center;padding:56px 16px 24px}
@@ -106,10 +107,16 @@ footer{background:linear-gradient(180deg,var(--gold),var(--persimmon));color:#3A
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="assets/data.js"></script>
 <script src="assets/share.js"></script>
+<script src="data/events.js?v=20261118b"></script>
 <script>
 const id=new URLSearchParams(location.search).get('id');
 const p=PROGRAMS.find(x=>x.id===id);
 const app=document.getElementById('app');
+// 기록 페이지(records.html) 카드 중 이 프로그램과 이어진 것: 영상·사진첩 버튼 (data/events.js RECORDS의 prog)
+const recs=(typeof RECORDS!=='undefined'&&p)?RECORDS.filter(r=>!r.draft&&(r.prog||[]).includes(p.id)):[];
+const recEsc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const recBlock=recs.length?`<div class="sec-h">행사 기록</div>
+        ${recs.map(r=>`<div class="recbox">${r.locked?'<p class="detail" style="font-size:.88rem;margin:0 0 8px">🔒 비밀번호 필요</p>':''}<div class="recbtns">${(r.links||[]).filter(l=>!/program\.html\?id=/.test(l.url)).map(l=>`<a class="btn ${/^https?:/.test(l.url)?'primary':'line'}" href="${recEsc(l.url)}"${/^https?:/.test(l.url)?' target="_blank" rel="noopener"':''}>${recEsc(l.label)}</a>`).join('')}<a class="btn line" href="records.html">기록 페이지로</a></div></div>`).join('')}`:'';
 
 function badges(p){let s=`<span class="badge cat">${p.cat}</span>`;
   if(p.closed)s+='<span class="badge demo">시범 프로그램</span><span class="badge closed">모집 마감</span>';
@@ -166,6 +173,7 @@ if(!p){
     <div class="grid2">
       <div>
         <p class="desc">${p.desc||'<span class="tbd">소개 미정</span>'}</p>
+        ${recBlock}
         <div class="sec-h">프로그램 안내</div>
         <p class="detail">${p.detail||'<span class="tbd">미정</span>'}</p>
         ${p.note?`<p class="detail" style="color:var(--maple);margin-top:8px">※ ${p.note}</p>`:''}

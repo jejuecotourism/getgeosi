@@ -59,7 +59,7 @@ dialog::backdrop{background:rgba(0,0,0,.4)}
 var API='https://script.google.com/macros/s/AKfycbyPl0F24k3x3vnggSwOdDilt4vDr3XAFvt7RdrLKK6C65nos_D_kxstgmWcdbJAdYD3yA/exec';
 var PAGES=[['index.html','홈'],['about.html','센터 소개'],['ecotourism.html','생태관광이란'],['work/index.html','하는 일'],['schedule.html','행사 일정'],['projects.html','진행 사업'],['records.html','기록'],['contact.html','문의'],
 ['events/2026-birding/index.html','탐조대회 안내'],['events/2026-birding/birds/index.html','탐조대회 새 정보'],['events/2026-birding/birds/changes/index.html','미니도감과 달라진 내용'],['events/2026-birding/survey/index.html','탐조대회 만족도 조사'],['events/2026-birding/record/index.html','탐조대회 기록'],['events/2026-11-gangwon-visit/record/index.html','강원 협의회 방문 기록'],
-['events/2026-autumn/index.html','2026 가을 생태관광주간'],['events/2026-summer/index.html','2026 여름 갯것이영화제'],['projects/ozori-book-plan/index.html','오조리 기획안'],['projects/ozori-review/index.html','오조리 채록 검수'],['projects/ozori-review/audio-check/index.html','오조리 원음 확인'],['projects/garosugil-map/index.html','가로수길 지도 시안'],['projects/gotjawal-oreum-report/index.html','곶자왈·오름 평가 보고'],['projects/gotjawal-oreum-report/responses/index.html','곶자왈·오름 평가지 개별 응답'],['projects/susan2-bat-character/index.html','수산2리 캐릭터 기획안']];
+['events/2026-autumn/index.html','2026 가을 생태관광주간'],['program.html','가을 생태관광주간 프로그램 상세 (27개 공통 페이지)'],['events/2026-summer/index.html','2026 여름 갯것이영화제'],['projects/ozori-book-plan/index.html','오조리 기획안'],['projects/ozori-review/index.html','오조리 채록 검수'],['projects/ozori-review/audio-check/index.html','오조리 원음 확인'],['projects/garosugil-map/index.html','가로수길 지도 시안'],['projects/gotjawal-oreum-report/index.html','곶자왈·오름 평가 보고'],['projects/gotjawal-oreum-report/responses/index.html','곶자왈·오름 평가지 개별 응답'],['projects/susan2-bat-character/index.html','수산2리 캐릭터 기획안']];
 var TABS=[['pages','페이지 공개·비밀번호'],['cards','카드 공개'],['survey','만족도 조사'],['contact','문의'],['report','새 정보 의견'],['settings','설정']];
 var $=function(s){return document.querySelector(s)};
 var S=null; try{S=sessionStorage.getItem('adm')}catch(e){}
@@ -172,13 +172,16 @@ function act(i,a){if(needGH())return;var p=PAGES[i],cur=($('#st'+i)||{}).dataset
    비밀번호 원문은 공개 저장소에 두지 않고 관리자 서버(Apps Script 스크립트 속성)에만 둡니다. */
 var SRV_OLD=false;
 function pagePath(u){u=String(u||'').replace(/^\//,'').replace(/[?#].*$/,'');return /\.html?$/i.test(u)?u:u.replace(/\/?$/,'/')+'index.html'}
-function stateNow(path){return fetch('/'+path.replace(/index\.html$/,'')+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){return {s:stateOf(t),t:t}})}
+/* 주소에 ?id= 같은 뒷부분이 있으면(program.html?id=p21) 열 때만 붙이고, 공개 상태·비밀번호는 파일(program.html) 기준입니다 */
+function baseOf(path){return String(path).split('?')[0]}
+function urlOf(path,k){var q=String(path).split('?')[1];return '/'+baseOf(path).replace(/index\.html$/,'')+'?'+(q?q+'&':'')+k}
+function stateNow(path){return fetch(urlOf(path,'t='+Date.now()),{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){return {s:stateOf(t),t:t}})}
 function oldSrv(e){if(/알 수 없는 요청/.test(e&&e.message||'')){SRV_OLD=true;return true}throw e}
 function getPw(path){return api({action:'pagePw',path:path}).then(function(j){return j.pw||''},function(e){oldSrv(e);return ''})}
 function savePw(path,pw){return api({action:'pagePwSave',path:path,pw:pw||''}).then(function(){return true},function(e){oldSrv(e);return false})}
 function learnPw(path,t,title){return ask('비밀번호 확인',[['pw','"'+title+'" 비밀번호 — 관리자 서버에 저장된 값이 없습니다. 한 번 넣으면 맞는지 확인한 뒤 서버에 기록해 다음부터 바로 보입니다.']]).then(function(o){if(!o)return null;
   return decrypt(t,o.pw).then(function(h){return savePw(path,o.pw).then(function(ok){toast(ok?'비밀번호를 관리자 서버에 기록했습니다.':'서버(Apps Script) 업데이트 전이라 비밀번호를 기록하지 못했습니다. 이번만 열어 둡니다.',8000);return {pw:o.pw,html:h}})})})}
-function openPage(path,title){var w=window.open('/'+path.replace(/index\.html$/,'')+'?admin='+Date.now(),'_blank');if(!w)return toast('팝업이 막혔습니다. 이 사이트의 팝업을 허용해 주세요.',9000);
+function openPage(full,title){var path=baseOf(full);var w=window.open(urlOf(full,'admin='+Date.now()),'_blank');if(!w)return toast('팝업이 막혔습니다. 이 사이트의 팝업을 허용해 주세요.',9000);
   var put=function(h){var k=0,t=setInterval(function(){k++;var ok=false;try{ok=w.document.readyState==='complete'&&w.location.pathname.length>1}catch(e){}if(ok||k>100){clearInterval(t);w.document.open();w.document.write(h);w.document.close()}},150)};
   stateNow(path).then(function(x){if(x.s==='public')return;
     if(x.s==='private')return api({action:'pageFile',path:path,orig:true}).then(function(f){put(dec(f.b64))});
@@ -189,7 +192,7 @@ function pwBox(title,pw){var d=$('#dlg'),f=$('#dlgf');d.onclose=null;
   $('#pwS').onclick=function(){var i=$('#pwv');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'보기':'가리기'};
   $('#pwC').onclick=function(){var i=$('#pwv');(navigator.clipboard?navigator.clipboard.writeText(pw):Promise.reject()).then(function(){toast('복사했습니다.')},function(){i.type='text';i.select();document.execCommand('copy');toast('복사했습니다.')})};
   d.returnValue='';d.showModal()}
-function showPw(path,title){stateNow(path).then(function(x){if(x.s!=='password')return toast('지금 비밀번호가 걸린 페이지가 아닙니다.');
+function showPw(full,title){var path=baseOf(full);stateNow(path).then(function(x){if(x.s!=='password')return toast('지금 비밀번호가 걸린 페이지가 아닙니다.');
   return getPw(path).then(function(pw){if(pw)return pwBox(title,pw);return learnPw(path,x.t,title).then(function(r){if(r)pwBox(title,r.pw)})})}).catch(function(e){toast(e.message||'비밀번호를 가져오지 못했습니다.',9000)})}
 /* 연결 페이지 칸: 상태와 바로 열기·비밀번호 보기 */
 var VIEWN=0;
@@ -198,7 +201,8 @@ function wireView(box){box.querySelectorAll('[data-open]').forEach(function(b){b
   box.querySelectorAll('[data-pw]').forEach(function(b){b.onclick=function(){showPw(b.dataset.pw,b.dataset.title)}});
   box.querySelectorAll('[data-vp]').forEach(function(c){stateNow(c.dataset.vp).then(function(x){c.className='chip '+x.s;c.textContent=LBL[x.s];var pb=c.parentNode.querySelector('[data-pw]');if(pb)pb.hidden=x.s!=='password'}).catch(function(){c.textContent='열 수 없음'})})}
 function internal(u){return u&&!/^[a-z]+:/i.test(u)&&!/\.(pdf|jpe?g|png|mp4|zip)$/i.test(u)}
-function recPages(r){return [r.url].concat((r.links||[]).map(function(l){return l.url})).filter(function(u){return u&&!/^[a-z]+:/i.test(u)&&/\/$/.test(u)})}
+function recPages(r){return [r.url].concat((r.links||[]).map(function(l){return l.url})).filter(function(u){return u&&!/^[a-z]+:/i.test(u)&&/(\/|\.html(\?.*)?)$/.test(u)&&u!=='records.html'})}
+function pageKey(u){var q=String(u).split('?')[1];return pagePath(String(u).split('?')[0])+(q?'?'+q:'')}
 function vCards(){$('#view').innerHTML='<h2>카드 공개</h2><p class="note">비공개한 카드는 일정·사업·기록 목록에서 빠집니다. 카드를 숨겨도 페이지 주소로는 열리므로, 페이지 자체의 공개·비밀번호는 "페이지 공개·비밀번호" 탭에서 정합니다. "연결 페이지"는 그 탭의 현재 상태를 보여 주고, 비공개·비밀번호 페이지도 관리자는 "바로 열기"로 비밀번호 없이 봅니다. 바꾼 내용은 1~2분 뒤(브라우저 기억 때문에 길게는 10분) 사이트에 반영됩니다.</p><div id="cl">불러오는 중…</div>';
   Promise.all(['events','projects'].map(function(n){return fetch('/data/'+n+'.js?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})})).then(function(a){
     var ev=new Function(a[0]+';return EVENTS')(),pr=new Function(a[1]+';return PROJECTS')(),rc=new Function(a[0]+';return typeof RECORDS==="undefined"?[]:RECORDS')();
@@ -206,7 +210,7 @@ function vCards(){$('#view').innerHTML='<h2>카드 공개</h2><p class="note">�
     var head='<table><thead><tr><th>카드</th><th>주최</th><th>상태</th><th>바꾸기</th><th>연결 페이지 (관리자 바로 보기)</th></tr></thead><tbody>';
     var evPages=function(e){var l=[];if(internal(e.url))l.push([pagePath(e.url),e.title+' 안내','안내 열기']);if(internal(e.record)&&e.record!=='records.html')l.push([pagePath(e.record),e.title+' 기록','기록 열기']);return l};
     var prPages=function(p){var l=[];if(internal(p.url))l.push([pagePath(p.url),p.title,'바로 열기']);(p.links||[]).forEach(function(x){if(internal(x.url))l.push([pagePath(x.url),p.title+' · '+x.label,x.label])});return l};
-    var rcPages=function(r){return recPages(r).map(function(u){var l=(r.links||[]).filter(function(x){return x.url===u})[0];return [pagePath(u),r.title+(l?' · '+l.label:''),l?l.label:'바로 열기']})};
+    var rcPages=function(r){return recPages(r).map(function(u){var l=(r.links||[]).filter(function(x){return x.url===u})[0];return [pageKey(u),r.title+(l?' · '+l.label:''),l?l.label:(r.more&&/program\.html/.test(u)?'행사 내용 열기':'바로 열기')]})};
     VIEWN=0;
     $('#cl').innerHTML='<h3>행사</h3>'+head+ev.map(function(e){return row('data/events.js','id:"'+e.id+'"',e.title,e.start,e,evPages(e))}).join('')+'</tbody></table><h3>진행 사업</h3>'+head+pr.map(function(p){return row('data/projects.js','title:"'+p.title+'"',p.title,p.area,p,prPages(p))}).join('')+'</tbody></table><h3>기록</h3>'+head+rc.map(function(r){return row('data/events.js','rec:"'+r.rec+'"',r.title,r.group,r,rcPages(r))}).join('')+'</tbody></table>';
     wireView($('#cl'));

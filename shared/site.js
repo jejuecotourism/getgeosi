@@ -47,12 +47,18 @@
     });
     var href = function (u) { return /^[a-z]+:/i.test(u) ? esc(u) + '" rel="noopener' : root + esc(u); };
     var recCard = function (r) {
-      var inner = '<div class="thumb"><img src="' + root + esc(r.thumb) + '" alt="' + esc(r.alt || '') + '" loading="lazy"></div><div class="body"><span class="tag">' + esc(r.tag) + '</span><h3>' + esc(r.title) + '</h3>' +
+      /* url과 버튼(links)을 함께 쓰면: 카드 전체는 url로, 버튼은 각자 주소로 엽니다 */
+      var both = r.url && r.links && r.links.length;
+      var btn = function (l) { return '<a class="more" href="' + href(l.url) + '">' + esc(l.label) + '</a>'; };
+      var inner = '<div class="thumb"><img src="' + root + esc(r.thumb) + '" alt="' + esc(r.alt || '') + '" loading="lazy"></div><div class="body"><span class="tag">' + esc(r.tag) + '</span><h3>' +
+        (both ? '<a class="stretch" href="' + href(r.url) + '">' + esc(r.title) + '</a>' : esc(r.title)) + '</h3>' +
         (r.meta || []).map(function (m) { return '<span class="meta">' + esc(m) + '</span>'; }).join('') +
         (r.locked ? '<span class="meta">🔒 비밀번호 필요</span>' : '') +
         '<div class="btn-row" style="margin-top:6px;gap:14px">' +
-        (r.url ? '<span class="more">' + esc(r.more || '기록 보기') + '</span>' : (r.links || []).map(function (l) { return '<a class="more" href="' + href(l.url) + '">' + esc(l.label) + '</a>'; }).join('')) +
+        (both ? btn({ url: r.url, label: r.more || '기록 보기' }) + r.links.map(btn).join('')
+          : r.url ? '<span class="more">' + esc(r.more || '기록 보기') + '</span>' : (r.links || []).map(btn).join('')) +
         '</div></div>';
+      if (both) return '<div class="card rec-go">' + inner + '</div>';
       return r.url ? '<a class="card" href="' + href(r.url) + '">' + inner + '</a>' : '<div class="card">' + inner + '</div>';
     };
     recBox.outerHTML = groups.map(function (g) {
