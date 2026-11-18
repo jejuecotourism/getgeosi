@@ -64,5 +64,5 @@ const RECORDS = [
 
   { rec:"rec-e24c4735beb9", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/e24c4735beb9/cover.jpg", alt:"", tag:"곶자왈", title:"이성권과 함께하는 제주나무이야기", meta:["동백동산 곶자왈과 습지의 나무 이야기 · (주)평화여행자", "동백동산습지센터 · 조천읍 선흘리"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=I6uVG54iCM8" }, { label:"사진첩 열기", url:"record/g/e24c4735beb9/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" },
 
-  { rec:"rec-99c67bbf7af8", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/99c67bbf7af8/cover.jpg", alt:"", tag:"숲길", title:"미로숲놀이터 자연놀이 네트플레이", meta:["나무 사이 오색 그물에서 놀다 · 호근동생태관광마을협의체 · 트리아이", "미로숲길 미로숲놀이터 · 서귀포 호근동"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=07dIm0ToziQ" }, { label:"사진첩 열기", url:"record/g/99c67bbf7af8/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름" }
+  { rec:"rec-99c67bbf7af8", group:"2026 가을 생태관광주간", url:"", thumb:"record/g/99c67bbf7af8/cover.jpg", alt:"", tag:"숲길", title:"미로숲놀이터 자연놀이 네트플레이", meta:["나무 사이 오색 그물에서 놀다 · 호근동생태관광마을협의체 · 트리아이", "미로숲길 미로숲놀이터 · 서귀포 호근동"], links:[{ label:"▶ 기록 영상", url:"https://www.youtube.com/watch?v=07dIm0ToziQ" }, { label:"사진첩 열기", url:"record/g/99c67bbf7af8/" }], owner:["협회","센터"], ownerNote:"행사 주최를 따름", draft:true }
 ];
