@@ -116,9 +116,16 @@ function logParse(md){var secs=[],cur={title:'',lines:[]};String(md).split('\n')
   var days=[];secs.forEach(function(s){var ym=s.title.match(/^(\d{4})년\s*(\d{1,2})월/);if(!ym)return;var d=null;s.lines.forEach(function(l){if(/^### /.test(l)){d={month:ym[1]+'-'+('0'+ym[2]).slice(-2),label:s.title,title:l.slice(4).trim(),lines:[]};days.push(d)}else if(d)d.lines.push(l)})});
   return {secs:secs,days:days.reverse()}}
 var LOG=null;
-function vLog(sub){$('#view').innerHTML='<h2>일지</h2><p class="note">센터 업무일지입니다. 관리자 로그인 뒤에만 서버에서 받아 오며, 공개 저장소·사이트에는 들어 있지 않습니다. 일지정리 작업에서 일지를 고칠 때마다 이곳으로 올립니다.</p><div id="lg0">불러오는 중…</div>';
-  api({action:'logGet'}).then(function(j){LOG={at:j.at,md:j.md||'',p:logParse(j.md||'')};logDraw(sub||'days')}).catch(function(e){
+/* 일지는 관리자 로그인에 더해 일지 비밀번호가 필요합니다. 확인은 서버가 하고, 맞으면 그 로그인 동안 열려 있습니다. 비밀번호는 화면에 남기지 않습니다. */
+function vLog(sub){$('#view').innerHTML='<h2>일지</h2><p class="note">센터 업무일지입니다. 관리자 로그인 뒤에도 일지 비밀번호를 한 번 더 넣어야 서버에서 받아 오며, 공개 저장소·사이트에는 들어 있지 않습니다. 일지정리 작업에서 일지를 고칠 때마다 이곳으로 올립니다.</p><div id="lg0">불러오는 중…</div>';
+  logLoad(sub||'days')}
+function logLoad(v,pw){var o={action:'logGet'};if(pw)o.logPw=pw;
+  return api(o).then(function(j){LOG={at:j.at,md:j.md||'',p:logParse(j.md||'')};logDraw(v)}).catch(function(e){
+    if(/일지 비밀번호/.test(e.message))return logAsk(v,pw?e.message:'');
     $('#lg0').innerHTML=/알 수 없는 요청/.test(e.message)?'<p class="note">관리자 서버(Apps Script)에 일지 기능을 넣은 뒤(버전 12)부터 보입니다.</p>':'<p class="note">불러오지 못했습니다: '+esc(e.message)+'</p>'})}
+function logAsk(v,msg){$('#lg0').innerHTML='<form id="lpf" style="max-width:420px;margin-top:8px"><label for="lpw">일지 비밀번호</label><input id="lpw" type="password" autocomplete="off" required><p class="note" role="alert" style="color:var(--red);min-height:1.4em">'+esc(msg||'')+'</p><button class="btn on" id="lpb">일지 열기</button></form>';
+  $('#lpw').focus();
+  $('#lpf').onsubmit=function(e){e.preventDefault();var i=$('#lpw'),p=i.value;i.value='';$('#lpb').disabled=true;logLoad(v,p)}}
 function logDraw(v){var P=LOG.p;location.hash='log/'+v;
   if(!LOG.md){$('#lg0').innerHTML='<p class="note">아직 올라온 일지가 없습니다.</p>';return}
   var subs=[['days','날짜별 일지'],['leave','휴일 근무·대체휴일 대장'],['etc','진행 중인 업무·일정'],['all','전체']];
