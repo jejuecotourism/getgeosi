@@ -42,6 +42,7 @@ dialog::backdrop{background:rgba(0,0,0,.4)}
 .md table{margin:8px 0}.md td,.md th{vertical-align:top;font-size:.88rem}.md hr{border:0;border-top:1px solid var(--line);margin:16px 0}
 .day{border:1px solid var(--line);border-radius:12px;padding:4px 16px 10px;margin:12px 0;background:#FFFDF8}.day>h3{margin-top:12px;color:var(--deep)}
 mark{background:#FFE58A;padding:0 1px}
+.who{display:inline-block;margin-left:4px;padding:0 7px;border-radius:99px;font-size:.78rem;font-weight:700;background:#EEE;color:#444;white-space:nowrap}.who.me{background:#1E3F27;color:#fff}li.mine{background:#F1F7EF;border-radius:6px;padding:1px 4px}
 .tm{display:inline-block;font-weight:700;color:#0f5c6e;background:#E3F0F3;border-radius:6px;padding:0 6px;font-size:.92em;white-space:nowrap}.chip.mt{background:#E8E1F5;color:#4B2E83}
 </style>
 </head>
@@ -95,7 +96,12 @@ function tab(n,sub){if(!TABS.some(function(t){return t[0]===n}))n='pages';locati
 /* 일지: 센터 업무일지. 내용은 공개 저장소가 아니라 관리자 서버(비공개 드라이브 파일)에 있고, 로그인 뒤에만 받아 옵니다.
    올리기는 tools/upload_center_log.py (일지정리 세션이 일지를 고칠 때마다 실행) */
 /* 회의 표시와 시각(09:00~10:30)은 눈에 띄게 (사용자 지시 2026-11-19) */
-function mdInline(t){return esc(t).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\[회의([^\]]*)\]/g,'<span class="chip mt">회의$1</span>').replace(/(^|[^\d:])(\d{1,2}:\d{2}(?:\s*~\s*\d{1,2}:\d{2})?)(?![\d:])/g,'$1<span class="tm">$2</span>')}
+function mdInline(t){return names(link(esc(t)).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\[회의([^\]]*)\]/g,'<span class="chip mt">회의$1</span>').replace(/(^|[^\d:])(\d{1,2}:\d{2}(?:\s*~\s*\d{1,2}:\d{2})?)(?![\d:])/g,'$1<span class="tm">$2</span>'))}
+/* 끝에 붙은 (이름)·(이름·이름)을 이름 배지로. 전현석 배지는 진하게 */
+var NOT_NAME=/^(오전|오후|예정|완료|취소|대기|확인|진행|보류|미정|변경|추가|일부|전체|초안|최종)$/;
+function names(h){return h.replace(/\(([가-힣]{2,4}(?:\s?[·,]\s?[가-힣]{2,4})*)\)\s*$/,function(all,g){var ns=g.split(/\s?[·,]\s?/);if(ns.some(function(n){return NOT_NAME.test(n)}))return all;
+  return ns.map(function(n){return '<span class="who'+(n==='전현석'?' me':'')+'">'+n+'</span>'}).join('')})}
+function link(h){return h.replace(/(https?:\/\/[^\s<)\]]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')}
 function mdHtml(src){var L=String(src).split('\n'),h=[],i=0,list=null;
   var close=function(){if(list){h.push('</'+list+'>');list=null}};
   while(i<L.length){var l=L[i],m;
@@ -105,7 +111,7 @@ function mdHtml(src){var L=String(src).split('\n'),h=[],i=0,list=null;
       h.push('<table>'+body.map(function(r,k){var tg=k===0&&rows.length>1&&/^[\s|:-]+$/.test(rows[1])?'th':'td';return '<tr>'+cells(r).map(function(c){return '<'+tg+'>'+mdInline(c)+'</'+tg+'>'}).join('')+'</tr>'}).join('')+'</table>');continue}
     if((m=l.match(/^(#{1,4})\s+(.*)/))){close();var n=Math.min(m[1].length+1,4);h.push('<h'+n+'>'+mdInline(m[2])+'</h'+n+'>')}
     else if(/^---+\s*$/.test(l)){close();h.push('<hr>')}
-    else if((m=l.match(/^\s*[-*]\s+(.*)/))){if(list!=='ul'){close();h.push('<ul>');list='ul'}h.push('<li>'+mdInline(m[1])+'</li>')}
+    else if((m=l.match(/^\s*[-*]\s+(.*)/))){if(list!=='ul'){close();h.push('<ul>');list='ul'}var li=mdInline(m[1]);h.push('<li'+(li.indexOf('who me')>=0?' class="mine"':'')+'>'+li+'</li>')}
     else if((m=l.match(/^\s*\d+[.)]\s+(.*)/))){if(list!=='ol'){close();h.push('<ol>');list='ol'}h.push('<li>'+mdInline(m[1])+'</li>')}
     else if(/^\s*$/.test(l)){close()}
     else{close();h.push('<p>'+mdInline(l)+'</p>')}
@@ -126,11 +132,24 @@ function logLoad(v,pw){var o={action:'logGet'};if(pw)o.logPw=pw;
 function logAsk(v,msg){$('#lg0').innerHTML='<form id="lpf" style="max-width:420px;margin-top:8px"><label for="lpw">일지 비밀번호</label><input id="lpw" type="password" autocomplete="off" required><p class="note" role="alert" style="color:var(--red);min-height:1.4em">'+esc(msg||'')+'</p><button class="btn on" id="lpb">일지 열기</button></form>';
   $('#lpw').focus();
   $('#lpf').onsubmit=function(e){e.preventDefault();var i=$('#lpw'),p=i.value;i.value='';$('#lpb').disabled=true;logLoad(v,p)}}
+/* 업무량 요약: 일지 원문에서 센 숫자만 (사용자 지시 2026-11-19) */
+var ME='전현석',OUTRX=/게시|배포|올림|올렸|공개|제작|완성|출력|편집|작성|발송|제출|인쇄/;
+function kst(){return new Date(Date.now()+9*3600e3).toISOString().slice(0,10)}
+function logStats(P){var today=kst(),t=new Date(today+'T00:00:00Z'),dow=(t.getUTCDay()+6)%7;
+  var wk=new Date(t-dow*864e5).toISOString().slice(0,10),mo=today.slice(0,8)+'01';
+  var per=[['이번 주',wk],['이번 달',mo],['11/01부터','2026-11-01']];
+  var items=[];P.days.forEach(function(d){var m=d.title.match(/^(\d{1,2})\/(\d{1,2})/);if(!m)return;var date=d.month.slice(0,4)+'-'+('0'+m[1]).slice(-2)+'-'+('0'+m[2]).slice(-2);
+    d.lines.forEach(function(l){var x=l.match(/^\s*(?:[-*]|\d+[.)])\s+(.*)/);if(!x)return;var g=x[1].match(/\(([가-힣]{2,4}(?:\s?[·,]\s?[가-힣]{2,4})*)\)\s*$/);if(g&&g[1].split(/\s?[·,]\s?/).indexOf(ME)>=0)items.push({date:date,text:x[1],out:OUTRX.test(x[1])||/https?:\/\//.test(x[1])})})});
+  var hol={};P.secs.forEach(function(s){if(!/휴일 근무/.test(s.title))return;s.lines.forEach(function(l){var c=l.split('|').map(function(x){return x.trim()});var m=(c[1]||'').match(/^(\d{1,2})\/(\d{1,2})/);if(m&&/추가근무|휴일 근무/.test(c[2]||''))hol['2026-'+('0'+m[1]).slice(-2)+'-'+('0'+m[2]).slice(-2)]=1})});
+  var hd=Object.keys(hol);
+  var cell=function(from,f){return items.filter(function(i){return i.date>=from&&i.date<=today&&f(i)}).length};
+  return '<div class="stats">'+per.map(function(p){return '<div class="stat"><span class="note">'+p[0]+(p[0]==='이번 주'?' ('+p[1].slice(5).replace('-','/')+'~)':'')+'</span><b>'+cell(p[1],function(){return true})+'건</b><span class="note">결과물 '+cell(p[1],function(i){return i.out})+' · 휴일 근무 '+hd.filter(function(d){return d>=p[1]&&d<=today}).length+'일</span></div>'}).join('')+'</div>'+
+    '<p class="note" style="font-size:.8rem;margin-top:0">'+ME+'이 한 일. 세는 기준: 날짜별 일지에서 끝에 「('+ME+')」 또는 이름이 함께 적힌 「(…·'+ME+')」가 붙은 항목 수. 결과물은 그 가운데 게시·배포·공개·제작·완성·출력·편집·작성·발송·제출·인쇄라는 말이나 링크가 있는 항목. 휴일 근무는 「휴일 근무와 대체휴일 대장」에서 추가근무로 적힌 날짜 수. 일지에 적힌 것만 셉니다.</p>'}
 function logDraw(v){var P=LOG.p;location.hash='log/'+v;
   if(!LOG.md){$('#lg0').innerHTML='<p class="note">아직 올라온 일지가 없습니다.</p>';return}
   var subs=[['days','날짜별 일지'],['leave','휴일 근무·대체휴일 대장'],['etc','진행 중인 업무·일정'],['all','전체']];
   var months=P.days.map(function(d){return d.month}).filter(function(m,i,a){return a.indexOf(m)===i});
-  var h='<p class="note">마지막으로 올린 때: <b>'+esc(LOG.at||'-')+'</b></p><p>'+subs.map(function(s){return '<button class="btn'+(s[0]===v?' on':'')+'" data-lv="'+s[0]+'">'+s[1]+'</button>'}).join('')+'</p>';
+  var h=logStats(P)+'<p class="note">마지막으로 올린 때: <b>'+esc(LOG.at||'-')+'</b></p><p>'+subs.map(function(s){return '<button class="btn'+(s[0]===v?' on':'')+'" data-lv="'+s[0]+'">'+s[1]+'</button>'}).join('')+'</p>';
   if(v==='days')h+='<p><input type="text" id="lq" placeholder="찾기 (예: 탐조, 도청, 11/14)" style="max-width:320px"> <select id="lmn" style="font:inherit;padding:8px;border:1px solid var(--line);border-radius:9px"><option value="">모든 달</option>'+months.map(function(m){return '<option value="'+m+'">'+m.replace('-','년 ').replace(/ 0?/,' ')+'월</option>'}).join('')+'</select> <span class="note" id="lcnt"></span></p><div id="ldays" class="md"></div>';
   else{var pick=function(t){return P.secs.filter(function(s){return t(s.title)})};
     var list=v==='leave'?pick(function(t){return /대체휴일|휴일 근무/.test(t)}):v==='etc'?pick(function(t){return t&&!/^\d{4}년/.test(t)&&!/대체휴일|휴일 근무/.test(t)}):null;
