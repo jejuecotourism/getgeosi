@@ -37,6 +37,11 @@ dialog::backdrop{background:rgba(0,0,0,.4)}
 .stats{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
 .stat{border:1px solid var(--line);border-radius:10px;padding:8px 14px;background:#FBF8F1}
 .stat b{display:block;font-size:1.2rem}
+.md{max-width:900px}.md h1{font-size:1.25rem}.md h2{font-size:1.15rem;margin-top:22px}.md h3{font-size:1.02rem}.md h4{font-size:.96rem;margin:16px 0 6px}
+.md p,.md li{font-size:.94rem}.md ul,.md ol{padding-left:22px;margin:6px 0}.md code{background:#F2EAD9;border-radius:4px;padding:0 4px;font-size:.88em}
+.md table{margin:8px 0}.md td,.md th{vertical-align:top;font-size:.88rem}.md hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.day{border:1px solid var(--line);border-radius:12px;padding:4px 16px 10px;margin:12px 0;background:#FFFDF8}.day>h3{margin-top:12px;color:var(--deep)}
+mark{background:#FFE58A;padding:0 1px}
 </style>
 </head>
 <body>
@@ -60,7 +65,7 @@ var API='https://script.google.com/macros/s/AKfycbyPl0F24k3x3vnggSwOdDilt4vDr3XA
 var PAGES=[['index.html','홈'],['about.html','센터 소개'],['ecotourism.html','생태관광이란'],['work/index.html','하는 일'],['schedule.html','행사 일정'],['projects.html','진행 사업'],['records.html','기록'],['contact.html','문의'],
 ['events/2026-birding/index.html','탐조대회 안내'],['events/2026-birding/birds/index.html','탐조대회 새 정보'],['events/2026-birding/birds/changes/index.html','미니도감과 달라진 내용'],['events/2026-birding/survey/index.html','탐조대회 만족도 조사'],['events/2026-birding/record/index.html','탐조대회 기록'],['events/2026-11-gangwon-visit/record/index.html','강원 협의회 방문 기록'],['events/2026-11-marine-exhibition/record/index.html','해양생물 전시 기록'],['events/2026-11-stonepark/record/index.html','제주국제생태포럼 발표 기록'],
 ['events/2026-autumn/index.html','2026 가을 생태관광주간'],['program.html','가을 생태관광주간 프로그램 상세 (27개 공통 페이지)'],['events/2026-summer/index.html','2026 여름 갯것이영화제'],['projects/ozori-book-plan/index.html','오조리 기획안'],['projects/ozori-review/index.html','오조리 채록 검수'],['projects/ozori-review/audio-check/index.html','오조리 원음 확인'],['projects/garosugil-map/index.html','가로수길 지도 시안'],['projects/gotjawal-oreum-report/index.html','곶자왈·오름 평가 보고'],['projects/gotjawal-oreum-report/responses/index.html','곶자왈·오름 평가지 개별 응답'],['projects/susan2-bat-character/index.html','수산2리 캐릭터 기획안'],['projects/marine-monitoring/index.html','해양생물 모니터링']];
-var TABS=[['pages','페이지 공개·비밀번호'],['cards','카드 공개'],['survey','만족도 조사'],['contact','문의'],['report','새 정보 의견'],['settings','설정']];
+var TABS=[['pages','페이지 공개·비밀번호'],['cards','카드 공개'],['survey','만족도 조사'],['contact','문의'],['report','새 정보 의견'],['log','일지'],['settings','설정']];
 var $=function(s){return document.querySelector(s)};
 var S=null; try{S=sessionStorage.getItem('adm')}catch(e){}
 var status={};
@@ -85,7 +90,50 @@ $('#logout').onclick=function(){api({action:'logout'}).catch(function(){}).final
 function tab(n,sub){if(!TABS.some(function(t){return t[0]===n}))n='pages';location.hash=n+(sub?'/'+sub:'');
   $('#tabs').innerHTML=TABS.map(function(t){return '<button role="tab" aria-selected="'+(t[0]===n)+'" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('');
   $('#tabs').querySelectorAll('button').forEach(function(b){b.onclick=function(){tab(b.dataset.t)}});
-  ({pages:vPages,cards:vCards,survey:function(){vSurveys(sub)},contact:function(){vList('contact','문의')},report:function(){vList('birding2026-bird-report','새 정보 수정 의견')},settings:vSettings})[n]()}
+  ({pages:vPages,cards:vCards,survey:function(){vSurveys(sub)},contact:function(){vList('contact','문의')},report:function(){vList('birding2026-bird-report','새 정보 수정 의견')},log:function(){vLog(sub)},settings:vSettings})[n]()}
+/* 일지: 센터 업무일지. 내용은 공개 저장소가 아니라 관리자 서버(비공개 드라이브 파일)에 있고, 로그인 뒤에만 받아 옵니다.
+   올리기는 tools/upload_center_log.py (일지정리 세션이 일지를 고칠 때마다 실행) */
+function mdInline(t){return esc(t).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>')}
+function mdHtml(src){var L=String(src).split('\n'),h=[],i=0,list=null;
+  var close=function(){if(list){h.push('</'+list+'>');list=null}};
+  while(i<L.length){var l=L[i],m;
+    if(/^\s*\|/.test(l)){close();var rows=[];while(i<L.length&&/^\s*\|/.test(L[i])){rows.push(L[i]);i++}
+      var cells=function(r){return r.trim().replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim()})};
+      var body=rows.filter(function(r,k){return !(k===1&&/^[\s|:-]+$/.test(r))});
+      h.push('<table>'+body.map(function(r,k){var tg=k===0&&rows.length>1&&/^[\s|:-]+$/.test(rows[1])?'th':'td';return '<tr>'+cells(r).map(function(c){return '<'+tg+'>'+mdInline(c)+'</'+tg+'>'}).join('')+'</tr>'}).join('')+'</table>');continue}
+    if((m=l.match(/^(#{1,4})\s+(.*)/))){close();var n=Math.min(m[1].length+1,4);h.push('<h'+n+'>'+mdInline(m[2])+'</h'+n+'>')}
+    else if(/^---+\s*$/.test(l)){close();h.push('<hr>')}
+    else if((m=l.match(/^\s*[-*]\s+(.*)/))){if(list!=='ul'){close();h.push('<ul>');list='ul'}h.push('<li>'+mdInline(m[1])+'</li>')}
+    else if((m=l.match(/^\s*\d+[.)]\s+(.*)/))){if(list!=='ol'){close();h.push('<ol>');list='ol'}h.push('<li>'+mdInline(m[1])+'</li>')}
+    else if(/^\s*$/.test(l)){close()}
+    else{close();h.push('<p>'+mdInline(l)+'</p>')}
+    i++}
+  close();return h.join('')}
+/* 일지 md 를 나눕니다: ## 제목 단위 묶음, 그 안의 ### 날짜 항목 */
+function logParse(md){var secs=[],cur={title:'',lines:[]};String(md).split('\n').forEach(function(l){if(/^## /.test(l)){secs.push(cur);cur={title:l.slice(3).trim(),lines:[]}}else cur.lines.push(l)});secs.push(cur);
+  var days=[];secs.forEach(function(s){var ym=s.title.match(/^(\d{4})년\s*(\d{1,2})월/);if(!ym)return;var d=null;s.lines.forEach(function(l){if(/^### /.test(l)){d={month:ym[1]+'-'+('0'+ym[2]).slice(-2),label:s.title,title:l.slice(4).trim(),lines:[]};days.push(d)}else if(d)d.lines.push(l)})});
+  return {secs:secs,days:days.reverse()}}
+var LOG=null;
+function vLog(sub){$('#view').innerHTML='<h2>일지</h2><p class="note">센터 업무일지입니다. 관리자 로그인 뒤에만 서버에서 받아 오며, 공개 저장소·사이트에는 들어 있지 않습니다. 일지정리 작업에서 일지를 고칠 때마다 이곳으로 올립니다.</p><div id="lg0">불러오는 중…</div>';
+  api({action:'logGet'}).then(function(j){LOG={at:j.at,md:j.md||'',p:logParse(j.md||'')};logDraw(sub||'days')}).catch(function(e){
+    $('#lg0').innerHTML=/알 수 없는 요청/.test(e.message)?'<p class="note">관리자 서버(Apps Script)에 일지 기능을 넣은 뒤(버전 12)부터 보입니다.</p>':'<p class="note">불러오지 못했습니다: '+esc(e.message)+'</p>'})}
+function logDraw(v){var P=LOG.p;location.hash='log/'+v;
+  if(!LOG.md){$('#lg0').innerHTML='<p class="note">아직 올라온 일지가 없습니다.</p>';return}
+  var subs=[['days','날짜별 일지'],['leave','휴일 근무·대체휴일 대장'],['etc','진행 중인 업무·일정'],['all','전체']];
+  var months=P.days.map(function(d){return d.month}).filter(function(m,i,a){return a.indexOf(m)===i});
+  var h='<p class="note">마지막으로 올린 때: <b>'+esc(LOG.at||'-')+'</b></p><p>'+subs.map(function(s){return '<button class="btn'+(s[0]===v?' on':'')+'" data-lv="'+s[0]+'">'+s[1]+'</button>'}).join('')+'</p>';
+  if(v==='days')h+='<p><input type="text" id="lq" placeholder="찾기 (예: 탐조, 도청, 11/14)" style="max-width:320px"> <select id="lmn" style="font:inherit;padding:8px;border:1px solid var(--line);border-radius:9px"><option value="">모든 달</option>'+months.map(function(m){return '<option value="'+m+'">'+m.replace('-','년 ').replace(/ 0?/,' ')+'월</option>'}).join('')+'</select> <span class="note" id="lcnt"></span></p><div id="ldays" class="md"></div>';
+  else{var pick=function(t){return P.secs.filter(function(s){return t(s.title)})};
+    var list=v==='leave'?pick(function(t){return /대체휴일|휴일 근무/.test(t)}):v==='etc'?pick(function(t){return t&&!/^\d{4}년/.test(t)&&!/대체휴일|휴일 근무/.test(t)}):null;
+    h+='<div class="md">'+(list?list.map(function(s){return '<h2>'+mdInline(s.title)+'</h2>'+mdHtml(s.lines.join('\n'))}).join(''):mdHtml(LOG.md))+'</div>'}
+  $('#lg0').innerHTML=h;
+  $('#lg0').querySelectorAll('[data-lv]').forEach(function(b){b.onclick=function(){logDraw(b.dataset.lv)}});
+  if(v==='days'){var draw=function(){var q=$('#lq').value.trim(),mo=$('#lmn').value;
+      var hit=P.days.filter(function(d){return (!mo||d.month===mo)&&(!q||(d.title+'\n'+d.lines.join('\n')).indexOf(q)>=0)});
+      $('#lcnt').textContent=hit.length+'일';
+      var hl=function(x){if(!q)return x;var e=esc(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return x.replace(/>([^<]+)</g,function(a,t){return '>'+t.replace(new RegExp(e,'g'),'<mark>$&</mark>')+'<'})};
+      $('#ldays').innerHTML=hit.length?hit.map(function(d){return '<div class="day"><h3>'+esc(d.month.slice(0,4))+'. '+mdInline(d.title)+'</h3>'+hl(mdHtml(d.lines.join('\n')))+'</div>'}).join(''):'<p class="note">맞는 날이 없습니다.</p>'};
+    $('#lq').oninput=draw;$('#lmn').onchange=draw;draw()}}
 /* 페이지 */
 function live(p){return fetch('/'+p.replace(/index\.html$/,'')+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()})}
 function stateOf(t){if(t.indexOf('data-page-state="private"')>=0)return'private';if(t.indexOf('crypto.subtle')>=0)return'password';return'public'}
