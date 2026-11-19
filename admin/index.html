@@ -42,6 +42,7 @@ dialog::backdrop{background:rgba(0,0,0,.4)}
 .md table{margin:8px 0}.md td,.md th{vertical-align:top;font-size:.88rem}.md hr{border:0;border-top:1px solid var(--line);margin:16px 0}
 .day{border:1px solid var(--line);border-radius:12px;padding:4px 16px 10px;margin:12px 0;background:#FFFDF8}.day>h3{margin-top:12px;color:var(--deep)}
 mark{background:#FFE58A;padding:0 1px}
+.tm{display:inline-block;font-weight:700;color:#0f5c6e;background:#E3F0F3;border-radius:6px;padding:0 6px;font-size:.92em;white-space:nowrap}.chip.mt{background:#E8E1F5;color:#4B2E83}
 </style>
 </head>
 <body>
@@ -93,7 +94,8 @@ function tab(n,sub){if(!TABS.some(function(t){return t[0]===n}))n='pages';locati
   ({pages:vPages,cards:vCards,survey:function(){vSurveys(sub)},contact:function(){vList('contact','문의')},report:function(){vList('birding2026-bird-report','새 정보 수정 의견')},log:function(){vLog(sub)},settings:vSettings})[n]()}
 /* 일지: 센터 업무일지. 내용은 공개 저장소가 아니라 관리자 서버(비공개 드라이브 파일)에 있고, 로그인 뒤에만 받아 옵니다.
    올리기는 tools/upload_center_log.py (일지정리 세션이 일지를 고칠 때마다 실행) */
-function mdInline(t){return esc(t).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>')}
+/* 회의 표시와 시각(09:00~10:30)은 눈에 띄게 (사용자 지시 2026-11-19) */
+function mdInline(t){return esc(t).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\[회의([^\]]*)\]/g,'<span class="chip mt">회의$1</span>').replace(/(^|[^\d:])(\d{1,2}:\d{2}(?:\s*~\s*\d{1,2}:\d{2})?)(?![\d:])/g,'$1<span class="tm">$2</span>')}
 function mdHtml(src){var L=String(src).split('\n'),h=[],i=0,list=null;
   var close=function(){if(list){h.push('</'+list+'>');list=null}};
   while(i<L.length){var l=L[i],m;
