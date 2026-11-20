@@ -45,6 +45,7 @@ const STATUS_LABEL = { upcoming:"예정", open:"모집 중", closed:"모집 완�
    draft  : true면 기록 페이지에 나오지 않습니다
    owner, ownerNote : 주최 (관리자 페이지에만 표시) */
 const RECORDS = [
+  { rec:"rec-2026-advisory-meeting", group:"2026 자문단 회의", url:"events/2026-11-advisory-meeting/record/", thumb:"events/2026-11-advisory-meeting/record/cover.jpg", alt:"2026 하반기 생태관광 자문단 회의 단체 사진", tag:"자문 · 협력", title:"한 해를 돌아보고 내년을 묻다 — 2026 하반기 생태관광 자문단 회의", meta:["2026. 11. 20.", "생태관광지역 마을 대표·실무자 자문단과 올해 센터 사업, 시범 프로그램 평가, 내년 방향을 나눈 회의 기록"], more:"▶ 회의 기록과 영상 보기", owner:"센터", ownerNote:"센터 자문단 운영" },
   { rec:"rec-2026-gangwon-visit", group:"2026 기관 방문·교류", url:"events/2026-11-gangwon-visit/record/", thumb:"events/2026-11-gangwon-visit/record/cover.jpg", alt:"강원도생태관광협의회 제주 방문 간담회 단체 사진", tag:"교류 · 협력", title:"강원과 제주, 생태관광을 나누다 — 강원도생태관광협의회 제주 방문 간담회", meta:["2026. 11. 17.", "강원 생태관광지역 협의회 관계자들과 제주 생태관광 정책·센터 운영을 나눈 간담회 기록"], more:"▶ 기록과 사진 보기" },
 
   { rec:"rec-2026-birding", group:"2026 오조리 탐조대회", url:"events/2026-birding/record/", thumb:"events/2026-birding/record/cover.jpg", alt:"빗속에서 새를 만나다 — 2026 오조리 탐조대회", tag:"습지 · 탐조", title:"빗속에서 새를 만나다 — 2026 오조리 탐조대회 「오고 생이 제주로」", meta:["2026. 11. 14.", "하루 종일 비가 내린 11월 14일, 35개 팀 79명이 신청한 가족 탐조대회의 기록"], more:"▶ 영상과 기록 보기", owner:"협회", ownerNote:"행사 주최를 따름" },
