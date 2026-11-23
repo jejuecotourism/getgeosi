@@ -53,5 +53,7 @@ const PROJECTS = [
 
   { title:"생태관광 자문단 운영", area:"알림과 협력",
     summary:"전문가와 함께 제주 생태관광의 방향을 논의합니다.",
-    status:"ongoing", url:"", owner:"미정", ownerNote:"사업 명의 확인 필요" }
+    status:"ongoing", url:"events/2026-11-advisory-meeting/record/",
+    thumb:"events/2026-11-advisory-meeting/record/cover.jpg", alt:"2026 하반기 생태관광 자문단 회의 단체 사진",
+    owner:"센터", ownerNote:"센터 위탁사업(2026 제주특별자치도 생태관광지원센터 운영) 세부사업 8" }
 ];
