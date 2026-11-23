@@ -19,8 +19,8 @@ const PROJECTS = [
     status:"ongoing", url:"projects/jeonbuk-exchange-2026/",
     thumb:"projects/jeonbuk-exchange-2026/thumb.jpg", alt:"고창갯벌의 갯벌과 염생식물 군락(국가유산청 사진, 공공누리 제1유형)", owner:"센터", ownerNote:"센터 국내 교류 사업(2026 전북 생태관광 교류방문 계획안)" },
 
-  { title:"2026 생태관광 합동워크숍 「생태관광인의 날」", area:"알림과 협력",
-    summary:"한 해를 마무리하며 제주 생태관광 마을, 사업자, 전문가, 행정이 동백동산 에코촌에 모여 올해의 사례를 나누고 내년을 이야기합니다(12월 11일).",
+  { title:"2026 생태관광 합동워크숍 — 생태관광지원센터 10주년 기념 「생태관광인의 날」", area:"알림과 협력",
+    summary:"한 해를 마무리하며 제주 생태관광 마을, 사업자, 전문가, 행정이 동백동산 에코촌에 모여 올해의 사례를 나누고 내년을 이야기합니다. 올해는 생태관광지원센터 10주년을 기념합니다(12월 11일).",
     status:"ongoing", url:"projects/joint-workshop-2026/",
     thumb:"projects/joint-workshop-2026/thumb.jpg", alt:"행사장 가까이 동백동산 습지의 물웅덩이와 숲(CC0 사진)", owner:"센터", ownerNote:"센터 고정 사업, 후원 (사)제주생태관광협회" },
 
