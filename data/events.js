@@ -15,7 +15,7 @@
    ownerNote : 주최 근거를 짧게
    survey : 만족도 조사 양식 이름. 넣으면 관리자 만족도 조사 탭에서 이 행사를 눌러 응답을 봅니다 (없으면 생략) */
 const EVENTS = [
-  { id:"2026-workshop", title:"2026 생태관광 합동워크숍", start:"2026-12-11", end:"2026-12-11", time:"15:00~18:00",
+  { id:"2026-workshop", title:"2026 생태관광 합동워크숍", start:"2026-12-11", end:"2026-12-11", time:"16:00 시작(등록 15:00~16:00)",
     status:"upcoming", cover:"", url:"", record:"", note:"", draft:true, owner:"센터", ownerNote:"센터 사업" },
 
   { id:"2026-birding", title:"오고 생이 제주로 탐조대회", start:"2026-11-14", end:"2026-11-14", time:"09:00~16:00",
